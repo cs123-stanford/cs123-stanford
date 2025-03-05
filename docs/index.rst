@@ -68,18 +68,18 @@ Schedule (Subject to Change)
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "Week 1: 9/23", ":doc:`../schedule/lectures/fall-24/lec-1`", ":doc:`../schedule/labs/fall-24/lab-1`", "9/30", ""
-   "Week 2: 9/30", ":doc:`../schedule/lectures/fall-24/lec-2`", ":doc:`../schedule/labs/fall-24/lab-2`", "10/07", ""
-   "Week 3: 10/7", ":doc:`../schedule/lectures/fall-24/lec-3`", ":doc:`../schedule/labs/fall-24/lab-3`", "10/14", ""
-   "Week 4: 10/14", ":doc:`../schedule/lectures/fall-24/lec-4`", ":doc:`../schedule/labs/fall-24/lab-4`", "10/21", ""
-   "Week 5: 10/21", ":doc:`../schedule/lectures/fall-24/lec-5`", ":doc:`../schedule/labs/fall-24/lab-5`", "10/28", ""
-   "Week 6: 10/28", ":doc:`../schedule/lectures/fall-24/lec-6`", ":doc:`../schedule/labs/fall-24/lab-6`", "11/11", ""
-   "Week 7: 11/4", ":doc:`../schedule/lectures/fall-24/lec-7`", ":doc:`../schedule/labs/fall-24/lab-7`", "11/11", ""
-   "Week 8: 11/11", "No Lecture! Open Lab Time", "Meet with TAs about Final Projects", "", "Project Proposals due 11/15 at 11:59"
-   "Week 9: 11/18", "No Lecture! Open Lab Time", "Work on Final Projects!", "", ""
-   "Week 10: 11/25", "Thanksgiving Break!", "No Class/Lab!", "", ""
-   "Week 11: 12/2", "No Lecture! Open Lab Time", "Work on Final Projects", "", "Final Project checkpoint 12/2"
-   "Finals Week", "Dog Show on 12/11 7-10pm", "Demo your final Projects!", "", ""
+   "Week 1", ":doc:`../schedule/lectures/fall-24/lec-1`", ":doc:`../schedule/labs/fall-24/lab-1`", "", ""
+   "Week 2", ":doc:`../schedule/lectures/fall-24/lec-2`", ":doc:`../schedule/labs/fall-24/lab-2`", "", ""
+   "Week 3", ":doc:`../schedule/lectures/fall-24/lec-3`", ":doc:`../schedule/labs/fall-24/lab-3`", "", ""
+   "Week 4", ":doc:`../schedule/lectures/fall-24/lec-4`", ":doc:`../schedule/labs/fall-24/lab-4`", "", ""
+   "Week 5", ":doc:`../schedule/lectures/fall-24/lec-5`", ":doc:`../schedule/labs/fall-24/lab-5`", "", ""
+   "Week 6", ":doc:`../schedule/lectures/fall-24/lec-6`", ":doc:`../schedule/labs/fall-24/lab-6`", "", ""
+   "Week 7", ":doc:`../schedule/lectures/fall-24/lec-7`", ":doc:`../schedule/labs/fall-24/lab-7`", "", ""
+   "Week 8", "No Lecture! Open Lab Time", "Meet with TAs about Final Projects", "", "Project Proposals due end of week"
+   "Week 9", "No Lecture! Open Lab Time", "Work on Final Projects!", "", ""
+   "Week 10", "No Lecture! Open Lab Time", "Work on Final Projects!", "", ""
+   "Week 11", "No Lecture! Open Lab Time", "Work on Final Projects", "", "Final Project checkpoint by end of week"
+   "Finals Week", "Dog Show to lab and industry experts", "Demo your final Projects!", "", ""
 
 **References:** :doc:`../reference/references`
     
