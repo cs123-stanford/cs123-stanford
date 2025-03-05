@@ -43,7 +43,7 @@ TBD
 
 **Prerequisites:**
 
-* CS106A (programming will be majority in Python)
+* CS106A (programming will be in Python for all labs)
 
 * CS107 (familiarity with the terminal and command lines) 
 
@@ -53,7 +53,7 @@ TBD
 
 **Number of credits:** 3
 
-**Grading:** Students will work in assigned group for all labs, but are free to from their own groups for the final project. Everyone in the same group will receive the same score for each lab. Some labs have written homework for which students get individual credits.
+**Grading:** Students will work in assigned groups for all labs and the final project. Before the first lecture, we will gather group preferences from enrolled students and consider student backgrounds when forming groups. All members of a group will receive the same score for each lab, though some labs include written homework, which will be graded individually.
 
 **Lab Policies:**  Lab: Labs are due before class the following week they are assigned (3:30, Mondays) unless stated otherwise. Each team has a total of 7 late days over all labs. Using 1 late day extends the deadline by 24 hours. A team may use up to 3 late days per lab. No lab will be accepted more than 72 hours after the deadline.
 Individual written assignments: Each student has a total of 5 late days over all written assignments. Using 1 late day extends the deadline by 24 hours. You may use up to 3 late days per assignment. No assignment will be accepted more than 72 hours after the deadline.
