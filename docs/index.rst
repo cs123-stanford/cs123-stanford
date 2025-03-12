@@ -56,8 +56,10 @@ TBD
 **Grading:** Students will work in assigned groups for all labs and the final project. Before the first lecture, we will gather group preferences from enrolled students and consider student backgrounds when forming groups. All members of a group will receive the same score for each lab, though some labs include written homework, which will be graded individually.
 
 **Lab Policies:**  Lab: Labs are due before class the following week they are assigned (3:30, Mondays) unless stated otherwise. Each team has a total of 7 late days over all labs. Using 1 late day extends the deadline by 24 hours. A team may use up to 3 late days per lab. No lab will be accepted more than 72 hours after the deadline.
+
 Individual written assignments: Each student has a total of 5 late days over all written assignments. Using 1 late day extends the deadline by 24 hours. You may use up to 3 late days per assignment. No assignment will be accepted more than 72 hours after the deadline.
 Final project: no extension is allowed for the final project proposal and presentation.
+
 Note from JC: Based on feedback from the last offering of this class, some past students found the labs a bit on the easier side (though I personally didn’t feel that way). If you’re acing all the labs and want to explore more challenging tasks with your team, I’ll soon be releasing a few optional labs alongside the regular weekly ones to make things more interesting. These optional labs will likely require significantly more time, but they should provide deeper insights into robotics research. Plus, completing them will unlock unique prizes—details to be revealed later this quarter! :)
 
 **Enrollment:** 24 students; 6 groups of 4
