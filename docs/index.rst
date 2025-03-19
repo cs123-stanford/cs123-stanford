@@ -84,5 +84,7 @@ Schedule (Subject to Change)
    "Week 10", "No Lecture! Open Lab Time", "Work on Final Projects!", "", "Final Project checkpoint by end of week"
    "Finals Week", "Dog Show to lab and industry experts", "Demo your final Projects!", "", ""
 
+**View the past final projects for the course here!:** :doc:`../reference/final_projects`
+
 **References:** :doc:`../reference/references`
     
