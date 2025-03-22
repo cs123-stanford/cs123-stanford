@@ -23,7 +23,7 @@ Part 0: Setup
 
 3. Connect to the Raspberry Pi
 
-4. Follow along the assembly instructions to build the robot body with motor dials: https://drive.google.com/file/d/1G-evq36QOEJLgNMRFhP06Nk44oQloq2K/view?usp=drive_link
+4. Follow along the assembly instructions to build the robot body with motor dials: https://docs.google.com/document/d/1KCq6sDU6E63y6-M0tVXG8qigIHJQKecC0eopReKi0_Q/edit?usp=sharing
 
    - Your USB drive should come pre-flashed. If your USB drive does not come pre-flashed, then flash the image at this link: https://docs.google.com/document/d/1KCq6sDU6E63y6-M0tVXG8qigIHJQKecC0eopReKi0_Q/edit. Use Balena Etcher to flash: https://etcher.balena.io/.
 
