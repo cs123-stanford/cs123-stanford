@@ -40,9 +40,10 @@ Option 1: Connect via the Monitor Setup (Recommended)
    - Connect to the Stanford Guest WiFi network (the regular Stanford network might not work on Pupper).
    - Install firefox: ``sudo snap install firefox``, or any other browsers of your choice, and open the course website: cs123-stanford.readthedocs.io, so you can copy and paste the commands from the lab document into Pupper's terminal. To **copy and paste** in the Ubuntu terminal, use ``Ctrl+Shift+C`` to copy and ``Ctrl+Shift+V`` to paste.
 
-OPTION 2: Connect via SSH (Only if you do not have access to a monitor setup)
+OPTION 2: Connect via SSH (Only if you do not have a monitor setup)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Secure Shell is a network protocol that provides a secure way to access and manage remote computers over an unsecured network. It offers strong authentication and encrypted data communications between two computers connecting over an open network such as the internet. You're probably very familiar with SSH if you've taken CS107, 111, or have worked with the SAIL cluster.
+   Secure Shell is a network protocol that provides a secure way to access and manage remote computers over an unsecured network. It offers strong authentication and encrypted data communications between two computers connecting over an open network such as the internet. 
+   (You're probably very familiar with SSH if you've taken CS107, 111, or have worked with the SAIL cluster.)
     - Connect your laptop to the Pupper robot using the Ethernet cable.
     - Enable internet sharing in system settings (turn on anything that looks like Ethernet).
     - SSH into the Raspberry Pi through terminal: ``ssh pi@pupper.local`` (password: rhea123). If you would like to use VSCode/Cursor, you can also connect to the Raspberry Pi using the Remote - SSH extension (Open Command Palette with CMD+SHIFT_P -> Remote-SSH: Connect to Host -> ssh)
@@ -70,7 +71,7 @@ Part 1: ROS2 Introduction
    sudo systemctl disable robot.service
    sudo reboot
 
-5. Troubleshooting. If you encounter any issues with , try the following:
+5. Troubleshooting. If you encounter any issues, try the following:
 
   - If you see "ros_2 not found", ``source ~/.bashrc`` again
 
@@ -155,7 +156,7 @@ Step 3. Run bang-bang control
 
 2. This can be accomplished by a block of if statements. Implement bang-bang control in the `lab_1.py` file. Run your code by starting a new terminal, navigating to the lab folder, and running ``python lab_1.py``
 
-**DELIVERABLE: Take a video of your bang bang control, upload the video to your Google Drive Folder, and include the video link in your lab document with your submission**
+**DELIVERABLE:** Take a video of your bang bang control, upload the video to your Google Drive Folder, and include the video link in your lab document with your submission
 
 Step 4: Implement P Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -254,7 +255,7 @@ Step 8: Implement Periodic Motion
 
 2. Experiment with different frequencies of the sine wave.
 
-**DELIVERABLE:** Take a video of the leg performing periodic motion and upload it to Gradescope with your submission.
+**DELIVERABLE:** Take a video of the leg performing periodic motion and include it in your lab document with your submission.
 
 Additional Notes
 ----------------
@@ -275,4 +276,4 @@ Additional Notes
   - Joint states topic provides current motor states
 
 
-Congratulations on completing your first lab! This hands-on experience with ROS2 and PD control on a real robot will serve as a foundation for the more advanced topics we'll cover in future labs.
+Congratulations on completing your first lab! All the ROS code may look a bit overwhelming, but you will definitely get more comfortable with it in a few weeks, especially after you see what Pupper can do! This hands-on experience with ROS2 and PD control on a real robot will serve as a foundation for the more advanced topics we'll cover in future labs.
