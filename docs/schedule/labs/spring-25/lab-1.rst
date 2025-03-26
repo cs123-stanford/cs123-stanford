@@ -34,11 +34,11 @@ Part 0: Setup
 Option 1: Connect via the Monitor Setup (Recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    - Connect the Raspberry Pi to the monitor using the HDMI - HDMI micro cable.
-   - (Note: The HDMI micro cable and the micro HDMI port on Raspberry Pi are ``**very easy to break**``. Breaking the HDMI port means that you will need to change the entire Raspberry Pi on you Pupper, which is a lot of work. So be careful when plugging in the HDMI cable.)
+   - (Note: The HDMI micro cable and the micro HDMI port on Raspberry Pi are **very easy to break**. Breaking the HDMI port means that you will need to change the entire Raspberry Pi on you Pupper, which is a lot of work. So be careful when plugging in the HDMI cable.)
    - Connect the keyboard and mouse to the Raspberry Pi via USB.
    - Log in with the username ``pi`` and password ``rhea123`` after powering on.
    - Connect to the Stanford Guest WiFi network (the regular Stanford network might not work on Pupper).
-   - Install firefox: ``sudo snap install firefox``, or any other browsers of your choice, and open the course website: cs123-stanford.readthedocs.io, so you can copy and paste the commands from the lab document into Pupper's terminal. To ``**copy and paste**`` in the Ubuntu terminal, use ``Ctrl+Shift+C`` to copy and ``Ctrl+Shift+V`` to paste.
+   - Install firefox: ``sudo snap install firefox``, or any other browsers of your choice, and open the course website: cs123-stanford.readthedocs.io, so you can copy and paste the commands from the lab document into Pupper's terminal. To **copy and paste** in the Ubuntu terminal, use ``Ctrl+Shift+C`` to copy and ``Ctrl+Shift+V`` to paste.
 
 OPTION 2: Connect via SSH (Only if you do not have access to a monitor setup)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -46,10 +46,10 @@ Secure Shell is a network protocol that provides a secure way to access and mana
     - Connect your laptop to the Pupper robot using the Ethernet cable.
     - Enable internet sharing in system settings (turn on anything that looks like Ethernet).
     - SSH into the Raspberry Pi through terminal: ``ssh pi@pupper.local`` (password: rhea123). If you would like to use VSCode/Cursor, you can also connect to the Raspberry Pi using the Remote - SSH extension (Open Command Palette with CMD+SHIFT_P -> Remote-SSH: Connect to Host -> ssh)
-    - Friendly reminder: you can ``**SSH multiple times**`` from different terminals to the Raspberry Pi.
+    - Friendly reminder: you can **SSH multiple times** from different terminals to the Raspberry Pi.
     - If this is successful, you should be able to see the Pi's file system on your computer, and be able to work on Pupper from your own laptop! Note that GUIs (pop-up windows) are not supported on SSH, so you will still need to use the monitor setup for some upcoming labs.
 
-.. figure:: ../../../_static/internet_sharing.png
+.. figure:: ../../../../_static/internet_sharing.png
     :align: center
 
     Enable internet sharing in system settings.
@@ -163,7 +163,7 @@ Step 4: Implement P Control
 
 2. Start with Kp = 2.0
 
-   .. figure:: ../../../_static/p_control.jpg
+   .. figure:: ../../../../_static/p_control.jpg
     :align: center
 
     P Control Equation. 
@@ -175,7 +175,7 @@ Step 5: Implement PD Control
 1. Implement PD control in the `lab_1.py` file by replacing your implementation of bang-bang control. The PD controller is more robust than only P control, and is common control strategy used in robotics to stabilize systems. The proportional gain (Kp) and derivative gain (Kd) are used to tune the controller.
 
 2. Start with Kp = 2.0 and Kd = 0.3. Implement the PD control law using the following update equation:
-   .. figure:: ../../../_static/pid_eqn.jpg
+   .. figure:: ../../../../_static/pid_eqn.jpg
     :align: center
 
     PID Control Equation. 
