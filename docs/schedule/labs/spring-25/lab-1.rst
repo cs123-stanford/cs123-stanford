@@ -163,7 +163,7 @@ Step 4: Implement P Control
 
 2. Start with Kp = 2.0
 
-   .. figure:: ../../../../_static/p_control.jpg
+   .. figure:: ../../../_static/p_control.jpg
     :align: center
 
     P Control Equation. 
@@ -175,7 +175,8 @@ Step 5: Implement PD Control
 1. Implement PD control in the `lab_1.py` file by replacing your implementation of bang-bang control. The PD controller is more robust than only P control, and is common control strategy used in robotics to stabilize systems. The proportional gain (Kp) and derivative gain (Kd) are used to tune the controller.
 
 2. Start with Kp = 2.0 and Kd = 0.3. Implement the PD control law using the following update equation:
-   .. figure:: ../../../../_static/pid_eqn.jpg
+
+   .. figure:: ../../../_static/pid_eqn.jpg
     :align: center
 
     PID Control Equation. 
