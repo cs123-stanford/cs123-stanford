@@ -24,16 +24,16 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 *"Empowering robots with AI is essential to make them smart and useful in people's daily life. It is one of the most important research directions in both academia and industry. This class teaches the most relevant skills, gives students hands-on experiences, and prepares them for a career in the area of AI and robotics."* - Jie Tan, Staff Research Scientist at Google DeepMind
 
-**Time:** Monday, TBD
+**Time:** Monday, 3:30pm - 6:20pm
 
-**Lecture Location:** TBD, *in-person attendance required*
+**Lecture Location:** `Lathrop 299 <https://www.google.com/maps/dir//518+Memorial+Way,+Stanford,+CA+94305/@37.4291185,-122.2498268,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x808fbb29c2155555:0x7d7db72ceea1d9ef!2m2!1d-122.1674258!2d37.4291471?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
     * Karen: TBD
     * Stuart, Jie, Wenhao, Tingnan: Office hours by appointment. Reach out to the teaching team to schedule. 
 
 **TA Office Hours Location:**
-TBD
+`Gates B02 <https://www.google.com/maps/place/Gates+Computer+Science,+353+Serra+Mall,+Stanford,+CA+94305/@37.4299866,-122.1759052,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb2b3f50f727:0xfd9cc3200ee97fda!8m2!3d37.4299866!4d-122.1733303!16s%2Fm%2F02rm986?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_
 
 **TA Office Hours:**
 
@@ -53,33 +53,23 @@ TBD
 
 **Number of credits:** 3
 
-**Grading:** Students will work in assigned group for all labs, but are free to from their own groups for the final project. Everyone in the same group will receive the same score for each lab. Some labs have written homework for which students get individual credits.
+**Grading:** Students will work in assigned group for all labs and the final project. Everyone in the same group will receive the same score for each lab. Some labs have written homework for which students get individual credits.
 
-**Lab Policies:**  Lab: Labs are due before class the following week they are assigned (3:30, Mondays) unless stated otherwise. Each team has a total of 7 late days over all labs. Using 1 late day extends the deadline by 24 hours. A team may use up to 3 late days per lab. No lab will be accepted more than 72 hours after the deadline.
+**Lab Policies:**  
+Lab: Labs are due before class the following week they are assigned (3:30, Mondays) unless stated otherwise. Each team has a total of 7 late days over all labs. Using 1 late day extends the deadline by 24 hours. A team may use up to 3 late days per lab. No lab will be accepted more than 72 hours after the deadline.
 Individual written assignments: Each student has a total of 5 late days over all written assignments. Using 1 late day extends the deadline by 24 hours. You may use up to 3 late days per assignment. No assignment will be accepted more than 72 hours after the deadline.
 Final project: no extension is allowed for the final project proposal and presentation.
 
 **Enrollment:** 24 students; 6 groups of 4
 
-Schedule (Subject to Change)
+Schedule
 ==========================
 
 .. csv-table::
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "Week 1: 9/23", ":doc:`../schedule/lectures/fall-24/lec-1`", ":doc:`../schedule/labs/fall-24/lab-1`", "9/30", ""
-   "Week 2: 9/30", ":doc:`../schedule/lectures/fall-24/lec-2`", ":doc:`../schedule/labs/fall-24/lab-2`", "10/07", ""
-   "Week 3: 10/7", ":doc:`../schedule/lectures/fall-24/lec-3`", ":doc:`../schedule/labs/fall-24/lab-3`", "10/14", ""
-   "Week 4: 10/14", ":doc:`../schedule/lectures/fall-24/lec-4`", ":doc:`../schedule/labs/fall-24/lab-4`", "10/21", ""
-   "Week 5: 10/21", ":doc:`../schedule/lectures/fall-24/lec-5`", ":doc:`../schedule/labs/fall-24/lab-5`", "10/28", ""
-   "Week 6: 10/28", ":doc:`../schedule/lectures/fall-24/lec-6`", ":doc:`../schedule/labs/fall-24/lab-6`", "11/11", ""
-   "Week 7: 11/4", ":doc:`../schedule/lectures/fall-24/lec-7`", ":doc:`../schedule/labs/fall-24/lab-7`", "11/11", ""
-   "Week 8: 11/11", "No Lecture! Open Lab Time", "Meet with TAs about Final Projects", "", "Project Proposals due 11/15 at 11:59"
-   "Week 9: 11/18", "No Lecture! Open Lab Time", "Work on Final Projects!", "", ""
-   "Week 10: 11/25", "Thanksgiving Break!", "No Class/Lab!", "", ""
-   "Week 11: 12/2", "No Lecture! Open Lab Time", "Work on Final Projects", "", "Final Project checkpoint 12/2"
-   "Finals Week", "Dog Show on 12/11 7-10pm", "Demo your final Projects!", "", ""
+   "Week 1: 3/21", ":doc:`../schedule/lectures/spring-25/lec-1`", ":doc:`../schedule/labs/spring-25/lab-1`", "3/28", ""
 
 **References:** :doc:`../reference/references`
     
