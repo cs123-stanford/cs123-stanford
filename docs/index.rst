@@ -18,11 +18,11 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
 
 **Overview:**
 
-Welcome to the course page for Stanford’s course in legged robots!
+Welcome to the course page for Stanford's course in legged robots!
 
-This course offers a hands-on introduction to AI-powered robotics. Unlike most introductory robotics courses, students will learn essential robotics concepts by constructing a quadruped robot from scratch and training it to perform real-world tasks such as navigation and command following. The course covers a broad range of topics critical to robot learning, including motor control, forward and inverse kinematics, system identification, simulation, and reinforcement learning. Through weekly labs, students will construct and program an agile robot quadruped named Pupper. In the final few weeks, students will undertake an open-ended project, such as training Pupper to perform agile movements, developing a vision system to allow Pupper to play fetch, or adapting large language models to enable Pupper’s ability to communicate with humans.
+This course offers a hands-on introduction to AI-powered robotics. Unlike most introductory robotics courses, students will learn essential robotics concepts by constructing a quadruped robot from scratch and training it to perform real-world tasks such as navigation and command following. The course covers a broad range of topics critical to robot learning, including motor control, forward and inverse kinematics, system identification, simulation, and reinforcement learning. Through weekly labs, students will construct and program an agile robot quadruped named Pupper. In the final few weeks, students will undertake an open-ended project, such as training Pupper to perform agile movements, developing a vision system to allow Pupper to play fetch, or adapting large language models to enable Pupper's ability to communicate with humans.
 
-*“Empowering robots with AI is essential to make them smart and useful in people’s daily life. It is one of the most important research directions in both academia and industry. This class teaches the most relevant skills, gives students hands-on experiences, and prepares them for a career in the area of AI and robotics.”* - Jie Tan, Staff Research Scientist at Google DeepMind
+*"Empowering robots with AI is essential to make them smart and useful in people's daily life. It is one of the most important research directions in both academia and industry. This class teaches the most relevant skills, gives students hands-on experiences, and prepares them for a career in the area of AI and robotics."* - Jie Tan, Staff Research Scientist at Google DeepMind
 
 **Time:** Monday, TBD
 
@@ -61,34 +61,25 @@ Final project: no extension is allowed for the final project proposal and presen
 
 **Enrollment:** 24 students; 6 groups of 4
 
-Schedule (Subject to Change
-===========
+Schedule (Subject to Change)
+==========================
 
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-|           | Lecture                                     | Lab                                       | Other            |
-+===========+=============================================+===========================================+==================+
-| Week 1    | :doc:../schedule/lectures/fall-24/lec-1  | :doc:../schedule/labs/fall-24/lab-1    |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 2    | :doc:../schedule/lectures/fall-24/lec-2  | :doc:../schedule/labs/fall-24/lab-2    |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 3    | :doc:../schedule/lectures/fall-24/lec-3  | :doc:../schedule/labs/fall-24/lab-3    |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 4    | :doc:../schedule/lectures/fall-24/lec-4  | :doc:../schedule/labs/fall-24/lab-4    |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 5    | :doc:../schedule/lectures/fall-24/lec-5  | :doc:../schedule/labs/fall-24/lab-5    |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 6    | :doc:../schedule/lectures/fall-24/lec-6  | :doc:../schedule/labs/fall-24/lab-6    |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 7    | :doc:../schedule/lectures/fall-24/lec-7  | :doc:../schedule/labs/fall-24/lab-7    |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 8    | No Lecture! Open Lab Time                 | Meet with TAs about Final Projects       | Project Proposals Due |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 9    | No Lecture! Open Lab Time                 | Work on Final Projects                   |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Week 10   | No Lecture! Open Lab Time                 | Work on Final Projects                   | Final Project Checkpoint |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
-| Finals    | Dog Show                                  | Demo your Final Projects                 |                  |
-+-----------+---------------------------------------------+-------------------------------------------+------------------+
+.. csv-table::
+   :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
+   :widths: 15, 30, 30, 15, 20
+
+   "Week 1: 9/23", ":doc:`../schedule/lectures/fall-24/lec-1`", ":doc:`../schedule/labs/fall-24/lab-1`", "9/30", ""
+   "Week 2: 9/30", ":doc:`../schedule/lectures/fall-24/lec-2`", ":doc:`../schedule/labs/fall-24/lab-2`", "10/07", ""
+   "Week 3: 10/7", ":doc:`../schedule/lectures/fall-24/lec-3`", ":doc:`../schedule/labs/fall-24/lab-3`", "10/14", ""
+   "Week 4: 10/14", ":doc:`../schedule/lectures/fall-24/lec-4`", ":doc:`../schedule/labs/fall-24/lab-4`", "10/21", ""
+   "Week 5: 10/21", ":doc:`../schedule/lectures/fall-24/lec-5`", ":doc:`../schedule/labs/fall-24/lab-5`", "10/28", ""
+   "Week 6: 10/28", ":doc:`../schedule/lectures/fall-24/lec-6`", ":doc:`../schedule/labs/fall-24/lab-6`", "11/11", ""
+   "Week 7: 11/4", ":doc:`../schedule/lectures/fall-24/lec-7`", ":doc:`../schedule/labs/fall-24/lab-7`", "11/11", ""
+   "Week 8: 11/11", "No Lecture! Open Lab Time", "Meet with TAs about Final Projects", "", "Project Proposals due 11/15 at 11:59"
+   "Week 9: 11/18", "No Lecture! Open Lab Time", "Work on Final Projects!", "", ""
+   "Week 10: 11/25", "Thanksgiving Break!", "No Class/Lab!", "", ""
+   "Week 11: 12/2", "No Lecture! Open Lab Time", "Work on Final Projects", "", "Final Project checkpoint 12/2"
+   "Finals Week", "Dog Show on 12/11 7-10pm", "Demo your final Projects!", "", ""
 
 **References:** :doc:`../reference/references`
     

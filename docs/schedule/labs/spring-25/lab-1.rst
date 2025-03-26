@@ -5,6 +5,10 @@ Goal
 ----
 Get set up with the Raspberry Pi 5 hardware and build a robot that you can program PD control on using ROS2.
 
+Shared Resources with your Groupmates
+------------------------------------
+To better organize all the weekly lab materials, create a Google Drive folder to share with your groupmates. In addition, create a shared GitHub repository that manages all the code from this course. You will need to submit your lab document and Github repository link to Gradescope for your lab submissions.
+
 Lab Document
 ------------
 Fill out this lab document (https://docs.google.com/document/d/1FZ3WAwX1zRO5ivQpqraeYcaJwmDZFZVPRNCVBTsuZrw/edit?usp=sharing) with your answers to the questions and your code. You will submit this document to Gradescope.
@@ -16,7 +20,7 @@ Part 0: Setup
 
 2. You should receive the following from the TAs:
 
-   - Pupper robot: containing Raspberry Pi 5, pre-flashed micro SD card and etc.
+   - Pupper robot: containing Raspberry Pi 5, pre-flashed micro SD card, and other components
    - Ethernet cable
    - HDMI cable
    - Monitor, keyboard, and mouse setup
@@ -25,53 +29,48 @@ Part 0: Setup
 
 4. Follow along the assembly instructions to build the robot body with motor dials: https://drive.google.com/file/d/1G-evq36QOEJLgNMRFhP06Nk44oQloq2K/view?usp=drive_link
 
-   - Your USB drive should come pre-flashed. If your USB drive does not come pre-flashed, then flash the image at this link: https://docs.google.com/document/d/1KCq6sDU6E63y6-M0tVXG8qigIHJQKecC0eopReKi0_Q/edit. Use Balena Etcher to flash: https://etcher.balena.io/.
+   - Your micro SD card should come pre-flashed with the operating system. When you power on the Raspberry Pi, it will automatically boot from this card. If your micro SD card is not pre-flashed, you can flash it using the image at this link: https://docs.google.com/document/d/1KCq6sDU6E63y6-M0tVXG8qigIHJQKecC0eopReKi0_Q/edit. Use Balena Etcher to flash: https://etcher.balena.io/.
 
 Option 1: Connect via the Monitor Setup (Recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    - Connect the Raspberry Pi to the monitor using the HDMI - HDMI micro cable.
+   - (Note: The HDMI micro cable and the micro HDMI port on Raspberry Pi are ``**very easy to break**``. Breaking the HDMI port means that you will need to change the entire Raspberry Pi on you Pupper, which is a lot of work. So be careful when plugging in the HDMI cable.)
    - Connect the keyboard and mouse to the Raspberry Pi via USB.
    - Log in with the username ``pi`` and password ``rhea123`` after powering on.
-   - Connect to the class WiFi network: SSID: TP-Link_7951, Password: 32625073. Check that you can access the internet by running ``ping 8.8.8.8`` to see if you are receiving bytes (8.8.8.8 is google.com).
-   - Install firefox: ``sudo snap install firefox``
+   - Connect to the Stanford Guest WiFi network (the regular Stanford network might not work on Pupper).
+   - Install firefox: ``sudo snap install firefox``, or any other browsers of your choice, and open the course website: cs123-stanford.readthedocs.io, so you can copy and paste the commands from the lab document into Pupper's terminal. To ``**copy and paste**`` in the Ubuntu terminal, use ``Ctrl+Shift+C`` to copy and ``Ctrl+Shift+V`` to paste.
 
-OPTION 2: Connect via SSH (If you do not have access to the desktop setup)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Secure Shell is a network protocol that provides a secure way to access and manage remote computers over an unsecured network. It offers strong authentication and encrypted data communications between two computers connecting over an open network such as the internet. 
+OPTION 2: Connect via SSH (Only if you do not have access to a monitor setup)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Secure Shell is a network protocol that provides a secure way to access and manage remote computers over an unsecured network. It offers strong authentication and encrypted data communications between two computers connecting over an open network such as the internet. You're probably very familiar with SSH if you've taken CS107, 111, or have worked with the SAIL cluster.
     - Connect your laptop to the Pupper robot using the Ethernet cable.
     - Enable internet sharing in system settings (turn on anything that looks like Ethernet).
-    - SSH into the Raspberry Pi through terminal: ``ssh pi@pupper.local`` (password: rhea123). If you would like to use VSCode, you can also connect to the Raspberry Pi using the Remote - SSH extension (Open Command Palette with CMD+SHIFT_P -> Remote-SSH: Connect to Host -> ssh)
-    - If this is successful, you should be able to see the Pi's file system on your computer and access it remotely.
+    - SSH into the Raspberry Pi through terminal: ``ssh pi@pupper.local`` (password: rhea123). If you would like to use VSCode/Cursor, you can also connect to the Raspberry Pi using the Remote - SSH extension (Open Command Palette with CMD+SHIFT_P -> Remote-SSH: Connect to Host -> ssh)
+    - Friendly reminder: you can ``**SSH multiple times**`` from different terminals to the Raspberry Pi.
+    - If this is successful, you should be able to see the Pi's file system on your computer, and be able to work on Pupper from your own laptop! Note that GUIs (pop-up windows) are not supported on SSH, so you will still need to use the monitor setup for some upcoming labs.
 
 .. figure:: ../../../_static/internet_sharing.png
     :align: center
 
     Enable internet sharing in system settings.
 
-Part 1: ROS Introduction
+Part 1: ROS2 Introduction
 ------------------------
 
-1. We'll be using ROS (Robot Operating System) throughout this course. ROS provides tools, libraries, and conventions that facilitate building robotic applications and allow different parts of the robot to interact with each other.
+1. We'll be using ROS2 (Robot Operating System) throughout this course. ROS2 provides tools, libraries, and conventions that facilitate building robotic applications and allow different parts of the robot to interact with each other.
 
 2. Familiarize yourself with the basics of ROS by reviewing the ROS introduction guide (https://wiki.ros.org/ROS/Introduction). Keep this guide handy as a ROS2 cheat sheet (https://github.com/ubuntu-robotics/ros2_cheats_sheet/tree/master) that you can refer to throughout the course. We also have a list of important ROS2 commands for this course here: https://cs123-stanford-2024.readthedocs.io/en/latest/schedule/lectures/fall-24/ros_intro.html.
 
 3. ROS services in Pupper: robot.service manages control code (face controller, rl or heuristic controller, etc). See if controller is running: ``systemctl status robot.service`` You should see the status as "active (running)". Checkout all topics and services: ``ros2 topic list`` and ``ros2 service list``.
 
-4. Since we are running custom code, we must disable the robot service before working on your code. This will prevent the robot from running any pre-existing code that may interfere with your work. Pupper falls after disabling the robot service, so make sure to place it on a soft surface. To disable the robot service, run the following commands:
+4. Since we are running custom code, we must disable the robot service before working on your code. This will prevent the robot from running any pre-existing code that may interfere with your work. Make sure to place Pupper on the stand during this process. To disable the robot service, run the following commands:
 
 .. code-block:: bash
 
    sudo systemctl disable robot.service
    sudo reboot
 
-5. Calibration after rebooting: After rebooting, you may need to recalibrate the robot joints. Follow the following image:
-
-.. figure:: ../../../_static/calibration.jpeg
-    :align: center
-
-    Calibration after rebooting.
-
-6. Troubleshooting. If you encounter any issues with ROS2 or the robot service, try the following:
+5. Troubleshooting. If you encounter any issues with , try the following:
 
   - If you see "ros_2 not found", ``source ~/.bashrc`` again
 
@@ -81,16 +80,21 @@ Part 2: Hello PD
 Step 1: Setup Lab 1 Code Base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Clone the lab 1 code repository on the Raspberry Pi and build the package:
+1. Clone the lab 1 code repository on the Raspberry Pi:
 
    .. code-block:: bash
 
       cd ~/
       git clone https://github.com/cs123-stanford/lab_1_2024.git lab_1
 
-   Note: Make sure the folder name is ``lab_1``. If you have a different folder name, you may need to update the launch file accordingly.
+   Note: Make sure the folder name is ``lab_1``. If you have a different folder name, you'll need to update the launch file accordingly.
 
-2. Open the workspace in VSCode
+2. Open the lab 1 folder in VSCode
+
+   .. code-block:: bash
+
+      cd ~/lab_1
+      code .
 
 3. Examine ``<lab_1/lab_1.py>`` to understand where the motor angle and velocity are read and where the motor is commanded.
 
@@ -102,7 +106,7 @@ Step 1: Setup Lab 1 Code Base
 Step 2: Run ROS Launch Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Check the launch description in ``lab_1_launch.py`` and ``lab_1.yaml``. Familiarize yourself with the structure and parameters defined in these files.
+1. Check the launch description in ``lab_1.launch.py`` and ``lab_1.yaml``. Familiarize yourself with the structure and parameters defined in these files.
 
 2. Run the launch file using the following command:
 
@@ -151,11 +155,11 @@ Step 3. Run bang-bang control
 
 2. This can be accomplished by a block of if statements. Implement bang-bang control in the `lab_1.py` file. Run your code by starting a new terminal, navigating to the lab folder, and running ``python lab_1.py``
 
-**DELIVERABLE: Take a video of your bang bang control to upload to Gradescope with your submission**
+**DELIVERABLE: Take a video of your bang bang control, upload the video to your Google Drive Folder, and include the video link in your lab document with your submission**
 
 Step 4: Implement P Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-1. Implement P control in the `lab_1.py` file by replacing your implementation of bang-bang control. The P controller is more robust than bang-bang control. The proportional gain (Kp) is used to tune the controller. 
+1. Implement P control in the `lab_1.py` file by replacing your implementation of bang-bang control. The P controller is more robust than bang-bang control. The proportional gain (Kp) is used to tune the controller. For reference, all the joint states published by ros2 systems are typically in radians.
 
 2. Start with Kp = 2.0
 
@@ -171,24 +175,20 @@ Step 5: Implement PD Control
 1. Implement PD control in the `lab_1.py` file by replacing your implementation of bang-bang control. The PD controller is more robust than only P control, and is common control strategy used in robotics to stabilize systems. The proportional gain (Kp) and derivative gain (Kd) are used to tune the controller.
 
 2. Start with Kp = 2.0 and Kd = 0.3. Implement the PD control law using the following update equation:
-
-.. math::
-    \tau = K_p (\theta_{target} - \theta_{current}) + K_d (\omega_{target} - \omega_{current}) + r(t)
-
-.. figure:: ../../../_static/pid_eqn.jpg
+   .. figure:: ../../../_static/pid_eqn.jpg
     :align: center
 
     PID Control Equation. 
 
    Where:
    
-   - ``tau`` is the commanded torque for the motor
-   - ``theta_target`` is the target angle
-   - ``omega_target`` is the target angular velocity (usually 0)
-   - ``theta_current`` is the current motor angle
-   - ``omega_current`` is the current motor angular velocity
-   - ``Kp`` and ``Kd`` are the proportional and derivative gains
-   - ``r(t)`` known as a feedforward_term, is a constant term that you can use send a constant torque to the motor. For us, we just use 0. 
+   - :math:`\tau` is the commanded torque for the motor
+   - :math:`\theta_{target}` is the target angle
+   - :math:`\omega_{target}` is the target angular velocity (usually 0)
+   - :math:`\theta_{current}` is the current motor angle
+   - :math:`\omega_{current}` is the current motor angular velocity
+   - :math:`K_p` and :math:`K_d` are the proportional and derivative gains
+   - :math:`r(t)` known as a feedforward_term, is a constant term that you can use to send a constant torque to the motor. For us, we just use 0.
 
 3. Run your code ``python lab_1.py`` and observe the behavior of the PD controller.
 
@@ -217,6 +217,7 @@ Step 7: Experiment with Delays in the System
 2. Experiment with different delay values (e.g., several steps of delay).
 
    .. code-block:: python
+    
       from collections import deque
 
       # In your initialization:
