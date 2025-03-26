@@ -1,5 +1,5 @@
 CS 123: A Hands-On Introduction to Building AI-Enabled Robots
-#######################################################
+#############################################################
 
 .. figure:: _static/pupper_splash.jpg
     :align: center
@@ -18,47 +18,52 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
 
 **Overview:**
 
-Welcome to the course page for Stanford's course in legged robots!
+Welcome to the course page for Stanford's class on legged robots!
 
-This course offers a hands-on introduction to AI-powered robotics. Unlike most introductory robotics courses, students will learn essential robotics concepts by constructing a quadruped robot from scratch and training it to perform real-world tasks such as navigation and command following. The course covers a broad range of topics critical to robot learning, including motor control, forward and inverse kinematics, system identification, simulation, and reinforcement learning. Through weekly labs, students will construct and program an agile robot quadruped named Pupper. In the final few weeks, students will undertake an open-ended project, such as training Pupper to perform agile movements, developing a vision system to allow Pupper to play fetch, or adapting large language models to enable Pupper's ability to communicate with humans.
+This course offers a hands-on introduction to AI-powered robotics. Unlike most introductory robotics courses, students will learn key robotics concepts by building a quadruped robot from scratch and training it to perform real-world tasks such as navigation and command following. The course covers a broad range of topics essential to robot learning, including motor control, forward and inverse kinematics, system identification, simulation, and reinforcement learning. 
+
+Through weekly labs, students will construct and program an agile quadruped robot named Pupper. In the final few weeks, students will undertake an open-ended project—for example, training Pupper to perform agile movements, building a vision system to play fetch, or integrating large language models to enable human-robot communication.
 
 *"Empowering robots with AI is essential to make them smart and useful in people's daily life. It is one of the most important research directions in both academia and industry. This class teaches the most relevant skills, gives students hands-on experiences, and prepares them for a career in the area of AI and robotics."* - Jie Tan, Staff Research Scientist at Google DeepMind
 
 **Time:** Monday, 3:30pm - 6:20pm
 
-**Lecture Location:** `Lathrop 299 <https://www.google.com/maps/dir//518+Memorial+Way,+Stanford,+CA+94305/@37.4291185,-122.2498268,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x808fbb29c2155555:0x7d7db72ceea1d9ef!2m2!1d-122.1674258!2d37.4291471?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
+**Lecture Location:** `Lathrop 299 <https://www.google.com/maps/place/Lathrop+Library/@37.4291471,-122.1700007,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb29c2155555:0x7d7db72ceea1d9ef!8m2!3d37.4291471!4d-122.1674258!16s%2Fm%2F011v6hp4?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
     * Karen: TBD
     * Stuart, Jie, Wenhao, Tingnan: Office hours by appointment. Reach out to the teaching team to schedule. 
 
-**TA Office Hours Location:**
-`Gates B02 <https://www.google.com/maps/place/Gates+Computer+Science,+353+Serra+Mall,+Stanford,+CA+94305/@37.4299866,-122.1759052,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb2b3f50f727:0xfd9cc3200ee97fda!8m2!3d37.4299866!4d-122.1733303!16s%2Fm%2F02rm986?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_
+**TA Office Hours Location:** `Gates B02 <https://www.google.com/maps/place/Gates+Computer+Science,+353+Serra+Mall,+Stanford,+CA+94305/@37.4299866,-122.1759052,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb2b3f50f727:0xfd9cc3200ee97fda!8m2!3d37.4299866!4d-122.1733303!16s%2Fm%2F02rm986?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_
 
 **TA Office Hours:**
 
     * Ankush: TBD
     * JC: TBD
 
-
 **Prerequisites:**
 
-* CS106A (programming will be majority in Python)
-
+* CS106A (programming will be majorly in Python)
 * CS107 (familiarity with the terminal and command lines) 
-
 * MATH51/CME100 (understanding of gradients)
-
 * No robotics experience necessary!!
 
 **Number of credits:** 3
 
-**Grading:** Students will work in assigned group for all labs and the final project. Everyone in the same group will receive the same score for each lab. Some labs have written homework for which students get individual credits.
+**Grading:** Students will work in assigned groups for all labs and the final project. All group members will receive the same score for each lab. Some labs also include individual written homework, which will be graded separately.
 
-**Lab Policies:**  
-Lab: Labs are due before class the following week they are assigned (3:30, Mondays) unless stated otherwise. Each team has a total of 7 late days over all labs. Using 1 late day extends the deadline by 24 hours. A team may use up to 3 late days per lab. No lab will be accepted more than 72 hours after the deadline.
-Individual written assignments: Each student has a total of 5 late days over all written assignments. Using 1 late day extends the deadline by 24 hours. You may use up to 3 late days per assignment. No assignment will be accepted more than 72 hours after the deadline.
-Final project: no extension is allowed for the final project proposal and presentation.
+**Lab Policies:**
+
+*Labs:* Labs are due before class the following week (by 3:30 PM on Mondays) unless otherwise noted. Each team has a total of 7 late days to use across all labs. Using one late day extends the deadline by 24 hours. A maximum of 3 late days may be used per lab. Labs submitted more than 72 hours after the deadline will not be accepted.
+
+*Individual written assignments:* Each student has a total of 5 late days to use across all written assignments. The same 24-hour and 3-day rules apply. Assignments submitted more than 72 hours after the deadline will not be accepted.
+
+*Final project:* No extensions are allowed for the final project proposal or presentation.
+
+**Optional Labs:**
+Three optional labs will be offered this quarter, with the first released in Week 3. These labs are significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and its prerequisites and are intentionally open-ended. There are no due dates—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
+
+TAs will be available to support students working on the optional labs during their office hours.
 
 **Enrollment:** 24 students; 6 groups of 4
 
@@ -72,4 +77,3 @@ Schedule
    "Week 1: 3/21", ":doc:`../schedule/lectures/spring-25/lec-1`", ":doc:`../schedule/labs/spring-25/lab-1`", "3/28", ""
 
 **References:** :doc:`../reference/references`
-    
