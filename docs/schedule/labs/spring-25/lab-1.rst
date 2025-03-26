@@ -49,7 +49,7 @@ Secure Shell is a network protocol that provides a secure way to access and mana
     - Friendly reminder: you can **SSH multiple times** from different terminals to the Raspberry Pi.
     - If this is successful, you should be able to see the Pi's file system on your computer, and be able to work on Pupper from your own laptop! Note that GUIs (pop-up windows) are not supported on SSH, so you will still need to use the monitor setup for some upcoming labs.
 
-.. figure:: ../../../../_static/internet_sharing.png
+.. figure:: ../../../_static/internet_sharing.png
     :align: center
 
     Enable internet sharing in system settings.
