@@ -49,11 +49,11 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **Grading:** Students will work in assigned groups for all labs and the final project. All group members will receive the same score for each lab. Some labs may include individual written homework, which will be graded separately.
 
+**Attendance:** Attendance is mandatory for all classes and counts for 3% of your grade. Missing 0-1 classes gives you full credit, and missing 2 classes gives you 50%, and missing more than 2 gives you 0%. Students are expected to attend all classes in person. If you are unable to attend a class, please inform the teaching team in advance.
+
 **Lab Policies:**
 
 *Labs:* Labs are due before class the following week (by 3:30 PM on Mondays) unless otherwise noted. Each team has a total of 7 late days to use across all labs. Using one late day extends the deadline by 24 hours. A maximum of 3 late days may be used per lab. Labs submitted more than 72 hours after the deadline will not be accepted.
-
-*Individual written assignments:*  Each student has a total of 5 late days to use across all individually written assignments. The same 24-hour and 3-day rules apply. Assignments submitted more than 72 hours after the deadline will not be accepted.
 
 *Final project:* No extensions are allowed for the final project proposal or presentation.
 
@@ -73,3 +73,5 @@ Schedule
    "Week 1: 3/21", ":doc:`../schedule/lectures/spring-25/lec-1`", ":doc:`../schedule/labs/spring-25/lab-1`", "3/28", ""
 
 **References:** :doc:`../reference/references`
+
+**Past Course Projects:** :doc:`../reference/past_projects`
