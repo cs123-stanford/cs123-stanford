@@ -35,8 +35,8 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **TA Office Hours:**
 
-    * Ankush: TBD
-    * JC: TBD
+    * Ankush: Mondays 10:30am - 11:30am, Wednesdays 10:30am - 11:30am
+    * JC: Tuesdays 3:00pm - 6:00pm, Wednesdays 2:00pm - 5:00pm, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
 
 **Prerequisites:**
 
@@ -47,21 +47,21 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **Number of credits:** 3
 
-**Grading:** Students will work in assigned groups for all labs and the final project. All group members will receive the same score for each lab. Some labs also include individual written homework, which will be graded separately.
+**Grading:** Students will work in assigned groups for all labs and the final project. All group members will receive the same score for each lab. Some labs may include individual written homework, which will be graded separately.
 
 **Lab Policies:**
 
 *Labs:* Labs are due before class the following week (by 3:30 PM on Mondays) unless otherwise noted. Each team has a total of 7 late days to use across all labs. Using one late day extends the deadline by 24 hours. A maximum of 3 late days may be used per lab. Labs submitted more than 72 hours after the deadline will not be accepted.
 
-*Individual written assignments:* Each student has a total of 5 late days to use across all written assignments. The same 24-hour and 3-day rules apply. Assignments submitted more than 72 hours after the deadline will not be accepted.
+*Individual written assignments:*  Each student has a total of 5 late days to use across all individually written assignments. The same 24-hour and 3-day rules apply. Assignments submitted more than 72 hours after the deadline will not be accepted.
 
 *Final project:* No extensions are allowed for the final project proposal or presentation.
 
 **Optional Labs:**
-Three optional labs will be offered this quarter, with the first released in Week 3. These labs are significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and its prerequisites and are intentionally open-ended. There are no due dates—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
+Three optional labs will be offered this quarter, with the first released in Week 3. These labs are significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
 TAs will be available to support students working on the optional labs during their office hours.
 
-**Enrollment:** 24 students; 6 groups of 4
+**Enrollment:** ~24 students; 6 groups of 4-5 students
 
 Schedule
 ==========================
