@@ -1,7 +1,7 @@
 ROS Introduction and PD Control
 ================================
 
-**Intro Slides (will be updated):** https://drive.google.com/file/d/1bwJ7ZTH2E3sqMawUVrSG8COYTeV_bTl6/view?usp=sharing
+**Intro Slides (will be updated):** https://drive.google.com/file/d/1qvrmODWmE-iC4CE7JrxLM49VD_J3MVra/view?usp=sharing
 
 **Lecture Slides (may be updated):** https://docs.google.com/presentation/d/1yiRQ9m7rA-Ci4zR0SOiX-bAIji_ZBRpx7SxWVQP5qd0/edit#slide=id.g22c45b09435_0_1388
 
