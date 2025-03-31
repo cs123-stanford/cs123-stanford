@@ -35,8 +35,8 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **TA Office Hours:**
 
-    * Ankush: Mondays 10:30am - 11:30am, Wednesdays 10:30am - 11:30am
-    * JC: Tuesdays 3:00pm - 6:00pm, Wednesdays 2:00pm - 5:00pm, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
+    * Ankush: Mondays 10:30am - 11:30am, Thursdays 10:30am - 11:30am
+    * JC: Tuesdays 2:00pm - 3:30pm, Wednesdays 2:00pm - 3:30pm, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
 
 **Prerequisites:**
 
