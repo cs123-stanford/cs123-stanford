@@ -70,7 +70,7 @@ Schedule
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "Week 1: 3/21", ":doc:`../schedule/lectures/spring-25/lec-1`", ":doc:`../schedule/labs/spring-25/lab-1`", "3/28", ""
+   "Week 1: 3/21", ":doc:`../schedule/lectures/spring-25/lec-1`", ":doc:`../schedule/labs/spring-25/lab-1`", "1/7/25", ""
 
 **References:** :doc:`../reference/references`
 
