@@ -20,7 +20,7 @@ Part 0: Setup
 
 2. You should receive the following from the TAs:
 
-   - Pupper robot: containing Raspberry Pi 5, pre-flashed micro SD card, and other components
+   - Pupper robot: containing Raspberry Pi 5, pre-flashed USB drive, and other components
    - Ethernet cable
    - HDMI cable
    - Monitor, keyboard, and mouse setup
@@ -29,7 +29,7 @@ Part 0: Setup
 
 4. Follow along the assembly instructions to build the robot body with motor dials: `Assembly Instructions <https://docs.google.com/document/d/1KCq6sDU6E63y6-M0tVXG8qigIHJQKecC0eopReKi0_Q/edit>`_
 
-   - Your micro SD card should come pre-flashed with the operating system. When you power on the Raspberry Pi, it will automatically boot from this card. If your micro SD card is not pre-flashed, you can flash it using the image at this link: `Lab 1-4 Image <https://drive.google.com/file/d/1BXUFaCqLZ9H7kJZK7IrqmrmT6vTUMl8a/view>`_. Use Balena Etcher to flash: `Download Balena Etcher <https://etcher.balena.io/>`_.
+   - Your SUB should come pre-flashed with the operating system. The Raspberry Pi will boot from the memory on this drive. When you power on the Raspberry Pi, it will automatically boot from this card. If your micro SD card is not pre-flashed, you can flash it using the image at this link: `Lab 1-4 Image <https://drive.google.com/file/d/1BXUFaCqLZ9H7kJZK7IrqmrmT6vTUMl8a/view>`_. Use Balena Etcher to flash: `Download Balena Etcher <https://etcher.balena.io/>`_.
 
 Option 1: Connect via the Monitor Setup (Recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
