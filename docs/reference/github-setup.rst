@@ -1,7 +1,7 @@
 GitHub Setup Guide
 =================
 
-This page contains instructions for setting up your GitHub account on Pupper and cloning the labs into your shared repository.
+This page contains instructions for setting up your GitHub account on Pupper and uploading the labs into your shared repository.
 
 Setup a Shared Repository
 ************************
@@ -53,6 +53,7 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
 
 1. Generate an SSH Key
    Replace your_email@example.com with your GitHub-linked email:
+
    .. code-block:: bash
 
       ssh-keygen -t ed25519 -C "your_email@example.com"
@@ -61,6 +62,7 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
    - Optionally set a passphrase for additional security
 
 2. Copy Your Public Key
+   
    .. code-block:: bash
 
       cat ~/.ssh/id_ed25519.pub
@@ -79,6 +81,7 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
        :alt: GitHub SSH keys page
 
 4. Test the Connection
+   
    .. code-block:: bash
 
       ssh -T git@github.com
@@ -88,11 +91,13 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
 
 5. After Rebooting Pupper in the Future
    To check if your key is still loaded:
+
    .. code-block:: bash
 
       ssh-add -l
 
    If your key isn't listed, add it manually:
+
    .. code-block:: bash
 
       ssh-add ~/.ssh/id_ed25519
@@ -103,28 +108,33 @@ Uploading Labs to Your Shared Repository
 Since you'll be managing multiple labs in one repository, create a new branch for each lab. Here's how to upload Lab 1:
 
 1. Set your shared repository as the origin remote for the lab (replace the URL with your shared repository URL):
+   
    .. code-block:: bash
 
       git remote set-url origin https://github.com/your-username/CS123.git
 
 2. Create and switch to a new branch for the lab (replace lab1 with the appropriate lab number in future labs):
+   
    .. code-block:: bash
 
       git branch -M lab1
 
    .. note::
       If you need to rename a branch due to a mistake, use:
+    
       .. code-block:: bash
 
          git branch -m old_name new_name
 
 3. Add and commit your changes (the message will be seen in the GitHub UI):
+   
    .. code-block:: bash
 
       git add .
       git commit -m "Lab 1: Initial implementation"
 
 4. Push to your shared repository:
+   
    .. code-block:: bash
 
       git push -u origin lab1
