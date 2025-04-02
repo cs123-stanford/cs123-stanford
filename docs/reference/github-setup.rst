@@ -51,6 +51,7 @@ Set Up SSH Authentication on Pupper
 The most secure and convenient way to connect your GitHub account to Pupper is using SSH keys. This eliminates the need to enter your password for every push or pull operation.
 
 1. Generate an SSH Key
+   
    Replace your_email@example.com with your GitHub-linked email:
 
    .. code-block:: bash
