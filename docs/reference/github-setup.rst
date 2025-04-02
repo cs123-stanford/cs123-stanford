@@ -112,7 +112,10 @@ Since you'll be managing multiple labs in one repository, create a new branch fo
    
    .. code-block:: bash
 
-      git remote set-url origin https://github.com/your-username/CS123.git
+      git remote set-url origin git@github.com:your-username/CS123.git
+    
+.. warning::
+    Make sure you are using the SSH URL for your shared repository. Using the HTTPS URL will not work!
 
 2. Create and switch to a new branch for the lab (replace lab1 with the appropriate lab number in future labs):
    
