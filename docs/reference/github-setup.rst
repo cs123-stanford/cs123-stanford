@@ -90,6 +90,7 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
    "Hi your-username! You've successfully authenticated, but GitHub does not provide shell access."
 
 5. After Rebooting Pupper in the Future
+   
    To check if your key is still loaded:
 
    .. code-block:: bash
@@ -152,6 +153,7 @@ Need Help?
 ---------
 
 If you encounter any issues:
+
 - Check the GitHub documentation
 - Ask your TAs or classmates
 - Consult the course staff during office hours
