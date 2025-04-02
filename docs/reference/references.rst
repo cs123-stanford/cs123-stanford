@@ -5,3 +5,4 @@ References Page
 * :doc:`design`
 * :doc:`libraries`
 * :doc:`dji_reference`
+* :doc:`github-setup`

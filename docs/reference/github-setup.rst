@@ -29,8 +29,10 @@ You can access the repository by clicking the green "Code" button and copying th
    .. figure:: ../_static/github_setup_pics/https_url.png
        :align: center
        :alt: Repository HTTPS URL
+       :scale: 33%
 
 4. Share the repository with your team:
+
    - Click the "Settings" gear icon in the top right
    - Select "Manage access"
    - In the "Collaborators" section, click "Add people"
@@ -66,6 +68,7 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
    Copy the entire output.
 
 3. Add the Public Key to GitHub
+   
    - Log into GitHub in Pupper's browser
    - Go to Settings → SSH and GPG keys
    - Click "New SSH key"
