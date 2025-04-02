@@ -34,7 +34,6 @@ You can access the repository by clicking the green "Code" button and copying th
 4. Share the repository with your team:
 
    - Click the "Settings" gear icon in the top right
-   - Select "Manage access"
    - In the "Collaborators" section, click "Add people"
    - Enter your team members' usernames and add them
 
