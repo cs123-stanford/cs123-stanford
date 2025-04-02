@@ -66,12 +66,14 @@ Part 1: ROS2 Introduction
 
 4. Since we are running custom code, we must disable the robot service before working on your code. This will prevent the robot from running any pre-existing code that may interfere with your work. Make sure to place Pupper on the stand during this process. To disable the robot service, run the following commands:
 
+Note: Robot Service should already be disabled for spring 2025's setup. So you can skip this step and proceed to Part 2.
+
 .. code-block:: bash
 
    sudo systemctl disable robot.service
    sudo reboot
 
-5. Troubleshooting. If you encounter any issues, try the following:
+1. Troubleshooting. If you encounter any issues, try the following:
 
   - If you see "ros_2 not found", ``source ~/.bashrc`` again
 
