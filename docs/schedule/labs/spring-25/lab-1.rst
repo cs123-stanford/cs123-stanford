@@ -119,6 +119,9 @@ Step 2: Run ROS Launch Code
 
    This command will start all the necessary nodes for your PD control experiment.
 
+.. warning::
+    When you run the launch file, Pupper is trying to calibrate its legs, and so the motor dial will spin for a bit before the software determines that the mechanical calibration stops have been hit. Since we do not have the full legs attached just yet, the motor dial will spin for some time before stopping. Let this process complete (dials stop spinning) before running the code you implement.
+
 3. After running the launch file, you should see output in your terminal indicating that the nodes have been started successfully. If you encounter any errors, double-check your file paths and make sure all dependencies are installed.
 
 4. Open a new terminal window (if using SSH, you can open multiple connections to your Raspberry Pi, or add a terminal from VSCode) and run the following command to see the list of active topics:
