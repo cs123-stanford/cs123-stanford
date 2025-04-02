@@ -76,7 +76,7 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
    - Click "New SSH key"
    - Paste your key, add a descriptive title (e.g., "Pupper SSH Key"), and save. This is how the page should look like with my SAIL cluster key:
 
-   .. figure:: ../_static/github_setup_pics/ssh keys.png
+   .. figure:: ../_static/github_setup_pics/ssh_keys.png
        :align: center
        :alt: GitHub SSH keys page
 
