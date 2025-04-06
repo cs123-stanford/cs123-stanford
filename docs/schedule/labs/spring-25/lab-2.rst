@@ -5,6 +5,11 @@ Goal
 ----
 Implement forward kinematics for the right front leg of the Pupper robot using ROS2 and Python.
 
+Here's what your implementation should look like when complete:
+
+.. video:: ../../../_static/kinematics/kinamatics_rviz.MOV
+   :width: 640
+
 Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVWyHrLkuw0ZJ24BPCPn_Q6XIztvR0/edit?usp=sharing>`_ as you go. Make a copy and add your responses.
 
 Part 1: Hardware Build
