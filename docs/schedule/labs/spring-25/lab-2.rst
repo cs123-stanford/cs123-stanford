@@ -61,8 +61,9 @@ Step 2: Implement Transformation Matrices
 
 1. The transformation matrix from the base link to leg_front_r_1 has been implemented for you in ``T_0_1``. This involves a translation and two rotations. We include a visualization of this transformation below to facilitate your understanding (keeping all these in mind can be tricky!). Understanding this transformation will help you complete the remainder of the transformations. 
 
-   .. figure:: ../../../_static/kinematics/r0_r1_kinematics.png
+   .. figure:: ../../../_static/kinematics/base_r1_kinematics.png
       :align: center
+      :width: 75%
 
       Transformation from base link to leg_front_r_1
 
@@ -72,6 +73,7 @@ Step 2: Implement Transformation Matrices
 
    .. figure:: ../../../_static/kinematics/r1_r2_kinematics.png
       :align: center
+      :width: 75%
 
       Transformation from leg_front_r_1 to leg_front_r_2
 
@@ -79,6 +81,7 @@ Step 2: Implement Transformation Matrices
 
    .. figure:: ../../../_static/kinematics/r2_r3_kinematics.png
       :align: center
+      :width: 75%
 
       Transformation from leg_front_r_2 to leg_front_r_3
 
@@ -86,6 +89,7 @@ Step 2: Implement Transformation Matrices
 
    .. figure:: ../../../_static/kinematics/r3_ee_kinematics.png
       :align: center
+      :width: 75%
 
       Transformation from leg_front_r_3 to the end effector
 
@@ -160,7 +164,7 @@ If you finish early and want to explore further:
 
    .. figure:: ../../../_static/kinematics/base_back_kinematics.png
       :align: center
-      :width: 360px
+      :width: 75%
 
       Base to back right leg transformation diagram
    
