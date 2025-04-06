@@ -7,8 +7,9 @@ Implement forward kinematics for the right front leg of the Pupper robot using R
 
 Here's what your implementation should look like when complete:
 
-.. video:: ../../../_static/kinematics/kinamatics_rviz.MOV
-   :width: 640
+.. raw:: html
+
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/lVcSik8-KIg" title="Kinematics RViz Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVWyHrLkuw0ZJ24BPCPn_Q6XIztvR0/edit?usp=sharing>`_ as you go. Make a copy and add your responses.
 
