@@ -28,7 +28,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 **Lecture Location:** `Lathrop 299 <https://www.google.com/maps/place/Lathrop+Library/@37.4291471,-122.1700007,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb29c2155555:0x7d7db72ceea1d9ef!8m2!3d37.4291471!4d-122.1674258!16s%2Fm%2F011v6hp4?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
-    * Karen: TBD
+    * Karen: Fridays 9:00-10:00 am (`Zoom link <https://stanford.zoom.us/j/5675692729?pwd=UmtJYVQvT2s3R1I4bXE2RkRyVHNWUT09>`_)
     * Stuart, Jie, Wenhao, Tingnan: Office hours by appointment. Reach out to the teaching team to schedule. 
 
 **TA Office Hours Location:** `Gates B02 <https://www.google.com/maps/place/Gates+Computer+Science,+353+Serra+Mall,+Stanford,+CA+94305/@37.4299866,-122.1759052,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb2b3f50f727:0xfd9cc3200ee97fda!8m2!3d37.4299866!4d-122.1733303!16s%2Fm%2F02rm986?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_
