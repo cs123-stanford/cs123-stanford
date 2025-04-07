@@ -16,7 +16,7 @@ Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVW
 Part 1: Hardware Build
 ---------------------
 
-1. Follow the build instructions for lab 2: `lab 2 assembly instructions <https://drive.google.com/file/d/1xkli-Mg0iUog6XsUrviYll4hlnVv-qmk/view?usp=sharing>`_. You will build a front right leg for Pupper in this lab. Begin by checking to see that your kits contain all the pieces, if not, please ask a TA. 
+1. Follow the build instructions for lab 2: `lab 2 assembly instructions <https://docs.google.com/document/d/1jCqj1T7KutTvN4xtqhfZKq_geUFmTS2dFaMClAOzAzM/edit?tab=t.0>`_. You will build a front right leg for Pupper in this lab. Begin by checking to see that your kits contain all the pieces, if not, please ask a TA. 
 
 Part 2: Setup
 ------------
