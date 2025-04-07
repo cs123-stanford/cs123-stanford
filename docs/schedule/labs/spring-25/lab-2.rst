@@ -50,7 +50,7 @@ Before we start implementing the ``TODOs``, let's understand the structure of th
 Part 4: Implementing Forward Kinematics
 --------------------------------------
 
-For the following steps, you can view the Pupper CAD to help you understand the kinematic chain `CAD <https://cad.onshape.com/documents/97a1bc3e752ec66822dbb5bb/w/c7f9232ccbc53a2e3f6ee909/e/74c0b3caf828b9fd1994bcd6?renderMode=0&uiState=67f1c37599fde447b364a89c>_`
+For the following steps, you can view the Pupper CAD to help you understand the kinematic chain `CAD <https://cad.onshape.com/documents/97a1bc3e752ec66822dbb5bb/w/c7f9232ccbc53a2e3f6ee909/e/74c0b3caf828b9fd1994bcd6?renderMode=0&uiState=67f1c37599fde447b364a89c>`_
 
 Step 1: Implement Rotation Matrices
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
