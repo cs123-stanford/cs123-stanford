@@ -142,7 +142,7 @@ Part 4: Run and Test Your Implementation
 **DELIVERABLE:** Take a video of the robot leg tracking the triangular trajectory and submit it with your submission. The triangle motion should be smooth and continuous based on your implementation.
 
 Part 5: Analyze and Improve Performance
-
+---------------------------------------
 
 1. Modify the ``ik_timer_period`` and ``pd_timer_period`` to see how they affect the system's performance.
 
@@ -159,7 +159,7 @@ Part 5: Analyze and Improve Performance
 
 **DELIVERABLE:** Say you are running this controller for a Pupper walking trajectory. What will the behavior look like if K_p is too low?
 
-Part 5: Test Neural Controller
+Part 6: Test Neural Controller
 ---------------------------------------
 
 1. Now that you have built the full Pupper, we can deploy the default walking policy to see how Pupper walks around! To do this, first connect the PS5 controller to Pupper via Bluetooth. To put the PS5 controller into pairing mode, hold down the create button and PlayStation buttons (Follow these directions on `first time setup <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>_` Open the Bluetooth settings with the Desktop, and connect to the device "DualSense Controller". 
