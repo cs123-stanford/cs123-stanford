@@ -142,7 +142,7 @@ Part 4: Run and Test Your Implementation
 **DELIVERABLE:** Take a video of the robot leg tracking the triangular trajectory and submit it with your submission. The triangle motion should be smooth and continuous based on your implementation.
 
 Part 5: Analyze and Improve Performance
----------------------------------------
+
 
 1. Modify the ``ik_timer_period`` and ``pd_timer_period`` to see how they affect the system's performance.
 
@@ -158,6 +158,25 @@ Part 5: Analyze and Improve Performance
 **DELIVERABLE:** What is the behavior of the optimizer when the initial guess is very poor?
 
 **DELIVERABLE:** Say you are running this controller for a Pupper walking trajectory. What will the behavior look like if K_p is too low?
+
+Part 6: Test Neural Controller
+---------------------------------------
+
+1. Now that you have built the full Pupper, we can deploy the default walking policy to see how Pupper walks around! To do this, first connect the PS5 controller to Pupper via Bluetooth. To put the PS5 controller into pairing mode, hold down the create button and PlayStation buttons (Follow these directions on `first time setup <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>_` Open the Bluetooth settings with the Desktop, and connect to the device "DualSense Controller". 
+
+2. Place Pupper on the stand, and run neural controller with
+
+   .. code-block:: bash
+
+      ros2 launch neural_controller launch.py
+
+This should start the default walking policy for Pupper. Once you have run this, you should be able to use the PS5 controller to walk Pupper around!
+
+    .. note::
+
+        Neural controller is the repository on Pupper that controls the reinforcement learning policy for the walking gait. Running the neural controller launch file will launch all the necessary ROS2 nodes for walking Pupper, so you won't need to implement that yourself. By default, Pupper comes with the latest and greatest RL policy that has been trained, and you will experiment with your own policies during Lab 5! 
+
+**DELIVERABLE:** Take a video of Pupper walking around and upload it to your Google Drive link. If you notice that anything does not look right (i.e. Pupper isn't able to cleanly walk), please talk to a TA so that we can debug!
 
 Additional Notes
 ----------------
