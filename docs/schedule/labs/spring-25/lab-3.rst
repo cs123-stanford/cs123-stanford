@@ -25,7 +25,7 @@ Part 0: Setup
 
    <iframe src="docs/schedule/labs/spring-25/lab_2_3_build_instructions.pdf" width="100%" height="500px"></iframe>
 
-1. Clone the lab 3 code repository on your Raspberry Pi:
+2. Clone the lab 3 code repository on your Raspberry Pi:
 
    .. code-block:: bash
 
@@ -34,16 +34,16 @@ Part 0: Setup
 
    Note: Ensure the folder name is ``lab_3``. If different, update the launch file accordingly.
 
-2. Open the workspace in VSCode:
+3. Open the workspace in VSCode:
 
    .. code-block:: bash
 
       cd ~/lab_3
       code .
 
-3. Examine ``lab_3.py`` to understand the structure of the ``InverseKinematics`` class and its methods.
+4. Examine ``lab_3.py`` to understand the structure of the ``InverseKinematics`` class and its methods.
 
-4. Change all 12 occurrences of homing_kp values back to 5.5 and homing_kd values back to 0.2 in the ``~/ros2_ws/src/pupper_v3_description/description/components.xacro`` file to undo the changes from lab 2. This way, Pupper's legs will be powerful enough to move again!
+5. Change all 12 occurrences of homing_kp values back to 5.5 and homing_kd values back to 0.2 in the ``~/ros2_ws/src/pupper_v3_description/description/components.xacro`` file to undo the changes from lab 2. This way, Pupper's legs will be powerful enough to move again!
 
 Part 1: Forward Kinematics (already done in lab 2)
 ------------------------------------
