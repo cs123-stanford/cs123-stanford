@@ -67,20 +67,22 @@ Part 2: Implement Inverse Kinematics
 - Return the sum of squared L1 distances as the cost (AKA the squared L2 norm of the error vector).
 
 **TODO 2:** Implement the ``gradient(theta, epsilon)`` function for inverse kinematics.
-.. note::
-   **Understanding Numerical Gradient Calculation**
 
-   For numerical gradient calculation, we use the finite difference method to approximate the gradient of the cost function with respect to each joint angle. For a joint angle θᵢ, we calculate:
+    .. note::
 
-   .. math::
-
-      \frac{\partial C}{\partial \theta_i} \approx \frac{C(\theta_i + \epsilon) - C(\theta_i - \epsilon)}{2\epsilon}
-
-   where:
-   
-   - C(θ) is the cost function (squared L2 norm of end-effector position error)
-   - ε is a small value (e.g., 1e-3)
-   - θᵢ is the i-th joint angle
+       **Understanding Numerical Gradient Calculation**
+    
+       For numerical gradient calculation, we use the finite difference method to approximate the gradient of the cost function with respect to each joint angle. For a joint angle θᵢ, we calculate:
+    
+       .. math::
+    
+          \frac{\partial C}{\partial \theta_i} \approx \frac{C(\theta_i + \epsilon) - C(\theta_i - \epsilon)}{2\epsilon}
+    
+       where:
+       
+       - C(θ) is the cost function (squared L2 norm of end-effector position error)
+       - ε is a small value (e.g., 1e-3)
+       - θᵢ is the i-th joint angle
 
 **TODO 3:** Implement the gradient descent algorithm for inverse kinematics.
 
