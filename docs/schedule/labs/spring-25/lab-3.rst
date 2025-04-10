@@ -5,7 +5,7 @@ Goal
 ----
 Implement inverse kinematics for a robot leg and create a trajectory tracking system using ROS2.
 
-`Lab slides <https://docs.google.com/presentation/d/1NvK2dUOB0lqD47rk3x3e-lUMVMnwtgSr/edit#slide=id.g2f9b22e15a6_0_233>`_ 
+Lab Review Slides: `Lab 3 slides <https://docs.google.com/presentation/d/1NvK2dUOB0lqD47rk3x3e-lUMVMnwtgSr/edit#slide=id.g2f9b22e15a6_0_233>`_ 
 
 Please also fill out the `lab document <https://docs.google.com/document/d/1X1UOZr6DPuhhVHxnpaHo7VfXr0YNnqKPDF-i4rvzxN8/edit?usp=sharing>`_ .
 
@@ -23,7 +23,7 @@ Part 0: Setup
 
     .. raw:: html
 
-       <iframe src="../../../_static/lab_2_3_build_instructions.pdf" width="100%" height="500px"></iframe>
+       <iframe src="../../../_static/lab_2_3_build_instructions.pdf" width="100%" height="750px"></iframe>
 
 2. Clone the lab 3 code repository on your Raspberry Pi:
 
