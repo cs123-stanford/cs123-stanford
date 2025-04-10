@@ -142,6 +142,8 @@ The above command will load the RVIZ config file. If you just run ``rviz``, you 
 .. note::
    While we've tested this pipeline on a Pupper and it works as expected, rviz may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
 
+**DELIVERABLE:** Take a video of the working implementation with you moving Pupper's leg and the simulation mimicking the results and upload it to the Google Drive
+
 Part 6: Analyzing the Results
 ----------------------------
 
