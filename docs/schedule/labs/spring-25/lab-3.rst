@@ -23,7 +23,7 @@ Part 0: Setup
 
     .. raw:: html
 
-       <iframe src="../../../_static/lab_2_3_build_instructions.pdf" width="100%" height="750px"></iframe>
+       <iframe src="../../../_static/lab_2_3_build_instructions.pdf" width="100%" height="600px"></iframe>
 
 2. Clone the lab 3 code repository on your Raspberry Pi:
 
