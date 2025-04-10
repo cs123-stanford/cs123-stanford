@@ -23,7 +23,7 @@ Part 0: Setup
 
 .. raw:: html
 
-   <iframe src="path/to/slides.pdf" width="100%" height="500px"></iframe>
+   <iframe src="docs/schedule/labs/spring-25/lab_2_3_build_instructions.pdf" width="100%" height="500px"></iframe>
 
 1. Clone the lab 3 code repository on your Raspberry Pi:
 
