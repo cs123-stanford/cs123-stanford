@@ -21,9 +21,9 @@ Part 0: Setup
 
 1. Build remaining legs for Pupper. Follow the build instructions to assemble the last legs of Pupper, keeping note that all the pieces for each leg are correctly labeled (each right leg piece has an R on it, and each left leg piece has an L on it).
 
-.. raw:: html
+    .. raw:: html
 
-   <iframe src="../../../schedule/labs/spring-25/lab_2_3_build_instructions.pdf" width="100%" height="500px"></iframe>
+       <iframe src="../../../schedule/labs/spring-25/lab_2_3_build_instructions.pdf" width="100%" height="500px"></iframe>
 
 2. Clone the lab 3 code repository on your Raspberry Pi:
 
