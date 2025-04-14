@@ -74,7 +74,7 @@ Part 2: Implement Inverse Kinematics
 
    .. math::
 
-      \frac{\partial C}{\partial \theta_i} \approx \frac{C(\theta_i + \epsilon) - C(\theta_i - \epsilon)}{2\epsilon}
+      `\frac{\partial C}{\partial \theta_i} \approx \frac{C(\theta_i + \epsilon) - C(\theta_i - \epsilon)}{2\epsilon}`
 
    where:
    
