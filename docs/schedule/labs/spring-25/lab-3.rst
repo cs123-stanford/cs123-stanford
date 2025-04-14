@@ -163,7 +163,7 @@ Part 5: Analyze and Improve Performance
 Part 6: Test Neural Controller
 ---------------------------------------
 
-1. Now that you have built the full Pupper, we can deploy the default walking policy to see how Pupper walks around! To do this, first connect the PS5 controller to Pupper via Bluetooth. To put the PS5 controller into pairing mode, hold down the create button and PlayStation buttons (Follow these directions on `first time setup <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>_` Open the Bluetooth settings with the Desktop, and connect to the device "DualSense Controller". 
+1. Now that you have built the full Pupper, we can deploy the default walking policy to see how Pupper walks around! To do this, first connect the PS5 controller to Pupper via Bluetooth. To put the PS5 controller into pairing mode, hold down the create button and PlayStation buttons (Follow these directions on `first time setup <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>`_). Open the Bluetooth settings with the Desktop, and connect to the device "DualSense Controller". (Ask Ankush if you have any issues with this step, JC doesn't know how to do it 🤷‍♂️) 
 
 2. Place Pupper on the stand, and run neural controller with
 
