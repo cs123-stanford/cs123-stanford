@@ -67,6 +67,7 @@ Part 2: Implement Inverse Kinematics
 - Return the sum of squared L1 distances as the cost (AKA the squared L2 norm of the error vector).
 
 **TODO 2:** Implement the ``gradient(theta, epsilon)`` function for inverse kinematics.
+
 .. note::
    **Understanding Numerical Gradient Calculation**
 
@@ -74,7 +75,7 @@ Part 2: Implement Inverse Kinematics
 
    .. math::
 
-      `\frac{\partial C}{\partial \theta_i} \approx \frac{C(\theta_i + \epsilon) - C(\theta_i - \epsilon)}{2\epsilon}`
+      \frac{\partial C}{\partial \theta_i} \approx \frac{C(\theta_i + \epsilon) - C(\theta_i - \epsilon)}{2\epsilon}
 
    where:
    
