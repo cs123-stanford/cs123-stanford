@@ -14,12 +14,19 @@ Here's what your implementation should look like when complete:
 Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVWyHrLkuw0ZJ24BPCPn_Q6XIztvR0/edit?usp=sharing>`_ as you go. Make a copy and add your responses.
 
 Part 1: Hardware Build
----------------------
+------------------------
 
-1. Follow the build instructions for lab 2: `lab 2 assembly instructions <https://docs.google.com/document/d/1BnyNjidz3wl4slsSpNX-FKdrcqZTIaPvlQBaol38we8/edit?usp=sharing>`_. You will build a front right leg for Pupper in this lab. Begin by checking to see that your kits contain all the pieces, if not, please ask a TA. 
+1. Follow the build instructions for lab 2 
+
+    .. raw:: html
+
+        <a href="https://docs.google.com/presentation/d/1LWhURxF0z4iUYnUWLJexuQ4GSN4Q30BKO6-dLN8Wb0w/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 CLICK HERE FOR LAB 2 BUILD INSTRUCTIONS 📝</a>
+
+    You will build a front right leg for Pupper in this lab. Begin by checking to see that your kits contain all the pieces, if not, please ask a TA. 
+
 
 Part 2: Setup
-------------
+---------------
 
 1. Make sure you have completed Lab 1 and are familiar with the ROS2 environment on your Raspberry Pi 5.
 
@@ -37,7 +44,7 @@ Part 2: Setup
 **DELIVERABLE:** Why do you think there are 12 occurrences of these values in the xacro file? What do you think changing them from the previous value does?
 
 Part 3: Understanding the Code Structure
---------------------------------------
+-------------------------------------------
 
 Before we start implementing the ``TODOs``, let's understand the structure of the ``lab_2.py`` file:
 
@@ -48,12 +55,12 @@ Before we start implementing the ``TODOs``, let's understand the structure of th
 5. Note that it is convention to orient the coordinate frame so that the rotation about each motor is the z axis.
 
 Part 4: Implementing Forward Kinematics
---------------------------------------
+------------------------------------------
 
 For the following steps, you can view the Pupper CAD to help you understand the kinematic chain `CAD <https://cad.onshape.com/documents/97a1bc3e752ec66822dbb5bb/w/c7f9232ccbc53a2e3f6ee909/e/74c0b3caf828b9fd1994bcd6?renderMode=0&uiState=67f1c37599fde447b364a89c>`_
 
 Step 1: Implement Rotation Matrices
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. Open ``lab_2.py`` and locate the ``forward_kinematics`` method.
 
@@ -62,7 +69,7 @@ Step 1: Implement Rotation Matrices
 **DELIVERABLE:** Which axis is typically used as the default axis for rotations in robotic systems? What angles are we rotating along the default axis? Why?
 
 Step 2: Implement Transformation Matrices
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. note::
    In the following steps, :math:`\theta` (theta) represents the motor angle.
@@ -113,7 +120,7 @@ Step 2: Implement Transformation Matrices
 2. Why is there a 1 in the bottom-right corner of a homogeneous transformation matrix?
 
 Part 5: Testing Your Implementation
----------------------------------
+-------------------------------------
 
 1. Save your changes to ``lab_2.py``.
 
@@ -145,7 +152,7 @@ The above command will load the RVIZ config file. If you just run ``rviz``, you 
 **DELIVERABLE:** Take a video of the working implementation with you moving Pupper's leg and the simulation mimicking the results and upload it to the Google Drive
 
 Part 6: Analyzing the Results
-----------------------------
+--------------------------------
 
 1. Record the end-effector positions for the front right leg configurations.
 
@@ -164,7 +171,7 @@ Part 6: Analyzing the Results
 2. How does computational complexity of FK scale with respect to degree of freedom (number of motor angles)? Please use big O notation.
 
 Additional Challenges (Optional)
--------------------------------
+----------------------------------
 
 If you finish early and want to explore further:
 
