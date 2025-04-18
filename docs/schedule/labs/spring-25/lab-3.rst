@@ -21,12 +21,15 @@ Part 0: Setup
 
 1. Build remaining legs for Pupper. Follow the build instructions to assemble the last legs of Pupper, keeping note that all the pieces for each leg are correctly labeled (each right leg piece has an R on it, and each left leg piece has an L on it).
 
-    `Instructions slide deck <https://docs.google.com/presentation/d/1LWhURxF0z4iUYnUWLJexuQ4GSN4Q30BKO6-dLN8Wb0w/edit?usp=sharing>`_
+    .. raw:: html
 
+        <a href="https://docs.google.com/presentation/d/1LWhURxF0z4iUYnUWLJexuQ4GSN4Q30BKO6-dLN8Wb0w/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 Open build instructions in new tab 📝</a>
+
+    
     .. raw:: html
 
        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRHYkkOR1CYsA7x-u3RZAFrIjvhlZBjibNNWEvTePSsiXtnQ3fwN75Bu6I5iVGKe202sfwx_FWMzLbF/pubembed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-
+    
 2. Clone the lab 3 code repository on your Raspberry Pi:
 
    .. code-block:: bash
