@@ -77,7 +77,7 @@ This is just to ensure that the motors are calibrated and connected before build
 
 
 Step 4. Assemble the three motors into a right robot arm!
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **IMPORTANT**: Make sure you calibrated the motors before assembling the arm!
 
@@ -90,6 +90,7 @@ The robot arm we're making is actually one of Pupper's right legs so you'll see 
     </div>
     
 |
+
 **Assembly Pro Tips**
 
 #. Use the tip of the hex driver to align the shoulder bolt with the square nut. This will make assembly much easier.
@@ -226,12 +227,12 @@ Step 4. Make a safety box
 **DELIVERABLE: Submit a video of you moving the robot arm outside of the safety bounds, and the serial monitor output printing an outside bounds message**
 
 Step 5. Do the `safety dance <https://www.youtube.com/watch?v=nM4okRvCg2g&ab_channel=MenWithoutHatsVEVO>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #. Make a function to vibrate the motors (high frequency, low amplitude alternating torque command) 
 #. If you program an alternating torque, a safe range for the amplitude is around 800 - 3000mA. Any lower is barely perceptible.
 #. Run the function whenever the robot end effector leaves the safety box. A suggested implementation is to alternate the torque current command on each control loop iteration. 
 
-**DELIVERABLE: Submit a video of you moving the robot arm outside of the safety bounds, and the arm's haptic feedback response. Report what amplitude you chose for the haptic feedback. **
+**DELIVERABLE: Submit a video of you moving the robot arm outside of the safety bounds, and the arm's haptic feedback response. Report what amplitude you chose for the haptic feedback**
 
 [gif of completed project]
 

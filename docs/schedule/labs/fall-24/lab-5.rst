@@ -1,5 +1,5 @@
 Lab 5: How to Train Your Dog
-========================
+=============================
 
 *Goal: Train Pupper to walk using reinforcement learning!*
 
@@ -95,6 +95,7 @@ Step 5. Deploy your walking policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 |
+
 Transfer policy from local machine to pupper
 
 #. Download the `deploy script <https://drive.google.com/file/d/1QGo_Xxu2WMjDWeD3gIkbu1fEC68U6osG/view?usp=sharing>`_ on your local machine 

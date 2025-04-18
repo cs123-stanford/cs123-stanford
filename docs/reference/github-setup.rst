@@ -1,10 +1,10 @@
 GitHub Setup Guide
-=================
+====================
 
 This page contains instructions for setting up your GitHub account on Pupper and uploading the labs into your shared repository.
 
 Setup a Shared Repository
-************************
+***************************
 
 1. Log into GitHub on your browser and go to github.com/new to create a new repository.
 
@@ -46,7 +46,7 @@ You can access the repository by clicking the green "Code" button and copying th
        :alt: Adding collaborators
 
 Set Up SSH Authentication on Pupper
-*********************************
+************************************
 
 The most secure and convenient way to connect your GitHub account to Pupper is using SSH keys. This eliminates the need to enter your password for every push or pull operation.
 
@@ -104,7 +104,7 @@ The most secure and convenient way to connect your GitHub account to Pupper is u
       ssh-add ~/.ssh/id_ed25519
 
 Uploading Labs to Your Shared Repository
-**************************************
+*****************************************
 
 Since you'll be managing multiple labs in one repository, create a new branch for each lab. Here's how to upload Lab 1:
 
@@ -153,7 +153,7 @@ Since you'll be managing multiple labs in one repository, create a new branch fo
        :alt: Lab code published on GitHub
 
 Need Help?
----------
+------------
 
 If you encounter any issues:
 

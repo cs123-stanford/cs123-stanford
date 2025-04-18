@@ -5,8 +5,8 @@ Goal
 ----
 Get set up with the Raspberry Pi 5 hardware and build a robot that you can program PD control on using ROS2.
 
-Shared Resources with your Groupmates
-------------------------------------
+Shared Resources with your Group mates
+---------------------------------------
 To better organize all the weekly lab materials, create a Google Drive folder to share with your groupmates. In addition, create a shared GitHub repository that manages all the code from this course. You will need to submit your lab document and Github repository link to Gradescope for your lab submissions.
 
 Lab Document
@@ -27,9 +27,20 @@ Part 0: Setup
 
 3. Connect to the Raspberry Pi
 
-4. Follow along the assembly instructions to build the robot body with motor dials: `Assembly Instructions <https://docs.google.com/document/d/1q8fPqm_bhlwHmILuobURRyoo6m_3RJs6tRxeRqJo68Q/edit?usp=sharing>`_
+4. Follow along the assembly instructions to build the robot body with motor dials: 
 
-   - Your SUB should come pre-flashed with the operating system. The Raspberry Pi will boot from the memory on this drive. When you power on the Raspberry Pi, it will automatically boot from this card. If your micro SD card is not pre-flashed, you can flash it using the image at this link: `Lab 1-4 Image <https://drive.google.com/file/d/1BXUFaCqLZ9H7kJZK7IrqmrmT6vTUMl8a/view>`_. Use Balena Etcher to flash: `Download Balena Etcher <https://etcher.balena.io/>`_.
+.. raw:: html
+
+        <a href="https://docs.google.com/presentation/d/1ybz-m6Xk-nR6OFQyP0X7pHQipVa2lH8aqp8fa5Zu2Kw/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 Open build instructions in new tab 📝</a>
+
+    
+.. raw:: html
+
+       <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT-untWBUKveG9a8hIGxY4dZnkajODhnuP6juyWcETcsVZ6lx1Ob8acVXTcirVsqF7S5w5ttSK95d0J/pubembed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    
+
+
+Your SUB should come pre-flashed with the operating system. The Raspberry Pi will boot from the memory on this drive. When you power on the Raspberry Pi, it will automatically boot from this card. If your micro SD card is not pre-flashed, you can flash it using the image at this link: `Lab 1-4 Image <https://drive.google.com/file/d/1BXUFaCqLZ9H7kJZK7IrqmrmT6vTUMl8a/view>`_. Use Balena Etcher to flash: `Download Balena Etcher <https://etcher.balena.io/>`_.
 
 Option 1: Connect via the Monitor Setup (Recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -42,8 +53,9 @@ Option 1: Connect via the Monitor Setup (Recommended)
 
 OPTION 2: Connect via SSH (Only if you do not have a monitor setup)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   Secure Shell is a network protocol that provides a secure way to access and manage remote computers over an unsecured network. It offers strong authentication and encrypted data communications between two computers connecting over an open network such as the internet. 
-   (You're probably very familiar with SSH if you've taken CS107, 111, or have worked with the SAIL cluster.)
+Secure Shell is a network protocol that provides a secure way to access and manage remote computers over an unsecured network. It offers strong authentication and encrypted data communications between two computers connecting over an open network such as the internet. 
+(You're probably very familiar with SSH if you've taken CS107, 111, or have worked with the SAIL cluster.)
+
     - Connect your laptop to the Pupper robot using the Ethernet cable.
     - Enable internet sharing in system settings (turn on anything that looks like Ethernet).
     - SSH into the Raspberry Pi through terminal: ``ssh pi@pupper.local`` (password: rhea123). If you would like to use VSCode/Cursor, you can also connect to the Raspberry Pi using the Remote - SSH extension (Open Command Palette with CMD+SHIFT_P -> Remote-SSH: Connect to Host -> ssh)
@@ -56,7 +68,7 @@ OPTION 2: Connect via SSH (Only if you do not have a monitor setup)
     Enable internet sharing in system settings.
 
 Part 1: ROS2 Introduction
-------------------------
+----------------------------
 
 1. We'll be using ROS2 (Robot Operating System) throughout this course. ROS2 provides tools, libraries, and conventions that facilitate building robotic applications and allow different parts of the robot to interact with each other.
 

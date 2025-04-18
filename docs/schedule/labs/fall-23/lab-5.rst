@@ -1,5 +1,5 @@
 Lab 5: How to Train Your Dog
-========================
+============================
 
 *Goal: Use RL to control your Pupper.*
 
@@ -20,6 +20,7 @@ Step 2. Deploy Stand High Policy
     </div>
 
 |
+
 Transfer policy from local machine to pupper
 #. The model is a .pt file under the log folder name (e.g., “model_700.pt”)
 #. ‘scp [model name] pi@raspberrypi.local:’ (note the colon at the end)
@@ -32,7 +33,7 @@ Transfer policy from local machine to pupper
 DELIVERABLE: Take video of stand-up
 
 
-.. figure:: ../_static/motor_ids.png
+.. figure:: ../../../_static/motor_ids.png
     :align: center
     
     Motor ID diagram
@@ -73,7 +74,7 @@ DELIVERABLE: What other terms could you randomize?
 
 
 
-.. figure:: ../_static/djipupper_photos/startup-position.png
+.. figure:: ../../../_static/djipupper_photos/startup-position.png
     :align: center
     
     Startup position.
@@ -105,7 +106,7 @@ Resources
 
 Wiring diagram
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. figure:: ../_static/wiring-diagram.png
+.. figure:: ../../../_static/wiring-diagram.png
     :align: center
     
     Wiring diagram.

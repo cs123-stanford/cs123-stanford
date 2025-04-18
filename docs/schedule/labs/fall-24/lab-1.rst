@@ -180,15 +180,15 @@ Step 5: Implement PD Control
 
     PID Control Equation. 
 
-   Where:
-   
-   - ``tau`` is the commanded torque for the motor
-   - ``theta_target`` is the target angle
-   - ``omega_target`` is the target angular velocity (usually 0)
-   - ``theta_current`` is the current motor angle
-   - ``omega_current`` is the current motor angular velocity
-   - ``Kp`` and ``Kd`` are the proportional and derivative gains
-   - ``r(t)`` known as a feedforward_term, is a constant term that you can use send a constant torque to the motor. For us, we just use 0. 
+    Where:
+    
+    - ``tau`` is the commanded torque for the motor
+    - ``theta_target`` is the target angle
+    - ``omega_target`` is the target angular velocity (usually 0)
+    - ``theta_current`` is the current motor angle
+    - ``omega_current`` is the current motor angular velocity
+    - ``Kp`` and ``Kd`` are the proportional and derivative gains
+    - ``r(t)`` known as a feedforward_term, is a constant term that you can use send a constant torque to the motor. For us, we just use 0. 
 
 3. Run your code ``python lab_1.py`` and observe the behavior of the PD controller.
 
@@ -216,23 +216,24 @@ Step 7: Experiment with Delays in the System
 1. Introduce a delay in the system by adding a buffer in the current motor angle and velocity readings. This simulates the delay in the physical system.
 2. Experiment with different delay values (e.g., several steps of delay).
 
-   .. code-block:: python
-      from collections import deque
+    .. code-block:: python
+        
+        from collections import deque
 
-      # In your initialization:
-      self.delay_buffer_size = int(delay_seconds * control_frequency)
-      self.angle_buffer = deque(maxlen=self.delay_buffer_size)
-      self.velocity_buffer = deque(maxlen=self.delay_buffer_size)
+        # In your initialization:
+        self.delay_buffer_size = int(delay_seconds * control_frequency)
+        self.angle_buffer = deque(maxlen=self.delay_buffer_size)
+        self.velocity_buffer = deque(maxlen=self.delay_buffer_size)
 
-      # In your control loop:
-      self.angle_buffer.append(joint_pos)
-      self.velocity_buffer.append(joint_vel)
-      joint_pos = self.angle_buffer[0]
-      joint_vel = self.velocity_buffer[0]
+        # In your control loop:
+        self.angle_buffer.append(joint_pos)
+        self.velocity_buffer.append(joint_vel)
+        joint_pos = self.angle_buffer[0]
+        joint_vel = self.velocity_buffer[0]
 
-      #####
-      # You can also instead delay the output torque
-      #####
+        #####
+        # You can also instead delay the output torque
+        #####
 
 **DELIVERABLE:** Report your findings in your lab document. How does the delay affect the performance of the PD controller?
 

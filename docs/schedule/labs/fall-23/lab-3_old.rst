@@ -2,9 +2,10 @@ Lab 3 - Forward Kinematics (WIP)
 =======================================================
 
 .. contents:: :depth: 2
-*Goal: 1) Learn how to compute forward kinematics 2) Become familiar with simulation-to-real pipeline.*
 
-.. figure:: ../_static/teleop.jpeg
+* Goal: 1) Learn how to compute forward kinematics 2) Become familiar with simulation-to-real pipeline.*
+
+.. figure:: ../../../_static/teleop.jpeg
     :align: center
     
     TODO: picture of sim and real robot together
@@ -45,6 +46,7 @@ The result should look something like this
     </div>
 
 |
+
 **Debugging tips**
 
 #. Use numpy operators for your matrix operations

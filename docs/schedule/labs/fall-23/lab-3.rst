@@ -3,7 +3,7 @@ Lab 3: Copy Cat (Dog...)
 
 *Goal: 1) Learn how to compute inverse kinematics 2) Use IK to create a mirroring setup.*
 
-.. figure:: ../_static/teleop.jpeg
+.. figure:: ../../../_static/teleop.jpeg
     :align: center
     
     TODO: picture of sim and real robot together
@@ -54,7 +54,7 @@ Notes:
 * You might need to change the sign of some of your joint angle commands because the second arm is a right-sided leg instead of a left-sided leg.
 
 (Old) IK Lecture
-------------
+-----------------
 
 .. raw:: html
 

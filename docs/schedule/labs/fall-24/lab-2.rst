@@ -8,12 +8,12 @@ Implement forward kinematics for the right front leg of the Pupper robot using R
 Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVWyHrLkuw0ZJ24BPCPn_Q6XIztvR0/edit?usp=sharing>`_ as you go. Make a copy and add your responses.
 
 Part 1: Hardware Build
--------------
+--------------------------
 
 1. Follow the build instructions for lab 2: `lab 2 assembly instructions <https://drive.google.com/file/d/1xkli-Mg0iUog6XsUrviYll4hlnVv-qmk/view?usp=sharing>`_. You will build a front right leg for Pupper in this lab. Begin by checking to see that your kits contain all the pieces, if not, please ask a TA. 
 
 Part 2: Setup
--------------
+--------------------------
 
 1. Make sure you have completed Lab 1 and are familiar with the ROS2 environment on your Raspberry Pi 5.
 

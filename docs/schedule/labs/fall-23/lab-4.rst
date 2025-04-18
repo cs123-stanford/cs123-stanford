@@ -21,7 +21,7 @@ Note: You can skip this step if you completed your bottom PCB in lab 1
 Congrats! You finished the first step. 
 
 Step 2. Configure IDs and Calibrate the Motor Conotrollers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. youtube:: FpVTkltykIs
    :width: 640
    :height: 480
@@ -39,7 +39,7 @@ For each motor/motor controller pair:
 
 5. Mark the ID number on your controller. DONT FORGET.
 
-**NOTE: Correctly matching motor IDs and labelling is EXTREMELY IMPORTANT. If you do this incorrectly, you will later have to rebuild the robot.
+**NOTE**: Correctly matching motor IDs and labelling is EXTREMELY IMPORTANT. If you do this incorrectly, you will later have to rebuild the robot.
 
 6. Repeat these steps for all motors. Use this diagram to ensure you have the correct IDs set on your motor controllers. For each bulkhead you should have:
 
@@ -64,7 +64,7 @@ Left knee motor: 6
 Step 3. Assemble the legs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 IMPORTANT: Calibrate your motors BEFORE attaching to legs. Please redo this step if legs were improperly constructed in Lab 2.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. youtube:: LBls9kuRTzE
    :width: 640
    :height: 480
@@ -84,7 +84,7 @@ IMPORTANT: Calibrate your motors BEFORE attaching to legs. Please redo this step
 
 10. Fasten a motor to the hip bracket using M3 screws. IMPORTANT! The hip bracket you are using MUST MATCH the directionality of the leg. (Left leg with left hip, right leg with right hip). Also, the motor you are attaching is motor 5 if you're working with the left leg, and motor 2 if you're working with the right. Use the arrow to determine the appropriate orientation of the cabling. Insert the short cabling sleeve, and secure on one side with zipties.
 11. Insert the short cable sleeving over the motor cable. Secure one side with zip ties.
-2. Insert a square nut into the hip braket and make sure it is properly aligned with the shoulder screw hole using the screwdriver. 
+12. Insert a square nut into the hip braket and make sure it is properly aligned with the shoulder screw hole using the screwdriver. 
 13. Secure the hip bracket to the upper leg. The flat part of the motor shaft should once again be aligned with the hole on the upper leg. Double check the hip side matches the lower leg side (R with R, L with L).
 
 14. Repeat the above steps until you have 4 completed legs (2 left, 2 right).

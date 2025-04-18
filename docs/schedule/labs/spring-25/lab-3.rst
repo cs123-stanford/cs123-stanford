@@ -1,5 +1,5 @@
 Lab 3: Inverse Kinematics and Trajectory Tracking
-================================================
+===================================================
 
 Goal
 ----
@@ -14,6 +14,7 @@ Please also fill out the `lab document <https://docs.google.com/document/d/1X1UO
     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
         <iframe src="https://www.youtube.com/embed/ygwWZw50yw0" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
     </div>
+
 |
 
 Part 0: Setup
@@ -51,7 +52,7 @@ Part 0: Setup
 5. Change all 12 occurrences of homing_kp values back to 5.5 and homing_kd values back to 0.2 in the ``~/ros2_ws/src/pupper_v3_description/description/components.xacro`` file to undo the changes from lab 2. This way, Pupper's legs will be powerful enough to move again!
 
 Part 1: Forward Kinematics (already done in lab 2)
-------------------------------------
+---------------------------------------------------
 
 1. Open ``lab_3.py`` and locate the ``forward_kinematics`` method in the ``InverseKinematics`` class.
 

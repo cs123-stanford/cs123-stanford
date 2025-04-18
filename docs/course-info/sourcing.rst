@@ -4,7 +4,7 @@ Sourcing Course Materials
 Information on how to source hardware and software designed for this course.
 
 Bill of Materials
-****************
+*******************
 
 `Google Spreadsheet <https://docs.google.com/spreadsheets/d/1bBOLKW8H1USuYceicysmQDFFNKppdMyQEPMLrj4tG4s/edit#gid=1173276264>`_
 

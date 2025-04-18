@@ -7,7 +7,7 @@ DJI C610 motor controller
 `--> Manual <-- <https://drive.google.com/file/d/1L8oGLUJuZ96MB90XeFtk1E01sL-Uh4BW/view>`_
 
 Motor does not move
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 * If the motor controller is blinking abnormally or beeping, read page 6 of the manual linked above
 * Power cycle the ENTIRE system (including Teensy and motors)

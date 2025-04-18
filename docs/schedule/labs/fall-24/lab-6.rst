@@ -170,7 +170,7 @@ Step 5. Make ChatGPT command the KarelPupper API
 
 5. Run your code. In a first terminal, run the commands
 
-**IMPORTANT NOTE:** Remember to comment the line that has ``rclpy.init()`` in Line 14 of `~/pupper_llm/pupper_llm/karel/karel.py if you have not already done so to run the GPT commander.
+**IMPORTANT NOTE:** Remember to comment the line that has ``rclpy.init()`` in Line 14 of `~/pupper_llm/pupper_llm/karel/karel.py if you have not already done so to run the GPT commander`.
 
    .. code-block:: bash
 

@@ -40,36 +40,3 @@ The course has been taught at Stanford, UW, WashU, Foothills College, Brandeis, 
 **Enrollment capacity:** 20
 
 **Waitlist:** 10
-
-
-.. toctree::
-    :maxdepth: 1
-    :caption: Course information
-  
-    course-info/syllabus
-    course-info/schedule
-    course-info/sourcing
-
-.. toctree::
-    :maxdepth: 2
-    :caption: Course material
-
-    course-material/fall-23/lab-1
-    course-material/fall-23/lab-2
-    course-material/fall-23/lab-3
-    course-material/fall-23/lab-4
-    course-material/fall-23/lab-5
-    course-material/fall-23/lab-6
-    course-material/fall-23/lab-7
-    course-material/fall-23/lab-8
-    course-material/final-project
-
-.. toctree::
-    :maxdepth: 1
-    :caption: References
-
-    reference/faq
-    reference/rpi-reference
-    reference/design
-    reference/libraries
-    reference/dji_reference
