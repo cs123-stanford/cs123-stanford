@@ -73,6 +73,7 @@ Schedule
    "Week 1: 3/31", ":doc:`../schedule/lectures/spring-25/lec-1`", ":doc:`../schedule/labs/spring-25/lab-1`", "4/7/25", ""
    "Week 2: 4/7", ":doc:`../schedule/lectures/spring-25/lec-2`", ":doc:`../schedule/labs/spring-25/lab-2`", "4/14/25", ""
    "Week 3: 4/14", ":doc:`../schedule/lectures/spring-25/lec-3`", ":doc:`../schedule/labs/spring-25/lab-3`", "4/21/25", ":doc:`../schedule/labs/spring-25/opt-lab-1`"
+   "Week 4: 4/21", ":doc:`../schedule/lectures/spring-25/lec-4`", ":doc:`../schedule/labs/spring-25/lab-4`", "4/28/25", ""
 
 **References:** :doc:`../reference/references`
 
