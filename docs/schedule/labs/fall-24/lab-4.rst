@@ -103,19 +103,33 @@ Part 6: Analyze and Improve Performance
 
 2. Adjust the ``ik_timer_period`` to find the best balance between performance and computational load.
 
+3. As described in lecture, the center of mass of the robot influences how the robot can walk, whether forward or backward. Play around with the offset values in the ``ee_positions``, and see how that affects performance. 
+
 **DELIVERABLE:** Implement two gaits for Pupper. Make Pupper walk fast, and walk slow. Include videos of Pupper walking fast and walking slow with your submission to Gradescope
 
 **DELIVERABLE:** In your lab document, report on:
 
 - The effects of different trajectory shapes on the trotting gait
 - How timer periods affect the system's performance
+- What do you notice about the effect of the center of mass offset?
+
+Part 7: Make Pupper Even Faster, and Race!
+---------------------------------------
+
+1. Think about ways you can make Pupper walk/run even faster (you can change the timer frequencies, stride lengths, end-effector positions, etc to make Pupper even faster). *HINT* The positions defined after the ``init()`` function in the InverseKinematics class, define each of the stances. 
+
+**DELIVERABLE:** Report on what you tried to make Pupper go faster. What worked and what didn't? 
+
+2. Time your Pupper's speed to go 10 feet (marked by the tape measure) and race against other groups! *The fastest group will get a prize!*
+
+**DELIBERABLE:** Take a video of you timing Pupper completing the course, and report the fastest time you were able to make Pupper go!
+
 
 Extension
 ---------------------------------------
 
-1. As described in lecture, the center of mass of the robot influences how the robot can walk, whether forward or backward. Play around with the offset values in the ``ee_positions``, and see how that affects performance. 
 
-2. The positions defined after the ``init()`` function in the InverseKinematics class, define each of the stances. Play around with these values and you can discover some new gaits!
+
 
 Additional Notes
 ----------------
