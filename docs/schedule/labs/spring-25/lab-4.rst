@@ -90,7 +90,8 @@ Part 5: Run and Test Your Implementation
 
    .. code-block:: bash
 
-      ros2 launch lab_4 lab_4.launch.py
+      cd ~/lab_4
+      ros2 launch lab_4.launch.py
 
 2. Observe the robot's movement and the terminal output.
 
