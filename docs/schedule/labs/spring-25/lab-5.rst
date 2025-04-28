@@ -236,9 +236,11 @@ Transfer policy from local machine to Pupper
 
 Remember to press the square button on the remote controller to switch to your trained policy!
 
-**DELIVERABLE**: In what ways is this policy different on the physical robot (compared to simulation)? We roboticists call this difference the "sim2real gap" (I think Jie invented this terminology for training robot dogs).
+**DELIVERABLE:** In what ways is this policy different on the physical robot (compared to simulation)? We roboticists call this difference the "sim2real gap" (I think Jie invented this terminology for training robot dogs).
 
-**DELIVERABLE**: Take a video of Pupper walking! Do you notice any differences when Pupper is walking on different surfaces?
+**DELIVERABLE:** Take a video of Pupper walking! Do you notice any differences when Pupper is walking on different surfaces?
+
+**DELIVERABLE:** Inspect Pupper's gait on each leg, and compare it to the triangle gait from the heuristics walking lab. Do Pupper's legs move in a similar traingle motion in the gait you discovered? Write a few sentences about the similarities and differences you notice. 
 
 .. figure:: ../../../_static/walker.gif
    :align: center
