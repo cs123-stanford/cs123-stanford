@@ -3,7 +3,7 @@ Lab 5: How to Train Your Dog
 
 *Goal: Train Pupper to walk using reinforcement learning!*
 
-`Lab slides <https://docs.google.com/presentation/d/1APi029vOGI_dR0Vrvh3glQ0Bw61qV4XP/edit?usp=sharing&ouid=117110374750562018236&rtpof=true&sd=true>`_
+`Lab slides <https://docs.google.com/presentation/d/1M66Y04oQe-v2Rjdd5DlflRhgR0MSj-aA/edit?usp=sharing&ouid=116833000630199851799&rtpof=true&sd=true>`_
 
 `Lab document <https://docs.google.com/document/d/19SxabuzXPwqu-q0i3K2NRWW-GlK_V9ndIN5UgcBE58c/edit?usp=sharing>`_
 
@@ -16,7 +16,7 @@ We have prepared a new, Raspberry Pi native OS for Pupper! This OS enables direc
 
    .. code-block:: bash
 
-      cd ~
+      cd ~/
       ./deploy_test_policy
 
 This script without any arguments will just launch the neural controller. When provided the path to a policy file, it will overwrite that policy to the test_policy.json file, which is used by the neural controller. After you have trained a policy and saved it on Pupper, for instance as ``~/Downloads/policy.json``, you can run the following command to overwrite the test policy:
