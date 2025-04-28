@@ -12,20 +12,20 @@ Step 0. Test Pupper's new OS
 We have prepared a new, Raspberry Pi native OS for Pupper! This OS enables direct microphone control, accelerated image/audio processing, and a touch screen interface!
 
 * Try the touch screen on Pupper. Super cool, isn't it?
-* The OS has been modified to be enable more deployable walking policies. Before you start training your own, let's first make sure the new OH is working on your Pupper. Open a new terminal using ``control+alt+t``, and run the following command:
+* The OS has been modified to enable more deployable walking policies. Before you start training your own, let's first make sure the new OS is working on your Pupper. Open a new terminal using ``control+alt+t``, and run the following command:
 
    .. code-block:: bash
 
       cd ~/
       ./deploy_test_policy
 
-This script without any arguments will just launch the neural controller. When provided the path to a policy file, it will overwrite that policy to the test_policy.json file, which is used by the neural controller. After you have trained a policy and saved it on Pupper, for instance as ``~/Downloads/policy.json``, you can run the following command to overwrite the test policy:
+This script without any arguments will just launch the neural controller. When provided the path to a policy file, it will overwrite that policy to the test_policy.json file, which is used by the neural controller, and then it will ask if you would like to launch the neural controller. After you have trained a policy and saved it on Pupper, for instance as ``~/Downloads/policy.json``, you can run the following command to overwrite the test policy:
 
    .. code-block:: bash
 
       ./deploy_test_policy ~/Downloads/policy.json
 
-You will do this later after you have trained a policy, so keep this command handy Before you deploy your own policy, the test policy is the same as the default policy (which is pretty impressive as it is, and is even better than the heuristic policy!).
+You will do this later after you have trained a policy, so keep this command handy. Before you deploy your own policy, the test policy is the same as the default policy (which is pretty impressive as it is, and is even better than the heuristic policy!).
 
 * Connect your remote controller with Bluetooth or USB cable to give Pupper velocity commands. For Bluetooth setup, follow the instructions at `this link <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>`_. You can control the Pupper and switch between policies using the remote controller, as shown in the image below:
 
@@ -59,7 +59,7 @@ Step 1. Colab setup
 
 Step 2. Notebook Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Setting up a proper RL environment is an extremely time-consuming process. Although the majority of the setup is already implemented for you, it is inevitable that there are still A LOT of parameters that you can change.
+Setting up a proper RL environment is an extremely time-consuming process. Although the majority of the setup is already implemented for you, there are still many parameters that you can tune.
 
 The notebook is organized into several key sections. The notebook leverages JAX's powerful GPU acceleration to train Pupper in thousands of parallel environments simultaneously. This massive parallelization dramatically speeds up the training process, allowing us to collect large amounts of experience data efficiently. Each environment runs an independent simulation of Pupper, enabling rapid exploration of different walking strategies and faster convergence to optimal policies. The key sections are:
 
@@ -184,7 +184,7 @@ Screen recording of walking in simulation. In the video, you can see Pupper lear
 
 Step 4. Effort Conservation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-* Edit the **Reward Configuration** section to write a reward function that helps Pupper conserve effort. Think about: which rewards should be nonzero to encourage Pupper to conserve energy? Should the coefficients be positive or negative?
+* Edit the **Reward Configuration** section to write a reward function that helps Pupper conserve effort. Think about which rewards should be nonzero to encourage Pupper to conserve energy. Should the coefficients be positive or negative?
 * Rerun the notebook to initialize Pupper in a flat environment and train Pupper to walk forward more efficiently
 * Pupper should take around ~20 minutes to train. 
 
@@ -203,7 +203,7 @@ Step 4. Effort Conservation
 Step 5. Reward tuning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Now you have a gist of how to tune the reward functions, it's time to set you free! Tune the config to make Pupper smoothly follow velocities with a natural gait. Feel free to use any rewards you like (to reduce your search space, don't try tuning other parameters yet!)
+* Now that you have a gist of how to tune the reward functions, it's time to set you free! Tune the config to make Pupper smoothly follow velocities with a natural gait. Feel free to use any rewards you like (to reduce your search space, don't try tuning other parameters yet!)
 * Increase the ``training_config.ppo.num_timesteps`` to at least 300 million (in practice, Nathan used 1 billion timesteps to train a really good policy from scratch)
 * Rerun the entire notebook, and train Pupper to walk in simulation
 * Depending on the number of timesteps, the training process should take around ~30 minutes to ~2 hours. 
@@ -251,7 +251,7 @@ Step 7. Domain randomization
 Okay, so Pupper looks pretty good in sim, but the policy doesn't look so great in the real world...
 (That was a comment from Jaden before the Pupper update. Now the sim2real transfer is much better, and you should have a decent policy even without domain randomization!)
 
-To play with additional features in hope to make the policy more robust, you will need to add randomization to the sim environment. Consider randomizing parameters such as Pupper mass, environment heightfields, or PID gains.
+To play with additional features in hopes of making the policy more robust, you will need to add randomization to the sim environment. Consider randomizing parameters such as Pupper mass, environment heightfields, or PID gains.
 
 * Edit the environment config to adequately represent all the situations Pupper might encounter in the real world
 * Try several magnitudes of the domain randomization terms to see what works
