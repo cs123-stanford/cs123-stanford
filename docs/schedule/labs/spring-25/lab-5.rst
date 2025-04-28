@@ -16,6 +16,9 @@ We have prepared a new, Raspberry Pi native OS for Pupper! This OS enables direc
 
    .. code-block:: bash
 
+
+      ADD PATH FOR DEPLOY SCRIPT
+
       ./deploy_test_policy
 
 This script without any arguments will just launch the neural controller. When provided the path to a policy file, it will overwrite that policy to the test_policy.json file, which is used by the neural controller. After you have trained a policy and saved it on Pupper, for instance as ``~/Downloads/policy.json``, you can run the following command to overwrite the test policy:
@@ -24,7 +27,7 @@ This script without any arguments will just launch the neural controller. When p
 
       ./deploy_test_policy ~/Downloads/policy.json
 
-Before you deploy your own policy, the test policy is the same as the default policy.
+You will do this later after you have trained a policy, so keep this command handy Before you deploy your own policy, the test policy is the same as the default policy.
 
 * Connect your remote controller with Bluetooth or USB cable to give Pupper velocity commands. For Bluetooth setup, follow the instructions at `this link <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>`_. You can control the Pupper and switch between policies using the remote controller, as shown in the image below:
 
