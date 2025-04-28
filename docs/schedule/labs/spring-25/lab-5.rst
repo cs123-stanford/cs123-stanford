@@ -81,9 +81,7 @@ MJX Configs
 The MJX (MuJoCo + Jax) configuration controls the physics simulation environment:
 
 * **Robot Parameters**: Mass, inertia, and dimensions of Pupper's components (you should not change these)
-* **Environment**: Ground friction, terrain properties, and obstacle configurations (you should not change these for this lab)
 * **Control**: Motor dynamics, PID gains, and actuation limits (you don't need to change these for this lab)
-* **Domain Randomization**: Ranges for randomizing various parameters to improve sim-to-real transfer (you should not change these for this lab)
 
 PPO Configs
 ~~~~~~~~~~
@@ -101,16 +99,16 @@ Controls how velocity commands are generated during training:
 
 * **Linear Velocity**: Range for forward/backward and lateral movement
 * **Angular Velocity**: Range for turning commands
-* **Zero Command Probability**: Chance of receiving a zero-velocity command
-* **Stand Still Threshold**: Velocity threshold below which commands are considered "standing still"
+* **Zero Command Probability**: Chance of receiving a zero-velocity command (you should not change these for this lab)
+* **Stand Still Threshold**: Velocity threshold below which commands are considered "standing still" (you should not change these for this lab)
 
 Termination Conditions
 ~~~~~~~~~~~~~~~~~~~
 Defines when an episode should end:
 
-* **Body Height**: Episode ends if body center goes below a certain height
-* **Body Angle**: Episode ends if body angle exceeds a threshold
-* **Early Termination**: Allows episodes to end before reaching maximum length
+* **Body Height**: Episode ends if body center goes below a certain height (you should not change these)
+* **Body Angle**: Episode ends if body angle exceeds a threshold (you should not change these)
+* **Early Termination**: Allows episodes to end before reaching maximum length (you should not change these)
 
 Domain Randomization
 ~~~~~~~~~~~~~~~~~
@@ -118,8 +116,8 @@ Parameters that add variability to the simulation to improve robustness:
 
 * **Perturbations**: Random kicks, angular velocity noise, and gravity variations
 * **Motor Properties**: Random variations in position control gains
-* **Starting Position**: Random initial positions for training
-* **Latency**: Simulated delays in action execution and IMU readings
+* **Starting Position**: Random initial positions for training (you should not change these)
+* **Latency**: Simulated delays in action execution and IMU readings (you should not change these)
 * **Body Properties**: Random variations in mass, inertia, and center of mass
 * **Friction**: Random variations in ground friction
 
