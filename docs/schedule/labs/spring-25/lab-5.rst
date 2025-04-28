@@ -16,7 +16,7 @@ We have prepared a new, Raspberry Pi native OS for Pupper! This OS enables direc
 
    .. code-block:: bash
 
-
+      cd ~
       ./deploy_test_policy
 
 This script without any arguments will just launch the neural controller. When provided the path to a policy file, it will overwrite that policy to the test_policy.json file, which is used by the neural controller. After you have trained a policy and saved it on Pupper, for instance as ``~/Downloads/policy.json``, you can run the following command to overwrite the test policy:
