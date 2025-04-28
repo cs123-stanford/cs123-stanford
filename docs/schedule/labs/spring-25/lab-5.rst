@@ -133,6 +133,8 @@ Understanding and tuning these parameters is key to training an effective walkin
 
 **DELIVERABLE:** Before actually training a policy, what do you think will be the most important rewards to tune when training Pupper to walk forwards? What about making Pupper walk stably? Could these two factors have a combined effect and interfere? Write a few sentences in your lab document. 
 
+In addition, take a look at the implementation of the `reward function <https://github.com/JummerCloth/pupperv3-mjx/blob/main/pupperv3_mjx/environment.py>`_ in lines 445 and 446. Explain the implementation here in words and how the rewards dict that you edited above transfers to the actual reward.
+
 Step 3. Velocity tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Let's implement a naive reward function for Pupper velocity tracking
@@ -190,8 +192,6 @@ Step 4. Effort Conservation
 * Pupper should take around ~20 minutes to train. 
 
 **DELIVERABLE**: What is your reward function (in math, don't just take a screenshot from the notebook!)? Why did you choose this function? What existing reward terms could be used to make Pupper conserve energy, and what are their potential pros and cons? Are there any rewards that could be used that are not listed?
-
-**DELIVERABLE:** Take a look at the implementation of the `reward function <https://github.com/JummerCloth/pupperv3-mjx/blob/main/pupperv3_mjx/environment.py>`_ in lines 445 and 446. Explain the implementation here in words and how the rewards dict that you edited above transfers to the actual reward.
 
 **DELIVERABLE**: Qualitatively, how does this Pupper policy compare to the previous one?
 
