@@ -131,6 +131,8 @@ Environment features to test Pupper's capabilities:
 
 Understanding and tuning these parameters is key to training an effective walking policy. We will start with the basic velocity tracking reward and gradually add other terms to improve Pupper's walking behavior.
 
+**DELIVERABLE:** Before actually training a policy, what do you think will be the most important rewards to tune when training Pupper to walk forwards? What about making Pupper walk stably? Could these two factors have a combined effect and interfere? Write a few sentences in your lab document. 
+
 Step 3. Velocity tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Let's implement a naive reward function for Pupper velocity tracking
