@@ -74,7 +74,7 @@ The reward function is crucial for training Pupper to walk effectively. This is 
 * **Height**: Rewards maintaining a desired body height
 * **Foot Contact**: Encourages proper foot placement and contact timing
 
-Refer to the `rewards.py <https://github.com/JummerCloth/pupperv3-mjx/blob/main/pupperv3_mjx/rewards.py>`_ file for reward definitions. You need to understand the exact implementation of each reward term to determine what coefficients to use on these rewards.
+Refer to the `rewards.py <../../../_static/rewards.py>`_ file for reward definitions. You need to understand the exact implementation of each reward term to determine what coefficients to use on these rewards.
 
 MJX Configs
 ~~~~~~~~~~~
