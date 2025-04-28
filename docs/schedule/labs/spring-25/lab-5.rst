@@ -27,7 +27,7 @@ This script without any arguments will just launch the neural controller. When p
 
       ./deploy_test_policy ~/Downloads/policy.json
 
-You will do this later after you have trained a policy, so keep this command handy Before you deploy your own policy, the test policy is the same as the default policy.
+You will do this later after you have trained a policy, so keep this command handy Before you deploy your own policy, the test policy is the same as the default policy (which is pretty impressive as it is, and is even better than the heuristic policy!).
 
 * Connect your remote controller with Bluetooth or USB cable to give Pupper velocity commands. For Bluetooth setup, follow the instructions at `this link <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>`_. You can control the Pupper and switch between policies using the remote controller, as shown in the image below:
 
