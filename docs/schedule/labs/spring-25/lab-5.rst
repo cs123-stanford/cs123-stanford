@@ -49,8 +49,7 @@ Step 1. Colab setup
 * Make a copy of the `Pupper Lab 5 Colab <https://colab.research.google.com/drive/1w5c69BxMfCnkBinFAr7S13GcAnJ9dKbK?usp=sharing>`_
 * Purchase Colab Pro and set the GPU to A100. Select runtime in top panel -> change runtime type -> A100. We will reimburse you for the cost of the GPU!
 * To track our training progress and compare between different runs, we will use wandb (pronounced "weights and biases") to log all our training efforts. It's really easy to set up! For first time users, create a `wandb account <https://wandb.ai/>`_, and generate an API key by going to `this link <https://wandb.ai/authorize>`_
-* Set up your wandb key by pasting your API key into cell 2 and running it.
-* Run all cells up until Config to install dependencies
+* Set up your wandb key by pasting your API key into cell 1 and running it.
 
 .. figure:: ../../../_static/wandb_setup.png
    :align: center
@@ -59,7 +58,7 @@ Step 1. Colab setup
 
 Step 2. Notebook Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Setting up a proper RL environment is an extremely time-consuming process. Although the majority of the setup is already implemented for you, it is inevitable that there are A LOT of parameters that you can tune.
+Setting up a proper RL environment is an extremely time-consuming process. Although the majority of the setup is already implemented for you, it is inevitable that there are still A LOT of parameters that you can change.
 
 The notebook is organized into several key sections. The notebook leverages JAX's powerful GPU acceleration to train Pupper in thousands of parallel environments simultaneously. This massive parallelization dramatically speeds up the training process, allowing us to collect large amounts of experience data efficiently. Each environment runs an independent simulation of Pupper, enabling rapid exploration of different walking strategies and faster convergence to optimal policies. The key sections are:
 
@@ -74,7 +73,7 @@ The reward function is crucial for training Pupper to walk effectively. This is 
 * **Height**: Rewards maintaining a desired body height
 * **Foot Contact**: Encourages proper foot placement and contact timing
 
-Refer to the :doc:`../../../_static/rewards` file for reward definitions. You need to understand the exact implementation of each reward term to determine what coefficients to use on these rewards.
+Refer to the `rewards.py <../../../_static/rewards.py>`_ file for reward definitions. You need to understand the exact implementation of each reward term to determine what coefficients to use on these rewards.
 
 MJX Configs
 ~~~~~~~~~~~
