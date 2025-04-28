@@ -145,7 +145,7 @@ Let's implement a naive reward function for Pupper velocity tracking
 
 **DELIVERABLE**: We use an exponential tracking function for Pupper to track a desired velocity. The plot below shows how the reward value depends on the x-axis velocity of the robot when the desired x-axis velocity is 1.0m/s.
 
-.. figure:: ../../../_static/lab5/vel_tracking_img.png
+.. figure:: ../../../_static/lab5/forward_velocity_command.png
     :align: center
     :width: 360px
 
