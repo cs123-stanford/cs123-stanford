@@ -259,7 +259,7 @@ To play with additional features in hope to make the policy more robust, you wil
 
 **DELIVERABLE**: Comment on what might happen if you add too much domain randomization
 
-**DELIVERABLE**: Record a video on the obstacle course and record a video
+**DELIVERABLE**: Record a video of Pupper walking in simulation, and another video of Pupper walking in the real world with this policy.
 
 **DELIVERABLE**: Describe your approach to training an agile Pupper policy. What parameters were key? Did you use a heightfield? Why/why not?
 
