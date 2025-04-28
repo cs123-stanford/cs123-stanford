@@ -49,7 +49,7 @@ Step 1. Colab setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 * Make a copy of the `Pupper Lab 5 Colab <https://colab.research.google.com/drive/1w5c69BxMfCnkBinFAr7S13GcAnJ9dKbK?usp=sharing>`_
 * Purchase `Colab Pro <https://colab.research.google.com/signup>`_ and set the GPU to A100. Select runtime in top panel -> change runtime type -> A100. We will reimburse you for the $10 cost of the GPU (send an email with your purchase confirmation to the course staff!). 
-* To track our training progress and compare between different runs, we will use wandb (pronounced "weights and biases") to log all our training efforts (*Fun Note:* Weights and Biases just went through a `huge acquisiton <https://techcrunch.com/2025/03/04/coreweave-acquires-ai-developer-platform-weights-biases/>_`, and the Founder/CEO is actually a good friend of Stuart's!). It's really easy to set up! For first time users, create a `wandb account <https://wandb.ai/>`_, and generate an API key by going to `this link <https://wandb.ai/authorize>`_
+* To track our training progress and compare between different runs, we will use wandb (pronounced "weights and biases") to log all our training efforts (*Fun Note:* Weights and Biases just went through a `huge acquisition <https://techcrunch.com/2025/03/04/coreweave-acquires-ai-developer-platform-weights-biases/>`_, and the Founder/CEO is actually a good friend of Stuart's!). It's really easy to set up! For first time users, create a `wandb account <https://wandb.ai/>`_, and generate an API key by going to `this link <https://wandb.ai/authorize>`_
 * Set up your wandb key by pasting your API key into cell 1 and running it.
 
 .. figure:: ../../../_static/wandb_setup.png
