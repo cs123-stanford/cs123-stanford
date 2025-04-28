@@ -7,12 +7,12 @@ Lab 5: How to Train Your Dog
 
 `Lab document <https://docs.google.com/document/d/19SxabuzXPwqu-q0i3K2NRWW-GlK_V9ndIN5UgcBE58c/edit?usp=sharing>`_
 
-Step 0. Test Pupper's new OH
+Step 0. Test Pupper's new OS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-We have prepared a new, Raspberry Pi native OH for Pupper! This OH enables direct microphone control, accelerated image/audio processing, and a touch screen interface!
+We have prepared a new, Raspberry Pi native OS for Pupper! This OS enables direct microphone control, accelerated image/audio processing, and a touch screen interface!
 
 * Try the touch screen on Pupper. Super cool, isn't it?
-* Over the weekend, I have modified the OH a bit to enable more deployable walking policies. Before you start training your own, let's first make sure the new OH is working on your Pupper. Open a new terminal using ``control+alt+t``, and run the following command:
+* The OS has been modified to be enable more deployable walking policies. Before you start training your own, let's first make sure the new OH is working on your Pupper. Open a new terminal using ``control+alt+t``, and run the following command:
 
    .. code-block:: bash
 
