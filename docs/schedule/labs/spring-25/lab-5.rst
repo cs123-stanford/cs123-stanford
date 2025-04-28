@@ -74,7 +74,7 @@ The reward function is crucial for training Pupper to walk effectively. This is 
 * **Height**: Rewards maintaining a desired body height
 * **Foot Contact**: Encourages proper foot placement and contact timing
 
-Refer to the `rewards.py <../../../_static/rewards.py>`_ file for reward definitions. You need to understand the exact implementation of each reward term to determine what coefficients to use on these rewards.
+Refer to the `rewards.py <https://github.com/JummerCloth/pupperv3-mjx/blob/main/pupperv3_mjx/rewards.py>`_ file for reward definitions. You need to understand the exact implementation of each reward term to determine what coefficients to use on these rewards.
 
 MJX Configs
 ~~~~~~~~~~~
@@ -141,7 +141,16 @@ Let's implement a naive reward function for Pupper velocity tracking
 * Run entire notebook, which loads in all the training and mjx configs, initializes Pupper in a flat environment, and trains Pupper to follow a desired velocity
 * Pupper should take around ~20 minutes to train. 
 
-**DELIVERABLE**: We use an exponential tracking function for Pupper to track a desired velocity. Since Pupper needs to maximize this function, should the reward coefficient be positive or negative, according to Nathan's implementation? How else could you implement a velocity tracking function? Write it down in math.
+**DELIVERABLE**: We use an exponential tracking function for Pupper to track a desired velocity. The plot below shows how the reward value depends on the x-axis velocity of the robot when the desired x-axis velocity is 1.0m/s.
+
+.. figure:: ../../../_static/lab5/vel_tracking_img.png
+    :align: center
+    :width: 360px
+
+    Exponential Tracking Function for Velocity
+
+
+Since Pupper needs to maximize this function, should the reward coefficient be positive or negative, according to Nathan's implementation? How else could you implement a velocity tracking function? Write it down in math.
 
 **DELIVERABLE**: Visualize Pupper's progress during training. How does Pupper look in the first 20 million env steps? How does it look after 200 million env steps?
 
