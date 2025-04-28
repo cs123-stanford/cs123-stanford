@@ -28,7 +28,7 @@ This script without any arguments will just launch the neural controller. When p
 
    .. figure:: ../../../_static/cs123_gamepad.png
       :align: center
-      :width: 360px
+      :width: 1080px
 
       CS123 Specific Gamepad Controller
 
