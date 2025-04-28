@@ -227,7 +227,7 @@ Remember to press the square button on the remote controller to switch to your t
 
 **DELIVERABLE**: In what ways is this policy different on the physical robot (compared to simulation)? We roboticists call this difference the "sim2real gap" (I think Jie invented this terminology for training robot dogs).
 
-**DELIVERABLE**: Take video of Pupper walking! Do you notice any differences when Pupper is walking on different surfaces?
+**DELIVERABLE**: Take a video of Pupper walking! Do you notice any differences when Pupper is walking on different surfaces?
 
 .. figure:: ../../../_static/walker.gif
    :align: center
