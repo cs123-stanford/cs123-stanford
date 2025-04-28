@@ -184,8 +184,9 @@ Screen recording of walking in simulation. In the video, you can see Pupper lear
 
 Step 4. Effort Conservation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-* Edit the **Reward Configuration** section to write a reward function that helps Pupper conserve effort. Think about which rewards should be nonzero to encourage Pupper to conserve energy. Should the coefficients be positive or negative?
-* Rerun the notebook to initialize Pupper in a flat environment and train Pupper to walk forward more efficiently
+* Edit the **Reward Configuration** section to tune a reward function that helps Pupper conserve effort. 
+* When tuning the reward function, think about which reward coefficients should be nonzero to encourage Pupper conserve energy. Should the coefficients be positive or negative?
+* Rerun the entire notebook to initialize Pupper in a flat environment and train Pupper to walk forward more efficiently.
 * Pupper should take around ~20 minutes to train. 
 
 **DELIVERABLE**: What is your reward function (in math, don't just take a screenshot from the notebook!)? Why did you choose this function? What existing reward terms could be used to make Pupper conserve energy, and what are their potential pros and cons? Are there any rewards that could be used that are not listed?
