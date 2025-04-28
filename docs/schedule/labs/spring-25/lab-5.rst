@@ -24,6 +24,8 @@ This script without any arguments will just launch the neural controller. When p
 
       ./deploy_test_policy ~/Downloads/policy.json
 
+Before you deploy your own policy, the test policy is the same as the default policy.
+
 * Connect your remote controller with Bluetooth or USB cable to give Pupper velocity commands. For Bluetooth setup, follow the instructions at `this link <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html#first-time-setup>`_. You can control the Pupper and switch between policies using the remote controller, as shown in the image below:
 
    .. figure:: ../../../_static/cs123_gamepad.png
@@ -32,15 +34,15 @@ This script without any arguments will just launch the neural controller. When p
 
       CS123 Specific Gamepad Controller
 
-* You should see Pupper walking in place. Use the left joystick to control Pupper's walking direction and speed. The right joystick controls turning.
+* You should see Pupper walking in place. Use the left joystick to control Pupper's walking direction and speed. The right joystick controls turning. Press any button on the remote controller to switch to a different policy.
 
 * If Pupper is not walking properly, check if:
    - The remote controller is properly connected/turned on
    - There's any wiring issues with Pupper's motors
    - You are using the default walking policy, which you can switch to by pressing the "x" button on the remote controller.
-   - There is a bad IMU reading message after you reinitialize the neural controller (Let's hope that doesn't happen)
+   - There is a bad IMU reading message after you reinitialize the neural controller (Let's really hope that doesn't happen...)
 
-**DELIVERABLE**: Take a short video of Pupper walking with the test policy. How does this compare to your implementation from lab 4?
+**DELIVERABLE**: Take a short video of Pupper walking with the default policy. How does this compare to your implementation from lab 4?
 
 Step 1. Colab setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -59,7 +61,7 @@ Step 2. Notebook Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Setting up a proper RL environment is an extremely time-consuming process. Although the majority of the setup is already implemented for you, it is inevitable that there are A LOT of parameters that you can tune.
 
-The notebook is organized into several key sections:
+The notebook is organized into several key sections. The notebook leverages JAX's powerful GPU acceleration to train Pupper in thousands of parallel environments simultaneously. This massive parallelization dramatically speeds up the training process, allowing us to collect large amounts of experience data efficiently. Each environment runs an independent simulation of Pupper, enabling rapid exploration of different walking strategies and faster convergence to optimal policies. The key sections are:
 
 Rewards
 ~~~~~~~
@@ -71,6 +73,8 @@ The reward function is crucial for training Pupper to walk effectively. This is 
 * **Smoothness**: Encourages smooth joint movements and penalizes jerky motions
 * **Height**: Rewards maintaining a desired body height
 * **Foot Contact**: Encourages proper foot placement and contact timing
+
+Refer to the :doc:`../../../_static/rewards` file for reward definitions. You need to understand the exact implementation of each reward term to determine what coefficients to use on these rewards.
 
 MJX Configs
 ~~~~~~~~~~~
@@ -91,28 +95,55 @@ Proximal Policy Optimization (PPO) is a popular RL algorithm for training robot 
 * **Value Function**: Parameters for the value function estimation (you should not change these for this lab)
 * **Entropy Bonus**: Encourages exploration during training (you should not change these for this lab)
 
-Obstacles and Terrain
+Command Sampling
+~~~~~~~~~~~~~~
+Controls how velocity commands are generated during training:
+
+* **Linear Velocity**: Range for forward/backward and lateral movement
+* **Angular Velocity**: Range for turning commands
+* **Zero Command Probability**: Chance of receiving a zero-velocity command
+* **Stand Still Threshold**: Velocity threshold below which commands are considered "standing still"
+
+Termination Conditions
 ~~~~~~~~~~~~~~~~~~~
-The environment includes various obstacles and terrain features to test Pupper's capabilities:
+Defines when an episode should end:
 
-* **Heightfields**: Randomly generated terrain with varying heights
-* **Steps**: Single or multiple steps of different heights
-* **Gaps**: Spaces that Pupper must navigate across
-* **Uneven Surfaces**: Surfaces with varying friction and compliance
+* **Body Height**: Episode ends if body center goes below a certain height
+* **Body Angle**: Episode ends if body angle exceeds a threshold
+* **Early Termination**: Allows episodes to end before reaching maximum length
 
-Understanding and tuning these parameters is key to training an effective walking policy. Start with the basic velocity tracking reward and gradually add other terms to improve Pupper's walking behavior.
+Domain Randomization
+~~~~~~~~~~~~~~~~~
+Parameters that add variability to the simulation to improve robustness:
+
+* **Perturbations**: Random kicks, angular velocity noise, and gravity variations
+* **Motor Properties**: Random variations in position control gains
+* **Starting Position**: Random initial positions for training
+* **Latency**: Simulated delays in action execution and IMU readings
+* **Body Properties**: Random variations in mass, inertia, and center of mass
+* **Friction**: Random variations in ground friction
+
+Heightfields and Obstacles
+~~~~~~~~~~~~~~~~~~~~~~~
+Environment features to test Pupper's capabilities:
+
+* **Heightfield Types**: Random terrain or steps
+* **Heightfield Parameters**: Grid size, radius, and elevation
+* **Obstacles**: Number, position, and dimensions of obstacles
+
+Understanding and tuning these parameters is key to training an effective walking policy. We will start with the basic velocity tracking reward and gradually add other terms to improve Pupper's walking behavior.
 
 Step 3. Velocity tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Let's implement a naive reward function for Pupper velocity tracking
 
-* Change the ``tracking_lin_vel`` and ``tracking_ang_vel`` values to be nonzero to get Pupper to follow a velocity command. Refer to the `reward definitions <https://github.com/Nate711/pupperv3-mjx/blob/main/pupperv3_mjx/rewards.py>`_. In practice, the linear velocity tracking coefficient should be around double the angular velocity tracking
+* In the **Reward Configuration** section, change the ``tracking_lin_vel`` and ``tracking_ang_vel`` values to some nonzero values to get Pupper to follow a velocity command. In practice, the linear velocity tracking coefficient should be around double the angular velocity tracking
 * Run entire notebook, which loads in all the training and mjx configs, initializes Pupper in a flat environment, and trains Pupper to follow a desired velocity
-* Pupper should take around ~30 minutes to train. 
+* Pupper should take around ~20 minutes to train. 
 
 **DELIVERABLE**: We use an exponential tracking function for Pupper to track a desired velocity. Since Pupper needs to maximize this function, should the reward coefficient be positive or negative, according to Nathan's implementation? How else could you implement a velocity tracking function? Write it down in math.
 
-**DELIVERABLE**: Visualize Pupper's progress during training. How does Pupper look in the first 10 million env steps? How does it look after 100 million env steps?
+**DELIVERABLE**: Visualize Pupper's progress during training. How does Pupper look in the first 20 million env steps? How does it look after 200 million env steps?
 
 You can access training videos in the training progress folder as shown below:
 
@@ -120,9 +151,9 @@ You can access training videos in the training progress folder as shown below:
    :align: center
    :width: 360px
 
-   Training videos are saved in the training_progress folder. In the video, you can see Pupper learning to bend low, stand up, and walk in different directions - forward, backward, left, right, and turning both clockwise and counter-clockwise.
+   Training videos are saved in the training_progress folder.
 
-Screen recording of walking in simulation
+Screen recording of walking in simulation. In the video, you can see Pupper learning to bend low, stand up, and walk in different directions - forward, backward, left, right, and turning both clockwise and counter-clockwise.
 
 .. figure:: ../../../_static/random_walk.gif
    :align: center
@@ -142,13 +173,13 @@ Screen recording of walking in simulation
 
    As you may be able to tell, just because Pupper has velocity tracking reward doesn't mean it will perfectly follow the desired speed. To learn natural gaits, auxiliary rewards are needed. Next, you will implement a function to encourage Pupper to walk more efficiently.
 
-Step 4. Effort function
+Step 4. Effort Conservation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-* Edit configs cell to write a reward function that helps Pupper conserve effort. Which rewards should be nonzero to encourage Pupper to conserve energy?
-* Run the ENVIRONMENT and TRAIN cells to load in the Pupper flat environment and train Pupper to walk forward more efficiently
-* Pupper should take around ~30 minutes to train. 
+* Edit the **Reward Configuration** section to write a reward function that helps Pupper conserve effort. Think about: which rewards should be nonzero to encourage Pupper to conserve energy? Should the coefficients be positive or negative?
+* Rerun the notebook to initialize Pupper in a flat environment and train Pupper to walk forward more efficiently
+* Pupper should take around ~20 minutes to train. 
 
-**DELIVERABLE**: What is your reward function (in math)? Why did you choose this function? What existing reward terms could be used to make Pupper conserve energy, and what are their potential pros and cons? Are there any rewards that could be used that are not listed?
+**DELIVERABLE**: What is your reward function (in math, don't just take a screenshot from the notebook!)? Why did you choose this function? What existing reward terms could be used to make Pupper conserve energy, and what are their potential pros and cons? Are there any rewards that could be used that are not listed?
 
 **DELIVERABLE**: Qualitatively, how does this Pupper policy compare to the previous one?
 
@@ -164,13 +195,13 @@ Step 5. Reward tuning
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Now you have a gist of how to tune the reward functions, it's time to set you free! Tune the config to make Pupper smoothly follow velocities with a natural gait. Feel free to use any rewards you like (to reduce your search space, don't try tuning other parameters yet!)
-* Increase the ``training_config.ppo.num_timesteps`` to at least 300 million (in practice, Nathan used 1 billion for a really good policy)
-* Rerun the entire notebook, and train Pupper to walk in sim
+* Increase the ``training_config.ppo.num_timesteps`` to at least 300 million (in practice, Nathan used 1 billion timesteps to train a really good policy from scratch)
+* Rerun the entire notebook, and train Pupper to walk in simulation
 * Depending on the number of timesteps, the training process should take around ~30 minutes to ~2 hours. 
 
-**DELIVERABLE**: What terms are included in your reward functions? What coefficients did you use? How did you come up with these terms and what was their desired effect? Why might this policy perform poorly on the physical robot?
+**DELIVERABLE**: What terms are included in your reward functions? What coefficients did you use? How did you come up with these terms and what was their desired effect? Do you think this policy will perform well on the physical robot?
 
-**DELIVERABLE**: Visualize Pupper's progress during training. How does Pupper look in the first 10 million env steps? How does it look after 100 million env steps?
+**DELIVERABLE**: Visualize Pupper's progress during training. How does Pupper look in the first 20 million env steps? How does it look after 200 million env steps?
 
 **DELIVERABLE**: Record a video of Pupper walking in simulation. 
 
@@ -189,10 +220,12 @@ Transfer policy from local machine to Pupper
 
 * Download the policy you trained in Colab to Pupper's local machine. In Colab, you can find the trained policy as "policy.json" in the training progress folder after running the "Export Policy for neural_controller" cell. We suggest you first save the policy to your Google Drive, and then log into Google Drive on Pupper's local machine and download the policy from there.
 * Connect your remote controller to Pupper
-* Run the following command to deploy the policy:
+* Run the following command to deploy the policy (assuming you saved the policy as "policy.json" in your Downloads folder on Pupper):
    .. code-block:: bash
 
       ./deploy_test_policy ~/Downloads/policy.json
+
+Remember to press the square button on the remote controller to switch to your trained policy!
 
 **DELIVERABLE**: In what ways is this policy different on the physical robot (compared to simulation)? We roboticists call this difference the "sim2real gap" (I think Jie invented this terminology for training robot dogs).
 
@@ -230,7 +263,9 @@ To play with additional features in hope to make the policy more robust, you wil
 
 **DELIVERABLE**: Describe your approach to training an agile Pupper policy. What parameters were key? Did you use a heightfield? Why/why not?
 
-Congratulations on completing Lab 5! You've successfully trained Pupper to walk and gained valuable experience in tuning reward functions and domain randomization. These skills will be essential for the more advanced tasks in the upcoming optional lab!
+**DELIVERABLE**: Report all the graphs you get from the notebook with the best policy. Do a thorough analysis of the graphs: How do the gaits look like for your policy? What are the outputs of the policy you just trained? How do you think it gets passed to Pupper?
+
+Congratulations on completing Lab 5! This is a pretty hefty lab, and you've successfully trained Pupper to walk and gained valuable experience in tuning reward functions and domain randomization. These skills will be essential for the more advanced tasks in the upcoming optional lab!
 
 Resources
 -----------
