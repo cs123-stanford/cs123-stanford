@@ -133,7 +133,7 @@ Understanding and tuning these parameters is key to training an effective walkin
 
 **DELIVERABLE:** Before actually training a policy, what do you think will be the most important rewards to tune when training Pupper to walk forwards? What about making Pupper walk stably? Could these two factors have a combined effect and interfere? Write a few sentences in your lab document. 
 
-In addition, take a look at the implementation of the `reward function <https://github.com/JummerCloth/pupperv3-mjx/blob/main/pupperv3_mjx/environment.py>`_ in lines 445 and 446. Explain the implementation here in words and how the rewards dict that you edited above transfers to the actual reward.
+In addition, take a look at the implementation of the `reward function <https://github.com/JummerCloth/pupperv3-mjx/blob/main/pupperv3_mjx/environment.py>`_ in lines 488 to 490. Explain the implementation here in words and how the rewards dict that you edited above transfers to the actual reward.
 
 Step 3. Velocity tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
