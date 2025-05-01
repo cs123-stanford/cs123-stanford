@@ -26,6 +26,7 @@ Your policy's performance will be evaluated based on the following criteria:
 - Side step traversal: 3 points
 
 The difficulty of each obstacle is reflected in score multipliers:
+
 - First obstacle: 1x multiplier
 - Second obstacle: 2x multiplier
 - Third obstacle: 3x multiplier
@@ -39,25 +40,30 @@ Policy Development Suggestions
 Here are some potential approaches you might want to experiment with to improve your policy's performance:
 
 1. **Environment Modification**
+   
    - Add obstacles directly into the training environment by understanding how obstacles and heightfields are implemented in the original lab 5 notebook
    - This allows you to train your policy on similar challenges to what it will face in the actual course
 
 2. **Physics Parameter Tuning**
+   
    - Experiment with different physics parameters beyond just reward tuning
    - For example, try adjusting friction coefficients to make the robot more stable
    - Consider how different surface properties might affect traversal
 
 3. **Reward Engineering**
+   
    - Introduce additional reward terms specifically targeting traversal objectives
    - Fine-tune the balance between different reward components
    - Consider adding rewards for smooth motion, more powerful movements, or specific traversal behaviors
 
 4. **Controller Optimization**
+   
    - Increase the ``lin_vel_range`` controller range in your notebook
    - This might allow for more dynamic movements and faster traversal times
    - Be careful to maintain stability while increasing speed!
 
 5. **Advanced Policy Development**
+   
    - Augment policy observations with privileged information available in the simulation environment
    - Develop a way to distill this enhanced policy into one that can be confidently deployed
    - Note: This approach requires significant effort but could yield impressive results
