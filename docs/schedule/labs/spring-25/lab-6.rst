@@ -17,9 +17,8 @@ Step 0. Setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. **Prepare the Environment**  
-   
-   Download the `the image <https://drive.google.com/file/d/1Zp5iIhjWvLM06CZOQXeZ1I0SiMEy3qEF/view>`_ on your local machine. Then download `balenaEtcher <https://etcher.balena.io/>`_. Use this to flash the new image onto your Pupper's USB by connecting it to your computer (select the flash from file option and select the corresponding Samsung drive).
 
+   Your Puppers have been reflashed with a new OS for the AI labs. This was done following the documentation `here <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html>`_. 
 
 2. **Run Foxglove**  
    
@@ -109,9 +108,7 @@ In this section, you’ll work on extracting and processing target position info
 
 **DELIVERABLE:** Take a video of you moving across the frame (left/right, up/down), and show the numbers changing within the normalization range. Upload this video with your submission to Gradescope. 
 
-**DELIVERABLE:** To implement this method, we always choose the most central object within the camera frame to have Pupper track. However, there are a number of cases where we Pupper should actually continue tracking the same person, regardless of if they are moving out of the frame, which may not necessarily always be the same person. Can you come up with another method that might accomplish this? How would you make sure that you are tracking the same object (the detections array may change the object index between any given frame)? Write the algorithm you come up with in pseudocode. 
-
-**EXTRA CREDIT** Implement your algorithm from the above deliverable on the Pupper and see how the behavior changes. Take a video and upload to Gradescope. 
+**DELIVERABLE:** To implement this method, we always choose the most central object within the camera frame to have Pupper track. However, there are a number of cases where we Pupper should actually continue tracking the same person, regardless of if they are moving out of the frame, which may not necessarily always be the same person. Can you come up with another method that might accomplish this? How would you make sure that you are tracking the same object (the detections array may change the object index between any given frame)? Answer these questions in your lab document, and upload a video of your implementation.
 
 Step 2. Visual Servoing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -136,6 +133,8 @@ Step 3. Search and Track
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Here, you’ll add a search behavior to help Pupper look for you if it loses sight of the target, allowing it to return to tracking when you’re back in view. You'll also command a forward velocity so that the robot follows when you are detected.
+
+**DELIVERABLE:** Draw a state machine diagram describing how Pupper should transition between the SEARCH and TRACK states. In particular, highlight what makes Pupper trnsition between the two states and list all the cases to make the diagram comprehensive. Upload an image to the Gradescope submission.
 
 1. **Search Mode** (Implement in `timer_callback` when `state == SEARCH`)  
    
