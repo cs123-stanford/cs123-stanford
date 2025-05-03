@@ -31,7 +31,9 @@ Step 0. Setup
 
 
 3. **Clone the Starter Code**  
-   
+
+   **Note:** The code repo refers to lab 7 since the vision lab was lab 7 last quarter. For this offering, we decided to swap the two labs, but we will still use the same Git repo.
+
    Clone the starter repository from `lab_7_2024 GitHub Repo <https://github.com/cs123-stanford/lab_7_2024>`_ on Pupper ``git clone https://github.com/cs123-stanford/lab_7_2024.git``.
 
 4. **Start the Necessary Processes**  
