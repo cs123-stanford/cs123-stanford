@@ -1,11 +1,10 @@
-Computer Vision for Robotics
+Large Language Models for Robotics
 =======================================
 
-**Lab:** :doc:`../../labs/fall-24/lab-7` Use Computer Vision to implement person tracking on Pupper!
+**Lab:** :doc:`../../labs/fall-24/lab-7` Integrating a Voice input pipeline on Pupper and benchmarking against other methods!
 
-**Lecture Slides:** https://drive.google.com/file/d/1o_78nZC3KcfmU-y5Hfw2xL8JpYQQywyi/view?usp=sharing
+**Lecture Slides:** https://drive.google.com/file/d/1ZH_WWP54y_h4f7pgIcb8dZLs9oMl2-a8/view?usp=sharing by Fei Xia
 
-**Lab Document:** https://docs.google.com/document/d/1GJTvKj6Lzb_mLpU9AYKbbvarJ1d-B2B0UuI5HPmaRoE/edit?tab=t.0#heading=h.47t0k5pf0v4
+**Lab Review Slides:** https://docs.google.com/presentation/d/1nhWyFfUxG2btsOvcU_If0vBKpUgvMBoG/edit?usp=sharing&ouid=112164671976474020631&rtpof=true&sd=true
 
-**Lab Review Slides:** https://docs.google.com/presentation/d/1B9dPRIVNvwTZaD_4BA07pDRL4pYIENYV/edit
-
+**Lab Document:** https://docs.google.com/document/d/1dU70gedHd83s3HA9g-nIzRdMnL8tlony3w4H7Th0NOA/edit?usp=sharing
