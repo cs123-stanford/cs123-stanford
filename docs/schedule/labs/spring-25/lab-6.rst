@@ -3,7 +3,7 @@ Lab 6: Seeing is Believing
 
 *Goal: Use computer vision to enable Pupper to follow a person by processing (fisheye) camera input!*
 
-In this lab, you’ll leverage computer vision to detect a person in Pupper's field of view and control its movement to follow that person. You’ll implement a simple tracking and searching behavior using a state machine, allowing Pupper to maintain focus on the target when visible and initiate a search if the target moves out of view.
+In this lab, you’ll use an object detection model to detect a person in Pupper's field of view and control its movement to follow that person. You’ll implement a simple tracking and searching behavior using a state machine, allowing Pupper to maintain focus on the target when visible and initiate a search if the target moves out of view.
 
 **Note:** The object detector used in this lab can detect multiple types of objects. However, for simplicity in this lab, the detection array has already been filtered to only include detections of people. This ensures that Pupper will respond solely to human targets.
 
@@ -20,15 +20,10 @@ Step 0. Setup
 
    Your Puppers have been reflashed with a new OS for the AI labs. This was done following the documentation `here <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html>`_. 
 
-2. **Run Foxglove**  
+2. **Install Foxglove**  
    
-   Open `Foxglove <https://foxglove.dev/>`_. Make sure to install it locally on your own computer, as the browser version may not work. 
-   You’ll use Foxglove (better RVIZ) to visualize Pupper's camera feed, which helps verify and debug object detection. 
-
-   If you are having trouble connecting, try turning internet sharing off, enabling all options, and then turning it back on. Also, try connecting to localhost:8765 instead and connecting to see the camera via WiFi.
-
-   ** NOTE:** Make sure that both the Pupper and your computer are connected to the same wifi network. If this is not the case, you may not see topics being sent over the forwarded port. 
-
+   Install `Foxglove <https://foxglove.dev/>`_ locally on your own computer. Note, the browser version may not work. 
+   Foxglove is a visualization tool for seeing ROS information live from the robot. In this lab you'll use it to see Pupper's camera feed and object detections in real time, which is crucial for understanding if your code is working correctly.
 
 3. **Clone the Starter Code**  
 
@@ -38,33 +33,45 @@ Step 0. Setup
 
 4. **Start the Necessary Processes**  
    
-   Install supervision and loguru with `pip install supervision` and `pip install loguru`
+   Install supervision and loguru with ``pip install supervision`` and ``pip install loguru``
 
-   `cd` into the `lab_7_2024` directory and run the `run.sh` script with `./run.sh`. **Note:** This script must run continuously in a separate terminal whenever you are testing your code, as it launches nodes for image publishing, object detection, foxglove, and the RL controller.
+   Turn off the robot stack if it is running: ``sudo systemctl stop robot``
 
+   ``cd`` into the ``lab_7_2024`` directory and run the ``run.sh`` script with ``./run.sh``. **Note:** This script must run continuously in a separate terminal whenever you are testing your code, as it launches nodes for image publishing, object detection, foxglove, and the RL controller.
 
-5. **Connect Foxglove to the Pi**  
+f
+5. **Connect Foxglove to Pupper**  
    
-   Connect the Pi to your laptop with an Ethernet cable/adapter. In Foxglove, connect to the Pi and visualize the “annotated_image” topic to see the camera feed with bounding boxes around detected people.  
-   Confirm that the bounding boxes are appearing correctly, as shown in the last image below. (*TIP:* If you do not see green/yellow blinking lights on your ethernet cable, you should check your connections as that likely means that connection has dropped.)
+   #. Connect the Pi to your laptop with an Ethernet cable/adapter. 
+   #. SSH *with special options*: ``ssh -A -L 8765:localhost:8765 pi@pupper.local``
+   #. Open Foxglove, click ``Open Connection``, leave the default websocket URL as is, and click ``Open``
 
-.. figure:: ../../../_static/lab7_1.png
-    :align: center
+        .. figure:: ../../../_static/vision_lab/connect_localhost.png
+            :align: center
 
-    Connecting Foxglove to the Raspberry Pi.
+            Connecting Foxglove to the Raspberry Pi.
 
-.. figure:: ../../../_static/lab7_2.png
-    :align: center
+        If you are having trouble connecting, try turning internet sharing off, enabling all options, and then turning it back on. You can also SSH and visualize topics from Pupper over wifi, but this is not recommended as it is slower and less reliable.
 
-    Select the gear icon on the top right panel that says "/camera/image_raw" to configure it. Under "General", set the topic to "/annotated_image" and the calibration to "None". 
+   #. Visualize the “annotated_image” topic with people detections by selecting the gear icon on the top right panel that says ``/camera/image_raw`` to configure it. Under ``General``, set the topic to ``/annotated_image`` and the calibration to ``None``. 
+   
 
-.. figure:: ../../../_static/lab7_3.png
-    :align: center
+        .. figure:: ../../../_static/lab7_2.png
+            :align: center
 
-    Click the icon with the 3 dots in the top right corner of the window and select "fullscreen".
+            Select the gear icon on the top right panel that says ``/camera/image_raw`` to configure it. Under ``General``, set the topic to ``/annotated_image`` and the calibration to ``None``. 
 
-.. figure:: ../../../_static/lab7_4.png
-    :align: center
+    #. Go fullscreen: Click the icon with the 3 dots in the top right corner of the window and select "fullscreen".
+
+        .. figure:: ../../../_static/lab7_3.png
+            :align: center
+
+            Click the icon with the 3 dots in the top right corner of the window and select "fullscreen".
+
+    #. Check detections: You should see a camera feed with bounding boxes around detected people. If you don’t see any detections, ask a TA. If the image is upside down, edit `this line <https://github.com/cs123-stanford/lab_7_2024/blob/7f84dbdb882c477ecbe04a76b122b19a6ef7dc8f/hailo_detection.py#L78>`_ in ``hailo_detection.py`` to flip the image. If the image is blurry, ask a TA to help you adjust the lens.
+        
+        .. figure:: ../../../_static/lab7_4.png
+            :align: center
 
 
 6. **Review the Starter Code**  
