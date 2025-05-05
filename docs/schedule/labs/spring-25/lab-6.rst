@@ -3,7 +3,7 @@ Lab 6: Seeing is Believing
 
 *Goal: Use computer vision to enable Pupper to follow a person by processing (fisheye) camera input!*
 
-In this lab, you’ll use an object detection model to detect a person in Pupper's field of view and control its movement to follow that person. You’ll implement a simple tracking and searching behavior using a state machine, allowing Pupper to maintain focus on the target when visible and initiate a search if the target moves out of view.
+In this lab, you'll use an object detection model to detect a person in Pupper's field of view and control its movement to follow that person. You'll implement a simple tracking and searching behavior using a state machine, allowing Pupper to maintain focus on the target when visible and initiate a search if the target moves out of view.
 
 **Note:** The object detector used in this lab can detect multiple types of objects. However, for simplicity in this lab, the detection array has already been filtered to only include detections of people. This ensures that Pupper will respond solely to human targets.
 
@@ -35,7 +35,7 @@ Step 0. Setup
    pip install loguru
    cd ~/pupperv3-monorepo/ros2_ws/src/common
    git clone https://github.com/ros-perception/vision_msgs.git
-   cd ~/pi/pupperv3-monorepo/ros2_ws
+   cd ~/pupperv3-monorepo/ros2_ws
    bash build.sh
 
 4. **Clone the Starter Code**
@@ -70,7 +70,7 @@ Step 0. Setup
 
         If you are having trouble connecting, try turning internet sharing off, enabling all options, and then turning it back on. You can also SSH and visualize topics from Pupper over wifi, but this is not recommended as it is slower and less reliable.
 
-   #. Visualize the “annotated_image” topic with people detections by selecting the gear icon on the top right panel that says ``/camera/image_raw`` to configure it. Under ``General``, set the topic to ``/annotated_image`` and the calibration to ``None``. 
+   #. Visualize the "annotated_image" topic with people detections by selecting the gear icon on the top right panel that says ``/camera/image_raw`` to configure it. Under ``General``, set the topic to ``/annotated_image`` and the calibration to ``None``. 
    
 
         .. figure:: ../../../_static/lab7_2.png
@@ -85,7 +85,7 @@ Step 0. Setup
 
             Click the icon with the 3 dots in the top right corner of the window and select "fullscreen".
 
-    #. Check detections: You should see a camera feed with bounding boxes around detected people. If you don’t see any detections, ask a TA. If the image is upside down, edit `this line <https://github.com/cs123-stanford/lab_7_2024/blob/7f84dbdb882c477ecbe04a76b122b19a6ef7dc8f/hailo_detection.py#L78>`_ in ``hailo_detection.py`` to flip the image. If the image is blurry, ask a TA to help you adjust the lens.
+    #. Check detections: You should see a camera feed with bounding boxes around detected people. If you don't see any detections, ask a TA. If the image is upside down, edit `this line <https://github.com/cs123-stanford/lab_7_2024/blob/7f84dbdb882c477ecbe04a76b122b19a6ef7dc8f/hailo_detection.py#L78>`_ in ``hailo_detection.py`` to flip the image. If the image is blurry, ask a TA to help you adjust the lens.
         
         .. figure:: ../../../_static/lab7_4.png
             :align: center
@@ -95,15 +95,15 @@ Step 0. Setup
    
    Open `lab_7.py` and take a look at the code structure. Notice the two main callback functions:
    
-   - **detection_callback**: Triggered whenever a new detection message is received. This is where you’ll process detections and determine the target’s location.
-   - **timer_callback**: Runs periodically to update Pupper’s behavior based on the current state and target position. This is where you’ll implement the control logic for tracking or searching.
+   - **detection_callback**: Triggered whenever a new detection message is received. This is where you'll process detections and determine the target's location.
+   - **timer_callback**: Runs periodically to update Pupper's behavior based on the current state and target position. This is where you'll implement the control logic for tracking or searching.
 
-   Most of your work will happen in these callbacks, where you’ll add code to process detections and control Pupper based on target visibility.
+   Most of your work will happen in these callbacks, where you'll add code to process detections and control Pupper based on target visibility.
 
 Step 1. Object Detection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this section, you’ll work on extracting and processing target position information from the camera feed.
+In this section, you'll work on extracting and processing target position information from the camera feed.
 
 1. **Inspect Detection Messages**  
    
@@ -118,7 +118,7 @@ In this section, you’ll work on extracting and processing target position info
 
 3. **Normalize X Position**  
    
-   Convert the `x` position to a range between -1.0 and 1.0 using the `IMAGE_WIDTH` constant, with 0 representing the center of the image. This will help you interpret the target’s position more easily. Alternatively, you can look at the image extracted from the fisheye camera to customize the normalization! That may yield a better result. 
+   Convert the `x` position to a range between -1.0 and 1.0 using the `IMAGE_WIDTH` constant, with 0 representing the center of the image. This will help you interpret the target's position more easily. Alternatively, you can look at the image extracted from the fisheye camera to customize the normalization! That may yield a better result. 
 
 4. **Verify Position**  
    
@@ -126,11 +126,11 @@ In this section, you’ll work on extracting and processing target position info
 
 5. **Identify the Most Centered Bounding Box**  
    
-   Find the bounding box that is closest to the center of the image (i.e., with an `x` value nearest to 0). This will be your target, and you should save its `x` position in a member variable for use in control logic. *Hint* `msg` of `detection_callback` contains a list of detections. We do a naiive approach where we only want to track the most central of all the detected objects. 
+   Find the bounding box that is closest to the center of the image (i.e., with an `x` value nearest to 0). This will be your target, and you should save its `x` position in a member variable for use in control logic. *Hint* `msg` of `detection_callback` contains a list of detections. We do a naive approach where we only want to track the most central of all the detected objects. 
 
 6. **Track the Time of Last Detection**  
    
-   In `detection_callback`, update a member variable to store the time of the most recent detection. This variable will later be used in `timer_callback` to determine whether to switch Pupper’s state to "searching" if too much time has passed without a detection.
+   In `detection_callback`, update a member variable to store the time of the most recent detection. This variable will later be used in `timer_callback` to determine whether to switch Pupper's state to "searching" if too much time has passed without a detection.
 
 **DELIVERABLE:** Take a video of you moving across the frame (left/right, up/down), and show the numbers changing within the normalization range. Upload this video with your submission to Gradescope. 
 
@@ -139,11 +139,11 @@ In this section, you’ll work on extracting and processing target position info
 Step 2. Visual Servoing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now that you can detect and locate the target, you’ll implement a control mechanism to keep Pupper oriented toward it. (Implement in `timer_callback` when `state == TRACK`)
+Now that you can detect and locate the target, you'll implement a control mechanism to keep Pupper oriented toward it. (Implement in `timer_callback` when `state == TRACK`)
 
 1. **Proportional Control**  
    
-   Implement a proportional controller to calculate a yaw velocity command based on the target’s normalized `x` position. Define a proportional gain constant, which controls how quickly Pupper turns to center the target.
+   Implement a proportional controller to calculate a yaw velocity command based on the target's normalized `x` position. Define a proportional gain constant, which controls how quickly Pupper turns to center the target.
 
 2. **Test on Stand**  
    
@@ -158,9 +158,9 @@ Now that you can detect and locate the target, you’ll implement a control mech
 Step 3. Search and Track
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here, you’ll add a search behavior to help Pupper look for you if it loses sight of the target, allowing it to return to tracking when you’re back in view. You'll also command a forward velocity so that the robot follows when you are detected.
+Here, you'll add a search behavior to help Pupper look for you if it loses sight of the target, allowing it to return to tracking when you're back in view. You'll also command a forward velocity so that the robot follows when you are detected.
 
-**DELIVERABLE:** Draw a state machine diagram describing how Pupper should transition between the SEARCH and TRACK states. In particular, highlight what makes Pupper trnsition between the two states and list all the cases to make the diagram comprehensive. Upload an image to the Gradescope submission.
+**DELIVERABLE:** Draw a state machine diagram describing how Pupper should transition between the SEARCH and TRACK states. In particular, highlight what makes Pupper transition between the two states and list all the cases to make the diagram comprehensive. Upload an image to the Gradescope submission.
 
 1. **Search Mode** (Implement in `timer_callback` when `state == SEARCH`)  
    
@@ -187,8 +187,8 @@ Here, you’ll add a search behavior to help Pupper look for you if it loses sig
 
 4. **Tune Constants**  
    
-   Experiment with different values for the proportional gain, timeout threshold, search yaw velocity, and forward velocity to make Pupper’s behavior smooth and responsive.
+   Experiment with different values for the proportional gain, timeout threshold, search yaw velocity, and forward velocity to make Pupper's behavior smooth and responsive.
 
 **DELIVERABLE:** Upload a video of Pupper tracking a person using the camera. Write about some of the deficiencies in the current implementation, and what you think may help fix it. 
 
-By the end of this lab, you will have implemented a basic computer vision-based tracking system that enables Pupper to autonomously follow a person. The simple state machine will allow Pupper to handle target loss by searching for the target, making the tracking behavior more robust. Experiment with tuning to optimize Pupper’s performance. Enjoy watching Pupper follow you around!
+By the end of this lab, you will have implemented a basic computer vision-based tracking system that enables Pupper to autonomously follow a person. The simple state machine will allow Pupper to handle target loss by searching for the target, making the tracking behavior more robust. Experiment with tuning to optimize Pupper's performance. Enjoy watching Pupper follow you around!
