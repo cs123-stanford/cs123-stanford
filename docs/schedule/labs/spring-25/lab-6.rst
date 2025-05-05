@@ -18,32 +18,49 @@ Step 0. Setup
 
 1. **Prepare the Environment**  
 
-   Your Puppers have been reflashed with a new OS for the AI labs. This was done following the documentation `here <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html>`_. 
+   Your Puppers have been reflashed with a new OS for the AI labs (just like from last week)! This was done following the documentation `here <https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html>`_. However, there are a few additional libraries you'll need to install for this lab. Follow the instructions below:
 
 2. **Install Foxglove**  
    
-   Install `Foxglove <https://foxglove.dev/>`_ locally on your own computer. Note, the browser version may not work. 
+   Install `Foxglove <https://foxglove.dev/>`_ locally on your own computer. Don't use the browser version.
    Foxglove is a visualization tool for seeing ROS information live from the robot. In this lab you'll use it to see Pupper's camera feed and object detections in real time, which is crucial for understanding if your code is working correctly.
 
-3. **Clone the Starter Code**  
+3. **Install Dependencies**
+   
+   For this lab, you'll need to install the following dependencies (turn off the robot stack if it is running: ``sudo systemctl stop robot``):
+
+.. code-block:: bash
+
+   pip install supervision
+   pip install loguru
+   cd ~/pupperv3-monorepo/ros2_ws/src/common
+   git clone https://github.com/ros-perception/vision_msgs.git
+   cd ~/pi/pupperv3-monorepo/ros2_ws
+   bash build.sh
+
+4. **Clone the Starter Code**
 
    **Note:** The code repo refers to lab 7 since the vision lab was lab 7 last quarter. For this offering, we decided to swap the two labs, but we will still use the same Git repo.
 
    Clone the starter repository from `lab_7_2024 GitHub Repo <https://github.com/cs123-stanford/lab_7_2024>`_ on Pupper ``git clone https://github.com/cs123-stanford/lab_7_2024.git``.
 
-4. **Start the Necessary Processes**  
-   
-   Install supervision and loguru with ``pip install supervision`` and ``pip install loguru``
+5. **Start the Necessary Processes**  
 
-   Turn off the robot stack if it is running: ``sudo systemctl stop robot``
+   Initialize the system with these commands:
 
-   ``cd`` into the ``lab_7_2024`` directory and run the ``run.sh`` script with ``./run.sh``. **Note:** This script must run continuously in a separate terminal whenever you are testing your code, as it launches nodes for image publishing, object detection, foxglove, and the RL controller.
+   .. code-block:: bash
 
-f
-5. **Connect Foxglove to Pupper**  
+      cd ~/lab_7_2024
+      ./run.sh
+
+   .. note::
+
+      Make sure to keep this process running continuously in a separate terminal whenever you are testing your code (including visualization on Foxglove!), as it launches nodes for image publishing, object detection, foxglove, and the RL controller.
+
+6. **Connect Foxglove to Pupper**  
    
    #. Connect the Pi to your laptop with an Ethernet cable/adapter. 
-   #. SSH *with special options*: ``ssh -A -L 8765:localhost:8765 pi@pupper.local``
+   #. SSH into Pupper *with special options*: ``ssh -A -L 8765:localhost:8765 pi@pupper.local``
    #. Open Foxglove, click ``Open Connection``, leave the default websocket URL as is, and click ``Open``
 
         .. figure:: ../../../_static/vision_lab/connect_localhost.png
@@ -74,7 +91,7 @@ f
             :align: center
 
 
-6. **Review the Starter Code**  
+7. **Review the Starter Code**  
    
    Open `lab_7.py` and take a look at the code structure. Notice the two main callback functions:
    
@@ -101,7 +118,7 @@ In this section, you’ll work on extracting and processing target position info
 
 3. **Normalize X Position**  
    
-   Convert the `x` position to a range between -1.0 and 1.0 using the `IMAGE_WIDTH` constant, with 0 representing the center of the image. This will help you interpret the target’s position more easily.
+   Convert the `x` position to a range between -1.0 and 1.0 using the `IMAGE_WIDTH` constant, with 0 representing the center of the image. This will help you interpret the target’s position more easily. Alternatively, you can look at the image extracted from the fisheye camera to customize the normalization! That may yield a better result. 
 
 4. **Verify Position**  
    
