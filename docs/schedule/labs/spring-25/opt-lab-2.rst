@@ -3,7 +3,7 @@ Optional Lab 2: the Pupper Parkour Challenge
 
 Goal
 ----
-This lab challenges you to train Pupper to navigate increasingly difficult obstacle courses! You'll develop and test your own walking policies, competing with other teams to achieve the highest score across four unique challenges. This optional lab is designed to be more open-ended and creative, allowing you to focus on policy development and testing rather than implementation details.
+This optional lab challenges you to train Pupper to navigate increasingly difficult obstacle courses! You'll develop and test your own locomotion policies, compete with other teams to achieve the highest score across five unique challenges, and win a mysterious prize! This lab is designed to be open-ended and creative, allowing you to focus on policy development and testing rather than implementation details.
 
 Setup
 -----
@@ -19,13 +19,20 @@ Each group will have 5 attempts to showcase their policy's performance across al
 
 Scoring System
 ~~~~~~~~~~~~~
-Your policy's performance will be evaluated based on the following criteria:
+For each obstacle, your total score is the sum of:
 
-- Forward control traversal: 10/t points (where t is the time taken in seconds)
-- Backward control traversal: 5/t points
-- Side step traversal: 3 points
+- Forward traversal score (if successful): 10/t points
+- Backward traversal score (if successful): 5/t points  
+- Side step traversal score (if successful): 3 points
 
-The difficulty of each obstacle is reflected in score multipliers:
+For example, if you complete an obstacle with:
+- Forward traversal in 5 seconds (2 points)
+- Backward traversal in 8 seconds (0.625 points)
+- Successful side step (3 points)
+
+Your total score for that obstacle would be 5.625 points before applying the difficulty multiplier.
+
+The difficulty of each obstacle is reflected in the difficulty multiplier:
 
 - First obstacle: 1x multiplier
 - Second obstacle: 2x multiplier
@@ -33,7 +40,7 @@ The difficulty of each obstacle is reflected in score multipliers:
 - Fourth obstacle: 5x multiplier
 - Fifth obstacle: 8x multiplier
   
-TAs will time each traversal attempt and record the quickest performance. Note that you will only have access to the next obstacle after you successfully traverse the current one with at least one control method. Your total score will be the sum of your best performances across all obstacles. Note that even our default policy cannot successfully traverse the final obstacle, so this presents a significant challenge for your team!
+TAs will time each traversal attempt and record the quickest performance. Note that you will only have access to the next obstacle after you successfully traverse the current one with at least one control method. Your total score will be the sum of your best performances across all obstacles. Even our default policy cannot successfully traverse the last two obstacles, so this presents a significant challenge for your team!
 
 Policy Development Suggestions
 ----------------------------
@@ -72,4 +79,4 @@ Remember that these are just suggestions - feel free to explore your own ideas! 
 
 Prize and Final Words
 ---------------------
-The challenge begins on May 5th, and ends by the end of May. Before you test your policy, make sure that all the screws are tightened on Pupper! The winning team will receive a mysterious prize ;). Good luck, and may the best policy win!
+The challenge begins on May 5th and ends on May 30th. Before you test your policy, make sure that all the screws are tightened on Pupper! The winning team will receive a mysterious prize ;) Good luck, and may the best policy win!
