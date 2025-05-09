@@ -35,7 +35,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **TA Office Hours:**
 
-    * Ankush: Mondays 10:30am - 11:30am Gates B08, Fridays 11:00am - 12:00pm Gates B08
+    * Ankush: Mondays 11:00am - 12:00pm Gates B08, Fridays 11:00am - 12:00pm Gates B08
     * JC: Tuesdays 2:00pm - 3:30pm Gates B08, Wednesdays 2:00pm - 3:30pm Gates B02, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
 
 **Prerequisites:**
