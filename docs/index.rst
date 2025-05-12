@@ -55,7 +55,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 *Labs:* Labs are due before class the following week (by 3:30 PM on Mondays) unless otherwise noted. Each team has a total of 7 late days to use across all labs. Using one late day extends the deadline by 24 hours. A maximum of 3 late days may be used per lab. Labs submitted more than 72 hours after the deadline will not be accepted.
 
-*Final project:* No extensions are allowed for the final project proposal or presentation.
+*Final project:* No extensions are allowed for the final project proposal, progress report, or final demo video/presentation.
 
 **Optional Labs:**
 Three optional labs will be offered this quarter, with the first released in Week 3. These labs are significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
@@ -77,6 +77,10 @@ Schedule
    "Week 5: 4/28", ":doc:`../schedule/lectures/spring-25/lec-5`", ":doc:`../schedule/labs/spring-25/lab-5`", "5/5/25", ":doc:`../schedule/labs/spring-25/opt-lab-2`"
    "Week 6: 5/5", ":doc:`../schedule/lectures/spring-25/lec-6`", ":doc:`../schedule/labs/spring-25/lab-6`", "5/12/25", ""
    "Week 7: 5/12", ":doc:`../schedule/lectures/spring-25/lec-7`", ":doc:`../schedule/labs/spring-25/lab-7`", "5/19/25", ":doc:`../schedule/labs/spring-25/opt-lab-3`"
+   "Week 8: 5/19", ":doc:`../schedule/lectures/spring-25/lec-8`", "Final Project Proposal", "5/20/25 11:59 PM", "Mandatory Meeting with TA to discuss final project proposal"
+   "Week 9: 5/26", "No class (Memorial Day)", "Final Project Progress Report", "5/30/25 11:59 PM", "Must include progress video in report"
+   "Week 10: 6/2", "Project Checkpoint Review", "Final Project Demo Video", "6/8/25 11:59 PM", "Final Presentations on 6/9"
+
 **References:** :doc:`../reference/references`
 
 **Past Course Projects:** :doc:`../reference/past_projects`
