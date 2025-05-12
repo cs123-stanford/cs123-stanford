@@ -29,18 +29,19 @@ Step 1. Getting Started
       pip install sounddevice
       pip install pyttsx3
 
-Navigate to the folder `~/pupper_llm/pupper_llm/Robot_Commands/` and run the following command. If some dependencies are not working (which shouldn't be a big issue), please let a TA know!
-
-   .. code-block:: bash
-
-      pip install -r requirements.txt
-
-1. Clone the starter code repository from GitHub into your Pupper's home directory, using the exact name 'pupper_llm' to avoid errors:
+3. Clone the starter code repository from GitHub into your Pupper's home directory, using the exact name 'pupper_llm' to avoid errors:
 
    .. code-block:: bash
 
       cd ~/
       git clone https://github.com/cs123-stanford/pupper_llm_student.git pupper_llm
+
+4. Navigate to the folder `~/pupper_llm/pupper_llm/Robot_Commands/` and run the following command. If some dependencies are not working (which shouldn't be a big issue), please let a TA know!
+
+   .. code-block:: bash
+
+      pip install -r requirements.txt
+
 
 Step 2. Use the Karel Pupper API
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -60,13 +61,13 @@ Step 2. Use the Karel Pupper API
       cd ~/pupper_llm/launch
       ros2 launch launch.py
 
-In a second, run
+In a second terminal, run the commands
    .. code-block:: bash
 
       cd ~/pupper_llm/pupper_llm/karel
       python3 karel_test.py
 
-1. Use the KarelPupper API to control Pupper to do a new action in a new python file. Do this by chaining together many commands together, which you can see available in the `karel.py` file. If required, you can further tune the hardcoded numbers for moving Pupper in `karel.py` or implement your own high-level commands.
+3. Use the KarelPupper API to control Pupper to do a new action in a new python file. Do this by chaining together many commands together, which you can see available in the `karel.py` file. If required, you can further tune the hardcoded numbers for moving Pupper in `karel.py` or implement your own high-level commands.
 
 **DELIVERABLE:** Submit your new python file to control Pupper with the KarelPupper API to Gradescope. Write a short blurb about what you commanded Pupper to do. Write about any tuning or new command implementations you made. Take a video and upload to Gradescope with your submission.
 
@@ -201,4 +202,4 @@ When the inference_publisher script asks for input, select either the CNN or the
 
 **DELIVERABLE** Command Pupper using this method. What are the drawbacks and benefits as compared to the method using LLMs? What do you think these drawbacks and benefits are caused by?
 
-Congrats! You have now implemented voice control on Pupper and benchmarked two different methods. Feel free to build upon this for your final project!
+Congrats! You have now implemented voice control on Pupper and benchmarked two different methods. Feel free to build upon this for your final project (we provide optional lab 3 to help you get started)!
