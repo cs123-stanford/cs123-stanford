@@ -3,17 +3,18 @@ Final Project Overview
 
 The final project is your opportunity to apply everything you've learned in CS123 to create something unique with Pupper. You'll have three weeks to develop, implement, and present your project.
 
-Important Submission Requirements
-------------------------------
-1. **No Late Days**
+No Late Days
+------------
+   - Late days cannot be used for **any portion** of the final project
+   - Failure to submit any section on time results in a **0** for that component
+   - Office hours will be available as usual to help you meet deadlines--we're here to support you!
+  
+Submission Requirements
+----------------------
 
-   - Late days cannot be used for any portion of the final project
-   - Failure to submit any section on time results in a 0 for that component
-   - Office hours will be available as usual to help you meet deadlines
-
-2. **Project Proposal (Due 5/20)**
+1. **Project Proposal (Due 5/20 11:59 PM)**
    
-   - ~One page, single-spaced document containing:
+   - ~One page, single-spaced document (excluding images) containing:
   
      - Goal: Clear description of what you aim to achieve with your project
      - Motivation: Why this project is interesting/important and how it builds on course material
@@ -32,14 +33,22 @@ Important Submission Requirements
   
    - TAs will provide a link to schedule your mandatory meeting after grading your proposal
    - We will grade your proposals and schedule meetings as soon as possible to help you get started on your project
+   - Due to the strict deadline on progress report, we recommend submitting your proposal as early as possible
 
-3. **Progress Report (Due 5/30)**
+2. **Progress Report (Due 5/30 11:59 PM)**
 
-   - ~One page, single-spaced
-   - Must be completely different from your proposal
+   - ~One page or more, single-spaced (including images)
+   - Free in form, but must be **completely different** from your proposal
    - Must include a video showing some implemented and functional features
-   - **Important**: If you're too busy to compile a detailed progress report, you can just submit your in-progress project log + demo video instead
-   - Failure to show functional implementation in the video, or copy/pasting from the project proposal will result in significant penalties
+   - If you're too busy to compile a detailed progress report, we encourage just submitting your in-progress project log + demo video instead
+   - **Important**: Failure to show functional implementation in the video, or copy/pasting from the project proposal will result in significant penalties (50%+ reduction in your progress report score)
+  
+3. **Final Demo Video & Presentation (Due 6/8 11:59 PM)**
+
+   - ~1 minute video showing your (almost fully ready) final project
+   - Must be uploaded and submitted on Gradescope
+   - The demo video is needed as a final progress check, and also comes in handy if you encounter technical difficulties during your presentation (which happens quite often)
+   - We will not collect presentation slides, but you should prepare them for your final presentation (around 5~10 minutes)
 
 Project Ideas
 -----------
