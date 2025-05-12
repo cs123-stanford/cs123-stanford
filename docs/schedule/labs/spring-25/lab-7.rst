@@ -10,10 +10,11 @@ Fill out the lab document as you complete this lab: `Lab document <https://docs.
 Step 1. Getting Started
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. In this lab, we will be using the microphone on Pupper to record your voice input. Plug in the microphone into the Raspberry Pi, as shown in the image below.
+1. In this lab, we will be using the microphone on Pupper to record your voice input. Plug in the microphone transmitter into the Raspberry Pi, as shown in the image below.
 
 .. figure:: ../../../_static/mic_cable.jpg
     :align: center
+    :width: 500px
 
     Microphone transmitter inserted into the Raspberry Pi.
 
