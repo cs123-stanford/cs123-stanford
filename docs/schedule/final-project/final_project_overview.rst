@@ -52,7 +52,7 @@ Submission Requirements
 
 Project Ideas
 -----------
-We've compiled a list of potential project ideas to help you get started. You can find them in our `Project Ideas Spreadsheet <https://docs.google.com/spreadsheets/d/1fMy-Vo0vjHK6ASFYn5OJlKVUja1LdaAGdy50HYk_MDw/edit?usp=sharing>`_. The spreadsheet includes suggested starting points from various labs (including the optional labs), which you can extend in creative ways. Feel free to use these as inspiration or come up with your own ideas!
+We've compiled a list of potential project ideas to help you get started. You can find them in our `Project Ideas Spreadsheet <https://docs.google.com/spreadsheets/d/1vTYDniGllDyuABr1BxE2CVKiqiauncjWslB0OwzPIbk/edit?usp=sharing>`_. The spreadsheet includes suggested starting points from various labs (including the optional labs), which you can extend in creative ways. Feel free to use these as inspiration or come up with your own ideas!
 
 Project Advice
 ------------

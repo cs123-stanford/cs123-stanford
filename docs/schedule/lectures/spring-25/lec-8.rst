@@ -13,6 +13,7 @@ The final project is your opportunity to apply everything you've learned in CS12
 Week 8 (5/19-5/20):
     - Project proposal due **Tuesday, 5/20 at 11:59 PM**
     - Mandatory **meeting with TA** to discuss your proposal
+    - Check out some project ideas `here <https://docs.google.com/spreadsheets/d/1vTYDniGllDyuABr1BxE2CVKiqiauncjWslB0OwzPIbk/edit?usp=sharing>`_
     - Start implementation
 
 Week 9 (5/26-5/30):
