@@ -31,7 +31,7 @@ Step 1. Getting Started
 
 Navigate to the folder `~/pupper_llm/pupper_llm/Robot_Commands/` and run the following command. If some dependencies are not working (which shouldn't be a big issue), please let a TA know!
 
-   ..code-block:: bash
+   .. code-block:: bash
 
       pip install -r requirements.txt
 
