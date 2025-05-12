@@ -3,41 +3,6 @@ Final Project Overview
 
 The final project is your opportunity to apply everything you've learned in CS123 to create something unique with Pupper. You'll have three weeks to develop, implement, and present your project.
 
-Project Timeline
---------------
-Week 7 (5/12-5/18):
-
-    - Final project schedule and possible directions will be presented
-    - Start brainstorming project ideas
-    - Ask teaching staff/TAs for feedback on your ideas
-
-Week 8 (5/19-5/20):
-
-    - Project proposal due Tuesday, 5/20 at 11:59 PM
-    - Mandatory meeting with TA to discuss your proposal
-    - Start implementation
-
-Week 9 (5/26-5/30):
-
-    - No class on Monday (Memorial Day)
-    - Progress report due Friday, 5/30 at 11:59 PM
-    - Must include a progress video in your report
-    - Continue implementation
-
-Week 10 (6/2-6/9):
-
-    - Last lecture on 6/2: Progress report review & working on final project in class
-    - Final demo video due Sunday, 6/8 at 11:59 PM
-    - Final presentations on Monday, 6/9
-
-Grading Breakdown
----------------
-- Project Proposal: 2%
-- Progress Report: 8%
-- Final Demo Video & Presentation: 14%
-
-*Note: These percentages are subject to change.*
-
 Important Submission Requirements
 ------------------------------
 1. **No Late Days**
