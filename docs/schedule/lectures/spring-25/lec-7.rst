@@ -3,7 +3,7 @@ Large Language Models for Robotics
 
 **Lab:** :doc:`../../labs/spring-25/lab-7` Integrating a Voice input pipeline on Pupper and benchmarking against other methods!
 
-**Lecture Slides:** (from Fall 2024, will be updated soon) https://drive.google.com/file/d/1ZH_WWP54y_h4f7pgIcb8dZLs9oMl2-a8/view?usp=sharing by Fei Xia
+**Lecture Slides:** https://drive.google.com/file/d/1BErc7XdMarUXK81Ze9LkbO7hgxeqAcr7/view?usp=sharing by Wenhao Yu
 
 **Lab Review Slides:** https://docs.google.com/presentation/d/1nhWyFfUxG2btsOvcU_If0vBKpUgvMBoG/edit?usp=sharing&ouid=112164671976474020631&rtpof=true&sd=true
 
