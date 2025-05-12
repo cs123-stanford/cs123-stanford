@@ -51,13 +51,13 @@ Refining the KarelPupper APIs with Vision Integration
 ---------------------------------------------------
 Now that Pupper has vision capabilities, we can enhance the KarelPupper API to enable more sophisticated behaviors that make use of visual feedback. Here's what you'll need to do:
 
-Location and Task
-^^^^^^^^^^^^^^^^
+**Location and Task**
+
 - File: `pupper_llm/karel/karel.py`
 - Implement new API functions that utilize vision input
 
-Important Timing Constraint
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Important Timing Constraint**
+
 The Vision-Language Model (VLM) pipeline has a significant processing delay:
 
 - Each image takes over 15 seconds to process + execute the API call
@@ -67,8 +67,8 @@ The Vision-Language Model (VLM) pipeline has a significant processing delay:
   - For real-time tasks (obstacle avoidance, navigation): Implement a separate, lightweight vision pipeline
   - For non-time-critical tasks (goal recognition, scene understanding): Use the VLM output directly
 
-Suggested API Additions (In Order of Complexity)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Suggested API Additions (In Order of Complexity)**
+
 1. Basic Movement Extensions
    
    - Side stepping capabilities
