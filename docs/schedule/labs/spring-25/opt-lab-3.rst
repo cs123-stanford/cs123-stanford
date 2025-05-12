@@ -17,6 +17,13 @@ While fancy VLA systems use end-to-end training to learn everything from pixels 
 2. Language understanding is handled by GPT (like having a translator)
 3. Action generation uses our existing API (like having a remote control)
 
+.. figure:: ../../../_static/poor_man_vla.png
+    :align: center
+    :width: 500px
+
+    Gotta assemble this pipeline piece by piece!
+
+
 It's not as elegant as the end-to-end approach, but hey, we're working with what we've got! Plus, this modular approach gives you more control over each component and makes debugging easier - when something goes wrong, you know exactly which part of your IKEA furniture is wobbly.
 
 The Challenge
@@ -42,25 +49,61 @@ We have provided two potential starting points:
 
 Refining the KarelPupper APIs with Vision Integration
 ---------------------------------------------------
-With vision capabilities integrated into Pupper, we can now expand our KarelPupper API to support more sophisticated and dynamic behaviors that leverage visual feedback. Here are some suggested API enhancements:
+Now that Pupper has vision capabilities, we can enhance the KarelPupper API to enable more sophisticated behaviors that make use of visual feedback. Here's what you'll need to do:
 
-- Location: `pupper_llm/karel/karel.py`
-- Your task: Implement new vision-enabled API functionalities
-- Important Note: The VLM pipeline processes one image at a time, with each inference usually taking over 15 seconds to complete. This means you'll only get very sparse visual feedback (one image every 15+ seconds). Keep this timing constraint in mind when designing your APIs:
+Location and Task
+^^^^^^^^^^^^^^^^
+- File: `pupper_llm/karel/karel.py`
+- Implement new API functions that utilize vision input
+
+Important Timing Constraint
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+The Vision-Language Model (VLM) pipeline has a significant processing delay:
+
+- Each image takes over 15 seconds to process + execute the API call
+- This results in sparse visual feedback (one image per 15+ seconds)
+- Plan your API implementations accordingly:
   
-  - For real-time tasks (like obstacle avoidance or dynamic navigation), you'll need to implement a separate, faster vision processing pipeline (while not frying your Raspberry Pi)
-  - For tasks that can work with sparse visual updates (like goal recognition or environment understanding), you can use the VLM's output directly
-- Consider adding (from easiest to hardest):
-  
-  - Simple movement primitives (e.g., side steps, diagonal movements)
-  - Sound feedback capabilities (e.g., playing victory music when reaching goals, warning sounds for obstacles)
-  - Custom action sequences (e.g., a sequence of steps chained together to perform a dance with synchronized music)
-  - Sensor feedback integration (e.g., images, IMU data, joint positions)
-  - Advanced navigation capabilities (e.g., path planning, obstacle avoidance with **real-time** vision feedback, start from lab 6)
-    - Note: This will require a separate, faster vision processing pipeline due to the VLM's sparse visual feedback
-  - Complex movement primitives (e.g., switching gaits or adding yaw control - check neural controller for implementation details, you may need to train your own policies)
-  
-- These new APIs will give your VLA system more expressive power to handle complex tasks
+  - For real-time tasks (obstacle avoidance, navigation): Implement a separate, lightweight vision pipeline
+  - For non-time-critical tasks (goal recognition, scene understanding): Use the VLM output directly
+
+Suggested API Additions (In Order of Complexity)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1. Basic Movement Extensions
+   
+   - Side stepping capabilities
+   - Diagonal movement options
+   
+2. Audio Integration
+   
+   - Goal achievement sounds
+   - Warning/alert noises
+   
+3. Choreographed Sequences
+   
+   - Multi-step movement patterns
+   - Synchronized movement and audio
+   - Example: Make Pupper dance while playing music
+   
+4. Sensor Integration
+   
+   - Karel API embedded camera feed processing
+   - IMU data handling
+   - Joint position monitoring
+   
+5. Smart Navigation
+   
+   - Path planning algorithms
+   - Real-time obstacle detection and avoidance
+   - Note: Requires implementing a separate fast vision pipeline. Builds on concepts from Lab 6
+   
+6. Advanced Movement Control
+   
+   - Gait switching functionality
+   - Yaw control implementation
+   - Note: May require training custom neural policies and modifying the neural controller pipeline. Builds on concepts from Lab 5
+
+These enhancements will significantly expand your VLA system's capabilities and allow Pupper to handle more complex, vision-guided tasks.
 
 Evaluation
 ----------
