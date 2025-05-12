@@ -29,6 +29,13 @@ Step 1. Getting Started
       pip install sounddevice
       pip install pyttsx3
 
+Next, install the following package with a sudo apt install
+
+   .. code-block:: bash
+
+      sudo apt-get install espeak
+
+
 3. Clone the starter code repository from GitHub into your Pupper's home directory, using the exact name 'pupper_llm' to avoid errors:
 
    .. code-block:: bash
