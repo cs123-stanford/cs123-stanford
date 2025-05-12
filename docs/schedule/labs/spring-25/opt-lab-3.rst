@@ -28,12 +28,14 @@ Getting Started
 We have provided two potential starting points:
 
 1. **Debug Existing Implementation**
+   
    - Location: `pupper_llm/vision_integration`
    - This is a barebone (not functional) implementation that currently includes depth and recognition mask inputs
    - Your task: Debug and modify this implementation to work with simpler vision inputs
    - Note: You'll need to remove the depth and recognition mask components
 
 2. **Direct Modification**
+   
    - Location: `pupper_llm`
    - Alternative approach: Modify the main codebase directly
    - Your task: Implement an image message publisher to feed visual information to the GPT model
@@ -48,6 +50,7 @@ With vision capabilities integrated into Pupper, we can now expand our KarelPupp
   - For real-time tasks (like obstacle avoidance or dynamic navigation), you'll need to implement a separate, faster vision processing pipeline (while not frying your Raspberry Pi)
   - For tasks that can work with sparse visual updates (like goal recognition or environment understanding), you can use the VLM's output directly
 - Consider adding (from easiest to hardest):
+  
   - Simple movement primitives (e.g., side steps, diagonal movements)
   - Sound feedback capabilities (e.g., playing victory music when reaching goals, warning sounds for obstacles)
   - Custom action sequences (e.g., a sequence of steps chained together to perform a dance with synchronized music)
@@ -55,6 +58,7 @@ With vision capabilities integrated into Pupper, we can now expand our KarelPupp
   - Advanced navigation capabilities (e.g., path planning, obstacle avoidance with **real-time** vision feedback, start from lab 6)
     - Note: This will require a separate, faster vision processing pipeline due to the VLM's sparse visual feedback
   - Complex movement primitives (e.g., switching gaits or adding yaw control - check neural controller for implementation details, you may need to train your own policies)
+  
 - These new APIs will give your VLA system more expressive power to handle complex tasks
 
 Evaluation
