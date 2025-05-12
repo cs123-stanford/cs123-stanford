@@ -5,41 +5,17 @@ Lab 7: Do What I Say
 
 For this lab, we are going to implement a speech recognition pipeline to command Pupper with voice/speech input. To do so, we will hone ROS implementation skills to add various capabilities to Pupper, which will also be helpful for your final project. If anything is not working as expected or you have any questions, please ask a TA.
 
-Fill out the lab document as you complete this lab: https://docs.google.com/document/d/1dU70gedHd83s3HA9g-nIzRdMnL8tlony3w4H7Th0NOA/edit?usp=sharing.
-
-Step 0. Revert to Default Policy from Lab 5
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-`You only need to complete this step if you have completed Lab 5 recently, and overwrote the default walking policy on the robot. This step is to point the robot to run the default policy rather than the walking policy you trained last lab. If you would like to run any of your own policys again in the future, you must do the inverse of this step and build the workspace again.`
-
-1. Turn on your Pupper, and go to this link to find the default walking policy: https://github.com/G-Levine/neural_controller/blob/main/launch/policy.json. Download the file ``policy.json``, and ensure it is in your `Downloads` directory.
-
-2. Run the fllowing command
-
-   .. code-block:: bash
-
-      cd ~/Downloads
-      mv policy.json ~/ros2_ws/src/neural_controller/launch/default_policy.json
-
-3. Open the file `~/ros2_ws/src/neural_controller/launch/config.yaml` in VSCode. In line 105, change the line to point to ``default_policy.json``. It should now say ``model_path: "$(find-pkg-share neural_controller)/launch/default_policy.json"``. Save the file
-
-4. Open the file `~/.bashrc` in VSCode. Add the following line to the end of the file, and save:
-
-   .. code-block:: bash
-
-      alias build="cd $HOME/ros2_ws && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && cd -"
-
-5. In a terminal, run ``source ~/.bashrc``. Then, run ``build`` to build the workspace packages to make the change to run the default policy. Close and reopen any terminals to make sure that the changes persist in all shells. 
+Fill out the lab document as you complete this lab: `Lab document <https://docs.google.com/document/d/1dU70gedHd83s3HA9g-nIzRdMnL8tlony3w4H7Th0NOA/edit?usp=sharing>`_
 
 Step 1. Getting Started
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Before turning on your Pupper, plug in your USB memory stick to the Pupper in the right side, top row port. Plug in the USB Splitter to the right side, bottom row port. Plug the keyboard and mouse into each end of the USB splitter. 
+1. In this lab, we will be using the microphone on Pupper to record your voice input. Plug in the microphone into the Raspberry Pi, as shown in the image below.
 
 .. figure:: ../../../_static/mic_cable.jpg
     :align: center
 
-    Microphone cable inserted into the Raspberry Pi.
+    Microphone transmitter inserted into the Raspberry Pi.
 
 2. Turn on the Pupper, and install the related python packages
 
@@ -52,13 +28,13 @@ Step 1. Getting Started
       pip install sounddevice
       pip install pyttsx3
 
-Navigate to the folder `~/pupper_llm/pupper_llm/Robot_Commands/` and run the following command. If some dependencies are not working, please let a TA know!
+Navigate to the folder `~/pupper_llm/pupper_llm/Robot_Commands/` and run the following command. If some dependencies are not working (which shouldn't be a big issue), please let a TA know!
 
    ..code-block:: bash
 
       pip install -r requirements.txt
 
-3. Clone the starter code into the Pupper
+1. Clone the starter code repository from GitHub into your Pupper's home directory, using the exact name 'pupper_llm' to avoid errors:
 
    .. code-block:: bash
 
@@ -68,7 +44,7 @@ Navigate to the folder `~/pupper_llm/pupper_llm/Robot_Commands/` and run the fol
 Step 2. Use the Karel Pupper API
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. For much of this lab, we will be using the KarelPupper API. Much like the CS106A programming introduction, we use the KarelPupper API to do basic commands to control Pupper. In our case, using this API abstracts away the minute motor control commands and makes code much more readable for something like an LLM. The following excercises will help you get familiar with the API, which is something that many students build on top of for their final projects.
+1. For much of this lab, we will be using the KarelPupper API, which many of you remember "fondly" from CS106A's Karel the Robot as a programming introduction. Trust me, this isn't nearly that bad on Pupper ;). Much like in CS106A, we use the KarelPupper API to do basic commands to control Pupper. In our case, using this API abstracts away the minute motor control commands and makes code much more readable for something like an LLM. The following excercises will help you get familiar with the API, which is something that many students build on top of for their final projects.
 
 
 .. figure:: ../../../_static/karel_pupper.png
@@ -77,8 +53,6 @@ Step 2. Use the Karel Pupper API
     Pupper in the Karel Environment.
 
 2. Experiment with the KarelPupper API by running the `karel_test.py` script. Take a look at the script, and see if you can understand what Pupper should do before you run the script, and then run the script to validate your thoughts. In a first terminal, run
-
-**IMPORTANT NOTE:** To run a script on this step, you should uncomment the line that has ``rclpy.init()`` in Line 14 of `~/pupper_llm/pupper_llm/karel/karel.py`. After completing this step, comment the line again.
 
    .. code-block:: bash
 
@@ -91,18 +65,16 @@ In a second, run
       cd ~/pupper_llm/pupper_llm/karel
       python3 karel_test.py
 
+1. Use the KarelPupper API to control Pupper to do a new action in a new python file. Do this by chaining together many commands together, which you can see available in the `karel.py` file. If required, you can further tune the hardcoded numbers for moving Pupper in `karel.py` or implement your own high-level commands.
 
-
-3. Use the KarelPupper API to control Pupper to do a new action in a new python file. Do this by chaining together many commands together, which you can see available in the `karel.py` file. If required, you can further tune the hardcoded numbers for moving Pupper in `karel.py` or implement your own high-level commands.
-
-**DELIVERABLE:** Submit your new python file to control Pupper with the KarelPupper API to Gradescope. Write a short blurb about what you commanded Pupper to do. Write about any tuning or new command implementations you made. Tkae a video and upload to Gradescope with your submission.
+**DELIVERABLE:** Submit your new python file to control Pupper with the KarelPupper API to Gradescope. Write a short blurb about what you commanded Pupper to do. Write about any tuning or new command implementations you made. Take a video and upload to Gradescope with your submission.
 
 Step 3. Create a Simple Chat with GPT Through the Command Line
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. Our first step to implement our speech recognition pipeline is to ROSify the ChatGPT API. While we all know we can chat with ChatGPT through the web app, we will need to be able to send the responses to ChatGPT through a series of ROS publishers and subscribers. Open VSCode, and find the `simple_gpt_chat.py` file at `~/pupper_llm/pupper_llm/simple_scripts/`. This script will get responses from the ChatGPT API based on user queries. 
 
-2. Refer to the Canvas announcement for the OpenAI API key. Paste the key in line 6 in the `TODO`. This will allow you to ping the ChatGPT API. 
+2. Refer to the Canvas/Ed announcements for the OpenAI API key. Paste the key in line 6 in the `TODO`. This will allow you to ping the ChatGPT API. 
 
 3. Remember that a callback function in ROS is a function that gets automatically called when a specific event occurs, such as receiving a message on a topic, a service request, or a timer event. In Line 13, we create a subscriber `self.subscription` that runs the callback function `query_callback` everytime the `/user_query_topic` ROS topic receives a message. Implement the `query_callback` function according to the description in the file. Refer to the `String Message <https://docs.ros2.org/foxy/api/std_msgs/msg/String.html>`_ documentation.
 
@@ -133,11 +105,11 @@ You should now be able to send queries through the second terminal, and see resp
 Step 4. Use the Whisper API to Send Voice Input to ChatGPT
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. The Whisper API is a state-of-the-art automatic speech recognition (ASR) system. The Whisper API enables developers to integrate speech-to-text capabilities into their applications by sending audio files to the API and receiving a transcription of the spoken content. We will use Whisper to send voice commands to Pupper. Paste the API key from the Canvas announcent to line 7. 
+1. The Whisper API is a state-of-the-art (questionable) automatic speech recognition (ASR) system. The Whisper API enables developers to integrate speech-to-text capabilities into their applications by sending audio files to the API and receiving a transcription of the spoken content. We will use Whisper to send voice commands to Pupper. In `~/pupper_llm/pupper_llm/simple_scripts`, paste the OpenAI API key from the Canvas/Ed announcements to line 7. 
 
 2. Copy your implementation of `publish_message` in the file `whisper_ping.py` in the folder `~/pupper_llm/pupper_llm/simple_scripts`. The rest of the code is implemented for you. The code essentially receives input from a USB microphone, parses it at regular intervals, and sends that to `user_query_topic` (just as `command_line_publisher.py`)
 
-3. Plug in your USB microphone receiver to the Pi, using the USB-A to USB-C adapter (refer to the beginning image). Plug it into the left side top row of the USB ports (with the right side above the memory stick). Plug in the USB speaker to the remaining port (left side bottom row). Turn on the microphone transmitter. Check that audio is being received by opening the Settings app, and navigate to the Sound menu. See if the bar for the microphone moves when you speak into the transmitter.
+3. Plug in the USB speaker to the Pi. Check that your microphone transmitter has a constant green light indicating it's working properly. If the light is not constant green, try turning the microphone off and on again.
 
 4. Run your code. In a first terminal, run the commands
 
@@ -160,7 +132,7 @@ You should now be able to speak into the microphone transmitter, and see the sec
 Step 5. Make ChatGPT command the KarelPupper API
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Now we will use the previous scripts to command the KarelPupper API rather than just creating a chat stream. Open the file `karel_chat_gpt_commander.py`, at `~/pupper_llm/pupper_llm/karel`, and paste in the API key from Canvas in line 8. 
+1. Now we will use the previous scripts to command the KarelPupper API rather than just creating a chat stream. Open the file `karel_chat_gpt_commander.py`, at `~/pupper_llm/pupper_llm/karel`, and paste in the API key from Canvas/Ed announcements in line 8. 
 
 2. Engineer a prompt to have ChatGPT output a KarelPupper command based on the input user query. Paste in the prompt in the `prompt` variable inthe `get_gpt_response` method.
 
@@ -169,8 +141,6 @@ Step 5. Make ChatGPT command the KarelPupper API
 4. Implement the `exectute_robot_command` method. Based on the response argument, this method should control Pupper with the KarelPupper object `self.pupper` in a big if-else statement. 
 
 5. Run your code. In a first terminal, run the commands
-
-**IMPORTANT NOTE:** Remember to comment the line that has ``rclpy.init()`` in Line 14 of `~/pupper_llm/pupper_llm/karel/karel.py if you have not already done so to run the GPT commander`.
 
    .. code-block:: bash
 
@@ -184,7 +154,7 @@ In a second terminal, run the commands
       cd ~/pupper_llm/pupper_llm/karel
       python3 karel_chat_gpt_commander.py
 
-Now, you can use either `whisper_ping.py` or `command_line_publisher.py` to send commands. Run either one following the above directions. 
+Now, you can use either `whisper_ping.py` (using voice input) or `command_line_publisher.py` (using text input) to send natural language commands to Pupper. Run either one following the above directions. (So you will have three terminals running: one for the launch file, one for the KarelPupper GPT Node, and one for the voice/text input)
 
 You should now be able to command Pupper to move based on user input! 
 
@@ -194,7 +164,7 @@ You should now be able to command Pupper to move based on user input!
 
 **DELIVERABLE:** As you have probably noticed, the `whisper_ping.py` script runs once, and then you have to run it again entirely to run new voice input. We can modify this script in the main loop to run a continuous loop, by adding a ``while`` loop conditioned on ``rclpy.ok()``. While starting the loop seems simple, this causes some latency issues where the publisher and subscriber may not necessarily be aligned where inputs may be played more than once or not at all. Make this run in a continuous loop and improve the latency for this implementation. Record a video with your submission.
 
-**EXTRA CREDIT:** When using this method, we make API calls to OpenAI's Whisper and GPT models. While the inference time to get a response from GPT/Whisper is fast, we are often limited by the latency in the network for sending the data through the API. An alternate method for this pipeline is to use on-board models for voice input parsing. Since the Pi has limited compute, we will need to use smaller models than those we called in the lab today. However, the Pi can support many smaller models. Experiment with creating the same pipeline by using an on-board speech-to-text engine and on-board text understander (you may choose to use a smaller LLM, or an alternate method entirely). Attach your code with your submission and write a few sentences about what you did (3-4 sentences, <1 paragraph). 
+**EXTRA CREDIT:** When using this method, we make API calls to OpenAI's Whisper and GPT models. While the inference time to get a response from GPT/Whisper is fast, we are often limited by the latency in the network for sending the data through the API. An alternate method for this pipeline is to use on-board models for voice input parsing. Since the Pi has limited compute, we will need to use much smaller models than the potent GPT-4o models we used in the lab today. However, the Pi can support many smaller models. Experiment with creating the same pipeline by using an on-board speech-to-text engine and on-board text understander (you may choose to use a smaller LLM, or an alternate method entirely. Make sure to confirm your pipeline with a TA prior to trying to avoid damage to the Pi). Attach your code with your submission and write a few sentences about what you did (3-4 sentences, <1 paragraph). 
 
 Step 6. Benchmark Against CNN and ResNet Method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
