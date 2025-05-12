@@ -47,6 +47,7 @@ With vision capabilities integrated into Pupper, we can now expand our KarelPupp
 - Location: `pupper_llm/karel/karel.py`
 - Your task: Implement new vision-enabled API functionalities
 - Important Note: The VLM pipeline processes one image at a time, with each inference usually taking over 15 seconds to complete. This means you'll only get very sparse visual feedback (one image every 15+ seconds). Keep this timing constraint in mind when designing your APIs:
+  
   - For real-time tasks (like obstacle avoidance or dynamic navigation), you'll need to implement a separate, faster vision processing pipeline (while not frying your Raspberry Pi)
   - For tasks that can work with sparse visual updates (like goal recognition or environment understanding), you can use the VLM's output directly
 - Consider adding (from easiest to hardest):
