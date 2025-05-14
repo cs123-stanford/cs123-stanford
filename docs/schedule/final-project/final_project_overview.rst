@@ -16,8 +16,7 @@ Submission Requirements
    
    - ~One page or more, single-spaced document (excluding images) containing:
 
-     -  Problem description: State the problem you will solve
-     -  Motivation: Why this project is interesting/important and how it builds on course material
+     -  Problem description: State the problem you will solve. Why this project is interesting/important and how it builds on course material?
      -  Proposed solution: 
 
        - Detailed breakdown of required components and implementation approach
@@ -26,7 +25,7 @@ Submission Requirements
      -  Expected results: Explain in detail what you will show on demo day.
      -  Milestones and Schedule:
   
-       - Detail the steps you will take to successfully complete the final project in the timeframe we have for projects
+       - Detail the steps you will take to successfully complete the final project in the timeframe we have
        - Think of milestones in terms of three tiers of goals: target, reach and dream
        - Week-by-week timeline of milestones and deliverables
        - Specific goals to hit by progress report deadline (5/30)
