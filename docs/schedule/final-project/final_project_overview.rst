@@ -14,20 +14,24 @@ Submission Requirements
 
 1. **Project Proposal (Due 5/20 11:59 PM)**
    
-   - ~One page, single-spaced document (excluding images) containing:
-  
-     - Goal: Clear description of what you aim to achieve with your project
-     - Motivation: Why this project is interesting/important and how it builds on course material
-     - Technical Plan: 
-  
+   - ~One page or more, single-spaced document (excluding images) containing:
+
+     -  Problem description: State the problem you will solve
+     -  Motivation: Why this project is interesting/important and how it builds on course material
+     -  Proposed solution: 
+
        - Detailed breakdown of required components and implementation approach
        - List of needed hardware/software resources (which we can reimburse for)
        - Identification of key technical challenges and proposed solutions
+     -  Expected results: Explain in detail what you will show on demo day.
+     -  Milestones and Schedule:
   
-     - Schedule:
-  
+       - Detail the steps you will take to successfully complete the final project in the timeframe we have for projects
+       - Think of milestones in terms of three tiers of goals: target, reach and dream
        - Week-by-week timeline of milestones and deliverables
        - Specific goals to hit by progress report deadline (5/30)
+       - On 6/2 during the lecture, each team will demonstrate their current progress to the instructors and TAs
+       - In the proposal, you will specify which milestone you expect to complete by 5/30
        - Backup plans for each major component if original approach fails
        - Risk assessment of which parts may take longer than expected
   
