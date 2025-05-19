@@ -3,6 +3,8 @@ Final Project Overview
 
 The final project is your opportunity to apply everything you've learned in CS123 to create something unique with Pupper. You'll have three weeks to develop, implement, and present your project.
 
+View the rubric you will be graded on `here <https://docs.google.com/document/d/1JdIppC1S4bj4yeZbd9zm9Q1xBVgj7ydUSrw18KlayaI/edit?usp=sharing>`_.
+
 No Late Days
 ------------
    - Late days cannot be used for **any portion** of the final project
