@@ -2,7 +2,9 @@ Final Project Schedule & Directions
 =======================================
 **Assignment:** Final Project Proposal
 
-**Lecture Slides:** (TBD)
+**Lecture Slides:** 'Final Project Overview <https://docs.google.com/presentation/d/1d0Z-FubAdd2kRMi7fy8mUCQsIGHYw9n5/edit?usp=sharing&ouid=112164671976474020631&rtpof=true&sd=true>'_
+
+**Rubric:** 'Final Project Rubric <https://docs.google.com/document/d/1JdIppC1S4bj4yeZbd9zm9Q1xBVgj7ydUSrw18KlayaI/edit?tab=t.0#heading=h.7qpeu3aa2m>'_
 
 **Project Overview:**
 
