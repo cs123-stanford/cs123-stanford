@@ -23,7 +23,7 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
        object-fit: cover;
        object-position: center;
        display: block;
-       transition: opacity 0.3s ease-in-out;
+       transition: opacity 0.5s ease-in-out;
      }
      #pupper-hero video {
        display: block !important;
@@ -48,6 +48,10 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
        <source src="_static/pupper_demo.mp4" type="video/mp4">
        Your browser does not support HTML5 video.
      </video>
+   </div>
+
+   <div style="text-align: center; margin: 0.5rem 0; font-style: italic; color: #666;">
+     Pupper Robot
    </div>
 
    <script>
