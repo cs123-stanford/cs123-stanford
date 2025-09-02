@@ -1,11 +1,131 @@
 CS 123: A Hands-On Introduction to Building AI-Enabled Robots
 #############################################################
 
-.. figure:: _static/pupper_splash.jpg
-    :align: center
-    :alt: Pupper
+.. raw:: html
 
-    Pupper Robot
+   <style>
+     #pupper-hero { 
+       position: relative; 
+       max-width: 900px; 
+       margin: 1rem auto;
+       border-radius: 8px;
+       overflow: hidden;
+       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+     }
+     #pupper-hero img, #pupper-hero video { 
+       width: 100%; 
+       height: auto; 
+       display: block;
+       transition: opacity 0.3s ease-in-out;
+     }
+     #pupper-hero video {
+       opacity: 0;
+     }
+     #pupper-hero video[style*="display: block"] {
+       opacity: 1;
+     }
+   </style>
+
+   <div id="pupper-hero" aria-label="Pupper hero">
+     <img id="pupper-photo" src="_static/pupper_splash.jpg" alt="Pupper cover">
+     <video id="pupper-video" muted playsinline preload="auto" aria-label="Pupper demo (muted)">
+       <!-- webm first, mp4 fallback for Safari/iOS -->
+       <source src="_static/pupper_demo.webm" type="video/webm">
+       <source src="_static/pupper_demo.mp4" type="video/mp4">
+       Your browser does not support HTML5 video.
+     </video>
+   </div>
+
+   <script>
+   (function () {
+     const photo = document.getElementById('pupper-photo');
+     const video = document.getElementById('pupper-video');
+
+     const SEG_LEN = 5;               // seconds of video per cycle
+     const PHOTO_MS = 5000;           // 5s photo
+     let segIndex = 0;
+
+     function showPhoto() {
+       photo.style.display = 'block';
+       video.pause();
+       setTimeout(showVideoSegment, PHOTO_MS);
+     }
+
+     function showVideoSegment() {
+       photo.style.display = 'none';
+       video.muted = true; // required for autoplay on most browsers
+       const start = segIndex * SEG_LEN;
+
+       const playSegment = () => {
+         const end = start + SEG_LEN;
+
+         // Seek to start of this segment if needed
+         if (video.currentTime < start || video.currentTime >= end) {
+           video.currentTime = start;
+         }
+
+         const onTime = () => {
+           if (video.currentTime >= end) {
+             video.removeEventListener('timeupdate', onTime);
+             video.pause();
+             // Advance to next segment (wrap around at video duration)
+             const segCount = Math.max(1, Math.floor(video.duration / SEG_LEN));
+             segIndex = (segIndex + 1) % segCount;
+             showPhoto();
+           }
+         };
+         video.addEventListener('timeupdate', onTime);
+                   video.play().catch((error) => {
+            console.log('Autoplay blocked:', error);
+            // If autoplay is blocked, fall back to showing controls and user interaction
+            video.setAttribute('controls', '');
+            video.style.display = 'block';
+            photo.style.display = 'none';
+          });
+       };
+
+               // Ensure we know the duration before segment math
+        if (isFinite(video.duration) && video.duration > 0) {
+          playSegment();
+        } else {
+          const onMeta = () => { video.removeEventListener('loadedmetadata', onMeta); playSegment(); };
+          video.addEventListener('loadedmetadata', onMeta);
+          // Only load when user is likely to see it
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+              if (entries[0].isIntersecting) {
+                video.load();
+                observer.disconnect();
+              }
+            });
+            observer.observe(video);
+          } else {
+            video.load(); // Fallback for older browsers
+          }
+        }
+     }
+
+           // Kick off once metadata is ready; if already loaded, start immediately
+      if (isFinite(video.duration) && video.duration > 0) {
+        showPhoto();
+      } else {
+        video.addEventListener('loadedmetadata', showPhoto, { once: true });
+        // Lazy load video only when needed
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+              video.load();
+              observer.disconnect();
+            }
+          });
+          observer.observe(video);
+        } else {
+          video.load(); // Fallback for older browsers
+        }
+      }
+   })();
+   </script>
+
 
 **2025-2026 Fall Teaching team:** 
 
@@ -79,7 +199,7 @@ Schedule
    "Week 7: 11/3", "", "", "", ""
    "Week 8: 11/10", "", "", "", ""
    "Week 9: 11/17", "", "", "", ""
-   "Week 10: 11/24", "Thanksgiving Break (No class)", "", "", ""
+   "Thanksgiving Break (No class)", "", "", "", ""
    "Week 11: 12/1", "", "", "", ""
 
 **References:** :doc:`../reference/references`
