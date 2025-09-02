@@ -11,23 +11,37 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
        border-radius: 8px;
        overflow: hidden;
        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+       /* Fixed aspect ratio based on image */
+       aspect-ratio: 16/9;
      }
      #pupper-hero img, #pupper-hero video { 
+       position: absolute;
+       top: 0;
+       left: 0;
        width: 100%; 
-       height: auto; 
+       height: 100%;
+       object-fit: cover;
+       object-position: center;
        display: block;
        transition: opacity 0.3s ease-in-out;
      }
      #pupper-hero video {
+       display: block !important;
        opacity: 0;
      }
-     #pupper-hero video[style*="display: block"] {
+     #pupper-hero video.showing {
        opacity: 1;
+     }
+     #pupper-hero img.showing {
+       opacity: 1;
+     }
+     #pupper-hero img:not(.showing) {
+       opacity: 0;
      }
    </style>
 
    <div id="pupper-hero" aria-label="Pupper hero">
-     <img id="pupper-photo" src="_static/pupper_splash.jpg" alt="Pupper cover">
+     <img id="pupper-photo" class="showing" src="_static/pupper_splash.jpg" alt="Pupper cover">
      <video id="pupper-video" muted playsinline preload="auto" aria-label="Pupper demo (muted)">
        <!-- webm first, mp4 fallback for Safari/iOS -->
        <source src="_static/pupper_demo.webm" type="video/webm">
@@ -45,16 +59,18 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
      const PHOTO_MS = 5000;           // 5s photo
      let segIndex = 0;
 
-     function showPhoto() {
-       photo.style.display = 'block';
-       video.pause();
-       setTimeout(showVideoSegment, PHOTO_MS);
-     }
+           function showPhoto() {
+        photo.classList.add('showing');
+        video.classList.remove('showing');
+        video.pause();
+        setTimeout(showVideoSegment, PHOTO_MS);
+      }
 
-     function showVideoSegment() {
-       photo.style.display = 'none';
-       video.muted = true; // required for autoplay on most browsers
-       const start = segIndex * SEG_LEN;
+           function showVideoSegment() {
+        photo.classList.remove('showing');
+        video.classList.add('showing');
+        video.muted = true; // required for autoplay on most browsers
+        const start = segIndex * SEG_LEN;
 
        const playSegment = () => {
          const end = start + SEG_LEN;
@@ -75,12 +91,12 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
            }
          };
          video.addEventListener('timeupdate', onTime);
-                   video.play().catch((error) => {
+                             video.play().catch((error) => {
             console.log('Autoplay blocked:', error);
             // If autoplay is blocked, fall back to showing controls and user interaction
             video.setAttribute('controls', '');
-            video.style.display = 'block';
-            photo.style.display = 'none';
+            video.classList.add('showing');
+            photo.classList.remove('showing');
           });
        };
 
@@ -88,20 +104,10 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
         if (isFinite(video.duration) && video.duration > 0) {
           playSegment();
         } else {
-          const onMeta = () => { video.removeEventListener('loadedmetadata', onMeta); playSegment(); };
-          video.addEventListener('loadedmetadata', onMeta);
-          // Only load when user is likely to see it
-          if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-              if (entries[0].isIntersecting) {
-                video.load();
-                observer.disconnect();
-              }
-            });
-            observer.observe(video);
-          } else {
-            video.load(); // Fallback for older browsers
-          }
+                     const onMeta = () => { video.removeEventListener('loadedmetadata', onMeta); playSegment(); };
+           video.addEventListener('loadedmetadata', onMeta);
+           // Load video immediately for better Chrome Mac compatibility
+           video.load();
         }
      }
 
@@ -109,19 +115,9 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
       if (isFinite(video.duration) && video.duration > 0) {
         showPhoto();
       } else {
-        video.addEventListener('loadedmetadata', showPhoto, { once: true });
-        // Lazy load video only when needed
-        if ('IntersectionObserver' in window) {
-          const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-              video.load();
-              observer.disconnect();
-            }
-          });
-          observer.observe(video);
-        } else {
-          video.load(); // Fallback for older browsers
-        }
+                 video.addEventListener('loadedmetadata', showPhoto, { once: true });
+         // Load video immediately for better Chrome Mac compatibility
+         video.load();
       }
    })();
    </script>
