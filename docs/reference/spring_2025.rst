@@ -1,3 +1,6 @@
+Spring 2025 (Archived)
+===========
+
 CS 123: A Hands-On Introduction to Building AI-Enabled Robots
 #############################################################
 
@@ -7,13 +10,14 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
 
     Pupper Robot
 
-**2025-2026 Fall Teaching team:** 
+**2024-2025 Spring Teaching team:** 
 
 * Instructors: `Prof. Karen Liu <https://tml.stanford.edu/people/karen-liu>`_ (Stanford CS), `Jie Tan <https://www.jie-tan.net/>`_ (Google DeepMind), `Stuart Bowers <https://handsonrobotics.org/>`_ (Apple, Hands-On Robotics)
 * Co-Instructors: `Wenhao Yu <https://wenhaoyu.weebly.com/>`_ (Google DeepMind), `Tingnan Zhang <https://www.linkedin.com/in/tingnanzhang/>`_ (Google DeepMind)
-* TAs: `Ankush Dhawan <https://www.linkedin.com/in/ankush-dhawan/>`_ (PhD, MechE), `JC Hu <https://www.linkedin.com/in/jc-hu/>`_ (coterm, CS), `Benji Warburton <https://www.linkedin.com/in/benjiwarburton/>`_ (undergrad, EE)
+* Head TA: `Ankush Dhawan <https://www.linkedin.com/in/ankush-dhawan/>`_ (MS EE 2025)
+* Co-TA: `Jiacheng (JC) Hu <https://www.linkedin.com/in/jc-hu-838150233/>`_ (CS 2025)
 
-**Sign-Up Form:** `This form <https://docs.google.com/forms/d/e/1FAIpQLScDPi8bazMjzMV2KLJAHexqzImbAnLQojnsOLfJG0dlEXDcjg/viewform?usp=sharing>`_ will open on Monday, 9/8/2025 at 9AM PST for applications. Please fill out this form if you are interested in enrolling for our Fall offering! We will select 24 out of the first 100 applicants in a lottery that considers equal seniority distribution among undergraduates.
+**Sign-Up Form:** `This form <https://docs.google.com/forms/d/e/1FAIpQLScDPi8bazMjzMV2KLJAHexqzImbAnLQojnsOLfJG0dlEXDcjg/viewform?usp=sharing>`_ will open on Friday, 3/7/2025 at 9AM PST for applications. Please fill out this form if you are interested in enrolling for our Spring offering!
 
 **Overview:**
 
@@ -24,25 +28,24 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **Time:** Monday, 3:30pm - 6:20pm
 
-**Lecture Location:** TBD, *in-person attendance required*
+**Lecture Location:** `Lathrop 299 <https://www.google.com/maps/place/Lathrop+Library/@37.4291471,-122.1700007,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb29c2155555:0x7d7db72ceea1d9ef!8m2!3d37.4291471!4d-122.1674258!16s%2Fm%2F011v6hp4?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
-    * Karen: TBD
+    * Karen: Fridays 9:00-10:00 am (`Zoom link <https://stanford.zoom.us/j/5675692729?pwd=UmtJYVQvT2s3R1I4bXE2RkRyVHNWUT09>`_)
     * Stuart, Jie, Wenhao, Tingnan: Office hours by appointment. Reach out to the teaching team to schedule. 
 
-**TA Office Hours Location:** TBD
+**TA Office Hours Location:** `Gates B08/B02 <https://www.google.com/maps/place/Gates+Computer+Science,+353+Serra+Mall,+Stanford,+CA+94305/@37.4299866,-122.1759052,17z/data=!3m1!4b1!4m6!3m5!1s0x808fbb2b3f50f727:0xfd9cc3200ee97fda!8m2!3d37.4299866!4d-122.1733303!16s%2Fm%2F02rm986?entry=ttu&g_ep=EgoyMDI1MDMyMy4wIKXMDSoASAFQAw%3D%3D>`_
 
 **TA Office Hours:**
 
-    * Ankush: TBD
-    * JC: TBD
-    * Benji: TBD
+    * Ankush: Mondays 11:00am - 12:00pm Gates B08, Fridays 11:00am - 12:00pm Gates B08
+    * JC: Tuesdays 2:00pm - 3:30pm Gates B08, Wednesdays 2:00pm - 3:30pm Gates B02, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
 
 **Prerequisites:**
 
-* CS106A (programming of all labs will be in Python)
+* CS106A (programming will be majorly in Python)
 * CS107 (familiarity with the terminal and command lines) 
-* MATH51/CME100 (basic understanding of gradients)
+* MATH51/CME100 (understanding of gradients)
 * No robotics experience necessary!!
 
 **Number of credits:** 3
@@ -58,10 +61,10 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 *Final project:* No extensions are allowed for the final project proposal, progress report, or final demo video/presentation.
 
 **Optional Labs:**
-Two optional labs will be offered this quarter, with the first released in Week 3. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
+Three optional labs will be offered this quarter, with the first released in Week 3. These labs are significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
 TAs will be available to support students working on the optional labs during their office hours.
 
-**Enrollment:** 24 students; 6 groups of 4 students
+**Enrollment:** ~24 students; 6 groups of 4-5 students
 
 Schedule
 ==========================
@@ -70,21 +73,19 @@ Schedule
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "Week 1: 9/22", "", "", "", ""
-   "Week 2: 9/29", "", "", "", ""
-   "Week 3: 10/6", "", "", "", ""
-   "Week 4: 10/13", "", "", "", ""
-   "Week 5: 10/20", "", "", "", ""
-   "Week 6: 10/27", "", "", "", ""
-   "Week 7: 11/3", "", "", "", ""
-   "Week 8: 11/10", "", "", "", ""
-   "Week 9: 11/17", "", "", "", ""
-   "Week 10: 11/24", "Thanksgiving Break (No class)", "", "", ""
-   "Week 11: 12/1", "", "", "", ""
+   "Week 1: 3/31", ":doc:`../schedule/lectures/spring-25/lec-1`", ":doc:`../schedule/labs/spring-25/lab-1`", "4/7/25", ""
+   "Week 2: 4/7", ":doc:`../schedule/lectures/spring-25/lec-2`", ":doc:`../schedule/labs/spring-25/lab-2`", "4/14/25", ""
+   "Week 3: 4/14", ":doc:`../schedule/lectures/spring-25/lec-3`", ":doc:`../schedule/labs/spring-25/lab-3`", "4/21/25", ":doc:`../schedule/labs/spring-25/opt-lab-1`"
+   "Week 4: 4/21", ":doc:`../schedule/lectures/spring-25/lec-4`", ":doc:`../schedule/labs/spring-25/lab-4`", "4/28/25", ""
+   "Week 5: 4/28", ":doc:`../schedule/lectures/spring-25/lec-5`", ":doc:`../schedule/labs/spring-25/lab-5`", "5/5/25", ":doc:`../schedule/labs/spring-25/opt-lab-2`"
+   "Week 6: 5/5", ":doc:`../schedule/lectures/spring-25/lec-6`", ":doc:`../schedule/labs/spring-25/lab-6`", "5/12/25", ""
+   "Week 7: 5/12", ":doc:`../schedule/lectures/spring-25/lec-7`", ":doc:`../schedule/labs/spring-25/lab-7`", "5/19/25", ":doc:`../schedule/labs/spring-25/opt-lab-3`"
+   "Week 8: 5/19", ":doc:`../schedule/lectures/spring-25/lec-8`", "Final Project Proposal", "5/20/25 11:59 PM", "Mandatory Meeting with TA to discuss final project proposal"
+   "Week 9: 5/26", "No class (Memorial Day)", "Final Project Progress Report", "5/30/25 11:59 PM", "Must include progress video in report"
+   "Week 10: 6/2", "Project Checkpoint Review", "Final Project Demo Video", "6/8/25 11:59 PM", "Final Presentations on 6/9"
 
 **References:** :doc:`../reference/references`
 
 **Past Course Projects:** :doc:`../reference/past_projects`
 
-**Spring 2025 quarter website:** :doc:`../reference/spring_2025`  
-**Older offerings (materials only):** :doc:`../reference/past_offerings`
+**Old course materials** :doc:`../reference/past_offerings`

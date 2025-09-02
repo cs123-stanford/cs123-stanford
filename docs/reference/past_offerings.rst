@@ -1,3 +1,7 @@
+Further Past Offerings
+======================
+
+
 Fall 2023
 -----------
 
@@ -59,28 +63,3 @@ Fall 2024
     ../schedule/lectures/fall-24/lec-8
     ../schedule/lectures/fall-24/lec-9
     ../schedule/lectures/fall-24/ros_intro
-
-
-Spring 2025
-------------
-
-.. toctree::
-    :maxdepth: 1
-    :titlesonly:
-    :caption: Lectures
-
-    ../schedule/lectures/spring-25/ros_intro
-    ../schedule/lectures/spring-25/lec-1
-    ../schedule/lectures/spring-25/lec-2
-    ../schedule/lectures/spring-25/lec-3
-    ../schedule/lectures/spring-25/lec-4
-
-.. toctree::
-    :maxdepth: 1
-    :titlesonly:
-    :caption: Labs
-
-    ../schedule/labs/spring-25/lab-1
-    ../schedule/labs/spring-25/lab-2
-    ../schedule/labs/spring-25/lab-3
-    ../schedule/labs/spring-25/lab-4
