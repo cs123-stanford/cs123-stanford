@@ -144,7 +144,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **Time:** Monday, 3:30pm - 6:20pm
 
-**Lecture Location:** TBD, *in-person attendance required*
+**Lecture Location:** `CODA B90 <https://www.google.com/maps/dir/37.4297459,-122.1720349/Computing+and+Data+Science+(CoDa),+389+Jane+Stanford+Way,+Stanford,+CA+94305/@37.4299797,-122.1727318,18.57z/data=!4m9!4m8!1m1!4e1!1m5!1m1!1s0x808fbb2b07702f9b:0x9dba28708840961b!2m2!1d-122.1715614!2d37.4300426?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
     * Karen: TBD
@@ -155,7 +155,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 **TA Office Hours:**
 
     * Ankush: TBD
-    * JC: TBD
+    * JC: Tuesdays 2:00pm - 3:30pm, Fridays 2:00pm - 3:30pm (locations TBD), `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
     * Benji: TBD
 
 **Prerequisites:**
@@ -181,7 +181,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 Two optional labs will be offered this quarter, with the first released in Week 3. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
 TAs will be available to support students working on the optional labs during their office hours.
 
-**Enrollment:** 24 students; 6 groups of 4 students
+**Enrollment:** 21 students; 7 groups of 3 students
 
 Schedule
 ==========================
@@ -191,16 +191,16 @@ Schedule
    :widths: 15, 30, 30, 15, 20
 
    "Week 1: 9/22", "", "", "", ""
-   "Week 2: 9/29", "", "", "", ""
-   "Week 3: 10/6", "", "", "", ""
-   "Week 4: 10/13", "", "", "", ""
-   "Week 5: 10/20", "", "", "", ""
-   "Week 6: 10/27", "", "", "", ""
-   "Week 7: 11/3", "", "", "", ""
-   "Week 8: 11/10", "", "", "", ""
-   "Week 9: 11/17", "", "", "", ""
-   "Thanksgiving Break (No class)", "", "", "", ""
-   "Week 11: 12/1", "", "", "", ""
+   # "Week 2: 9/29", "", "", "", ""
+   # "Week 3: 10/6", "", "", "", ""
+   # "Week 4: 10/13", "", "", "", ""
+   # "Week 5: 10/20", "", "", "", ""
+   # "Week 6: 10/27", "", "", "", ""
+   # "Week 7: 11/3", "", "", "", ""
+   # "Week 8: 11/10", "", "", "", ""
+   # "Week 9: 11/17", "", "", "", ""
+   # "Thanksgiving Break (No class)", "", "", "", ""
+   # "Week 11: 12/1", "", "", "", ""
 
 **References:** :doc:`../reference/references`
 
