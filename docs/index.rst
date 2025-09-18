@@ -190,7 +190,7 @@ Schedule
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "Week 1: 9/22", "", "", "", ""
+   "Week 1: 9/22", ":doc:`../schedule/lectures/fall-25/lec-1`", ":doc:`../schedule/labs/fall-25/lab-1`", "9/29/25", ""
    # "Week 2: 9/29", "", "", "", ""
    # "Week 3: 10/6", "", "", "", ""
    # "Week 4: 10/13", "", "", "", ""
