@@ -191,16 +191,6 @@ Schedule
    :widths: 15, 30, 30, 15, 20
 
    "Week 1: 9/22", ":doc:`../schedule/lectures/fall-25/lec-1`", ":doc:`../schedule/labs/fall-25/lab-1`", "9/29/25", ""
-   # "Week 2: 9/29", "", "", "", ""
-   # "Week 3: 10/6", "", "", "", ""
-   # "Week 4: 10/13", "", "", "", ""
-   # "Week 5: 10/20", "", "", "", ""
-   # "Week 6: 10/27", "", "", "", ""
-   # "Week 7: 11/3", "", "", "", ""
-   # "Week 8: 11/10", "", "", "", ""
-   # "Week 9: 11/17", "", "", "", ""
-   # "Thanksgiving Break (No class)", "", "", "", ""
-   # "Week 11: 12/1", "", "", "", ""
 
 **References:** :doc:`../reference/references`
 
