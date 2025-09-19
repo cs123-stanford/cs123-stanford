@@ -100,23 +100,16 @@ Part 2: Hello PD
 Step 1: Setup Lab 1 Code Base
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Clone the lab 1 code repository on the Raspberry Pi:
-
-   .. code-block:: bash
-
-      cd ~/
-      git clone https://github.com/cs123-stanford/lab_1_fall_2025.git lab_1
-
-   Note: Make sure the folder name is ``lab_1``. If you have a different folder name, you'll need to update the launch file accordingly.
+1. Open the lab 1 code repository (`https://github.com/cs123-stanford/lab_1_fall_2025 <https://github.com/cs123-stanford/lab_1_fall_2025>`_) on your GitHub account. Then, fork the repository to your own GitHub account following the instructions in :doc:`forking_repositories`.
 
 2. Open the lab 1 folder in VSCode
 
    .. code-block:: bash
 
-      cd ~/lab_1
+      cd ~/lab_1_fall_2025
       code .
 
-3. Examine ``<lab_1/lab_1.py>`` to understand where the motor angle and velocity are read and where the motor is commanded.
+3. Examine ``<lab_1_fall_2025/lab_1_fall_2025.py>`` to understand where the motor angle and velocity are read and where the motor is commanded.
 
    Note: In ROS2 code, pay attention to publishers and subscribers defined in the ``__init__`` section of the node definition. Publishers send messages to topics, while subscribers listen to messages on topics. Callback functions run when new information is published to a topic.
 
@@ -126,13 +119,13 @@ Step 1: Setup Lab 1 Code Base
 Step 2: Run ROS Launch Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Check the launch description in ``lab_1.launch.py`` and ``lab_1.yaml``. Familiarize yourself with the structure and parameters defined in these files.
+1. Check the launch description in ``lab_1_fall_2025.launch.py`` and ``lab_1_fall_2025.yaml``. Familiarize yourself with the structure and parameters defined in these files.
 
 2. Run the launch file using the following command:
 
    .. code-block:: bash
 
-      ros2 launch lab_1.launch.py
+      ros2 launch lab_1_fall_2025.launch.py
 
    This command will start all the necessary nodes for your PD control experiment.
 
@@ -165,8 +158,8 @@ Step 2: Run ROS Launch Code
 
 Also, answer the following questions:
 
-1. What nodes are being launched by your `lab_1.launch.py` file?
-2. What parameters are being set in the `lab_1.yaml` file, and what do you think they control?
+1. What nodes are being launched by your `lab_1_fall_2025.launch.py` file?
+2. What parameters are being set in the `lab_1_fall_2025.yaml` file, and what do you think they control?
 3. Based on the topics you observed, how do you think the different parts of your robot control system are communicating with each other?
 
 Remember, understanding how the launch system works and how to inspect your ROS2 system is crucial for debugging and developing more complex robotic systems in the future.
@@ -174,15 +167,15 @@ Remember, understanding how the launch system works and how to inspect your ROS2
 Step 3. Run bang-bang control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Open ``lab_1.py`` and locate the ``control_loop()`` implementation. For this step, you will implement Bang-bang control before PD control. Remember that bang-bang control is a simple control strategy where the control input is either on or off. In this case, the control input is either positive maximum torque or negative maximum torque. The control input switches when the motor angle crosses a threshold.
+1. Open ``lab_1_fall_2025.py`` and locate the ``control_loop()`` implementation. For this step, you will implement Bang-bang control before PD control. Remember that bang-bang control is a simple control strategy where the control input is either on or off. In this case, the control input is either positive maximum torque or negative maximum torque. The control input switches when the motor angle crosses a threshold.
 
-2. This can be accomplished by a block of if statements. Implement bang-bang control in the `lab_1.py` file by implementing the ``get_target_joint_info(self)`` and ``calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel)`` functions. Run your code by starting a new terminal, navigating to the lab folder, and running ``python lab_1.py``
+2. This can be accomplished by a block of if statements. Implement bang-bang control in the `lab_1_fall_2025.py` file by implementing the ``get_target_joint_info(self)`` and ``calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel)`` functions. Run your code by starting a new terminal, navigating to the lab folder, and running ``python lab_1_fall_2025.py``
 
 **DELIVERABLE:** Take a video of your bang bang control, upload the video to your Google Drive Folder, and include the video link in your lab document with your submission
 
 Step 4: Implement P Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-1. Implement P control in the `lab_1.py` file by replacing your implementation of bang-bang control. The P controller is more robust than bang-bang control. The proportional gain (Kp) is used to tune the controller. For reference, all the joint states published by ros2 systems are typically in radians.
+1. Implement P control in the `lab_1_fall_2025.py` file by replacing your implementation of bang-bang control. The P controller is more robust than bang-bang control. The proportional gain (Kp) is used to tune the controller. For reference, all the joint states published by ros2 systems are typically in radians.
 
 2. Start with Kp = 2.0
 
@@ -195,7 +188,7 @@ Step 4: Implement P Control
 Step 5: Implement PD Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Implement PD control in the `lab_1.py` file by replacing your implementation of P control. The PD controller is more robust than only P control, and is common control strategy used in robotics to stabilize systems (both Pupper and Toddy use PD controllers!). The proportional gain (Kp) and derivative gain (Kd) are used to tune the controller.
+1. Implement PD control in the `lab_1_fall_2025.py` file by replacing your implementation of P control. The PD controller is more robust than only P control, and is common control strategy used in robotics to stabilize systems (both Pupper and Toddy use PD controllers!). The proportional gain (Kp) and derivative gain (Kd) are used to tune the controller.
 
 2. Start with Kp = 2.0 and Kd = 0.3. Implement the PD control law using the following update equation:
 
@@ -214,7 +207,7 @@ Step 5: Implement PD Control
    - :math:`K_p` and :math:`K_d` are the proportional and derivative gains
    - :math:`r(t)` known as a feedforward_term, is a constant term that you can use to send a constant torque to the motor. For us, we just use 0.
 
-3. Run your code ``python lab_1.py`` and observe the behavior of the PD controller.
+3. Run your code ``python lab_1_fall_2025.py`` and observe the behavior of the PD controller.
 
 **DELIVERABLE:** Answer the following questions in your lab document:
 
