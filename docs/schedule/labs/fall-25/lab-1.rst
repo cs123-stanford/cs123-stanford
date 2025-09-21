@@ -9,9 +9,6 @@ Shared Resources with your Group mates
 ---------------------------------------
 To better organize all the weekly lab materials, create a Google Drive folder to share with your groupmates. 
 
-In addition, create a shared GitHub repository that manages all the code from this course. You will need to submit your lab document and Github repository link to Gradescope for your lab submissions. We provide a quick guide on how to manage your GitHub repository on Pupper in :doc:`../../reference/github-setup`. This approach uses branch to manage different labs, so that all labs can be stored in the same repository. But you need to be careful to prevent pushing to the wrong branch!
-
-
 Lab Document
 ------------
 Fill out this lab document (https://docs.google.com/document/d/1FZ3WAwX1zRO5ivQpqraeYcaJwmDZFZVPRNCVBTsuZrw/edit?usp=sharing) with your answers to the questions and your code. You will submit this document to Gradescope.
@@ -43,20 +40,30 @@ Part 0: Setup
     
 
 
-Your SUB should come pre-flashed with the operating system. The Raspberry Pi will boot from the memory on this drive. When you power on the Raspberry Pi, it will automatically boot from this card. If your micro SD card is not pre-flashed, you can flash it using the image at this link: `Lab 1-4 Image <https://drive.google.com/file/d/1BXUFaCqLZ9H7kJZK7IrqmrmT6vTUMl8a/view>`_. Use Balena Etcher to flash: `Download Balena Etcher <https://etcher.balena.io/>`_.
+Your USB should come pre-flashed with the operating system. The Raspberry Pi will boot from the memory on this drive. When you power on the Raspberry Pi, it will automatically boot from this card. Ask a TAs if you have any issues.
 
 Option 1: Connect via SSH (Recommended)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Secure Shell (SSH) is a network protocol that provides a secure way to access and manage remote computers over an unsecured network. It offers strong authentication and encrypted data communications between two computers connecting over an open network such as the internet. 
+Secure Shell (SSH) is a protocol that will allow you to connect to the Raspberry Pi remotely from your laptop's terminal or VSCode. Within a SSH session, you can run commands on the Raspberry Pi as if it was your own computer.
 (You're probably very familiar with SSH if you've taken CS107, 111, or have worked with the SAIL cluster.)
+
+Part 1: SSH to Raspberry Pi in Terminal
 
    - Connect your laptop to the Pupper robot using the Ethernet cable.
    - Enable internet sharing in system settings (turn on anything that looks like Ethernet).
    - Alternatively, SSH should work without the ethernet cable, as long as both your laptop and the Raspberry Pi are on the same network.
-   - SSH into the Raspberry Pi through terminal: ``ssh pi@pupper.local`` (password: rhea123). If you would like to use VSCode/Cursor, you can also connect to the Raspberry Pi using the Remote - SSH extension (Open Command Palette with CMD+SHIFT_P -> Remote-SSH: Connect to Host -> ssh)
-   - Friendly reminder: you can **SSH multiple times** from different terminals to the Raspberry Pi.
-   - If this is successful, you should be able to see the Pi's file system on your computer, and be able to work on Pupper from your own laptop! 
-   - Finally, install `XQuartz <https://www.xquartz.org/>`_ on your mac laptop, so that future GUIs (pop-up windows) can be displayed on your laptop via the SSH terminal. (If you are using a Windows laptop, you can skip this step. You'll just need to use the monitor setup for some upcoming labs.)
+   - SSH into the Raspberry Pi through terminal: ``ssh pi-[YOUR_GROUP_NUMBER]@pupper.local`` (password: rhea123). 
+   - If successful, your terminal prompt should now say `pi@pupper.local` 
+   - Friendly reminder: you can **SSH multiple times** to the Raspberry Pi from multiple Terminal windows to run multiple commands at once.
+
+Part 2: SSH to Raspberry Pi in VSCode
+   - Download VSCode if you haven't already: https://code.visualstudio.com/
+   - Install the "Remote - SSH" extension
+   - Connect to the Raspberry Pi by opening the Command Palette with CMD+SHIFT_P, then selecting Remote-SSH: Connect to Host -> ssh
+   - Enter the SSH command: ``ssh pi-[YOUR_GROUP_NUMBER]@pupper.local`` (password: rhea123)
+   - You should now be connected to the Raspberry Pi through VSCode! You can open folders, edit files, and run terminal commands all from within VSCode.
+   - This is the recommended way to work on your code for this class.
+   - We recommend installing the Python extension in VSCode for better Python support.
 
 .. figure:: ../../../_static/internet_sharing.png
    :align: center
@@ -109,7 +116,7 @@ Step 1: Setup Lab 1 Code Base
       cd ~/lab_1_fall_2025
       code .
 
-3. Examine ``<lab_1_fall_2025/lab_1_fall_2025.py>`` to understand where the motor angle and velocity are read and where the motor is commanded.
+3. Examine ``<lab_1_fall_2025/lab_1.py>`` to understand where the motor angle and velocity are read and where the motor is commanded.
 
    Note: In ROS2 code, pay attention to publishers and subscribers defined in the ``__init__`` section of the node definition. Publishers send messages to topics, while subscribers listen to messages on topics. Callback functions run when new information is published to a topic.
 
@@ -119,13 +126,13 @@ Step 1: Setup Lab 1 Code Base
 Step 2: Run ROS Launch Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Check the launch description in ``lab_1_fall_2025.launch.py`` and ``lab_1_fall_2025.yaml``. Familiarize yourself with the structure and parameters defined in these files.
+1. Check the launch description in ``lab_1.launch.py`` and ``lab_1.yaml``. Familiarize yourself with the structure and parameters defined in these files.
 
 2. Run the launch file using the following command:
 
    .. code-block:: bash
 
-      ros2 launch lab_1_fall_2025.launch.py
+      ros2 launch lab_1.launch.py
 
    This command will start all the necessary nodes for your PD control experiment.
 
@@ -158,8 +165,8 @@ Step 2: Run ROS Launch Code
 
 Also, answer the following questions:
 
-1. What nodes are being launched by your `lab_1_fall_2025.launch.py` file?
-2. What parameters are being set in the `lab_1_fall_2025.yaml` file, and what do you think they control?
+1. What nodes are being launched by your `lab_1.launch.py` file?
+2. What parameters are being set in the `lab_1.yaml` file, and what do you think they control?
 3. Based on the topics you observed, how do you think the different parts of your robot control system are communicating with each other?
 
 Remember, understanding how the launch system works and how to inspect your ROS2 system is crucial for debugging and developing more complex robotic systems in the future.
@@ -167,15 +174,15 @@ Remember, understanding how the launch system works and how to inspect your ROS2
 Step 3. Run bang-bang control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Open ``lab_1_fall_2025.py`` and locate the ``control_loop()`` implementation. For this step, you will implement Bang-bang control before PD control. Remember that bang-bang control is a simple control strategy where the control input is either on or off. In this case, the control input is either positive maximum torque or negative maximum torque. The control input switches when the motor angle crosses a threshold.
+1. Open ``lab_1.py`` and locate the ``control_loop()`` implementation. For this step, you will implement Bang-bang control before PD control. Remember that bang-bang control is a simple control strategy where the control input is either on or off. In this case, the control input is either positive maximum torque or negative maximum torque. The control input switches when the motor angle crosses a threshold.
 
-2. This can be accomplished by a block of if statements. Implement bang-bang control in the `lab_1_fall_2025.py` file by implementing the ``get_target_joint_info(self)`` and ``calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel)`` functions. Run your code by starting a new terminal, navigating to the lab folder, and running ``python lab_1_fall_2025.py``
+2. This can be accomplished by a block of if statements. Implement bang-bang control in the `lab_1.py` file by implementing the ``get_target_joint_info(self)`` and ``calculate_torque(self, joint_pos, joint_vel, target_joint_pos, target_joint_vel)`` functions. Run your code by starting a new terminal, navigating to the lab folder, and running ``python lab_1.py``
 
 **DELIVERABLE:** Take a video of your bang bang control, upload the video to your Google Drive Folder, and include the video link in your lab document with your submission
 
 Step 4: Implement P Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-1. Implement P control in the `lab_1_fall_2025.py` file by replacing your implementation of bang-bang control. The P controller is more robust than bang-bang control. The proportional gain (Kp) is used to tune the controller. For reference, all the joint states published by ros2 systems are typically in radians.
+1. Implement P control in the `lab_1.py` file by replacing your implementation of bang-bang control. The P controller is more robust than bang-bang control. The proportional gain (Kp) is used to tune the controller. For reference, all the joint states published by ros2 systems are typically in radians.
 
 2. Start with Kp = 2.0
 
@@ -188,7 +195,7 @@ Step 4: Implement P Control
 Step 5: Implement PD Control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Implement PD control in the `lab_1_fall_2025.py` file by replacing your implementation of P control. The PD controller is more robust than only P control, and is common control strategy used in robotics to stabilize systems (both Pupper and Toddy use PD controllers!). The proportional gain (Kp) and derivative gain (Kd) are used to tune the controller.
+1. Implement PD control in the `lab_1.py` file by replacing your implementation of P control. The PD controller is more robust than only P control, and is common control strategy used in robotics to stabilize systems (both Pupper and Toddy use PD controllers!). The proportional gain (Kp) and derivative gain (Kd) are used to tune the controller.
 
 2. Start with Kp = 2.0 and Kd = 0.3. Implement the PD control law using the following update equation:
 
@@ -207,7 +214,7 @@ Step 5: Implement PD Control
    - :math:`K_p` and :math:`K_d` are the proportional and derivative gains
    - :math:`r(t)` known as a feedforward_term, is a constant term that you can use to send a constant torque to the motor. For us, we just use 0.
 
-3. Run your code ``python lab_1_fall_2025.py`` and observe the behavior of the PD controller.
+3. Run your code ``python lab_1.py`` and observe the behavior of the PD controller.
 
 **DELIVERABLE:** Answer the following questions in your lab document:
 
