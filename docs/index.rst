@@ -131,7 +131,7 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
 
 * Instructors: `Prof. Karen Liu <https://tml.stanford.edu/people/karen-liu>`_ (Stanford CS), `Jie Tan <https://www.jie-tan.net/>`_ (Google DeepMind), `Stuart Bowers <https://handsonrobotics.org/>`_ (Apple, Hands-On Robotics)
 * Co-Instructors: `Wenhao Yu <https://wenhaoyu.weebly.com/>`_ (Google DeepMind), `Tingnan Zhang <https://www.linkedin.com/in/tingnanzhang/>`_ (Google DeepMind)
-* TAs: `Ankush Dhawan <https://www.linkedin.com/in/ankush-dhawan/>`_ (PhD, MechE), `JC Hu <https://www.linkedin.com/in/jc-hu/>`_ (coterm, CS), `Benji Warburton <https://www.linkedin.com/in/benjiwarburton/>`_ (undergrad, EE)
+* TAs: `Ankush Dhawan <https://ankushdhawan5812.github.io>`_ (PhD, MechE), `JC Hu <https://www.linkedin.com/in/jc-hu/>`_ (coterm, CS), `Benji Warburton <https://www.linkedin.com/in/benjiwarburton/>`_ (undergrad, EE)
 
 **Sign-Up Form:** `This form <https://docs.google.com/forms/d/e/1FAIpQLScDPi8bazMjzMV2KLJAHexqzImbAnLQojnsOLfJG0dlEXDcjg/viewform?usp=sharing>`_ will open on Monday, 9/8/2025 at 9AM PST for applications. Please fill out this form if you are interested in enrolling for our Fall offering! We will select 24 out of the first 100 applicants in a lottery that considers equal seniority distribution among undergraduates.
 
