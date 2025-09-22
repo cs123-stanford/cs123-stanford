@@ -29,6 +29,4 @@ Watch Pupper v2 doing push-ups - this is what you'll be programming!
    :width: 640
    :height: 360
 
-.. warning::
-   This content is from Spring 2025 and will be updated for Fall 2025. The core concepts remain the same, but some details may change.
 

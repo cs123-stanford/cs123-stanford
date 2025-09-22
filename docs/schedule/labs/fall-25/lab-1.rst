@@ -52,15 +52,15 @@ Part 1: SSH to Raspberry Pi in Terminal
    - Connect your laptop to the Pupper robot using the Ethernet cable.
    - Enable internet sharing in system settings (turn on anything that looks like Ethernet).
    - Alternatively, SSH should work without the ethernet cable, as long as both your laptop and the Raspberry Pi are on the same network.
-   - SSH into the Raspberry Pi through terminal: ``ssh pi-[YOUR_GROUP_NUMBER]@pupper.local`` (password: rhea123). 
-   - If successful, your terminal prompt should now say `pi@pupper.local` 
+   - SSH into the Raspberry Pi through terminal: ``ssh pi@pupper[YOUR_GROUP_NUMBER].local`` (password: rhea123). 
+   - If successful, your terminal prompt should now say `pi@pupper[YOUR_GROUP_NUMBER].local` 
    - Friendly reminder: you can **SSH multiple times** to the Raspberry Pi from multiple Terminal windows to run multiple commands at once.
 
 Part 2: SSH to Raspberry Pi in VSCode
    - Download VSCode if you haven't already: https://code.visualstudio.com/
    - Install the "Remote - SSH" extension
    - Connect to the Raspberry Pi by opening the Command Palette with CMD+SHIFT_P, then selecting Remote-SSH: Connect to Host -> ssh
-   - Enter the SSH command: ``ssh pi-[YOUR_GROUP_NUMBER]@pupper.local`` (password: rhea123)
+   - Enter the SSH command: ``ssh pi@pupper[YOUR_GROUP_NUMBER].local`` (password: rhea123)
    - You should now be connected to the Raspberry Pi through VSCode! You can open folders, edit files, and run terminal commands all from within VSCode.
    - This is the recommended way to work on your code for this class.
    - We recommend installing the Python extension in VSCode for better Python support.
