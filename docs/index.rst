@@ -144,18 +144,18 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **Time:** Monday, 3:30pm - 6:20pm
 
-**Lecture Location:** `CODA B90 <https://www.google.com/maps/dir/37.4297459,-122.1720349/Computing+and+Data+Science+(CoDa),+389+Jane+Stanford+Way,+Stanford,+CA+94305/@37.4299797,-122.1727318,18.57z/data=!4m9!4m8!1m1!4e1!1m5!1m1!1s0x808fbb2b07702f9b:0x9dba28708840961b!2m2!1d-122.1715614!2d37.4300426?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
+**Lecture Location:** `CoDA B90 <https://www.google.com/maps/dir/37.4297459,-122.1720349/Computing+and+Data+Science+(CoDa),+389+Jane+Stanford+Way,+Stanford,+CA+94305/@37.4299797,-122.1727318,18.57z/data=!4m9!4m8!1m1!4e1!1m5!1m1!1s0x808fbb2b07702f9b:0x9dba28708840961b!2m2!1d-122.1715614!2d37.4300426?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
     * Karen: TBD
     * Stuart, Jie, Wenhao, Tingnan: Office hours by appointment. Reach out to the teaching team to schedule. 
 
-**TA Office Hours Location:** TBD
+**TA Office Hours Location:** CoDA B50
 
 **TA Office Hours:**
 
-    * Ankush: Mondays: 9:30-10:30, Wednesdays: 9:30-10:30
-    * JC: Tuesdays 2:00pm - 3:30pm, Fridays 2:00pm - 3:30pm (locations TBD), `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
+    * Ankush: Mondays: 9:30am - 10:30am, Wednesdays: 9:30am - 10:30am
+    * JC: Tuesdays 2:00pm - 3:30pm, Fridays 2:00pm - 3:30pm, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
     * Benji: TBD
 
 **Prerequisites:**
