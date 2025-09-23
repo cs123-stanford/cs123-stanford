@@ -156,7 +156,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
     * Ankush: Mondays: 9:30am - 10:30am, Wednesdays: 9:30am - 10:30am
     * JC: Tuesdays 2:00pm - 3:30pm, Fridays 2:00pm - 3:30pm, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
-    * Benji: TBD
+    * Benji: Thursdays: 12:45pm - 2:45pm
 
 **Prerequisites:**
 
