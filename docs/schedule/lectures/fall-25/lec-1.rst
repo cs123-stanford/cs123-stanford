@@ -7,7 +7,7 @@ Lecture 1: ROS Introduction and PD Control
 Lecture Materials
 -----------------
 
-**Intro Slides:** `Course Overview <https://drive.google.com/file/d/1qvrmODWmE-iC4CE7JrxLM49VD_J3MVra/view?usp=sharing>`_
+**Intro Slides:** `Course Overview <https://drive.google.com/file/d/1Jb32iwQYJRsqiJ079bY9_k_aYz-DcCRj/view?usp=sharing>`_
 
 **Main Lecture:** `ROS2 and PD Control <https://docs.google.com/presentation/d/1yiRQ9m7rA-Ci4zR0SOiX-bAIji_ZBRpx7SxWVQP5qd0/edit#slide=id.g22c45b09435_0_1388>`_
 
