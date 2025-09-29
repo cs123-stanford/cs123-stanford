@@ -35,14 +35,14 @@ Part 2: Setup
 
 1. Make sure you have completed Lab 1 and are familiar with the ROS2 environment on your Raspberry Pi 5.
 
-2. Clone the lab 2 code repository on the Raspberry Pi:
+2. Open the lab 2 code repository (`lab 2 code repository <https://github.com/cs123-stanford/lab_2_fall_2025>`_) on your GitHub account. Then, fork the repository to your own GitHub account following the instructions in :doc:`forking_repositories`.
+
+3. Open the lab 2 folder in VSCode
 
    .. code-block:: bash
 
-      cd ~/
-      git clone https://github.com/cs123-stanford/lab_2_2024.git lab_2
-
-3. Open the workspace (lab_2 directory) in VSCode and examine the ``lab_2.py`` file.
+      cd ~/lab_2_fall_2025
+      code .
 
 4. For the next few labs, we will tune down the kp and kd values of our motor controllers (which behave as PID controllers, similar to the PD controller we implemented in lab 1) to make the Pupper's legs less stiff (so that you can move them around more easily)! To do that, open the ``~/ros2_ws/src/pupper_v3_description/description/components.xacro`` file using VSCode, and change all 12 occurrences of ``homing_kp`` values to ``0.5`` and ``homing_kd`` values to ``0.1`` (you can do that quickly using ctrl+f and replace all). 
 
@@ -54,7 +54,7 @@ Part 3: Understanding the Code Structure
 Before we start implementing the ``TODOs``, let's understand the structure of the ``lab_2.py`` file:
 
 1. The code defines a ``ForwardKinematics`` class that inherits from ``rclpy.node.Node``.
-2. It subscribes to the ``joint_states`` topic and publishes to the ``leg_front_r_end_effector_position`` topic.
+2. It subscribes to the ``joint_states`` topic and publishes to the ``leg_front_l_end_effector_position`` topic.
 3. The ``forward_kinematics`` method is where we'll implement the forward kinematics calculations.
 4. The code uses NumPy for matrix operations.
 5. Note that it is convention to orient the coordinate frame so that the rotation about each motor is the z axis.
@@ -190,7 +190,7 @@ If you finish early and want to explore further:
 
       Base to back right leg transformation diagram
    
-2. During the testing of rviz, write a script that saves the sequence of your well-crafted motion, recorded as end effector positions into a file. You will have a chance to let Pupper replay this recorded motion in the next lab! You will need to use the ``joint_states`` topic to record the motor angles, and the ``leg_front_r_end_effector_position`` topic to record the end effector positions.
+2. During the testing of rviz, write a script that saves the sequence of your well-crafted motion, recorded as end effector positions into a file. You will have a chance to let Pupper replay this recorded motion in the next lab! You will need to use the ``joint_states`` topic to record the motor angles, and the ``leg_front_l_end_effector_position`` topic to record the end effector positions.
 
 Friendly reminder: The first optional lab will be released next week, attempt at your own risk!
 
