@@ -130,7 +130,7 @@ Part 5: Debugging Your Implementation With Foxglove
 
       python lab_2.py
 
-4. Open Foxglove. Then click the layout button in the top right and choose Import from file, then choose ``lab_2_layout.json`` from the lab2 repo.
+4. Open Foxglove (run ``foxglove-studio`` in terminal). Then click the layout button in the top right and choose Import from file, then choose ``lab_2_layout.json`` from the lab2 repo.
 
 5. Move the left front leg of your robot and watch the green sphere marker in foxglove move around. The sphere follows your computed end effector position. If your implementation is working, it should closely match the position of the rendered robot's front left foot.
 
