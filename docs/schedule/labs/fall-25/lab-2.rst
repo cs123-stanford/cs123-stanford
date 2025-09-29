@@ -130,16 +130,16 @@ Part 5: Debugging Your Implementation With RVIZ2
 
 4. Move the left front leg of your robot and observe the changes in the published positions.
 
-To test your code in simulation to make sure that the code works as expected, you can use RVIZ. RVIZ will show the Pupper model as well as a marker that shows the output from the forward kinematics.
+To test your code in simulation to make sure that the code works as expected, you can use RVIZ2. RVIZ2 will show the Pupper model as well as a marker that shows the output from the forward kinematics.
 
    .. code-block:: bash
 
       rviz2 -d lab_2.rviz
 
-The above command will load the RVIZ config file. If you just run ``rviz``, you can manually add the configuration. After running `rviz`, click the "Add" button, and then select a Robot Model type. Select the /robot_description topic. Next, add the marker by selecting "Add" again, and select a Marker type. Select the topic /marker.
+The above command will load the RVIZ config file. If you just run ``rviz2``, you can manually add the configuration. After running `rviz`, click the "Add" button, and then select a Robot Model type. Select the /robot_description topic. Next, add the marker by selecting "Add" again, and select a Marker type. Select the topic /marker.
 
 .. note::
-   While we've tested this pipeline on a Pupper and it works as expected, rviz may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
+   While we've tested this pipeline on a Pupper and it works as expected, rviz2 may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
 
 **DELIVERABLE:** 
 
