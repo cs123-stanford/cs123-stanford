@@ -44,8 +44,6 @@ Part 2: Setup
       cd ~/lab_2_fall_2025
       code .
 
-4. Install foxglove onto your pi: https://foxglove.dev/download 
-
 Part 3: Understanding the Code Structure
 -------------------------------------------
 
@@ -113,7 +111,7 @@ Step 2: Implement Transformation Matrices
 
 5. Compute the final transformation matrix following the described process from lecture in ``T_0_ee``. Remember that the end effector position is not in homogeneous coordinates. Calculate ``end_effector_position`` from ``T_0_ee``.
 
-Part 5: Debugging Your Implementation With Foxglove
+Part 5: Debugging Your Implementation With RVIZ2
 ---------------------------------------------------
 
 1. Save your changes to ``lab_2.py``.
@@ -130,14 +128,14 @@ Part 5: Debugging Your Implementation With Foxglove
 
       python lab_2.py
 
-4. Open Foxglove (run ``foxglove-studio`` in terminal). Then click the layout button in the top right and choose Import from file, then choose ``lab_2_layout.json`` from the lab2 repo.
+4. Open RVIZ2 (run ``rviz2`` in terminal). Then click File and click Open Config and select lab_2.rviz from the repo.
 
-5. Move the left front leg of your robot and watch the green sphere marker in foxglove move around. The sphere follows your computed end effector position. If your implementation is working, it should closely match the position of the rendered robot's front left foot.
+5. Move the left front leg of your robot and watch the green sphere marker in rviz2 move around. The sphere follows your computed end effector position. If your implementation is working, it should closely match the position of the rendered robot's front left foot.
 
-6. Let's face it, your implementation probably didn't work the first time! Use Foxglove to debug your forward kinematics one transformation frame at a time. For example, verify your T_0_1 transformation by returning T_0_1[0:3, 3] and checking that the green marker follows the position of the first joint. Then compute T_0_2 to check the 2nd joint, T_0_3 to check the 3rd joint etc, until you are confident in your T_0_ee and end_effector_position!
+6. Let's face it, your implementation probably didn't work the first time! Use rviz2 to debug your forward kinematics one transformation frame at a time. For example, verify your T_0_1 transformation by returning T_0_1[0:3, 3] and checking that the green marker follows the position of the first joint. Then compute T_0_2 to check the 2nd joint, T_0_3 to check the 3rd joint etc, until you are confident in your T_0_ee and end_effector_position!
 
 .. note::
-   While we've tested this pipeline on a Pupper and it works as expected, foxglove may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
+   While we've tested this pipeline on a Pupper and it works as expected, rviz2 may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
 
 **DELIVERABLE:** 
 
@@ -181,7 +179,7 @@ If you finish early and want to explore further:
 
       Base to back right leg transformation diagram
    
-2. During the testing with foxglove, write a script that saves the sequence of your well-crafted motion, recorded as end effector positions into a file. You will have a chance to let Pupper replay this recorded motion in the next lab! You will need to use the ``joint_states`` topic to record the motor angles, and the ``leg_front_l_end_effector_position`` topic to record the end effector positions.
+2. During the testing with rviz2, write a script that saves the sequence of your well-crafted motion, recorded as end effector positions into a file. You will have a chance to let Pupper replay this recorded motion in the next lab! You will need to use the ``joint_states`` topic to record the motor angles, and the ``leg_front_l_end_effector_position`` topic to record the end effector positions.
 
 Friendly reminder: The first optional lab will be released next week, attempt at your own risk!
 
