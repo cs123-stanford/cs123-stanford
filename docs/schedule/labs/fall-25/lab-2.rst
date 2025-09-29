@@ -113,7 +113,7 @@ Step 2: Implement Transformation Matrices
 
 5. Compute the final transformation matrix following the described process from lecture in ``T_0_ee``. Remember that the end effector position is not in homogeneous coordinates. Calculate ``end_effector_position`` from ``T_0_ee``.
 
-Part 5: Debugging Your Implementation With Foxglove
+Part 5: Debugging Your Implementation With RVIZ
 ---------------------------------------------------
 
 1. Save your changes to ``lab_2.py``.
