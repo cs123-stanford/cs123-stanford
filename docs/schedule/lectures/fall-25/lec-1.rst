@@ -23,7 +23,7 @@ Lab Assignment
 Pupper Demo
 -----------
 
-Watch Pupper v2 doing push-ups - this is what you'll be programming!
+Watch Pupper v2 doing push-ups
 
 .. youtube:: io4QuRr5GCA
    :width: 640
