@@ -128,14 +128,18 @@ Part 5: Debugging Your Implementation With RVIZ2
 
       python lab_2.py
 
-4. Open RVIZ2 (run ``rviz2`` in terminal). Then click File and click Open Config and select lab_2.rviz from the repo.
+4. Move the left front leg of your robot and observe the changes in the published positions.
 
-5. Move the left front leg of your robot and watch the green sphere marker in rviz2 move around. The sphere follows your computed end effector position. If your implementation is working, it should closely match the position of the rendered robot's front left foot.
+To test your code in simulation to make sure that the code works as expected, you can use RVIZ. RVIZ will show the Pupper model as well as a marker that shows the output from the forward kinematics.
 
-6. Let's face it, your implementation probably didn't work the first time! Use rviz2 to debug your forward kinematics one transformation frame at a time. For example, verify your T_0_1 transformation by returning T_0_1[0:3, 3] and checking that the green marker follows the position of the first joint. Then compute T_0_2 to check the 2nd joint, T_0_3 to check the 3rd joint etc, until you are confident in your T_0_ee and end_effector_position!
+   .. code-block:: bash
+
+      rviz2 -d lab_2.rviz
+
+The above command will load the RVIZ config file. If you just run ``rviz``, you can manually add the configuration. After running `rviz`, click the "Add" button, and then select a Robot Model type. Select the /robot_description topic. Next, add the marker by selecting "Add" again, and select a Marker type. Select the topic /marker.
 
 .. note::
-   While we've tested this pipeline on a Pupper and it works as expected, rviz2 may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
+   While we've tested this pipeline on a Pupper and it works as expected, rviz may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
 
 **DELIVERABLE:** 
 
