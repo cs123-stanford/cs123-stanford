@@ -44,10 +44,6 @@ Part 2: Setup
       cd ~/lab_2_fall_2025
       code .
 
-4. For the next few labs, we will tune down the kp and kd values of our motor controllers (which behave as PID controllers, similar to the PD controller we implemented in lab 1) to make the Pupper's legs less stiff (so that you can move them around more easily)! To do that, open the ``~/ros2_ws/src/pupper_v3_description/description/components.xacro`` file using VSCode, and change all 12 occurrences of ``homing_kp`` values to ``0.5`` and ``homing_kd`` values to ``0.1`` (you can do that quickly using ctrl+f and replace all). 
-
-**DELIVERABLE:** Why do you think there are 12 occurrences of these values in the xacro file? What do you think changing them from the previous value does?
-
 Part 3: Understanding the Code Structure
 -------------------------------------------
 
