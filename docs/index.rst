@@ -191,6 +191,7 @@ Schedule
    :widths: 15, 30, 30, 15, 20
 
    "Week 1: 9/22", ":doc:`../schedule/lectures/fall-25/lec-1`", ":doc:`../schedule/labs/fall-25/lab-1`", "9/29/25", ""
+   "Week 2: 9/29", ":doc:`../schedule/lectures/fall-25/lec-2`", ":doc:`../schedule/labs/fall-25/lab-2`", "10/6/25", ""
 
 **References:** :doc:`../reference/references`
 

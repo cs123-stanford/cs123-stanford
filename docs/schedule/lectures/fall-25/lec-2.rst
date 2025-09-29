@@ -1,4 +1,4 @@
-Lecture 1: Forward Kinematics
+Lecture 2: Forward Kinematics
 ==========================================
 
 .. note::
@@ -10,7 +10,7 @@ Lecture Materials
 **FK Lecture:** `Course Overview <https://docs.google.com/presentation/d/1o3xpRdVnjW206Efd1W3zy41k3A_KxsRgdkyOXAKdDRs/edit?usp=sharing>`_
 
 
-**Lab Review:** `Hands-on Walkthrough <https://docs.google.com/presentation/d/1AMfv35pinMGrfdzTLc6-Fk2t2rOCrXFE/edit?usp=sharing&ouid=112164671976474020631&rtpof=true&sd=true>`_
+**Lab Review:** `Hands-on Walkthrough <https://docs.google.com/presentation/d/1vwDEvQWVjKgC3QcV1UTe0rU-a5v4iTH6/edit?usp=sharing&ouid=116833000630199851799&rtpof=true&sd=true>`_
 
 Lab Assignment
 --------------
