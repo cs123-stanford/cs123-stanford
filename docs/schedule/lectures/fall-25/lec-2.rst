@@ -17,7 +17,7 @@ Lab Assignment
 
 **Lab 2:** :doc:`../../labs/fall-25/lab-2`
 
-**Lab Document:** `Submit your work here <https://docs.google.com/document/d/1FZ3WAwX1zRO5ivQpqraeYcaJwmDZFZVPRNCVBTsuZrw/edit#heading=h.47t0k5pf0v4>`_
+**Lab Document:** `Lab 2 Document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVWyHrLkuw0ZJ24BPCPn_Q6XIztvR0/edit?usp=sharing>`_
 
 Pupper Demo
 -----------
