@@ -1,4 +1,4 @@
-Inverse Kinematics
+Lecture 3: Inverse Kinematics
 =======================================================
 
 **Lab:** :doc:`../../labs/fall-25/lab-3`
