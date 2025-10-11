@@ -1,4 +1,4 @@
-Gait Control
+Lecture 4: Heuristical Gait Control
 =======================================================
 
 **Lab:** :doc:`../../labs/fall-25/lab-4` 
