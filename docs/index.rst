@@ -193,6 +193,7 @@ Schedule
    "Week 1: 9/22", ":doc:`../schedule/lectures/fall-25/lec-1`", ":doc:`../schedule/labs/fall-25/lab-1`", "9/29/25", ""
    "Week 2: 9/29", ":doc:`../schedule/lectures/fall-25/lec-2`", ":doc:`../schedule/labs/fall-25/lab-2`", "10/6/25", ""
    "Week 3: 10/6", ":doc:`../schedule/lectures/fall-25/lec-3`", ":doc:`../schedule/labs/fall-25/lab-3`", "10/13/25", ":doc:`../schedule/labs/fall-25/opt-lab-1`"
+   "Week 4: 10/13", ":doc:`../schedule/lectures/fall-25/lec-4`", ":doc:`../schedule/labs/fall-25/lab-4`", "10/20/25", ""
 
 **References:** :doc:`../reference/references`
 
