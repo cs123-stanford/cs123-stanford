@@ -72,6 +72,14 @@ Part 3: Implement Trotting Gait Trajectory
 - Tip: Think about why we are giving you six reference positions for each leg, instead of just three as in lab 3.
 - Ensure that the trajectories create a trotting motion when combined.
 
+This image describes the reference positions for each leg.
+
+.. figure:: ../../../_static/triangle_swing_states.png
+    :align: center
+    :width: 60%
+
+    Reference positions for each leg.
+
 **DELIVERABLE:** You have implemented trotting. What are some other gaits that Pupper could exhibit, and why/when would they be useful? List 3 alternative gaits.
 
 **DELIVERABLE:** What are some potential setbacks that may prevent Pupper from exhibiting these gaits you listed above?
