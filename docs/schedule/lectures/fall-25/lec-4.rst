@@ -3,7 +3,7 @@ Lecture 4: Heuristical Gait Control
 
 **Lab:** :doc:`../../labs/fall-25/lab-4` 
 
-**Lecture Slides:(subject to change)** https://drive.google.com/file/d/17dSY3rJoMBY1rDS0jCEM-iSmWUqUImoH/view?usp=sharing
+**Lecture Slides:** https://drive.google.com/file/d/1LTnn9yEgS1I8yAj-WlNaUNHUHVJWXP-j/view?usp=sharing
 
 **Lab Review Slides:** https://docs.google.com/presentation/d/1KhDySk7tXiDoaovGN39XFggkJt5WCZ5Ue0DzZhLcDKU/edit?usp=sharing
 
