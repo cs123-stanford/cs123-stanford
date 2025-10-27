@@ -195,7 +195,7 @@ Schedule
    "Week 3: 10/6", ":doc:`../schedule/lectures/fall-25/lec-3`", ":doc:`../schedule/labs/fall-25/lab-3`", "10/13/25", ":doc:`../schedule/labs/fall-25/opt-lab-1`"
    "Week 4: 10/13", ":doc:`../schedule/lectures/fall-25/lec-4`", ":doc:`../schedule/labs/fall-25/lab-4`", "10/20/25", ""
    "Week 5: 10/20", ":doc:`../schedule/lectures/fall-25/lec-5`", ":doc:`../schedule/labs/fall-25/lab-5`", "10/27/25", "Optional Lab 2 coming soon!"
-
+   "Week 6: 10/27", ":doc:`../schedule/lectures/fall-25/lec-6`", ":doc:`../schedule/labs/fall-25/lab-6`", "11/3/25", ""
 **References:** :doc:`../reference/references`
 
 **Past Course Projects:** :doc:`../reference/past_projects`
