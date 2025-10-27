@@ -1,4 +1,4 @@
-Lecture 6:Large Language Models for Robotics
+Lecture 6: Large Language Models for Robotics
 =======================================
 
 **Lab:** :doc:`../../labs/fall-25/lab-6` Integrating a Voice input pipeline on Pupper and benchmarking against other methods!
