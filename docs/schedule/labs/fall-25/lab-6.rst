@@ -160,6 +160,7 @@ You should now be able to speak into the microphone and receive ultra-low latenc
 **Note:** The OpenAI Realtime API speaks its model output nearly verbatim, so whatever the model generates is also directly spoken aloud. While this behavior can make command parsing more difficult (or natural conversation more awkward), carefully crafting your prompts and designing robust command parsing will help manage this and improve interaction quality.
 
 **DELIVERABLE:** While you do not need to implement any feedback loop in the realtime voice script, understanding some of the underlying engineering details of the interactive voice implementation is crucial. Inspect carefully on the `realtime_voice.py` file, and point out at least 2 things that you find interesting and/or counterintuitive, and explain why they might be crucial to the interaction quality.
+
 **DELIVERABLE:** Record a video of you speaking with Pupper via the realtime voice script. Upload to Gradescope with your submission.
 
 Step 5. Implement Command Parsing and Robot Control
