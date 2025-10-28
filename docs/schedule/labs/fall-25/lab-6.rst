@@ -132,7 +132,7 @@ Step 4. Implement OpenAI Realtime API Voice Interaction
 
 2. Open the file `realtime_voice.py` in `~/lab_6_fall_2025/pupper_llm/`. This script handles the real-time voice interaction with Pupper using the Realtime API.
 
-3. **Your main task**: Implement the system prompt in the `self.system_prompt` variable (around line 65). This is critical for controlling how the AI responds to voice commands and formats its output for Pupper's command parser.
+3. **Your main task**: Implement the system prompt in the `self.system_prompt` variable (around line 90). This is critical for controlling how the AI responds to voice commands and formats its output for Pupper's command parser.
 
    Your prompt should:
    - Be approximately 50 lines long
