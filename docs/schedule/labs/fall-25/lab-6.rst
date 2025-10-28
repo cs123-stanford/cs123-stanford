@@ -136,11 +136,11 @@ Step 4. Implement OpenAI Realtime API Voice Interaction
 
    Your prompt should:
 
-   - Be approximately 50 lines long
-   - Explain the **critical output format** that the command parser expects
-   - Include the required action phrases (like "move_forward", "turn_left", "wiggle", etc.)
-   - Provide concrete examples of proper command formatting
-   - Ensure outputs are line-by-line with correct phrasing
+      - Be approximately 50 lines long
+      - Explain the **critical output format** that the command parser expects
+      - Include the required action phrases (like "move_forward", "turn_left", "wiggle", etc.)
+      - Provide concrete examples of proper command formatting
+      - Ensure outputs are line-by-line with correct phrasing
 
    **Hint:** Look at the Karel API methods you implemented in Step 2 to understand what commands are available.
 
@@ -171,29 +171,29 @@ Step 5. Implement Command Parsing and Robot Control
 
    **TODO 1: Parse commands from response text (in `response_callback`)**
 
-   - Split the response string into lines using `\n` as separator (assuming you prompt the model to output the commands in a multi-line format, which you probably should 😉)
-   - For each non-blank line, call `self.extract_commands_from_line(line.strip())`
-   - Collect all commands in order and append to `all_commands` list
-   - This ensures multi-line responses generate sequential actions
+     - Split the response string into lines using `\n` as separator (assuming you prompt the model to output the commands in a multi-line format, which you probably should 😉)
+     - For each non-blank line, call `self.extract_commands_from_line(line.strip())`
+     - Collect all commands in order and append to `all_commands` list
+     - This ensures multi-line responses generate sequential actions
 
    **TODO 2: Extract commands from individual lines (in `extract_commands_from_line`)**
 
-   - Parse robot commands from a single line of text
-   - The parsing logic depends on how you formatted your system prompt in Step 4!
-   - Map different phrasings (e.g., "move forward", "walk forward") to canonical commands (e.g., "move")
-   - Return a list of action strings extracted from the line
-   - Example: `"Move forward"` → `['move']` or `"<move, turn_left>"` → `['move', 'turn_left']`
+     - Parse robot commands from a single line of text
+     - The parsing logic depends on how you formatted your system prompt in Step 4!
+     - Map different phrasings (e.g., "move forward", "walk forward") to canonical commands (e.g., "move")
+     - Return a list of action strings extracted from the line
+     - Example: `"Move forward"` → `['move']` or `"<move, turn_left>"` → `['move', 'turn_left']`
 
    **TODO 3: Execute robot commands (in `execute_command`)**
 
-   - Map canonical command names to KarelPupper API methods
-   - One example is provided: `"move"/"go"/"forward"` → `self.pupper.move_forward()`
-   - Add mappings for all other Karel API methods you implemented in Step 2
-   - Use appropriate sleep times after each command:
+     - Map canonical command names to KarelPupper API methods
+     - One example is provided: `"move"/"go"/"forward"` → `self.pupper.move_forward()`
+     - Add mappings for all other Karel API methods you implemented in Step 2
+     - Use appropriate sleep times after each command:
   
-     - Normal moves/turns: `await asyncio.sleep(0.5)`
-     - Wiggle/bob actions: `await asyncio.sleep(5.5)`
-     - Dance actions: `await asyncio.sleep(12.0)`
+       - Normal moves/turns: `await asyncio.sleep(0.5)`
+       - Wiggle/bob actions: `await asyncio.sleep(5.5)`
+       - Dance actions: `await asyncio.sleep(12.0)`
 
 3. **Key design considerations**:
    
