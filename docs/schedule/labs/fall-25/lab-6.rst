@@ -94,13 +94,11 @@ Step 3. Create a Simple Chat with GPT Through the Command Line
 
 3. Remember that a callback function in ROS is a function that gets automatically called when a specific event occurs, such as receiving a message on a topic, a service request, or a timer event. In Line 13, we create a subscriber `self.subscription` that runs the callback function `query_callback` everytime the `/user_query_topic` ROS topic receives a message. Implement the `query_callback` function according to the description in the file. Refer to the `String Message <https://docs.ros2.org/foxy/api/std_msgs/msg/String.html>`_ documentation.
 
-4. When we call the ChatGPT API, we need to pass in a default prompt. Tuning this prompt to use ChatGPT as a helpful assistant is a process called `prompt engineering <https://platform.openai.com/docs/guides/prompt-engineering>`_. Fill out the `prompt` variable with a Python string containing your prompt. In the following lines, this is used in the response variable to start your conversation with ChatGPT.
+4. Open the file `command_line_publisher` at `~/lab_6_fall_25/pupper_llm/Robot_Commands/`. This script will be used to send queries to the ChatGPT API at the `user_query_topic` that the `simple_gpt_chat.py` script subscribes to. 
 
-5. Open the file `command_line_publisher` at `~/lab_6_fall_25/pupper_llm/Robot_Commands/`. This script will be used to send queries to the ChatGPT API at the `user_query_topic` that the `simple_gpt_chat.py` script subscribes to. 
+5. Similarly to the Step 3, implement the `publish_message` method according to the description in the file. 
 
-6. Similarly to the Step 3, implement the `publish_message` method according to the description in the file. 
-
-7. Run your implementation. In a first terminal, run the commands
+6. Run your implementation. In a first terminal, run the commands
 
    .. code-block:: bash
 
@@ -143,9 +141,9 @@ Step 5. Make ChatGPT command the KarelPupper API
 
 1. Now we will use the previous scripts to command the KarelPupper API rather than just creating a chat stream. Open the file `karel_chat_gpt_commander.py`, at `~/lab_6_fall_25/pupper_llm/pupper_llm/karel`.
 
-2. Engineer a prompt to have ChatGPT output a KarelPupper command based on the input user query. Paste in the prompt in the `prompt` variable inthe `get_gpt_response` method.
+2. When we call the ChatGPT API, we need to pass in a default prompt. Tuning this prompt to use ChatGPT as a helpful assistant is a process called `prompt engineering <https://platform.openai.com/docs/guides/prompt-engineering>`_.  Fill out prompt in the `system_prompt` variable inthe `get_gpt4_response_async` method.
 
-3. Implement the `exectute_robot_command` method. Based on the response argument, this method should control Pupper with the KarelPupper object `self.pupper` in a big if-else statement. 
+3. Implement the `_queue_single_command` method. Based on the response argument, this method should control Pupper with the KarelPupper object `self.pupper` in a big if-else statement. 
 
 4. Run your code. In a first terminal, run the commands
 
