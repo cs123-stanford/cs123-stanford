@@ -117,7 +117,7 @@ Refer to the Canvas/Ed announcements for the OpenAI API key. Then, in your termi
 
 .. code-block:: bash
 
-    cd ~/lab_6_fall_2025/pupper_llm
+    cd ~/lab_6_fall_2025
     python3 setup_api_keys.py
 
 
