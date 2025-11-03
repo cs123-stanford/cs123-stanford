@@ -244,7 +244,7 @@ Test your tracking implementation without voice control first.
 
    bash scripts/run_tracking.sh
 
-   This launches all tracking components and an interactive test script.
+This launches all tracking components and an interactive test script.
 
 2. **Test Tracking Commands**
 
