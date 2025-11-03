@@ -106,7 +106,7 @@ This starts:
 2. **Connect Foxglove to Pupper**  
    
    #. Connect your laptop to Pupper via Ethernet cable
-   #. SSH with port forwarding: ``ssh -A -L 8765:localhost:8765 pi@pupper.local``
+   #. SSH with port forwarding: ``ssh -A -L 8765:localhost:8765 pi@pupper[GROUP_NUMBER].local``
    #. Open Foxglove, click ``Open Connection``, use default websocket URL ``ws://localhost:8765``
 
         .. figure:: ../../../_static/vision_lab/connect_localhost.png
@@ -356,7 +356,7 @@ This starts all components:
 3. **Verify Multimodal Behavior**
 
    Pay attention to how the system integrates different modalities:
-   
+
    - Does voice control work better when Pupper can see what you're referring to?
    - How does the system handle ambiguous commands?
    - What happens when you give conflicting voice and tracking commands?
