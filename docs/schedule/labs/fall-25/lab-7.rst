@@ -261,6 +261,8 @@ This launches all tracking components and an interactive test script.
 
 **DELIVERABLE:** Record a video of Pupper successfully tracking a person, showing search and track behaviors. Upload to Gradescope.
 
+**DELIVERABLE:** Record a video of Pupper tracking the same person when two people are present on the screen. Talk about how you implemented the tracking logic to handle multiple objects. Upload to Gradescope.
+
 .. note::
 
    **Debugging Tracking Issues**: If tracking isn't working after implementing the Karel API, the issue is likely in the communication between components. Add ``breakpoint()`` in ``lab_7.py`` to debug:
