@@ -15,6 +15,7 @@ This lab builds on Lab 6's voice control by adding vision capabilities, creating
 **Note:** This lab is long and challenging, so please start early and ask questions if you get stuck. We're here to help!
 
 **Key Technologies:**
+
 - **HAILO-8L AI accelerator** for real-time object detection
 - **OpenAI Realtime API** with multimodal support (audio + vision)
 - **ROS2 state machine** for robust tracking behavior
@@ -49,7 +50,7 @@ Step 0. Setup and Environment
    cd ~/
    git clone https://github.com/YOUR_USERNAME/lab_7_fall_2025.git
 
-   Note: Replace ``YOUR_USERNAME`` with your actual GitHub username.
+Note: Replace ``YOUR_USERNAME`` with your actual GitHub username.
 
 5. Open the lab 7 folder in VSCode
 
@@ -66,7 +67,7 @@ Step 0. Setup and Environment
 
    python setup_api_keys.py
 
-   Follow the prompts to enter your OpenAI API key. This enables the multimodal Realtime API that processes both audio and vision.
+Follow the prompts to enter your OpenAI API key. This enables the multimodal Realtime API that processes both audio and vision.
 
 7. **Review the Lab Structure**
 
@@ -96,7 +97,8 @@ First, let's get the visualization system running so you can see what Pupper see
    cd ~/lab_7_fall_2025
    bash scripts/run_foxglove.sh
 
-   This starts:
+This starts:
+
    - ROS2 camera and control systems
    - Foxglove bridge for visualization  
    - HAILO object detection with bounding boxes
@@ -226,6 +228,7 @@ Next, add tracking capabilities to the Karel API so voice commands can control t
 3. **Copy Lab 6 Movement Functions**
 
    Copy your implementations from Lab 6 for:
+
    - ``move_forward()``, ``move_backward()``, ``move_left()``, ``move_right()``
    - ``turn_left()``, ``turn_right()``
    - ``bob()``, ``dance()``
@@ -250,6 +253,7 @@ Test your tracking implementation without voice control first.
 3. **Verify Behavior**
 
    Watch how Pupper behaves in different scenarios:
+
    - What happens when no objects are visible?
    - How does it choose which object to track when multiple are present?
    - Does the tracking feel natural and responsive?
@@ -313,6 +317,7 @@ Update the command parser to handle tracking commands.
 2. **Add Tracking Command Parsing**
 
    Extend your command parsing to handle tracking. Think about:
+
    - What different ways might someone ask to track an object?
    - How do you extract the object name from natural language?
    - What canonical command format should you use internally?
@@ -320,6 +325,7 @@ Update the command parser to handle tracking commands.
 3. **Add Tracking Command Execution**
 
    Update your command execution to handle tracking commands. Consider:
+
    - How do you detect tracking-related commands?
    - What Karel API methods should you call?
    - How do you handle the timing of tracking operations?
@@ -335,7 +341,8 @@ Finally, test the complete multimodal system.
 
    bash scripts/run_full_system.sh
 
-   This starts all components:
+This starts all components:
+
    - ROS2 control and camera
    - Object detection with HAILO
    - Tracking state machine  
@@ -349,6 +356,7 @@ Finally, test the complete multimodal system.
 3. **Verify Multimodal Behavior**
 
    Pay attention to how the system integrates different modalities:
+   
    - Does voice control work better when Pupper can see what you're referring to?
    - How does the system handle ambiguous commands?
    - What happens when you give conflicting voice and tracking commands?
