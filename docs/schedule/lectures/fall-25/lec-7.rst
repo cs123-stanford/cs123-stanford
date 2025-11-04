@@ -3,7 +3,7 @@ Lecture 7: Computer Vision for Robotics
 
 **Lab:** :doc:`../../labs/fall-25/lab-7` Integrate Computer Vision to Pupper that enables object tracking and voice control!
 
-**Lecture Slides:** to be uploaded soon by Nathan & Gabrael (Pupper's creators)
+**Lecture Slides:** by Nathan & Gabrael (Pupper's creators): https://docs.google.com/presentation/d/1D4PkpB8UiqQQ3B4OK1W82MBIK9-kjJVnK3rV9RYrwSE/edit?usp=sharing 
 
 **Lab Review Slides:** https://docs.google.com/presentation/d/1B9dPRIVNvwTZaD_4BA07pDRL4pYIENYV/edit
 
