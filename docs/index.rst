@@ -197,6 +197,11 @@ Schedule
    "Week 5: 10/20", ":doc:`../schedule/lectures/fall-25/lec-5`", ":doc:`../schedule/labs/fall-25/lab-5`", "10/27/25", "Optional Lab 2 coming soon!"
    "Week 6: 10/27", ":doc:`../schedule/lectures/fall-25/lec-6`", ":doc:`../schedule/labs/fall-25/lab-6`", "11/3/25", ""
    "Week 7: 11/3", ":doc:`../schedule/lectures/fall-25/lec-7`", ":doc:`../schedule/labs/fall-25/lab-7`", "11/10/25", ""
+   "Week 8: 11/10", ":doc:`../schedule/lectures/fall-25/lec-8`", "Final Project Proposal", "11/14/25", ""
+   "Week 9: 11/17", ":doc:`../schedule/lectures/fall-25/lec-9`", "", "", ""
+   "Thanksgiving Break: 11/24", "", "", "", ""
+   "Week 11: 11/30", "", "", "", ""
+   "Finals Week: 12/7", "", "", "", ""
 **References:** :doc:`../reference/references`
 
 **Past Course Projects:** :doc:`../reference/past_projects`
