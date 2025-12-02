@@ -31,7 +31,7 @@ Week 10 & Finals Week (12/1-12/10):
     - Progress checkpoint **Monday, 12/1** (attendance required)
     - Demonstrate current progress to instructors/TAs
     - Final implementation week
-    - Final demo video due **Sunday, 12/8 at 11:59 PM**
+    - Final demo video due **Monday, 12/8 at 11:59 PM**
     - **Demo Day: Tuesday, 12/10 at 7:00 PM**
 
 **Grading Breakdown:**
