@@ -32,7 +32,7 @@ Week 10 & Finals Week (12/1-12/10):
     - Demonstrate current progress to instructors/TAs
     - Final implementation week
     - Final demo video due **Monday, 12/8 at 11:59 PM**
-    - **Demo Day: Tuesday, 12/10 at 7:00 PM**
+    - **Demo Day: Wednesday, 12/10 at 7:00 PM, room B90** (big lecture next to our normal classroom)
 
 **Grading Breakdown:**
     - Project Proposal: 20%
