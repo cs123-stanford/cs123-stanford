@@ -56,6 +56,12 @@ Part 1: SSH to Raspberry Pi in Terminal
    - If successful, your terminal prompt should now say `pi@pupper[YOUR_GROUP_NUMBER].local` 
    - Friendly reminder: you can **SSH multiple times** to the Raspberry Pi from multiple Terminal windows to run multiple commands at once.
 
+.. note::
+   **Trouble connecting via SSH?** 🔧
+
+   If the hostname aliasing (``pupper[YOUR_GROUP_NUMBER].local``) is not working, check out our :doc:`ssh-over-wifi` guide for a more robust way to connect to Pupper over WiFi using IP addresses directly.
+
+
 Part 2: SSH to Raspberry Pi in VSCode
    - Download VSCode if you haven't already: https://code.visualstudio.com/
    - Install the "Remote - SSH" extension
