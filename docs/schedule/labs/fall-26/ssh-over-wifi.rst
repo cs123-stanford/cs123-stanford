@@ -7,7 +7,7 @@
    SSH (Secure Shell) allows you to remotely access and control Pupper's Raspberry Pi from your computer. This guide shows you a robust way to connect via WiFi, even when IP address aliasing doesn't work.
 
 .. warning::
-   **Important**  
+   **Important** 
 
    Sometimes Pupper shows as connected to WiFi but isn't actually receiving internet packets. This guide will help you verify the connection is working properly before attempting to SSH.
 

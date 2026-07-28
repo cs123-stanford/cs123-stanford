@@ -186,25 +186,36 @@ TAs will be available to support students working on the optional labs during th
 Schedule
 ==========================
 
+.. note::
+   Labs 3 and 4 from previous offerings are now a single two-week lab,
+   :doc:`../schedule/labs/fall-26/lab-3`, which covers inverse kinematics and
+   heuristic walking together. The labs after it have shifted down by one number.
+
 .. csv-table::
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "Week 1: 9/22", ":doc:`../schedule/lectures/fall-25/lec-1`", ":doc:`../schedule/labs/fall-25/lab-1`", "9/29/25", ""
-   "Week 2: 9/29", ":doc:`../schedule/lectures/fall-25/lec-2`", ":doc:`../schedule/labs/fall-25/lab-2`", "10/6/25", ""
-   "Week 3: 10/6", ":doc:`../schedule/lectures/fall-25/lec-3`", ":doc:`../schedule/labs/fall-25/lab-3`", "10/13/25", ":doc:`../schedule/labs/fall-25/opt-lab-1`"
-   "Week 4: 10/13", ":doc:`../schedule/lectures/fall-25/lec-4`", ":doc:`../schedule/labs/fall-25/lab-4`", "10/20/25", ""
-   "Week 5: 10/20", ":doc:`../schedule/lectures/fall-25/lec-5`", ":doc:`../schedule/labs/fall-25/lab-5`", "10/27/25", "Optional Lab 2 coming soon!"
-   "Week 6: 10/27", ":doc:`../schedule/lectures/fall-25/lec-6`", ":doc:`../schedule/labs/fall-25/lab-6`", "11/3/25", ""
-   "Week 7: 11/3", ":doc:`../schedule/lectures/fall-25/lec-7`", ":doc:`../schedule/labs/fall-25/lab-7`", "11/10/25", ""
-   "Week 8: 11/10", ":doc:`../schedule/lectures/fall-25/lec-8`", "Final Project Proposal", "11/14/25", ""
-   "Week 9: 11/17", ":doc:`../schedule/lectures/fall-25/lec-9`", "", "", ""
-   "Thanksgiving Break: 11/24", "", "", "", ""
-   "Week 11: 11/30", "", "", "", ""
-   "Finals Week: 12/7", "", "", "", ""
+   "Week 1", ":doc:`../schedule/lectures/fall-26/lec-1`", ":doc:`../schedule/labs/fall-26/lab-1`", "TBD", ""
+   "Week 2", ":doc:`../schedule/lectures/fall-26/lec-2`", ":doc:`../schedule/labs/fall-26/lab-2`", "TBD", ""
+   "Week 3", ":doc:`../schedule/lectures/fall-26/lec-3`", ":doc:`../schedule/labs/fall-26/lab-3` (Parts 1-3)", "TBD", ":doc:`../schedule/labs/fall-26/opt-lab-1`"
+   "Week 4", ":doc:`../schedule/lectures/fall-26/lec-4`", ":doc:`../schedule/labs/fall-26/lab-3` (Parts 4-6)", "TBD", ""
+   "Week 5", ":doc:`../schedule/lectures/fall-26/lec-5`", ":doc:`../schedule/labs/fall-26/lab-4`", "TBD", ""
+   "Week 6", ":doc:`../schedule/lectures/fall-26/lec-6`", ":doc:`../schedule/labs/fall-26/lab-5`", "TBD", ""
+   "Week 7", ":doc:`../schedule/lectures/fall-26/lec-7`", ":doc:`../schedule/labs/fall-26/lab-6`", "TBD", ""
+   "Week 8", ":doc:`../schedule/lectures/fall-26/lec-8`", "Final Project Proposal", "TBD", ""
+   "Week 9", ":doc:`../schedule/lectures/fall-26/lec-9`", "", "", ""
+   "Thanksgiving Break", "", "", "", ""
+   "Week 11", "", "", "", ""
+   "Finals Week", "", "", "", ""
+
+.. TODO(staff): fill in the week dates and lab due dates for this offering, and
+   refresh the teaching team, office hours, and sign-up form above.
+
 **References:** :doc:`../reference/references`
 
 **Past Course Projects:** :doc:`../reference/past_projects`
 
-**Spring 2025 quarter website:** :doc:`../reference/spring_2025`  
+**Spring 2025 quarter website:** :doc:`../reference/spring_2025`
 **Older offerings (materials only):** :doc:`../reference/past_offerings`
+
+**Fall 2025 labs and lectures** (before labs 3 and 4 were merged): :doc:`../reference/past_offerings`
