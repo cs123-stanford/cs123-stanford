@@ -98,7 +98,7 @@ The MJX (MuJoCo + Jax) configuration controls the physics simulation environment
 * **Control**: Motor dynamics, PID gains, and actuation limits (you don't need to change these for this lab)
 
 PPO Configs
-~~~~~~~~~~
+~~~~~~~~~~~
 Proximal Policy Optimization (PPO) is a popular RL algorithm for training robot policies. We won't cover the details of this algorithm in this class for simplicity--you can think of it as an optimizer to train RL models for maximizing rewards. The PPO configuration controls the learning process:
 
 * **Network Architecture**: Size and structure of the policy and value networks (you should not change these for this lab)
@@ -108,7 +108,7 @@ Proximal Policy Optimization (PPO) is a popular RL algorithm for training robot 
 * **Entropy Bonus**: Encourages exploration during training (you should not change these for this lab)
 
 Command Sampling
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 Controls how velocity commands are generated during training:
 
 * **Linear Velocity**: Range for forward/backward and lateral movement
@@ -117,7 +117,7 @@ Controls how velocity commands are generated during training:
 * **Stand Still Threshold**: Velocity threshold below which commands are considered "standing still" (you should not change these for this lab)
 
 Termination Conditions
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 Defines when an episode should end:
 
 * **Body Height**: Episode ends if body center goes below a certain height (you should not change these)
@@ -125,7 +125,7 @@ Defines when an episode should end:
 * **Early Termination**: Allows episodes to end before reaching maximum length (you should not change these)
 
 Domain Randomization
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 Parameters that add variability to the simulation to improve robustness:
 
 * **Perturbations**: Random kicks, angular velocity noise, and gravity variations
@@ -136,7 +136,7 @@ Parameters that add variability to the simulation to improve robustness:
 * **Friction**: Random variations in ground friction
 
 Heightfields and Obstacles
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Environment features to test Pupper's capabilities:
 
 * **Heightfield Types**: Random terrain or steps

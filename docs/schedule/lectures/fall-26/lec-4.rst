@@ -1,11 +1,10 @@
-Lecture 4: Heuristical Gait Control
-=======================================================
+Lecture 4: Reinforcement Learning for Robotics
+==============================================
 
-**Lab:** :doc:`../../labs/fall-26/lab-3` (Parts 4-6, continued from last week)
+**Lab:** :doc:`../../labs/fall-26/lab-4` Use Reinforcement Learning to control Pupper to walk in sim and on the real robot!
 
-**Lecture Slides:** https://drive.google.com/file/d/1LTnn9yEgS1I8yAj-WlNaUNHUHVJWXP-j/view?usp=sharing
+**Lecture Slides:** `Reinforcement Learning for Robotics <https://drive.google.com/file/d/1iGandk9bOFnfapJD8bCLr_8Lr_-ao-hu/view?usp=sharing>`_
 
-**Lab Review Slides:** https://docs.google.com/presentation/d/1KhDySk7tXiDoaovGN39XFggkJt5WCZ5Ue0DzZhLcDKU/edit?usp=sharing
+**Lab Review Slides:**  https://docs.google.com/presentation/d/1M66Y04oQe-v2Rjdd5DlflRhgR0MSj-aA/edit?usp=sharing&ouid=116833000630199851799&rtpof=true&sd=true
 
-**Lab Document:** https://docs.google.com/document/d/1_ZpwR8OAQS39QISJryON0GBG1AbQ2RqVT3LJr9OzBZ8/edit
-
+**Lab Document:** https://docs.google.com/document/d/19SxabuzXPwqu-q0i3K2NRWW-GlK_V9ndIN5UgcBE58c/edit?usp=sharing

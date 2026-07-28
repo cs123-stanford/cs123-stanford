@@ -10,9 +10,10 @@ extension you tune gaits live in the browser and bring what you find back into y
 code.
 
 .. note::
-   This is a **two-week lab**. Parts 1–3 pair with the inverse kinematics lecture, and
-   Parts 4–6 pair with the heuristic gait control lecture. Everything is submitted
-   together at the end of week 2.
+   This lab combines what used to be two separate labs. Parts 1–3 get one leg tracking a
+   trajectory; Parts 4–5 turn that into a walking gait. **Part 6 is an optional
+   extension** — do it if you want to go deeper on gaits, and feel free to keep working
+   on it after the deadline or fold it into your final project.
 
 Lab Review Slides: `Inverse kinematics slides <https://docs.google.com/presentation/d/1NvK2dUOB0lqD47rk3x3e-lUMVMnwtgSr/edit#slide=id.g2f9b22e15a6_0_233>`_,
 `heuristic gait slides <https://docs.google.com/presentation/d/1KhDySk7tXiDoaovGN39XFggkJt5WCZ5Ue0DzZhLcDKU/edit?usp=sharing>`_
@@ -327,8 +328,12 @@ Make Pupper even faster, and race!
 
 **DELIVERABLE:** Take a video of you timing Pupper completing the course, and report the fastest time you were able to make Pupper go!
 
-Part 6: Extension — Live Gait Tuning
--------------------------------------
+Part 6 (Optional): Live Gait Tuning
+------------------------------------
+
+.. note::
+   This part is **optional**. Everything above is the required lab. The deliverables
+   below are bonus — attempt as many or as few as you like.
 
 Changing a gait by editing keyframes and waiting for the IK solve is slow, and it makes
 it hard to build intuition for *why* a gait works. In this part you use the

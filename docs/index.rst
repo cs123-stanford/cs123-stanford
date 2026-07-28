@@ -127,13 +127,13 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
    </script>
 
 
-**2025-2026 Fall Teaching team:** 
+**2026-2027 Fall Teaching team:** 
 
 * Instructors: `Prof. Karen Liu <https://tml.stanford.edu/people/karen-liu>`_ (Stanford CS), `Jie Tan <https://www.jie-tan.net/>`_ (Google DeepMind), `Stuart Bowers <https://handsonrobotics.org/>`_ (Apple, Hands-On Robotics)
 * Co-Instructors: `Wenhao Yu <https://wenhaoyu.weebly.com/>`_ (Google DeepMind), `Tingnan Zhang <https://www.linkedin.com/in/tingnanzhang/>`_ (Google DeepMind)
 * TAs: `Ankush Dhawan <https://ankushdhawan5812.github.io>`_ (PhD, MechE), `JC Hu <https://www.linkedin.com/in/jc-hu/>`_ (coterm, CS), `Benji Warburton <https://www.linkedin.com/in/benjiwarburton/>`_ (undergrad, EE)
 
-**Sign-Up Form:** `This form <https://docs.google.com/forms/d/e/1FAIpQLScDPi8bazMjzMV2KLJAHexqzImbAnLQojnsOLfJG0dlEXDcjg/viewform?usp=sharing>`_ will open on Monday, 9/8/2025 at 9AM PST for applications. Please fill out this form if you are interested in enrolling for our Fall offering! We will select 24 out of the first 100 applicants in a lottery that considers equal seniority distribution among undergraduates.
+**Sign-Up Form:** The sign-up form and its opening date for this offering are TBD. We will select 24 out of the first 100 applicants in a lottery that considers equal seniority distribution among undergraduates.
 
 **Overview:**
 
@@ -152,11 +152,10 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 **TA Office Hours Location:** CoDA B50
 
-**TA Office Hours:**
+**TA Office Hours:** TBD
 
-    * Ankush: Mondays: 10:00am - 11:00am, Wednesdays: 10:00am - 11:00am
-    * JC: Tuesdays 2:00pm - 3:30pm, Fridays 3:00pm - 4:30pm (in CoDA B04), `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
-    * Benji: Thursdays: 12:45pm - 2:45pm
+.. TODO(staff): confirm the teaching team, lecture location, and office hours for this
+   offering. The Fall 2025 versions are preserved at :doc:`../reference/fall_2025`.
 
 **Prerequisites:**
 
@@ -187,35 +186,39 @@ Schedule
 ==========================
 
 .. note::
-   Labs 3 and 4 from previous offerings are now a single two-week lab,
-   :doc:`../schedule/labs/fall-26/lab-3`, which covers inverse kinematics and
-   heuristic walking together. The labs after it have shifted down by one number.
+   Labs 3 and 4 from previous offerings are now a single lab,
+   :doc:`../schedule/labs/fall-26/lab-3`, which covers inverse kinematics and heuristic
+   walking together. The labs after it have shifted down by one number, and there are
+   six labs instead of seven.
 
 .. csv-table::
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "Week 1", ":doc:`../schedule/lectures/fall-26/lec-1`", ":doc:`../schedule/labs/fall-26/lab-1`", "TBD", ""
-   "Week 2", ":doc:`../schedule/lectures/fall-26/lec-2`", ":doc:`../schedule/labs/fall-26/lab-2`", "TBD", ""
-   "Week 3", ":doc:`../schedule/lectures/fall-26/lec-3`", ":doc:`../schedule/labs/fall-26/lab-3` (Parts 1-3)", "TBD", ":doc:`../schedule/labs/fall-26/opt-lab-1`"
-   "Week 4", ":doc:`../schedule/lectures/fall-26/lec-4`", ":doc:`../schedule/labs/fall-26/lab-3` (Parts 4-6)", "TBD", ""
-   "Week 5", ":doc:`../schedule/lectures/fall-26/lec-5`", ":doc:`../schedule/labs/fall-26/lab-4`", "TBD", ""
-   "Week 6", ":doc:`../schedule/lectures/fall-26/lec-6`", ":doc:`../schedule/labs/fall-26/lab-5`", "TBD", ""
-   "Week 7", ":doc:`../schedule/lectures/fall-26/lec-7`", ":doc:`../schedule/labs/fall-26/lab-6`", "TBD", ""
-   "Week 8", ":doc:`../schedule/lectures/fall-26/lec-8`", "Final Project Proposal", "TBD", ""
-   "Week 9", ":doc:`../schedule/lectures/fall-26/lec-9`", "", "", ""
-   "Thanksgiving Break", "", "", "", ""
-   "Week 11", "", "", "", ""
-   "Finals Week", "", "", "", ""
+   "Week 1: 9/22", ":doc:`../schedule/lectures/fall-26/lec-1`", ":doc:`../schedule/labs/fall-26/lab-1`", "9/28/26", "Lecture recorded"
+   "Week 2: 9/28", ":doc:`../schedule/lectures/fall-26/lec-2`", ":doc:`../schedule/labs/fall-26/lab-2`", "10/5/26", ""
+   "Week 3: 10/5", ":doc:`../schedule/lectures/fall-26/lec-3`", ":doc:`../schedule/labs/fall-26/lab-3`", "10/12/26", ":doc:`../schedule/labs/fall-26/opt-lab-1`"
+   "Week 4: 10/12", ":doc:`../schedule/lectures/fall-26/lec-4`", ":doc:`../schedule/labs/fall-26/lab-4`", "10/19/26", ""
+   "Week 5: 10/19", ":doc:`../schedule/lectures/fall-26/lec-5`", ":doc:`../schedule/labs/fall-26/lab-5`", "10/26/26", ""
+   "Week 6: 10/26", ":doc:`../schedule/lectures/fall-26/lec-6`", ":doc:`../schedule/labs/fall-26/lab-6`", "11/2/26", ""
+   "Week 7: 11/2", ":doc:`../schedule/lectures/fall-26/lec-7`", "Final Project Proposal", "", ""
+   "Week 8: 11/9", ":doc:`../schedule/lectures/fall-26/lec-8`", "Final Project Checkpoint", "", ""
+   "Week 9: 11/16", "Dead Week", "", "", ""
+   "Thanksgiving Break: 11/23", "No class", "", "", ""
+   "Week 10: 11/30", "Final Project Presentation", "", "", ""
+   "Finals Week: 12/7", "Final code and video submission", "", "", ""
 
-.. TODO(staff): fill in the week dates and lab due dates for this offering, and
-   refresh the teaching team, office hours, and sign-up form above.
+.. TODO(staff): the final project proposal / checkpoint / presentation due dates are
+   still blank, and the teaching team, office hours, and sign-up form above are still
+   the Fall 2025 ones. Lecture slide links on the fall-26 lecture pages are also still
+   the Fall 2025 decks.
 
 **References:** :doc:`../reference/references`
 
 **Past Course Projects:** :doc:`../reference/past_projects`
 
-**Spring 2025 quarter website:** :doc:`../reference/spring_2025`
-**Older offerings (materials only):** :doc:`../reference/past_offerings`
+**Fall 2025 quarter website:** :doc:`../reference/fall_2025`
 
-**Fall 2025 labs and lectures** (before labs 3 and 4 were merged): :doc:`../reference/past_offerings`
+**Spring 2025 quarter website:** :doc:`../reference/spring_2025`
+
+**Older offerings (materials only):** :doc:`../reference/past_offerings`

@@ -1,10 +1,10 @@
-Lecture 5: Reinforcement Learning for Robotics
-======================================
+Lecture 5: Vision and Navigation
+================================
 
-**Lab:** :doc:`../../labs/fall-26/lab-4` Use Reinforcement Learning to control Pupper to walk in sim and on the real robot!
+**Lab:** :doc:`../../labs/fall-26/lab-5` Integrate Computer Vision to Pupper that enables object tracking and voice control!
 
-**Lecture Slides:** https://drive.google.com/file/d/1iGandk9bOFnfapJD8bCLr_8Lr_-ao-hu/view?usp=sharing
+**Lecture Slides:** by Nathan & Gabrael (Pupper's creators): https://docs.google.com/presentation/d/1D4PkpB8UiqQQ3B4OK1W82MBIK9-kjJVnK3rV9RYrwSE/edit?usp=sharing 
 
-**Lab Review Slides:**  https://docs.google.com/presentation/d/1M66Y04oQe-v2Rjdd5DlflRhgR0MSj-aA/edit?usp=sharing&ouid=116833000630199851799&rtpof=true&sd=true
+**Lab Review Slides:** https://docs.google.com/presentation/d/1B9dPRIVNvwTZaD_4BA07pDRL4pYIENYV/edit
 
-**Lab Document:** https://docs.google.com/document/d/19SxabuzXPwqu-q0i3K2NRWW-GlK_V9ndIN5UgcBE58c/edit?usp=sharing
+**Lab Document:** https://docs.google.com/document/d/1GJTvKj6Lzb_mLpU9AYKbbvarJ1d-B2B0UuI5HPmaRoE/edit?tab=t.0#heading=h.47t0k5pf0v4

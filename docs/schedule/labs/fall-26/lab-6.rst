@@ -1,375 +1,250 @@
-.. TODO(staff): lab numbering shifted for this offering (former lab 7).
+.. TODO(staff): lab numbering shifted for this offering (former lab 6).
    Code repository links and directory names below still point at the
    fall_2025 repos - update them when the repos for this offering exist.
 
-Lab 6: The World I See
-=======================
+Lab 6: Do What I Say
+=============================================
 
-*Goal: Integrate computer vision with voice control to enable Pupper to track objects and respond to visual commands using multimodal AI!*
+*Goal: Explore how we can use LLMs and speech recognition to control Pupper to do a variety of tasks!*
 
-In this lab, you'll combine computer vision, voice interaction, and AI to create an intelligent robot that can:
+For this lab, we are going to implement a speech recognition pipeline to command Pupper with voice/speech input. To do so, we will hone ROS implementation skills to add various capabilities to Pupper, which will also be helpful for your final project. If anything is not working as expected or you have any questions, please ask a TA.
 
-- **See and understand** its environment through camera input
-- **Track objects** like people, dogs, cats, and 80+ other COCO dataset objects  
-- **Respond to voice commands** with visual context (e.g., "Follow that person", "What do you see?")
-- **Use multimodal AI** that processes both audio and visual input simultaneously
+As you complete this lab, please fill out the `lab document <https://docs.google.com/document/d/1dU70gedHd83s3HA9g-nIzRdMnL8tlony3w4H7Th0NOA/edit?usp=sharing>`_.
 
-This lab builds on Lab 5's voice control by adding vision capabilities, creating a truly multimodal AI experience where Pupper can see what you're talking about!
+.. raw:: html
 
-**Note:** This lab is long and challenging, so please start early and ask questions if you get stuck. We're here to help!
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+        <iframe src="https://www.youtube.com/embed/utDWVykqi8w" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+    </div>
 
-**Key Technologies:**
-
-- **HAILO-8L AI accelerator** for real-time object detection
-- **OpenAI Realtime API** with multimodal support (audio + vision)
-- **ROS2 state machine** for robust tracking behavior
-- **Foxglove** for real-time visualization
-
-`Lab slides <https://docs.google.com/presentation/d/1B9dPRIVNvwTZaD_4BA07pDRL4pYIENYV/edit?usp=sharing&ouid=117110374750562018236&rtpof=true&sd=true>`_
-
-`Lab document <https://docs.google.com/document/d/1GJTvKj6Lzb_mLpU9AYKbbvarJ1d-B2B0UuI5HPmaRoE/edit?usp=sharing>`_
-
-Step 0. Setup and Environment
+Step 1. Getting Started
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. **Install Foxglove**  
-   
-   Install `Foxglove <https://foxglove.dev/>`_ locally on your computer (not the browser version).
-   Foxglove will be your primary visualization tool for seeing camera feeds, object detections, and robot state in real time.
+1. In this lab, we will be using the microphone on Pupper to record your voice input. Plug in the microphone transmitter into the Raspberry Pi, as shown in the image below.
 
-2. **Install Dependencies**
-   
-   Install the required dependencies (downgrading numpy to a version below 2.0.0 is **crucial**):
+.. figure:: ../../../_static/mic_cable.jpg
+    :align: center
+    :width: 500px
 
-.. code-block:: bash
+    Microphone transmitter inserted into the Raspberry Pi.
 
-   pip install supervision loguru pygame sounddevice websockets numpy==1.26.0
+2. Turn on the Pupper, and install the related python packages
 
-3. Open the **lab 7 code repository** (`lab 7 code repository <https://github.com/cs123-stanford/lab_7_fall_2025>`_) on your GitHub account. Then, fork the repository to your own GitHub account following the instructions in :doc:`forking_repositories`.
+   .. code-block:: bash
+
+      pip install pygame
+      pip install simpleaudio
+      pip install openai==1.54.3 websockets==13.1
+      pip install openai-whisper
+      pip install sounddevice
+      pip install pyttsx3
+
+Next, install the following package with a sudo apt install
+
+   .. code-block:: bash
+
+      sudo apt-get install espeak
+
+
+3. Open the **new** lab 6 code repository (`lab 6 code repository <https://github.com/cs123-stanford/lab_6_fall_2025>`_) on your GitHub account. Then, fork the repository to your own GitHub account following the instructions in :doc:`forking_repositories`.
+
+**Note:** The lab 6 code repository is **new** and significantly different from the version previously released in class. Please make sure to fork this updated repository and begin your lab from there. While your earlier in-class implementation will help you get started, you should treat this as a fresh project. To help compensate for the confusion from class (sorry for that!), the workload for this lab has also been made lighter.
 
 4. Clone the forked repository to your Raspberry Pi:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   cd ~/
-   git clone https://github.com/YOUR_USERNAME/lab_7_fall_2025.git
+      cd ~/
+      git clone https://github.com/YOUR_USERNAME/lab_6_fall_2025.git
 
-Note: Replace ``YOUR_USERNAME`` with your actual GitHub username.
+   Note: Replace ``YOUR_USERNAME`` with your actual GitHub username.
 
-5. Open the lab 7 folder in VSCode
+5. Open the lab 6 folder in VSCode
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   cd ~/lab_7_fall_2025
-   code .
+      cd ~/lab_6_fall_2025
+      code .
 
-6. **Configure API Keys**
 
-   Set up your OpenAI API key for multimodal voice interaction:
+Step 2. Use the Karel Pupper API
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: bash
+1. For much of this lab, we will be using the KarelPupper API, which many of you remember "fondly" from CS106A's Karel the Robot as a programming introduction. Trust me, this isn't nearly that bad on Pupper ;). Much like in CS106A, we use the KarelPupper API to do basic commands to control Pupper. In our case, using this API abstracts away the minute motor control commands and makes code much more readable for something like an LLM. The following exercises will help you get familiar with the API, which is something that many students build on top of for their final projects.
 
-   python setup_api_keys.py
+.. figure:: ../../../_static/karel_pupper.png
+    :align: center
 
-Follow the prompts to enter your OpenAI API key. This enables the multimodal Realtime API that processes both audio and vision.
+    Pupper in the Karel Environment.
 
-7. **Review the Lab Structure**
+2. Open `karel.py` in the `~/lab_6_fall_2025/pupper_llm/karel/` directory. You'll notice that we have implemented `wiggle`, `bark`, and `stop` methods for you, but several movement methods need to be completed. Based on the existing implementations and the TODO comments in the code, implement the following methods:
 
-   The lab follows a progressive workflow:
-   
-   - **Visualization** (``run_foxglove.sh``) → See camera feed and detections
-   - **Tracking Logic** (``lab_7.py``) → Implement state machine for object tracking  
-   - **Karel API** (``karel.py``) → Add tracking commands to robot control
-   - **Testing** (``run_tracking.sh``) → Test tracking without voice
-   - **Voice + Vision** (``realtime_voice.py``) → Add multimodal AI capabilities
-   - **Command Parsing** (``karel_realtime_commander.py``) → Parse voice commands with tracking
-   - **Full System** (``run_full_system.sh``) → Complete integrated experience
+   - `move_forward()` - Make Pupper move forward safely
+   - `move_backward()` - Make Pupper move backward (be careful with speed!)
+   - `move_left()` - Make Pupper strafe to the left
+   - `move_right()` - Make Pupper strafe to the right  
+   - `turn_left()` - Make Pupper rotate left in place
+   - `turn_right()` - Make Pupper rotate right in place
+   - `bob()` - Make Pupper bob back and forth (bonus: with sound!)
+   - `dance()` - Create your own awesome dance sequence using the other methods!
 
-   **Important Note on Process Management**: This lab involves many interconnected components (camera, object detection, state machine, voice processing, etc.). Unlike previous labs where you might open multiple terminals, we've provided launch scripts that handle all the process management for you. For each step, you'll typically just need to open **one terminal** and run the appropriate bash script. The scripts automatically start all necessary background processes and handle cleanup when you stop them with Ctrl+C. This makes the lab much more manageable!
+   **Hint:** Look at the existing `wiggle()` method to understand how to use `Twist` messages and the `move()` helper function. Pay attention to the coordinate system: `linear.x` is forward/backward, `linear.y` is left/right, and `angular.z` is rotation.
 
-Step 1. Visualization Setup
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3. Experiment with the KarelPupper API by running the `karel_test.py` script. Take a look at the script, and see if you can understand what Pupper should do before you run the script, and then run the script to validate your thoughts. In a first terminal, run
 
-First, let's get the visualization system running so you can see what Pupper sees.
+   .. code-block:: bash
 
-1. **Start Foxglove Visualization**
+      cd ~/lab_6_fall_2025/launch
+      ros2 launch launch.py
 
-   Launch the visualization system:
+In a second terminal, run the commands
+   .. code-block:: bash
 
-.. code-block:: bash
+      cd ~/lab_6_fall_2025/pupper_llm/karel
+      python3 karel_test.py
 
-   cd ~/lab_7_fall_2025
-   bash scripts/run_foxglove.sh
+The current implementation of the `karel_test.py` script will create a `KarelPupper` object and sequentially command it to:
+1. Wiggle,
+2. Bob back and forth,
+3. Perform a dance sequence,
+4. Bark,
+5. Stop (come to rest).
 
-This starts:
+Each of these actions triggers the corresponding method in your `karel.py` file, allowing you to visually observe Pupper perform each defined movement in order.
 
-   - ROS2 camera and control systems
-   - Foxglove bridge for visualization  
-   - HAILO object detection with bounding boxes
+**DELIVERABLE:** Take a video of Pupper performing the entire test sequence. Upload to Gradescope with your submission.
 
-2. **Connect Foxglove to Pupper**  
-   
-   #. Connect your laptop to Pupper via Ethernet cable
-   #. SSH with port forwarding: ``ssh -A -L 8765:localhost:8765 pi@pupper[GROUP_NUMBER].local``
-   #. Open Foxglove, click ``Open Connection``, use default websocket URL ``ws://localhost:8765``
+Step 3. API Key Setup
+^^^^^^^^^^^^^^^^^^^^^
 
-        .. figure:: ../../../_static/vision_lab/connect_localhost.png
-            :align: center
-
-            Connecting Foxglove to the Raspberry Pi.
-
-   #. Configure the image panel:
-      - Click the gear icon on the image panel
-      - Set topic to ``/annotated_image`` 
-      - Set calibration to ``None``
-      - Go fullscreen for better visibility
-
-        .. figure:: ../../../_static/foxglove_new.png
-            :align: center
-
-            Configure the image topic to see object detections.
-
-3. **Verify Object Detection**
-
-   You should see a camera feed with bounding boxes around detected objects (people, dogs, cats, etc.). The system can detect 80+ different object types from the COCO dataset.
-
-   **Note on Image Processing**: The raw fisheye camera images have been converted to equirectangular format for better object detection performance. Fisheye lenses create significant distortion that can hurt detection accuracy, so we unwarp the images to a more standard rectangular projection. If you're curious about how this works, take a look at ``fisheye_converter.py`` (totally optional) - it shows the mathematical transformation from fisheye coordinates to equirectangular coordinates.
-
-   If you don't see detections, ask a TA. If the image is upside down, you can flip it by editing the ``hailo_detection.py`` file.
-
-**DELIVERABLE:** Take a screenshot of Foxglove showing object detections with bounding boxes. Upload this to Gradescope.
-
-Step 2. Implement Tracking State Machine
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Now you'll implement the core tracking logic in ``lab_7.py``. This file contains a state machine that processes object detections and controls Pupper's movement.
-
-1. **Understand the State Machine**
-
-   Open ``lab_7.py`` and examine the structure:
-   
-   - **State.IDLE**: No tracking active (allows manual Karel commands)
-   - **State.SEARCH**: Rotating to search for target when lost
-   - **State.TRACK**: Following detected target
-   
-   The state machine receives:
-   - Object detections from ``/detections`` topic
-   - Tracking control commands from ``/tracking_control`` topic
-
-2. **Implement Detection Processing**
-
-   In the ``detection_callback`` function, you'll need to process incoming detection messages. Look at the ROS message structure and figure out how to:
-
-   - Extract detection data from the message
-   - Determine the position of detected objects in the image
-   - Normalize positions so the center of the image is at 0
-   - Decide which detection to track when multiple objects are present
-   - Keep track of when detections occur for timeout logic
-
-   **Hint:** Check the `ROS Message Documentation <http://docs.ros.org/en/kinetic/api/vision_msgs/html/msg/Detection2DArray.html>`_ to understand the message structure.
-
-**DELIVERABLE:** What line of code extracts the x-coordinate from a detection? Write the full Python expression.
-
-3. **Implement State Transitions**
-
-   In the ``timer_callback`` function, you need to decide when to switch between states. Think about:
-
-   - How do you know if a detection is "recent" or "stale"?
-   - What should happen when no objects have been seen for a while?
-   - How do ROS timestamps work, and how do you convert them to seconds?
-
-4. **Implement Control Logic**
-
-   For each state, determine what motion commands make sense:
-
-   - **SEARCH state**: How should the robot move to find a lost target?
-   - **TRACK state**: How should the robot move to follow a detected target?
-   
-   Consider proportional control for smooth tracking and think about the direction of rotation needed.
-
-5. **Set Constants**
-
-   Define and tune appropriate values for:
-   - ``TIMEOUT`` (seconds before switching to search)
-   - ``SEARCH_YAW_VEL`` (rad/s rotation speed while searching)  
-   - ``TRACK_FORWARD_VEL`` (m/s forward speed while tracking)
-   - ``KP`` (proportional gain for centering)
-
-**DELIVERABLE:** Draw a state machine diagram showing transitions between IDLE, SEARCH, and TRACK states. Include all transition conditions and upload to Gradescope.
-
-.. note::
-
-   **Debugging with pdb**: If your tracking behavior isn't working as expected, use Python's debugger to inspect what's happening. Add ``breakpoint()`` in your ``detection_callback`` and ``timer_callback`` functions in ``lab_7.py`` to examine:
-   
-   - Are detections being received? What does ``msg.detections`` contain?
-   - Is ``self.target_pos`` being set correctly?
-   - Are state transitions happening when you expect them to?
-   - What values are your control commands (``yaw_command``, ``forward_vel_command``)?
-   
-   Run ``python lab_7.py`` and when it hits the breakpoint, you can inspect variables with ``p variable_name`` and step through code with ``n`` (next line) or ``c`` (continue).
-
-Step 3. Implement Karel Tracking API
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Next, add tracking capabilities to the Karel API so voice commands can control the tracking system.
-
-1. **Implement begin_tracking() Function**
-
-   In ``pupper_llm/karel/karel.py``, you'll see a new ``begin_tracking`` method with detailed TODO comments. Study the existing code structure and figure out:
-
-   - How to enable tracking mode in the Karel API
-   - What message format the state machine expects for starting tracking
-   - How to publish ROS messages and ensure they're sent
-
-2. **Implement end_tracking() Function**
-
-   Similarly, implement the ``end_tracking`` method by understanding:
-
-   - How to disable tracking and clean up state
-   - What message tells the state machine to stop tracking
-   - How to ensure the robot stops moving when tracking ends
-
-3. **Copy Lab 5 Movement Functions**
-
-   Copy your implementations from Lab 5 for:
-
-   - ``move_forward()``, ``move_backward()``, ``move_left()``, ``move_right()``
-   - ``turn_left()``, ``turn_right()``
-   - ``bob()``, ``dance()``
-
-Step 4. Test Tracking System
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Test your tracking implementation without voice control first.
-
-1. **Launch Tracking Test**
+Refer to the Canvas/Ed announcements for the OpenAI API key. Then, in your terminal, run the following command:
 
 .. code-block:: bash
 
-   bash scripts/run_tracking.sh
+    cd ~/lab_6_fall_2025
+    python3 setup_api_keys.py
 
-This launches all tracking components and an interactive test script.
 
-2. **Test Tracking Commands**
+This script will prompt you to paste your OpenAI API key (select option 1), and securely store it on your system for use by the other scripts. This approach helps you avoid accidentally committing API keys to GitHub and simplifies key management.
 
-   The interactive test script will let you manually trigger tracking commands. Experiment with different object types and observe the behavior.
+(**Note**: Never share your API key with anyone online! There are bad people out there who will try to use your key for malicious purposes.)
 
-3. **Verify Behavior**
+Step 4. Implement OpenAI Realtime API Voice Interaction
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   Watch how Pupper behaves in different scenarios:
+1. We're now using OpenAI's cutting-edge Realtime API, which provides ultra-low latency voice interaction by combining speech recognition, language processing, and text-to-speech in a single WebSocket-based API. This replaces the traditional Whisper → GPT → TTS pipeline with a unified system that's much faster and more responsive!
 
-   - What happens when no objects are visible?
-   - How does it choose which object to track when multiple are present?
-   - Does the tracking feel natural and responsive?
-   - How well does it handle objects moving in and out of view?
+2. Open the file `realtime_voice.py` in `~/lab_6_fall_2025/pupper_llm/`. This script handles the real-time voice interaction with Pupper using the Realtime API.
 
-**DELIVERABLE:** Record a video of Pupper successfully tracking a person, showing search and track behaviors. Upload to Gradescope.
+3. **Your main task**: Implement the system prompt in the `self.system_prompt` variable (around line 90). This is critical for controlling how the AI responds to voice commands and formats its output for Pupper's command parser.
 
-**DELIVERABLE:** Record a video of Pupper tracking the same person when two people are present on the screen. Talk about how you implemented the tracking logic to handle multiple objects. Upload to Gradescope.
+   Your prompt should:
 
-.. note::
+      - Be approximately 50 lines long
+      - Explain the **critical output format** that the command parser expects
+      - Include the required action phrases (like "move_forward", "turn_left", "wiggle", etc.)
+      - Provide concrete examples of proper command formatting
+      - Ensure outputs are line-by-line with correct phrasing
 
-   **Debugging Tracking Issues**: If tracking isn't working after implementing the Karel API, the issue is likely in the communication between components. Add ``breakpoint()`` in ``lab_7.py`` to debug:
+   **Hint:** Look at the Karel API methods you implemented in Step 2 to understand what commands are available.
+
+4. **Note on implementation**: The event handling code (lines that process different event types like `response.audio.delta`, `conversation.item.created`, etc.) has been implemented for you to account for the complexity of this lab's first release. In future iterations, students will need to implement these event handlers themselves to fully understand the conversation flow.
+
+5. Plug in the USB speaker to the Pi. Check that your microphone transmitter has a constant green light indicating it's working properly. If the light is not constant green, try turning the microphone off and on again.
+
+6. Test your implementation. Run the realtime voice script (you do not need to run the launch file for this part):
+
+   .. code-block:: bash
+
+      cd ~/lab_6_fall_2025/pupper_llm
+      python3 realtime_voice.py
+
+You should now be able to speak into the microphone and receive ultra-low latency responses from the AI, which is "fit" to your system prompt! The system will automatically handle voice activity detection, audio streaming, and response playback.
+
+**Note:** The OpenAI Realtime API speaks its model output nearly verbatim, so whatever the model generates is also directly spoken aloud. While this behavior can make command parsing more difficult (or natural conversation more awkward), carefully crafting your prompts and designing robust command parsing will help manage this and improve interaction quality.
+
+**DELIVERABLE:** While you do not need to implement any feedback loop in the realtime voice script, understanding some of the underlying engineering details of the interactive voice implementation is crucial. Inspect carefully on the `realtime_voice.py` file, and point out at least 2 things that you find interesting and/or counterintuitive, and explain why they might be crucial to the interaction quality.
+
+**DELIVERABLE:** Record a video of you speaking with Pupper via the realtime voice script. Upload to Gradescope with your submission.
+
+Step 5. Implement Command Parsing and Robot Control
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. Now we need to connect the Realtime API responses to actual robot commands. Open the file `karel_realtime_commander.py` in `~/lab_6_fall_2025/pupper_llm/karel/`. This script receives responses from the Realtime API and translates them into robot actions.
+
+2. **Your main tasks**: You need to implement three key functions with TODO comments:
+
+   **TODO 1: Parse commands from response text (in `response_callback`)**
+
+     - Split the response string into lines using `\n` as separator (assuming you prompt the model to output the commands in a multi-line format, which you probably should 😉)
+     - For each non-blank line, call `self.extract_commands_from_line(line.strip())`
+     - Collect all commands in order and append to `all_commands` list
+     - This ensures multi-line responses generate sequential actions
+
+   **TODO 2: Extract commands from individual lines (in `extract_commands_from_line`)**
+
+     - Parse robot commands from a single line of text
+     - The parsing logic depends on how you formatted your system prompt in Step 4!
+     - Map different phrasings (e.g., "move forward", "walk forward") to canonical commands (e.g., "move")
+     - Return a list of action strings extracted from the line
+     - Example: `"Move forward"` → `['move']` or `"<move, turn_left>"` → `['move', 'turn_left']`
+
+   **TODO 3: Execute robot commands (in `execute_command`)**
+
+     - Map canonical command names to KarelPupper API methods
+     - One example is provided: `"move"/"go"/"forward"` → `self.pupper.move_forward()`
+     - Add mappings for all other Karel API methods you implemented in Step 2
+     - Use appropriate sleep times after each command:
+  
+       - Normal moves/turns: `await asyncio.sleep(0.5)`
+       - Wiggle/bob actions: `await asyncio.sleep(5.5)`
+       - Dance actions: `await asyncio.sleep(12.0)`
+
+3. **Key design considerations**:
    
-   - In ``tracking_control_callback``: Is the tracking control message being received? What does ``msg.data`` contain?
-   - In ``detection_callback``: Are detections still being processed when tracking is enabled?
-   - In ``timer_callback``: Is ``self.tracking_enabled`` set correctly? Is the state machine transitioning properly?
+   - Your command parsing must match your system prompt format from Step 4
+   - Commands are queued with timestamps and executed sequentially
+   - Stale commands (>20 seconds old) are automatically discarded (already implemented for you)
+   - The system handles multi-line responses and preserves command order (already implemented for you)
+
+4. Test your complete pipeline. You'll need three terminals:
+
+   **Terminal 1: Launch ROS2**
    
-   Also check your Karel implementation - are the tracking control messages being published correctly? Add ``breakpoint()`` in ``begin_tracking()`` and ``end_tracking()`` to verify the message format and publishing.
+   .. code-block:: bash
 
-Step 5. Implement Multimodal Voice System
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      cd ~/lab_6_fall_2025/launch
+      ros2 launch launch.py
 
-Now add vision capabilities to the voice control system from Lab 5.
+   **Terminal 2: Start the command processor**
+   
+   .. code-block:: bash
 
-1. **Write System Prompt**
+      cd ~/lab_6_fall_2025/pupper_llm/karel
+      python3 karel_realtime_commander.py
 
-   In ``pupper_llm/realtime_voice.py``, you'll need to create a comprehensive system prompt that teaches GPT how to be a robot with vision. Consider:
+   **Terminal 3: Start the voice interface**
+   
+   .. code-block:: bash
 
-   - What personality should Pupper have?
-   - How should it describe its vision capabilities?
-   - What movement and tracking commands should it support?
-   - How should it format its responses so the command parser can understand them?
-   - What examples would help it understand the multimodal context?
+      cd ~/lab_6_fall_2025/pupper_llm
+      python3 realtime_voice.py
 
-   Look at the TODO comments for guidance on the required capabilities.
+Now you can speak to Pupper and watch it execute your commands in real-time! The system will process your voice → generate commands → execute robot actions seamlessly.
 
-2. **Implement Camera Snapshot Processing**
-
-   Complete the ``camera_snapshot_callback`` method:
-
-   - Convert JPEG data to base64: ``base64.b64encode(msg.data).decode('utf-8')``
-   - Store in ``self.latest_camera_image_base64``
-   - Set ``self.camera_image_pending = True``
-
-3. **Implement Image Sending**
-
-   Complete the ``send_camera_image_if_available`` method:
-
-   - Check if image is available and pending
-   - Create multimodal message with text and image content
-   - Send to OpenAI Realtime API in the specified format
-   - Set ``self.camera_image_pending = False``
-
-Step 6. Implement Voice Command Parsing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Update the command parser to handle tracking commands.
-
-1. **Copy Lab 5 Command Parsing**
-
-   In ``pupper_llm/karel/karel_realtime_commander.py``, you'll need to bring over your Lab 5 implementations. The file has extensive TODO comments explaining what each function should do.
-
-2. **Add Tracking Command Parsing**
-
-   Extend your command parsing to handle tracking. Think about:
-
-   - What different ways might someone ask to track an object?
-   - How do you extract the object name from natural language?
-   - What canonical command format should you use internally?
-
-3. **Add Tracking Command Execution**
-
-   Update your command execution to handle tracking commands. Consider:
-
-   - How do you detect tracking-related commands?
-   - What Karel API methods should you call?
-   - How do you handle the timing of tracking operations?
-
-Step 7. Full System Integration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Finally, test the complete multimodal system.
-
-1. **Launch Full System**
+Once you **finished debugging**, we provide a single script to run all three terminals at once, so that you can deploy the system in a single terminal:
 
 .. code-block:: bash
 
-   bash scripts/run_full_system.sh
+   cd ~/lab_6_fall_2025
+   bash run_realtime.sh
 
-This starts all components:
+**DELIVERABLE:** Now that you have implemented the full voice command pipeline, comment on the shortcomings of using this method in a human-robot interaction environment. Do you have suggestions on how to improve these capabilities? Consider aspects like command reliability, user experience, and system robustness.
 
-   - ROS2 control and camera
-   - Object detection with HAILO
-   - Tracking state machine  
-   - OpenAI Realtime API with vision
-   - Karel command parser
+**DELIVERABLE:** Test your system with complex multi-step commands (e.g., "Move forward, turn left, then wiggle"). How well does your command parsing handle sequential actions? What challenges arise when chaining multiple commands together?
 
-2. **Test Voice + Vision Commands**
+**DELIVERABLE:** Record a video demonstrating your complete voice-controlled robot system. Show Pupper responding to various voice commands including single actions, multi-step sequences, and different command phrasings. Upload to Gradescope with your submission.
 
-   Experiment with natural voice commands and see how well the system understands context. Try asking about what Pupper sees, giving tracking commands, and mixing manual control with autonomous behavior.
+**EXTRA CREDIT:** Implement error handling and recovery mechanisms in your command parser. For example, add support for "undo last command", "stop all actions", or "repeat that command". How would you modify the system prompt, realtime voice script, and parsing logic to support these meta-commands? (other than ctl+c, of course)
 
-3. **Verify Multimodal Behavior**
-
-   Pay attention to how the system integrates different modalities:
-
-   - Does voice control work better when Pupper can see what you're referring to?
-   - How does the system handle ambiguous commands?
-   - What happens when you give conflicting voice and tracking commands?
-   - How natural does the interaction feel?
-
-**DELIVERABLE:** Record a video demonstrating the full multimodal system: voice commands with visual context, object tracking, and manual control. Upload to Gradescope.
-
-**DELIVERABLE:** Write a reflection (2-3 paragraphs) on the integration of vision and voice control. What are the advantages of multimodal AI? What challenges did you encounter? How could this system be improved?
-
-Congratulations! You've built a sophisticated multimodal AI system that combines computer vision, voice interaction, and robotics. Pupper can now see, listen, understand, and act in the world around it!
+Congratulations on completing Lab 6! You've successfully implemented a cutting-edge voice-controlled robot system using OpenAI's Realtime API. You are welcomed to expand on the karel api to make Pupper do more complex actions, and build upon this for your final project!
