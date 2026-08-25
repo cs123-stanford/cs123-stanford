@@ -127,40 +127,37 @@ CS 123: A Hands-On Introduction to Building AI-Enabled Robots
    </script>
 
 
-**2026-2027 Fall Teaching team:** 
+**2026-2027 Fall Teaching Team:**
 
-* Instructors: `Prof. Karen Liu <https://tml.stanford.edu/people/karen-liu>`_ (Stanford CS), `Jie Tan <https://www.jie-tan.net/>`_ (Google DeepMind), `Stuart Bowers <https://handsonrobotics.org/>`_ (Apple, Hands-On Robotics)
-* Co-Instructors: `Wenhao Yu <https://wenhaoyu.weebly.com/>`_ (Google DeepMind), `Tingnan Zhang <https://www.linkedin.com/in/tingnanzhang/>`_ (Google DeepMind)
-* TAs: `Ankush Dhawan <https://ankushdhawan5812.github.io>`_ (PhD, MechE), `JC Hu <https://www.linkedin.com/in/jc-hu/>`_ (coterm, CS), `Benji Warburton <https://www.linkedin.com/in/benjiwarburton/>`_ (undergrad, EE)
+* Instructors: `Jie Tan <https://www.jie-tan.net/>`_ (Google DeepMind), `Stuart Bowers <https://handsonrobotics.org/>`_ (Google DeepMind, Hands-On Robotics)
+* Co-Instructor: `Prof. Karen Liu <https://tml.stanford.edu/#people>`_ (Stanford CS)
+* TAs: `Ankush Dhawan <https://ankushdhawan5812.github.io>`_ (PhD, MechE), `JC Hu <https://www.linkedin.com/in/jc-hu/>`_ (coterm, CS)
 
-**Sign-Up Form:** The sign-up form and its opening date for this offering are TBD. We will select 24 out of the first 100 applicants in a lottery that considers equal seniority distribution among undergraduates.
+**Sign-Up Form:** This course's enrollment is conducted via enrollment code. The `Student Registration Form <https://tinyurl.com/cs123-2026fall>`_ will open at 9 am on September 7th. We will select 6 people in each undergraduate year in a first-come, first-served manner.
 
 **Overview:**
 
 Welcome to the course page for Stanford's class on legged robots!
 This course offers a hands-on introduction to AI-powered robotics. Unlike most introductory robotics courses, students will learn essential robotics concepts by constructing a quadruped robot from scratch and training it to perform real-world tasks such as navigation and command following. The course covers a broad range of topics critical to robot learning, including motor control, forward and inverse kinematics, system identification, simulation, and reinforcement learning. Through weekly labs, students will construct and program an agile robot quadruped named Pupper. In the final few weeks, students will undertake an open-ended project, such as training Pupper to perform agile movements, developing a vision system to allow Pupper to play fetch, or adapting large language models to enable Pupper's ability to communicate with humans.
 
-*"Empowering robots with AI is essential to make them smart and useful in people's daily life. It is one of the most important research directions in both academia and industry. This class teaches the most relevant skills, gives students hands-on experiences, and prepares them for a career in the area of AI and robotics."* - Jie Tan, Staff Research Scientist at Google DeepMind
+*"Empowering robots with AI is essential to make them smart and useful in people's daily life. It is one of the most important research directions in both academia and industry. This class teaches the most relevant skills, gives students hands-on experiences, and prepares them for a career in the area of AI and robotics."* - Jie Tan, Director at Google DeepMind
 
 **Time:** Monday, 3:30pm - 6:20pm
 
-**Lecture Location:** `CoDA B90 <https://www.google.com/maps/dir/37.4297459,-122.1720349/Computing+and+Data+Science+(CoDa),+389+Jane+Stanford+Way,+Stanford,+CA+94305/@37.4299797,-122.1727318,18.57z/data=!4m9!4m8!1m1!4e1!1m5!1m1!1s0x808fbb2b07702f9b:0x9dba28708840961b!2m2!1d-122.1715614!2d37.4300426?entry=ttu&g_ep=EgoyMDI1MDkxNS4wIKXMDSoASAFQAw%3D%3D>`_, *in-person attendance required*
+**Lecture Location:** `STLC 114 <https://maps.app.goo.gl/QGiEyTeMVugydhYE6>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
-    * Karen: TBD
-    * Stuart, Jie, Wenhao, Tingnan: Office hours by appointment. Reach out to the teaching team to schedule. 
+    * Jie & Stuart: TBD
+    * Karen: Office hours by appointment. Reach out to the teaching team to schedule. 
 
-**TA Office Hours Location:** CoDA B50
+**TA Office Hours Location:** Gates B08
 
 **TA Office Hours:** TBD
-
-.. TODO(staff): confirm the teaching team, lecture location, and office hours for this
-   offering. The Fall 2025 versions are preserved at :doc:`../reference/fall_2025`.
 
 **Prerequisites:**
 
 * CS106A (programming of all labs will be in Python)
-* CS107 (familiarity with the terminal and command lines) 
+* CS107 (familiarity with the terminal and command lines is sufficient) 
 * MATH51/CME100 (basic understanding of gradients)
 * No robotics experience necessary!!
 
@@ -177,23 +174,21 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 *Final project:* No extensions are allowed for the final project proposal, progress report, or final demo video/presentation.
 
 **Optional Labs:**
-Two optional labs will be offered this quarter, with the first released in Week 3. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
+Two optional labs will be offered this quarter, with the first released in Week 3. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts way beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
 TAs will be available to support students working on the optional labs during their office hours.
 
-**Enrollment:** 21 students; 7 groups of 3 students
+**Enrollment:** 24 students; 8 groups of 3 students
 
 Schedule
 ==========================
 
-.. note::
-   Labs 3 and 4 from previous offerings are now a single lab,
-   :doc:`../schedule/labs/fall-26/lab-3`, which covers inverse kinematics and heuristic
-   walking together. The labs after it have shifted down by one number, and there are
-   six labs instead of seven.
-
 .. csv-table::
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
+
+   "", "", "", "", ""
+
+.. Schedule rows hidden for now — move them back under the csv-table above to restore.
 
    "Week 1: 9/22", ":doc:`../schedule/lectures/fall-26/lec-1`", ":doc:`../schedule/labs/fall-26/lab-1`", "9/28/26", "Lecture recorded"
    "Week 2: 9/28", ":doc:`../schedule/lectures/fall-26/lec-2`", ":doc:`../schedule/labs/fall-26/lab-2`", "10/5/26", ""
