@@ -182,6 +182,10 @@ TAs will be available to support students working on the optional labs during th
 Schedule
 ==========================
 
+.. note::
+
+   The Fall 2026 course schedule is still in development and will be released on a weekly basis alongside Stanford's fall quarter schedule. In the meantime, please refer to the :doc:`Fall 2025 offering <../reference/fall_2025>` for a comprehensive course schedule with labs that are verified to work.
+
 .. csv-table::
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
