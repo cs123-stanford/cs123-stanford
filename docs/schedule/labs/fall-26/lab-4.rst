@@ -154,7 +154,7 @@ matching commanded velocities, and *nothing else*.
 * Set ``TASK = "Mjlab-VelocityFS-Flat-Pupper-v3"`` ("FS" = from scratch).
 * In the reward weights cell, set ``track_linear_velocity`` and
   ``track_yaw_velocity`` to nonzero values, leaving everything else at zero.
-  In practice, the linear tracking weight should be around double the angular
+  In practice, the linear tracking weight should be more than the angular
   one.
 * Run the **Watch it live** cell, then the training cell. Open the printed
   viewer link while training runs — the robot appears about a minute in.
@@ -274,6 +274,24 @@ when Pupper is walking on different surfaces?
 to the triangle gait from the heuristics walking lab. Do Pupper's legs move in
 a similar triangle motion in the gait it discovered on its own? Write a few
 sentences about the similarities and differences you notice.
+
+**DELIVERABLE** (yaw heading correction): Walk Pupper forward with the yaw
+stick untouched, and gently rotate its body a few degrees by hand mid-walk.
+It steers back onto its original heading — but nothing in your reward set
+asked for that. This is the **heading hold**: your policy only ever tracks a
+commanded yaw *rate*, so a heading error is invisible to it and small yaw
+disturbances would otherwise accumulate into a drifting walk. During training,
+the command manager wraps your yaw command in an IMU-yaw P-loop — while you
+walk with a quiet yaw command, it captures the current heading and emits
+``clip(kp * heading_error, ±clip)`` as the yaw command until you actually
+command a turn. The exact same loop, with the exact same constants, runs on
+the robot: the numbers are stamped into your ``policy.json`` at export and
+transcribed by the controller's command filter, so the policy sees the same
+closed-loop command profile in deployment that it trained against. Describe
+what you observe in the nudge test, then explain: (a) why the correction has
+to live on the *command* side rather than in the reward, and (b) why shipping
+the constants inside ``policy.json`` is safer than configuring them on the
+robot by hand.
 
 .. figure:: ../../../_static/walker.gif
    :align: center
