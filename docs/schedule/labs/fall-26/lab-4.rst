@@ -187,13 +187,6 @@ the cheapest possible way to move its velocity sensor — not the same thing as
 walking. Record a short video and describe what your policy is exploiting:
 vibrating? skating on its knees? something more creative?
 
-.. figure:: ../../../_static/lab4/walk_forward.gif
-   :align: center
-   :width: 384px
-
-   A from-scratch policy following a forward velocity command in the live
-   viewer. The arrow is the commanded velocity.
-
 Step 4. From Scratch, Act Two: Good Enough to Deploy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Now shape it into something you can put on a real robot. Add penalty terms to
@@ -218,20 +211,13 @@ until the policy honestly tracks commands.
    tuning has brutal diminishing returns. Your deliverable bar is purely
    functional: the policy walks according to commanded velocity and turns both
    ways, in sim and on the real robot. **Do not burn hours refining the gait's
-   looks.** Making it pretty is exactly what Act Three is for — and it will
-   cost you four numbers instead of forty runs.
+   looks.** Making it pretty is exactly what Act Three is for.
 
 .. figure:: ../../../_static/lab4/FS_gait.gif
    :align: center
    :width: 384px
 
    Our own from-scratch policy. Functional, honest, ugly. Ship it.
-
-.. figure:: ../../../_static/lab4/turn_in_place.gif
-   :align: center
-   :width: 384px
-
-   Turning in place — make sure yaw commands work in both directions.
 
 **DELIVERABLE**: What is your final reward function (in math — don't just
 screenshot the notebook!)? For each nonzero term: why is it there, and what
@@ -307,8 +293,10 @@ policy a *reference motion* — and the entire character of the problem changes.
 First, understand what actually changes in the architecture, because it is
 less than you think. Both tasks in this lab feed the policy the **same 48-dim
 observation frame**: 36 dimensions of proprioception (joint states, IMU, your
-velocity command) plus **12 dimensions of reference offset** — the difference
-between a reference pose and the default standing pose, one number per joint.
+velocity command) plus **12 dimensions of reference offset** — one per joint
+(abduction, hip, and knee on each of the four legs), each the difference
+between the reference's joint angle at the current gait phase and the default
+standing pose.
 
 * In ``VelocityFS`` — the task you just trained — those 12 dimensions are
   **pinned to zero**. The policy is on its own.
@@ -322,8 +310,7 @@ between a reference pose and the default standing pose, one number per joint.
 
 Same network. Same deploy path (the robot reproduces the reference tables from
 ``policy.json`` with its own phase clock, so nothing is stale). The *only*
-difference is whether twelve numbers are zeros or a choreography. Those twelve
-numbers are why act three will feel easy.
+difference is whether those twelve dimensions carry zeros or a choreography.
 
 .. admonition:: Side topic: Reference-Guided Reinforcement Learning
    :class: note
@@ -349,8 +336,9 @@ numbers are why act three will feel easy.
    novel reference gaits, bootstrap better references out of trained
    policies, and distill several gaits into one policy.
 
-Now design your lift gait. In the notebook's section 4, you fill in four
-numbers — touchdown phases, stride, stance depth, swing lift — and the repo's
+Now design your lift gait. In the notebook's section 4, you fill in the four
+lift-gait parameters — ``LIFT_TOUCHDOWN`` (the per-leg touchdown phases),
+``LIFT_STRIDE``, ``LIFT_STANCE_Z``, and ``LIFT_SWING_LIFT`` — and the repo's
 reference generator (your lab 3 pipeline: triangle keyframes, gradient-descent
 IK, the stance/swing cycle) turns them into a reference table. The design
 questions in the notebook are not rhetorical: a lift gait whose stride drags
@@ -366,9 +354,9 @@ the robot forward will *fight* every turn command.
    :width: 384px
 
    The reference visualizer playing a lift gait. This is pure choreography —
-   no physics, no policy — exactly what the 12 observation dims will stream.
+   no physics, no policy — exactly what the reference observation will stream.
 
-**DELIVERABLE**: Your lift gait design: the four numbers, plus your written
+**DELIVERABLE**: Your lift gait design: your four parameter values, plus your written
 answers to the notebook's three design questions (stride for a turn-in-place,
 touchdown pairing, stance depth / swing lift). Include a short video from the
 reference visualizer.
@@ -429,6 +417,20 @@ curriculum?
    A trained StableGait policy. Compare the leg motion to your from-scratch
    policy — this one is tracking your lab 3 trot.
 
+.. figure:: ../../../_static/lab4/walk_back.gif
+   :align: center
+   :width: 384px
+
+   Walking backward: the same trot table played in reverse — one reference
+   gait covers the whole fore/aft command range.
+
+.. figure:: ../../../_static/lab4/turn_in_place.gif
+   :align: center
+   :width: 384px
+
+   Turning in place — this is *your lift gait* at work: the reference blends
+   to it whenever the command is a pure turn or sidestep.
+
 **DELIVERABLE** (the capstone of this lab): Run the head-to-head. With the
 same iteration budget, compare your best from-scratch policy against your
 StableGait policy on: final ``error_vel_xy`` / ``error_vel_yaw``, gait
@@ -462,8 +464,7 @@ floors grip differently. Two moves:
    impact of different parameters.
 
 **DELIVERABLE**: For each of the three DR ranges, name the specific real-world
-mismatch *on your robot* that it insures against. (Hint for one of them: not
-every 3D-printed Pupper leg came off the printer with the same friction feet.)
+mismatch *on your robot* that it insures against.
 
 **DELIVERABLE**: Comment on what might happen if you add too much domain
 randomization.
@@ -473,8 +474,8 @@ the bumpy terrain, and walking in the real world — including at least one
 surface where your from-scratch policy struggled.
 
 Congratulations on completing Lab 4! You trained a policy from scratch, felt
-exactly where that hurts, and then made the pain disappear with twelve numbers
-and the gait generator you built in lab 3. If this loop — design a reference,
+exactly where that hurts, and then made the pain disappear with a reference
+motion built by the gait generator you wrote in lab 3. If this loop — design a reference,
 let RL make it physically real — got its hooks into you, the optional lab
 takes it much further: novel gaits, bootstrapping references from your own
 policies, and distilling everything into a single multi-gait policy.
