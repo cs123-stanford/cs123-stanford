@@ -17,7 +17,7 @@ network and a walking robot. You will get it working — and it will not be
 pretty. In the second act, you hand the policy a **reference motion** (a
 phase-clocked version of the very gait you designed in lab 3) and watch most
 of the difficulty evaporate. The quiet thesis of this lab: *reference motion
-makes RL easy.* Keep that in mind every time act one makes you suffer.
+makes RL easy.* Keep that in mind every time the first act makes you suffer.
 
 Step 0. Setup, and Test Bluetooth Connection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -28,6 +28,21 @@ Step 0. Setup, and Test Bluetooth Connection
 
      cd ~/
      git clone https://github.com/cs123-stanford/pupper_gait_deploy.git
+
+* Run the deploy script once to install, rebuild, and launch the neural
+  controller:
+
+  .. code-block:: bash
+
+     cd ~/pupper_gait_deploy
+     ./deploy.sh
+
+  In the future, when there is nothing new to deploy, you can skip the
+  rebuild and launch straight into the walking preparation phase with:
+
+  .. code-block:: bash
+
+     ros2 launch neural_controller launch.py
 
 * Connect your remote controller with Bluetooth or USB cable to give Pupper
   velocity commands. For Bluetooth setup, follow the instructions at
@@ -116,7 +131,8 @@ hyperparameters, observations, terminations. Your entire surface area is:
 * **The reward weights**: every task ships with *all weights at zero*.
   Untouched, the robot learns to do nothing, beautifully. What to reward, what
   to penalize, and by how much is your job.
-* **Domain randomization ranges**: motor gain and friction ranges (Act two).
+* **Domain randomization ranges**: motor gain and friction ranges (used in
+  the second act).
 * **Iterations**: how long to train.
 
 Two facts about the reward terms that you need before touching any weight:
@@ -146,7 +162,7 @@ Explain in words how the exponential shaping works, and why bounding every
 positive term in ``[0, 1]`` makes ratio-based weight tuning possible. What
 would go wrong if one positive term were unbounded?
 
-Step 3. From Scratch, Act One: Velocity Tracking
+Step 3. From Scratch, Part I: Velocity Tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Let's start with the purest version of the problem: reward the robot for
 matching commanded velocities, and *nothing else*.
@@ -187,7 +203,7 @@ the cheapest possible way to move its velocity sensor — not the same thing as
 walking. Record a short video and describe what your policy is exploiting:
 vibrating? skating on its knees? something more creative?
 
-Step 4. From Scratch, Act Two: Good Enough to Deploy
+Step 4. From Scratch, Part II: Good Enough to Deploy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Now shape it into something you can put on a real robot. Add penalty terms to
 kill the exploits — effort, smoothness, stability — and iterate on your weights
@@ -211,7 +227,8 @@ until the policy honestly tracks commands.
    tuning has brutal diminishing returns. Your deliverable bar is purely
    functional: the policy walks according to commanded velocity and turns both
    ways, in sim and on the real robot. **Do not burn hours refining the gait's
-   looks.** Making it pretty is exactly what Act Three is for.
+   looks.** Making it pretty is exactly what the second act — the
+   reference — is for.
 
 .. figure:: ../../../_static/lab4/FS_gait.gif
    :align: center
@@ -235,8 +252,8 @@ Is it actually still?
 
 Step 5. Deploy the From-Scratch Policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Time to test the whole pipeline on hardware — this matters beyond act one,
-because act three deploys through exactly the same path.
+Time to test the whole pipeline on hardware — this matters beyond the first
+act, because the reference policies deploy through exactly the same path.
 
 * Grab your run id from the W&B run URL, then on the Pupper:
 
@@ -315,7 +332,7 @@ difference is whether those twelve dimensions carry zeros or a choreography.
    :class: note
 
    What you are about to do has a name in the literature. Pure task-reward RL
-   (act one) forces the policy to solve *exploration* and *style*
+   (the first act) forces the policy to solve *exploration* and *style*
    simultaneously — it must stumble into gait-like behavior by chance before
    it can refine it, and the reward designer must encode "look natural" as
    math, which is why you just spent an act playing whack-a-mole with penalty
@@ -395,19 +412,24 @@ gravity drops in — and every curve on W&B reacts at once:
 .. figure:: ../../../_static/lab4/reward_and_episode_length.png
    :align: center
 
-   Mean reward and episode length for a StableGait run. Something dramatic
-   happens at iteration ~500.
+   Mean reward and episode length for a StableGait run. For the first ~500
+   iterations Pupper is held in the air with gravity off, learning nothing but
+   how to reproduce the reference; at ~500 gravity switches on and the real
+   walking problem begins.
 
 .. figure:: ../../../_static/lab4/velocity_error.png
    :align: center
 
-   The tracking-error metrics for the same run.
+   The tracking-error metrics for the same run. Note that the velocity
+   errors only start falling once gravity arrives — tracking a velocity
+   command is meaningless in the air.
 
-**DELIVERABLE**: Explain the iteration-500 signature on *your own* curves: why
-does the reward crash and the episode length dive — and why is that fine? Why
-do the velocity errors only *begin* improving after 500? What was the policy
-learning before that, and why is learning it in a vacuum a sensible
-curriculum?
+**DELIVERABLE**: Given this curriculum, interpret the iteration-500 signature
+on *your own* curves: the policy did not suddenly get worse, yet the reward
+crashes and the episode length dives — what actually changed in what each
+curve is measuring? And why is "learn the choreography in a vacuum first,
+then add physics" a sensible curriculum, rather than a waste of 500
+iterations?
 
 .. figure:: ../../../_static/lab4/stable_gait.gif
    :align: center
