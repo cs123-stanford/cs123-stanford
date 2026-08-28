@@ -219,8 +219,7 @@ until the policy honestly tracks commands.
 
    Our own from-scratch policy. Functional, honest, ugly. Ship it.
 
-**DELIVERABLE**: What is your final reward function (in math — don't just
-screenshot the notebook!)? For each nonzero term: why is it there, and what
+**DELIVERABLE**: What is your final reward function? For each nonzero term: why is it there, and what
 did you observe change when you added it?
 
 **DELIVERABLE**: Show your ``error_vel_xy`` and ``error_vel_yaw`` curves. Did
