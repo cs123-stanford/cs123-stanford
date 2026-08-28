@@ -1,382 +1,258 @@
-.. TODO(staff): PREREQUISITE INVERSION - READ BEFORE RELEASING THIS LAB.
-   In this offering the vision lab (this one, lab 5) is scheduled in week 5, BEFORE the
-   voice lab (lab 6) in week 6. Parts 3 and 4 below were written to build on the voice
-   lab: they ask students to copy the karel movement functions and the realtime command
-   parsing out of it. Those references now point FORWARD in the schedule and will not
-   work as written. Either make those parts self-contained, or swap labs 5 and 6 back.
+Lab 5: Follow Me Pupper
+========================
 
-.. TODO(staff): lab numbering shifted for this offering (former lab 7).
-   Code repository links and directory names below still point at the
-   fall_2025 repos - update them when the repos for this offering exist.
+*Goal: give Pupper eyes — detect objects onboard, follow a person with a state
+machine, and step around whatever is in the way.*
 
-Lab 5: The World I See
-=======================
+.. TODO(staff): add this offering's lab slides link
+.. TODO(staff): add this offering's lab document link
+.. TODO(staff): capture fresh figures on a robot: the viser viewer with boxes +
+   masks, and a detour sequence. Old Foxglove screenshots no longer apply.
 
-*Goal: Integrate computer vision with voice control to enable Pupper to track objects and respond to visual commands using multimodal AI!*
+`Lab slides <#>`_ (TODO)
 
-In this lab, you'll combine computer vision, voice interaction, and AI to create an intelligent robot that can:
+`Lab document <#>`_ (TODO)
 
-- **See and understand** its environment through camera input
-- **Track objects** like people, dogs, cats, and 80+ other COCO dataset objects  
-- **Respond to voice commands** with visual context (e.g., "Follow that person", "What do you see?")
-- **Use multimodal AI** that processes both audio and visual input simultaneously
+Everything in this lab runs *on the robot*: YOLOv8n-seg on Pupper's Hailo AI
+accelerator turns camera frames into detections, your state machine turns
+detections into motion, and a browser viewer shows you what Pupper sees while
+it happens. No API keys, no cloud, no voice — the tracking API you build here
+(``begin_tracking()`` / ``end_tracking()``) is exactly what the robot
+foundation model lab will drive with language later in the quarter.
 
-This lab builds on Lab 6's voice control by adding vision capabilities, creating a truly multimodal AI experience where Pupper can see what you're talking about!
+The intellectual core of the lab is a single, lovely idea: **your robot's
+camera has no depth sensor, and yet it can tell how far away things are** —
+because everything stands on the same floor, and the floor recedes upward in
+the image. The bottom edge of a bounding box *is* a distance sensor. You will
+build all of the obstacle avoidance out of that one observation.
 
-**Note:** This lab is long and challenging, so please start early and ask questions if you get stuck. We're here to help!
-
-**Key Technologies:**
-
-- **HAILO-8L AI accelerator** for real-time object detection
-- **OpenAI Realtime API** with multimodal support (audio + vision)
-- **ROS2 state machine** for robust tracking behavior
-- **Foxglove** for real-time visualization
-
-`Lab slides <https://docs.google.com/presentation/d/1B9dPRIVNvwTZaD_4BA07pDRL4pYIENYV/edit?usp=sharing&ouid=117110374750562018236&rtpof=true&sd=true>`_
-
-`Lab document <https://docs.google.com/document/d/1GJTvKj6Lzb_mLpU9AYKbbvarJ1d-B2B0UuI5HPmaRoE/edit?usp=sharing>`_
-
-Step 0. Setup and Environment
+Step 0. Setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1. Fork the `follow_me_pupper <https://github.com/cs123-stanford/follow_me_pupper>`_
+   repository to your own GitHub account, following
+   :doc:`forking_repositories`.
 
-1. **Install Foxglove**  
-   
-   Install `Foxglove <https://foxglove.dev/>`_ locally on your computer (not the browser version).
-   Foxglove will be your primary visualization tool for seeing camera feeds, object detections, and robot state in real time.
-
-2. **Install Dependencies**
-   
-   Install the required dependencies (downgrading numpy to a version below 2.0.0 is **crucial**):
-
-.. code-block:: bash
-
-   pip install supervision loguru pygame sounddevice websockets numpy==1.26.0
-
-3. Open the **lab 7 code repository** (`lab 7 code repository <https://github.com/cs123-stanford/lab_7_fall_2025>`_) on your GitHub account. Then, fork the repository to your own GitHub account following the instructions in :doc:`forking_repositories`.
-
-4. Clone the forked repository to your Raspberry Pi:
+2. Clone your fork onto the Pupper and fetch the detection model:
 
 .. code-block:: bash
 
    cd ~/
-   git clone https://github.com/YOUR_USERNAME/lab_7_fall_2025.git
+   git clone https://github.com/YOUR_USERNAME/follow_me_pupper.git
+   cd follow_me_pupper
+   ./scripts/download_model.sh      # yolov8n_seg.hef, ~11 MB
 
-Note: Replace ``YOUR_USERNAME`` with your actual GitHub username.
+3. Skim the README — especially the "How the pieces talk" diagram. Three
+   programs cooperate over ROS topics: ``viser_camera.py`` (camera → YOLO →
+   ``/detections``), ``follow_me.py`` (your state machine, ``/detections`` →
+   ``/cmd_vel``), and ``karel.py`` (the API that switches tracking on and
+   off over ``/tracking_control``).
 
-5. Open the lab 7 folder in VSCode
-
-.. code-block:: bash
-
-   cd ~/lab_7_fall_2025
-   code .
-
-6. **Configure API Keys**
-
-   Set up your OpenAI API key for multimodal voice interaction:
-
-.. code-block:: bash
-
-   python setup_api_keys.py
-
-Follow the prompts to enter your OpenAI API key. This enables the multimodal Realtime API that processes both audio and vision.
-
-7. **Review the Lab Structure**
-
-   The lab follows a progressive workflow:
-   
-   - **Visualization** (``run_foxglove.sh``) → See camera feed and detections
-   - **Tracking Logic** (``lab_7.py``) → Implement state machine for object tracking  
-   - **Karel API** (``karel.py``) → Add tracking commands to robot control
-   - **Testing** (``run_tracking.sh``) → Test tracking without voice
-   - **Voice + Vision** (``realtime_voice.py``) → Add multimodal AI capabilities
-   - **Command Parsing** (``karel_realtime_commander.py``) → Parse voice commands with tracking
-   - **Full System** (``run_full_system.sh``) → Complete integrated experience
-
-   **Important Note on Process Management**: This lab involves many interconnected components (camera, object detection, state machine, voice processing, etc.). Unlike previous labs where you might open multiple terminals, we've provided launch scripts that handle all the process management for you. For each step, you'll typically just need to open **one terminal** and run the appropriate bash script. The scripts automatically start all necessary background processes and handle cleanup when you stop them with Ctrl+C. This makes the lab much more manageable!
-
-Step 1. Visualization Setup
+Step 1. See What Pupper Sees
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The camera stack and viewer are given — get them running before writing any
+code.
 
-First, let's get the visualization system running so you can see what Pupper sees.
-
-1. **Start Foxglove Visualization**
-
-   Launch the visualization system:
+1. Launch the robot stack (motors, camera, detector, viewer):
 
 .. code-block:: bash
 
-   cd ~/lab_7_fall_2025
-   bash scripts/run_foxglove.sh
+   ros2 launch follow_me.launch.py
 
-This starts:
+2. Open the viewer. On the same Wi-Fi, browse to ``http://<pupper-ip>:8080``.
+   Over SSH, forward the port from your laptop first and browse to
+   ``localhost:8080``:
 
-   - ROS2 camera and control systems
-   - Foxglove bridge for visualization  
-   - HAILO object detection with bounding boxes
+.. code-block:: bash
 
-2. **Connect Foxglove to Pupper**  
-   
-   #. Connect your laptop to Pupper via Ethernet cable
-   #. SSH with port forwarding: ``ssh -A -L 8765:localhost:8765 pi@pupper[GROUP_NUMBER].local``
-   #. Open Foxglove, click ``Open Connection``, use default websocket URL ``ws://localhost:8765``
+   ssh -N -L 8080:localhost:8080 pi@pupper[GROUP_NUMBER].local
 
-        .. figure:: ../../../_static/vision_lab/connect_localhost.png
-            :align: center
+3. You should see the camera feed with bounding boxes *and* segmentation
+   masks around detected objects — 80 COCO classes' worth. Two GUI settings
+   matter when the Wi-Fi is weak: **Lock aspect ratio** and **Drop frames
+   when behind** (both on by default; the README explains what each does).
 
-            Connecting Foxglove to the Raspberry Pi.
+4. Notice the **View** dropdown: the raw image is a fisheye, but detection
+   always runs on the *equirectangular* (undistorted) view. The fisheye lens
+   bends people into shapes YOLO has never seen — scores drop badly on the
+   raw image. ``fisheye_converter.py`` holds the math if you are curious
+   (totally optional).
 
-   #. Configure the image panel:
-      - Click the gear icon on the image panel
-      - Set topic to ``/annotated_image`` 
-      - Set calibration to ``None``
-      - Go fullscreen for better visibility
+**DELIVERABLE:** A screenshot of the viewer showing detections with bounding
+boxes and masks. Upload to Gradescope.
 
-        .. figure:: ../../../_static/foxglove_new.png
-            :align: center
+**DELIVERABLE:** In a sentence or two: why do we run the detector on the
+undistorted image instead of the raw fisheye?
 
-            Configure the image topic to see object detections.
+Step 2. The Geometry of a Flat World
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Before the state machine, build its vocabulary. Open ``avoidance.py`` and
+read the module docstring — it explains the floor-geometry idea everything
+else rests on. Then implement the four geometry primitives:
 
-3. **Verify Object Detection**
+- ``box_bottom`` — where a box meets the floor, in pixels;
+- ``box_offset`` — how far off-centre a box is (the steering error signal);
+- ``box_left_fraction`` — how a box splits across the image's two halves;
+- ``obstacle_weight`` — nearer things count for more.
 
-   You should see a camera feed with bounding boxes around detected objects (people, dogs, cats, etc.). The system can detect 80+ different object types from the COCO dataset.
+Detections arrive in a fixed 700×572 reference frame whatever resolution the
+camera runs at, so pixel thresholds always mean the same thing.
 
-   **Note on Image Processing**: The raw fisheye camera images have been converted to equirectangular format for better object detection performance. Fisheye lenses create significant distortion that can hurt detection accuracy, so we unwarp the images to a more standard rectangular projection. If you're curious about how this works, take a look at ``fisheye_converter.py`` (totally optional) - it shows the mathematical transformation from fisheye coordinates to equirectangular coordinates.
+You do not need the robot for any of this. The repo ships a desk-side test
+harness — run it after every function:
 
-   If you don't see detections, ask a TA. If the image is upside down, you can flip it by editing the ``hailo_detection.py`` file.
+.. code-block:: bash
 
-**DELIVERABLE:** Take a screenshot of Foxglove showing object detections with bounding boxes. Upload this to Gradescope.
+   python3 test_avoidance.py
 
-Step 2. Implement Tracking State Machine
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**DELIVERABLE:** Explain the distance-from-bottom-edge trick in your own
+words: *why* does a lower bottom edge mean a nearer object? Then give two
+concrete situations where this assumption lies to the robot, and what it
+would do wrong in each.
 
-Now you'll implement the core tracking logic in ``lab_7.py``. This file contains a state machine that processes object detections and controls Pupper's movement.
+Step 3. The Tracking State Machine
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Now make Pupper follow things. ``follow_me.py`` is a ROS 2 node with a state
+machine; the core states are:
 
-1. **Understand the State Machine**
+- **IDLE** — tracking off; stand still (and stay quiet on ``/cmd_vel``, so
+  manual Karel commands still work);
+- **SEARCH** — target lost; rotate to find it;
+- **TRACK** — target in view; steer toward it and walk.
 
-   Open ``lab_7.py`` and examine the structure:
-   
-   - **State.IDLE**: No tracking active (allows manual Karel commands)
-   - **State.SEARCH**: Rotating to search for target when lost
-   - **State.TRACK**: Following detected target
-   
-   The state machine receives:
-   - Object detections from ``/detections`` topic
-   - Tracking control commands from ``/tracking_control`` topic
+Work through the marked sections:
 
-2. **Implement Detection Processing**
+1. **Detection processing** (``detection_callback``): split the incoming
+   ``Detection2DArray`` into your target class and everything else, pick
+   *the* target (``pick_target`` — most centred wins, for now), store its
+   offset, and stamp the time. The
+   `message documentation <http://docs.ros.org/en/kinetic/api/vision_msgs/html/msg/Detection2DArray.html>`_
+   has the structure.
+2. **Transitions** (``timer_callback``): when is a detection *stale*? What
+   should ``TIMEOUT`` seconds of silence mean?
+3. **Behaviors**: motion commands per state. TRACK is proportional control —
+   steer against the offset with gain ``KP``. For SEARCH, think about *which
+   way* to spin: where was the target last seen?
+4. **Constants**: pick and tune ``TIMEOUT``, ``SEARCH_YAW_VEL``,
+   ``TRACK_FORWARD_VEL``, ``KP``.
 
-   In the ``detection_callback`` function, you'll need to process incoming detection messages. Look at the ROS message structure and figure out how to:
+Test it. In two more terminals:
 
-   - Extract detection data from the message
-   - Determine the position of detected objects in the image
-   - Normalize positions so the center of the image is at 0
-   - Decide which detection to track when multiple objects are present
-   - Keep track of when detections occur for timeout logic
+.. code-block:: bash
 
-   **Hint:** Check the `ROS Message Documentation <http://docs.ros.org/en/kinetic/api/vision_msgs/html/msg/Detection2DArray.html>`_ to understand the message structure.
+   python3 follow_me.py             # terminal 2: your state machine
+   python3 test_tracking.py         # terminal 3: choose what to track
 
-**DELIVERABLE:** What line of code extracts the x-coordinate from a detection? Write the full Python expression.
-
-3. **Implement State Transitions**
-
-   In the ``timer_callback`` function, you need to decide when to switch between states. Think about:
-
-   - How do you know if a detection is "recent" or "stale"?
-   - What should happen when no objects have been seen for a while?
-   - How do ROS timestamps work, and how do you convert them to seconds?
-
-4. **Implement Control Logic**
-
-   For each state, determine what motion commands make sense:
-
-   - **SEARCH state**: How should the robot move to find a lost target?
-   - **TRACK state**: How should the robot move to follow a detected target?
-   
-   Consider proportional control for smooth tracking and think about the direction of rotation needed.
-
-5. **Set Constants**
-
-   Define and tune appropriate values for:
-   - ``TIMEOUT`` (seconds before switching to search)
-   - ``SEARCH_YAW_VEL`` (rad/s rotation speed while searching)  
-   - ``TRACK_FORWARD_VEL`` (m/s forward speed while tracking)
-   - ``KP`` (proportional gain for centering)
-
-**DELIVERABLE:** Draw a state machine diagram showing transitions between IDLE, SEARCH, and TRACK states. Include all transition conditions and upload to Gradescope.
+(or start tracking immediately with
+``python3 follow_me.py --ros-args -p target:=person``; the ``KarelPupper``
+API — ``begin_tracking("person")``, ``end_tracking()`` — is what
+``test_tracking.py`` uses under the hood, and what the foundation-model lab
+will call later. ``scripts/run_tracking.sh`` runs all three terminals at once
+for quick demos.)
 
 .. note::
 
-   **Debugging with pdb**: If your tracking behavior isn't working as expected, use Python's debugger to inspect what's happening. Add ``breakpoint()`` in your ``detection_callback`` and ``timer_callback`` functions in ``lab_7.py`` to examine:
-   
-   - Are detections being received? What does ``msg.detections`` contain?
-   - Is ``self.target_pos`` being set correctly?
-   - Are state transitions happening when you expect them to?
-   - What values are your control commands (``yaw_command``, ``forward_vel_command``)?
-   
-   Run ``python lab_7.py`` and when it hits the breakpoint, you can inspect variables with ``p variable_name`` and step through code with ``n`` (next line) or ``c`` (continue).
+   **Debugging with pdb**: add ``breakpoint()`` inside ``detection_callback``
+   or ``timer_callback`` and run ``python3 follow_me.py`` to inspect what is
+   actually arriving: what does ``msg.detections`` contain? Is
+   ``self.target_pos`` sensible? Are transitions firing when you expect?
+   (``p variable`` prints, ``n`` steps, ``c`` continues.)
 
-Step 3. Implement Karel Tracking API
+**DELIVERABLE:** A state machine diagram of IDLE / SEARCH / TRACK with every
+transition condition labeled. Upload to Gradescope.
+
+**DELIVERABLE:** A video of Pupper tracking a person, showing both search and
+track behavior. Upload to Gradescope.
+
+**DELIVERABLE:** A video with *two* people in frame. Which one does your
+robot follow, and why? (Notice anything unsatisfying? Hold that thought for
+the optional part.)
+
+Step 4. Something in the Way
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Put a chair between Pupper and the person: the TRACK controller walks
+straight into it, because nothing it computes knows the chair exists. Fixing
+that is the second half of the lab, and it has two parts — the *decisions*
+(pure functions in ``avoidance.py``, desk-testable) and the *detour* (three
+new FSM states in ``follow_me.py``).
 
-Next, add tracking capabilities to the Karel API so voice commands can control the tracking system.
+**The decisions**, in ``avoidance.py``:
 
-1. **Implement begin_tracking() Function**
+1. ``measure_crowding`` — how much stuff is in each half of the frame,
+   weighted by nearness. This is measured on *every* frame, target or not,
+   because it decides which way a detour should go: walking around one chair
+   into another is no better than standing still.
+2. ``find_blocking_obstacle`` — is something actually *in the way*? Three
+   tests: between us and the target (bottom edge below the target's), close
+   (within ``OBSTACLE_BOTTOM_MARGIN`` of the image bottom), and roughly
+   ahead (inside ``OBSTACLE_CENTER_BAND``). Nearest survivor wins.
+3. ``choose_side`` — which way around, with a tie-break cascade: emptier
+   half of the frame, else away from the obstacle's side, else toward the
+   target.
 
-   In ``pupper_llm/karel/karel.py``, you'll see a new ``begin_tracking`` method with detailed TODO comments. Study the existing code structure and figure out:
+Run ``python3 test_avoidance.py`` until all 16 scenes pass — every one of
+them is a bug you did not have to debug on a moving robot.
 
-   - How to enable tracking mode in the Karel API
-   - What message format the state machine expects for starting tracking
-   - How to publish ROS messages and ensure they're sent
+**The detour**, in ``follow_me.py`` — three timed states:
 
-2. **Implement end_tracking() Function**
+- **AVOID_TURN** — turn off the direct line, direction from ``choose_side``;
+- **AVOID_PASS** — walk straight, past the obstacle;
+- **AVOID_RETURN** — turn back for the same time at the same speed, which
+  restores the original heading, displaced sideways: that displacement *is*
+  the detour.
 
-   Similarly, implement the ``end_tracking`` method by understanding:
+Wire them in: ``start_avoiding`` commits to a side, ``advance_avoidance``
+steps the phase clock, ``ready_to_avoid`` gates when a detour may begin —
+including a cooldown after each one. Detections keep arriving during the
+detour, so the chase resumes seamlessly when it ends.
 
-   - How to disable tracking and clean up state
-   - What message tells the state machine to stop tracking
-   - How to ensure the robot stops moving when tracking ends
+**DELIVERABLE:** The output of ``test_avoidance.py`` with all scenes passing.
 
-3. **Copy Lab 6 Movement Functions**
+**DELIVERABLE:** Your full six-state machine diagram, transitions labeled.
 
-   Copy your implementations from Lab 6 for:
+**DELIVERABLE:** A video of Pupper walking toward you, detouring around an
+obstacle placed in its path, and resuming the chase.
 
-   - ``move_forward()``, ``move_backward()``, ``move_left()``, ``move_right()``
-   - ``turn_left()``, ``turn_right()``
-   - ``bob()``, ``dance()``
+**DELIVERABLE:** Two design questions, a short paragraph each: (a) The detour
+is *open-loop* — during AVOID_PASS the robot does not re-check the obstacle.
+We chose that deliberately: the onboard detector is unreliable exactly when an
+object is very close and fills the frame. What would happen to a closed-loop
+detour built on a detector with that failure mode? (b) Why is the cooldown in
+``ready_to_avoid`` necessary — what does the robot do without it, right after
+a detour ends?
 
-Step 4. Test Tracking System
+Step 5 (Optional). Follow *Me*, Specifically
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Your Step 3 two-person video exposed the weakness: "track the most centred
+person" happily hops between people. The fix uses machinery you already have
+on screen — the segmentation masks.
 
-Test your tracking implementation without voice control first.
+Every detection is published with the **mean color of its mask** (in the
+message's ``id`` field, as ``"r,g,b"``) — for a person, that is mostly the
+color of their clothes. In ``follow_me.py``, set ``ENABLE_COLOR_REID = True``
+and implement the marked optional section of ``pick_target``: memorize the
+target's color when the chase starts, prefer the candidate nearest that color
+(within ``REID_MAX_DIST``, so a frame containing only strangers does not
+steal the lock), and blend the memory slowly toward the current match so
+gradual lighting changes do not shake it off.
 
-1. **Launch Tracking Test**
+**DELIVERABLE (optional):** The two-person video again — but now the robot
+stays locked on the same person as they cross paths. Then break it on
+purpose: what happens when both people wear the same color, and why is that
+exactly what your algorithm predicts?
 
-.. code-block:: bash
+Congratulations — Pupper now sees. It finds a person, follows them across a
+room, steps around furniture using nothing but bounding-box geometry, and
+(optionally) knows *which* person is yours. In the robot foundation model
+lab, a language model will drive the very ``begin_tracking()`` API you tested
+today — "follow that person" is about to become a sentence.
 
-   bash scripts/run_tracking.sh
+Resources
+-----------
+`You Only Look Once: Unified, Real-Time Object Detection <https://arxiv.org/abs/1506.02640>`_
 
-This launches all tracking components and an interactive test script.
+`Microsoft COCO: Common Objects in Context <https://arxiv.org/abs/1405.0312>`_
 
-2. **Test Tracking Commands**
+`The Double Sphere Camera Model <https://arxiv.org/abs/1807.08957>`_ — the
+fisheye model behind ``fisheye_converter.py``
 
-   The interactive test script will let you manually trigger tracking commands. Experiment with different object types and observe the behavior.
-
-3. **Verify Behavior**
-
-   Watch how Pupper behaves in different scenarios:
-
-   - What happens when no objects are visible?
-   - How does it choose which object to track when multiple are present?
-   - Does the tracking feel natural and responsive?
-   - How well does it handle objects moving in and out of view?
-
-**DELIVERABLE:** Record a video of Pupper successfully tracking a person, showing search and track behaviors. Upload to Gradescope.
-
-**DELIVERABLE:** Record a video of Pupper tracking the same person when two people are present on the screen. Talk about how you implemented the tracking logic to handle multiple objects. Upload to Gradescope.
-
-.. note::
-
-   **Debugging Tracking Issues**: If tracking isn't working after implementing the Karel API, the issue is likely in the communication between components. Add ``breakpoint()`` in ``lab_7.py`` to debug:
-   
-   - In ``tracking_control_callback``: Is the tracking control message being received? What does ``msg.data`` contain?
-   - In ``detection_callback``: Are detections still being processed when tracking is enabled?
-   - In ``timer_callback``: Is ``self.tracking_enabled`` set correctly? Is the state machine transitioning properly?
-   
-   Also check your Karel implementation - are the tracking control messages being published correctly? Add ``breakpoint()`` in ``begin_tracking()`` and ``end_tracking()`` to verify the message format and publishing.
-
-Step 5. Implement Multimodal Voice System
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Now add vision capabilities to the voice control system from Lab 6.
-
-1. **Write System Prompt**
-
-   In ``pupper_llm/realtime_voice.py``, you'll need to create a comprehensive system prompt that teaches GPT how to be a robot with vision. Consider:
-
-   - What personality should Pupper have?
-   - How should it describe its vision capabilities?
-   - What movement and tracking commands should it support?
-   - How should it format its responses so the command parser can understand them?
-   - What examples would help it understand the multimodal context?
-
-   Look at the TODO comments for guidance on the required capabilities.
-
-2. **Implement Camera Snapshot Processing**
-
-   Complete the ``camera_snapshot_callback`` method:
-
-   - Convert JPEG data to base64: ``base64.b64encode(msg.data).decode('utf-8')``
-   - Store in ``self.latest_camera_image_base64``
-   - Set ``self.camera_image_pending = True``
-
-3. **Implement Image Sending**
-
-   Complete the ``send_camera_image_if_available`` method:
-
-   - Check if image is available and pending
-   - Create multimodal message with text and image content
-   - Send to OpenAI Realtime API in the specified format
-   - Set ``self.camera_image_pending = False``
-
-Step 6. Implement Voice Command Parsing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Update the command parser to handle tracking commands.
-
-1. **Copy Lab 6 Command Parsing**
-
-   In ``pupper_llm/karel/karel_realtime_commander.py``, you'll need to bring over your Lab 6 implementations. The file has extensive TODO comments explaining what each function should do.
-
-2. **Add Tracking Command Parsing**
-
-   Extend your command parsing to handle tracking. Think about:
-
-   - What different ways might someone ask to track an object?
-   - How do you extract the object name from natural language?
-   - What canonical command format should you use internally?
-
-3. **Add Tracking Command Execution**
-
-   Update your command execution to handle tracking commands. Consider:
-
-   - How do you detect tracking-related commands?
-   - What Karel API methods should you call?
-   - How do you handle the timing of tracking operations?
-
-Step 7. Full System Integration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Finally, test the complete multimodal system.
-
-1. **Launch Full System**
-
-.. code-block:: bash
-
-   bash scripts/run_full_system.sh
-
-This starts all components:
-
-   - ROS2 control and camera
-   - Object detection with HAILO
-   - Tracking state machine  
-   - OpenAI Realtime API with vision
-   - Karel command parser
-
-2. **Test Voice + Vision Commands**
-
-   Experiment with natural voice commands and see how well the system understands context. Try asking about what Pupper sees, giving tracking commands, and mixing manual control with autonomous behavior.
-
-3. **Verify Multimodal Behavior**
-
-   Pay attention to how the system integrates different modalities:
-
-   - Does voice control work better when Pupper can see what you're referring to?
-   - How does the system handle ambiguous commands?
-   - What happens when you give conflicting voice and tracking commands?
-   - How natural does the interaction feel?
-
-**DELIVERABLE:** Record a video demonstrating the full multimodal system: voice commands with visual context, object tracking, and manual control. Upload to Gradescope.
-
-**DELIVERABLE:** Write a reflection (2-3 paragraphs) on the integration of vision and voice control. What are the advantages of multimodal AI? What challenges did you encounter? How could this system be improved?
-
-Congratulations! You've built a sophisticated multimodal AI system that combines computer vision, voice interaction, and robotics. Pupper can now see, listen, understand, and act in the world around it!
+`Hailo-8 AI accelerator <https://hailo.ai/products/ai-accelerators/hailo-8l-ai-accelerator-for-ai-light-applications/>`_ — the chip the detector runs on
