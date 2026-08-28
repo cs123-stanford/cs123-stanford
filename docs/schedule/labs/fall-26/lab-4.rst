@@ -291,9 +291,10 @@ the robot: the numbers are stamped into your ``policy.json`` at export and
 transcribed by the controller's command filter, so the policy sees the same
 closed-loop command profile in deployment that it trained against. Describe
 what you observe in the nudge test, then explain: (a) why the correction has
-to live on the *command* side rather than in the reward, and (b) why shipping
-the constants inside ``policy.json`` is safer than configuring them on the
-robot by hand.
+to live on the *command* side rather than in the reward, and (b) under what
+condition does this fix start *hurting* locomotion instead of helping it?
+(Think about what the correction blindly trusts, and what happens to a policy
+that has learned to lean on it.)
 
 .. figure:: ../../../_static/walker.gif
    :align: center

@@ -91,6 +91,15 @@ buy? What does a longer swing buy, and what does it cost in stance time? Your
 stride, stance depth, swing lift, and touchdown pattern are all in play — and
 nothing says the fast gait must resemble any of these.
 
+.. hint::
+
+   Watch how much ground a single cycle's *footprint* covers. Every gait that
+   ever ran fast for us did one thing the shipped ones don't: it spread the
+   feet further per cycle — legs opened wider, feet reaching further fore and
+   aft. Speed is stride length times cadence, and the cadence is largely
+   fixed by the phase clock; if the footprint can't cover 1.5 m/s at that
+   cadence, no amount of training fixes the arithmetic.
+
 Workflow:
 
 * Add your gait to the parametric tables and **visualize it before training**
@@ -129,6 +138,22 @@ specified. That knowledge is sitting in the rollouts. Harvest it:
 5. **Repeat.** Each round: reference ← rollout of best policy; policy ←
    trained against the new reference. Two to three rounds is typically where
    the loop stops paying.
+
+.. hint::
+
+   The most interesting property of a captured reference: **it is data, and
+   you are allowed to edit it.** A captured rollout is rarely symmetric —
+   left and right legs doing subtly different things, one diagonal loading
+   harder than the other. Nothing stops you from *making* it symmetric
+   (mirror, phase-shift, average — a chore by hand, minutes for a competent
+   coding agent) and then inventing a reward term that keeps the retrained
+   policy symmetric instead of letting it drift back. That pattern — edit
+   the reference, then design a reward that defends the edit — generalizes
+   far beyond symmetry. Invent rewards. Invent curriculums. The official
+   reward list is deliberately simplified for the main lab; our private dev
+   branch carries a number of crucial reward terms that never made the
+   official curriculum. Rediscovering some of them — or finding your own —
+   is expected here, not extra credit.
 
 This is expert iteration where the expert is your own previous policy,
 filtered through the simulator's physics. Whether it *converges to something
@@ -197,6 +222,14 @@ if you can catch it doing it. You have a capture pipeline now. ???
    :width: 384px
 
    ``???``
+
+.. warning::
+
+   **Get TA approval before testing anything from this part on real
+   hardware.** We once tested this exact task with one particular penalty
+   term missing — a term you will not find in the official reward list — and
+   paid for it with a battery board and a control board, IMU included.
+   Simulation does not bill you for boards. ???
 
 **Report (open-ended):** whatever you find. If your Pupper does the thing —
 in sim or, braver still, on hardware — the video goes on the course wall of
