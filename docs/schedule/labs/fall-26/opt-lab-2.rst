@@ -139,6 +139,24 @@ specified. That knowledge is sitting in the rollouts. Harvest it:
    trained against the new reference. Two to three rounds is typically where
    the loop stops paying.
 
+.. tip::
+
+   **Warm-start every round.** Do not retrain from scratch each time — resume
+   from the previous round's checkpoint:
+
+   .. code-block:: bash
+
+      uv run train Mjlab-MixedGaits-Flat-Pupper-v3 \
+        --agent.resume True --wandb-run-path <entity>/mjlab/<run-id>
+
+   (add ``--wandb-checkpoint-name model_2500.pt`` to pick a specific
+   checkpoint; the default is the run's latest.) The new reference is a
+   perturbation of what the policy already tracks, so resuming converges in
+   a fraction of the iterations — and some references in this lab are
+   effectively *unlearnable* from a random initialization but easy for a
+   policy that already walks. It also saves you real Colab money: every
+   warm-started round is most of a from-scratch run you didn't pay for.
+
 .. hint::
 
    The most interesting property of a captured reference: **it is data, and
