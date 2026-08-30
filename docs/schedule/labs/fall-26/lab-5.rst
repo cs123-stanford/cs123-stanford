@@ -6,8 +6,8 @@ machine, and step around whatever is in the way.*
 
 .. TODO(staff): add this offering's lab slides link
 .. TODO(staff): add this offering's lab document link
-.. TODO(staff): capture fresh figures on a robot: the viser viewer with boxes +
-   masks, and a detour sequence. Old Foxglove screenshots no longer apply.
+.. TODO(staff): capture a detour sequence figure on a robot. Old Foxglove
+   screenshots no longer apply.
 
 `Lab slides <#>`_ (TODO)
 
@@ -64,12 +64,18 @@ code.
 
 .. code-block:: bash
 
-   ssh -N -L 8080:localhost:8080 pi@pupper[GROUP_NUMBER].local
+   ssh -N -L 8080:localhost:8080 pi@pupper[YOUR_GROUP_NUMBER].local
 
 3. You should see the camera feed with bounding boxes *and* segmentation
    masks around detected objects — 80 COCO classes' worth. Two GUI settings
    matter when the Wi-Fi is weak: **Lock aspect ratio** and **Drop frames
    when behind** (both on by default; the README explains what each does).
+
+   .. figure:: ../../../_static/lab5/pupper_viser.png
+      :align: center
+
+      The viser viewer on the equirectangular view: a person detected with
+      a bounding box, confidence score, and segmentation mask.
 
 4. Notice the **View** dropdown: the raw image is a fisheye, but detection
    always runs on the *equirectangular* (undistorted) view. The fisheye lens
@@ -119,6 +125,16 @@ machine; the core states are:
 - **SEARCH** — target lost; rotate to find it;
 - **TRACK** — target in view; steer toward it and walk.
 
+Here is the whole machine — keep it in front of you while you fill in the
+transitions:
+
+.. figure:: ../../../_static/lab5/state_machine_core.svg
+   :align: center
+   :width: 90%
+
+   The core tracking state machine. Every arrow is a condition your
+   ``timer_callback`` checks; every box is a motion command it publishes.
+
 Work through the marked sections:
 
 1. **Detection processing** (``detection_callback``): split the incoming
@@ -157,9 +173,6 @@ for quick demos.)
    ``self.target_pos`` sensible? Are transitions firing when you expect?
    (``p variable`` prints, ``n`` steps, ``c`` continues.)
 
-**DELIVERABLE:** A state machine diagram of IDLE / SEARCH / TRACK with every
-transition condition labeled. Upload to Gradescope.
-
 **DELIVERABLE:** A video of Pupper tracking a person, showing both search and
 track behavior. Upload to Gradescope.
 
@@ -174,6 +187,17 @@ straight into it, because nothing it computes knows the chair exists. Fixing
 that is the second half of the lab, and it has two parts — the *decisions*
 (pure functions in ``avoidance.py``, desk-testable) and the *detour* (three
 new FSM states in ``follow_me.py``).
+
+The whole scheme in one picture — the left panel is the *decision* (made in
+image space, using nothing but bottom edges), the right panel is the *detour*
+(made in the world, using nothing but a clock):
+
+.. figure:: ../../../_static/lab5/obstacle_avoidance.svg
+   :align: center
+
+   Obstacle avoidance from one observation: bottom edge = distance. An
+   obstacle *blocks* when it passes all three tests on the left; the robot
+   then sidesteps it with three timed states and resumes the chase.
 
 **The decisions**, in ``avoidance.py``:
 
@@ -207,7 +231,10 @@ detour, so the chase resumes seamlessly when it ends.
 
 **DELIVERABLE:** The output of ``test_avoidance.py`` with all scenes passing.
 
-**DELIVERABLE:** Your full six-state machine diagram, transitions labeled.
+**DELIVERABLE:** We drew the three-state machine for you in Step 3 — now it
+is your turn. Draw the full six-state machine (IDLE, SEARCH, TRACK,
+AVOID_TURN, AVOID_PASS, AVOID_RETURN) with every transition condition
+labeled. Upload to Gradescope.
 
 **DELIVERABLE:** A video of Pupper walking toward you, detouring around an
 obstacle placed in its path, and resuming the chase.
@@ -223,22 +250,37 @@ a detour ends?
 Step 5 (Optional). Follow *Me*, Specifically
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Your Step 3 two-person video exposed the weakness: "track the most centred
-person" happily hops between people. The fix uses machinery you already have
-on screen — the segmentation masks.
+person" happily hops between people. This time we are not going to hand you
+the fix — it is a design problem, and it is yours.
 
-Every detection is published with the **mean color of its mask** (in the
-message's ``id`` field, as ``"r,g,b"``) — for a person, that is mostly the
-color of their clothes. In ``follow_me.py``, set ``ENABLE_COLOR_REID = True``
-and implement the marked optional section of ``pick_target``: memorize the
-target's color when the chase starts, prefer the candidate nearest that color
-(within ``REID_MAX_DIST``, so a frame containing only strangers does not
-steal the lock), and blend the memory slowly toward the current match so
-gradual lighting changes do not shake it off.
+The constraint that makes it interesting: no new sensors, no new models. To
+YOLO, every person is just the class ``person`` — a bounding box cannot tell
+your person from a stranger. But boxes are not all the detector gives you.
+Look at the viewer from Step 1 again and ask: what is on screen that could
+tell two people apart, and how would ``pick_target`` use it without losing
+the lock the moment it flickers?
+
+.. hint::
+
+   The segmentation masks are the key. A box says *where* a person is; the
+   mask says which pixels *are* the person — and a person's pixels are
+   mostly their clothes. If you would rather not touch the image pipeline:
+   every detection already ships the **mean color of its mask** in the
+   message's ``id`` field, as ``"r,g,b"``, and ``pick_target`` has a marked
+   optional section (``ENABLE_COLOR_REID``) waiting for you. What to do
+   with that color is the design: what do you memorize, when do you trust a
+   match, and how does the memory survive a slow change in lighting?
+
+**DELIVERABLE (optional):** Your design, before your code: explain how the
+segmentation masks make it possible to tell one person from another when
+bounding boxes alone cannot, and describe the algorithm you built on them —
+including what stops a frame containing only strangers from stealing the
+lock.
 
 **DELIVERABLE (optional):** The two-person video again — but now the robot
 stays locked on the same person as they cross paths. Then break it on
-purpose: what happens when both people wear the same color, and why is that
-exactly what your algorithm predicts?
+purpose: find a situation where your approach *must* fail, show it failing,
+and explain why that failure is exactly what your algorithm predicts.
 
 Congratulations — Pupper now sees. It finds a person, follows them across a
 room, steps around furniture using nothing but bounding-box geometry, and
