@@ -190,11 +190,10 @@ Schedule
    :header: "Week", "Lecture", "Lab", "Lab Due Date", "Other"
    :widths: 15, 30, 30, 15, 20
 
-   "", "", "", "", ""
+   "Week 1: 9/22", ":doc:`../schedule/lectures/fall-26/lec-1`", ":doc:`../schedule/labs/fall-26/lab-1`", "9/30/26 (extended)", "No class 9/21 (holiday); lecture recorded"
 
 .. Schedule rows hidden for now — move them back under the csv-table above to restore.
 
-   "Week 1: 9/22", ":doc:`../schedule/lectures/fall-26/lec-1`", ":doc:`../schedule/labs/fall-26/lab-1`", "9/28/26", "Lecture recorded"
    "Week 2: 9/28", ":doc:`../schedule/lectures/fall-26/lec-2`", ":doc:`../schedule/labs/fall-26/lab-2`", "10/5/26", ""
    "Week 3: 10/5", ":doc:`../schedule/lectures/fall-26/lec-3`", ":doc:`../schedule/labs/fall-26/lab-3`", "10/12/26", ":doc:`../schedule/labs/fall-26/opt-lab-1`"
    "Week 4: 10/12", ":doc:`../schedule/lectures/fall-26/lec-4`", ":doc:`../schedule/labs/fall-26/lab-4`", "10/19/26", ":doc:`../schedule/labs/fall-26/opt-lab-2`"
