@@ -18,7 +18,7 @@ Lecture Recordings
 Lecture Materials
 -----------------
 
-**Intro Slides:** `Course Overview <https://drive.google.com/file/d/1Jb32iwQYJRsqiJ079bY9_k_aYz-DcCRj/view?usp=sharing>`_
+**Intro Slides:** `Course Overview <https://docs.google.com/presentation/d/1_KZmLhtNpKJemfednOt1ip5LI-GUqG_A/edit?usp=sharing&ouid=112164671976474020631&rtpof=true&sd=true>`_
 
 **Main Lecture:** `ROS2 and PD Control <https://docs.google.com/presentation/d/1yiRQ9m7rA-Ci4zR0SOiX-bAIji_ZBRpx7SxWVQP5qd0/edit#slide=id.g22c45b09435_0_1388>`_
 
