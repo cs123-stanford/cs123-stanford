@@ -147,12 +147,14 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 **Lecture Location:** `STLC 114 <https://maps.app.goo.gl/QGiEyTeMVugydhYE6>`_, *in-person attendance required*
 
 **Instructor Office Hours:**
-    * Jie & Stuart: TBD
-    * Karen: Office hours by appointment. Reach out to the teaching team to schedule. 
+    * Jie, Stuart & Karen: Office hours by appointment. Reach out to the teaching team via email to schedule.
 
 **TA Office Hours Location:** Gates B08
 
-**TA Office Hours:** TBD
+**TA Office Hours (subject to change 1st week by classroom availability):**
+
+    * Ankush: TBD
+    * JC: Tuesdays 3:00pm - 5:00pm, Thursdays 3:00pm - 5:00pm, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
 
 **Prerequisites:**
 
@@ -171,11 +173,19 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 *Labs:* Labs are due before class the following week (by 3:30 PM on Mondays) unless otherwise noted. Each team has a total of 7 late days to use across all labs. Using one late day extends the deadline by 24 hours. A maximum of 3 late days may be used per lab. Labs submitted more than 72 hours after the deadline will not be accepted.
 
+*Use of AI* The use of AI tools and coding agents (e.g., Claude Code and Codex) is permitted in this course. However, expectations may vary by assignment. For some labs, we may discourage the use of coding agents when completing the implementation independently is an important part of the learning objective. For other labs, the optional labs, and the final project, we encourage students to make effective use of AI tools and coding agents to explore more ambitious ideas and achieve the best results they can. Assignment-specific guidance will be provided when applicable. Regardless of AI usage, students are responsible for understanding, testing, and being able to explain the code and work they submit.
+
 *Final project:* No extensions are allowed for the final project proposal, progress report, or final demo video/presentation.
 
 **Optional Labs:**
-Two optional labs will be offered this quarter, with the first released in Week 3. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts way beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
+Two optional labs will be offered this quarter, with the first released in Week 3 and second in Week 4. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts way beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
+
 TAs will be available to support students working on the optional labs during their office hours.
+
+**Quizzes** 
+There will be two quizzes throughout the quarter, together accounting for 5% of the final grade. Quizzes will be completed individually, in person, and closed-book. They are intended to assess each student's understanding of the course material and concepts covered in the labs and lectures.
+
+The quizzes are not intended to be difficult or tricky. If you work through the labs yourself and understand the concepts and implementations involved, the quizzes should be very straightforward. Quiz scores will be assigned individually rather than by group.
 
 **Enrollment:** 24 students; 8 groups of 3 students
 

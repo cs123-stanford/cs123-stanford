@@ -5,6 +5,10 @@ Goal
 ----
 Get set up with the Raspberry Pi 5 hardware and build a robot that you can program PD control on using ROS2.
 
+AI Use Suggestion
+------------------
+This lab's coding component should be minimal so we don't suggest using coding agents. Be absolutely free to use them for better material understanding, nevertheless!
+
 Shared Resources with your Group mates
 ---------------------------------------
 To better organize all the weekly lab materials, create a Google Drive folder to share with your groupmates. 
