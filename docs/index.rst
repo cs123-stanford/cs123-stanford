@@ -173,13 +173,12 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 
 *Labs:* Labs are due before class the following week (by 3:30 PM on Mondays) unless otherwise noted. Each team has a total of 7 late days to use across all labs. Using one late day extends the deadline by 24 hours. A maximum of 3 late days may be used per lab. Labs submitted more than 72 hours after the deadline will not be accepted.
 
-*Use of AI* The use of AI tools and coding agents (e.g., Claude Code and Codex) is permitted in this course. However, expectations may vary by assignment. For some labs, we may discourage the use of coding agents when completing the implementation independently is an important part of the learning objective. For other labs, the optional labs, and the final project, we encourage students to make effective use of AI tools and coding agents to explore more ambitious ideas and achieve the best results they can. Assignment-specific guidance will be provided when applicable. Regardless of AI usage, students are responsible for understanding, testing, and being able to explain the code and work they submit.
+*Use of AI:* The use of AI tools and coding agents (e.g., Claude Code and Codex) is permitted in this course. However, expectations may vary by assignment. For some labs, we may discourage the use of coding agents when completing the implementation independently is an important part of the learning objective. For other labs, the optional labs, and the final project, we encourage students to make effective use of AI tools and coding agents to explore more ambitious ideas and achieve the best results they can. Assignment-specific guidance will be provided when applicable. Regardless of AI usage, students are responsible for understanding, testing, and being able to explain the code and work they submit.
 
 *Final project:* No extensions are allowed for the final project proposal, progress report, or final demo video/presentation.
 
 **Optional Labs:**
 Two optional labs will be offered this quarter, with the first released in Week 3 and second in Week 4. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts way beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
-
 TAs will be available to support students working on the optional labs during their office hours.
 
 **Quizzes** 
