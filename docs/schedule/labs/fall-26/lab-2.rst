@@ -35,19 +35,19 @@ Part 2: Setup
 
 1. Make sure you have completed Lab 1 and are familiar with the ROS2 environment on your Raspberry Pi 5.
 
-2. Open the lab 2 code repository (`lab 2 code repository <https://github.com/cs123-stanford/lab_2_fall_2025>`_) on your GitHub account. Then, fork the repository to your own GitHub account following the instructions in :doc:`forking_repositories`.
+2. Open the forward kinematics lab code repository (`https://github.com/cs123-stanford/forward_kinematics_lab <https://github.com/cs123-stanford/forward_kinematics_lab>`_) on your GitHub account. Then, fork the repository to your own GitHub account following the instructions in :doc:`forking_repositories`.
 
-3. Open the lab 2 folder in VSCode
+3. Open the forward kinematics lab folder in VSCode
 
    .. code-block:: bash
 
-      cd ~/lab_2_fall_2025
+      cd ~/forward_kinematics_lab
       code .
 
 Part 3: Understanding the Code Structure
 -------------------------------------------
 
-Before we start implementing the ``TODOs``, let's understand the structure of the ``lab_2.py`` file:
+Before we start implementing the ``TODOs``, let's understand the structure of the ``forward_kinematics.py`` file:
 
 1. The code defines a ``ForwardKinematics`` class that inherits from ``rclpy.node.Node``.
 2. It subscribes to the ``joint_states`` topic and publishes to the ``leg_front_l_end_effector_position`` and ``marker`` topics.
@@ -63,7 +63,7 @@ For the following steps, you can view the Pupper CAD to help you understand the 
 Step 1: Implement Rotation Matrices
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Open ``lab_2.py`` and locate the ``forward_kinematics`` method.
+1. Open ``forward_kinematics.py`` and locate the ``forward_kinematics`` method.
 
 2. Implement the rotation matrices about the x, y, and z axes. Follow the homogeneous coordinates representation as presented in lecture.
 
@@ -114,19 +114,19 @@ Step 2: Implement Transformation Matrices
 Part 5: Debugging Your Implementation With RVIZ2
 ---------------------------------------------------
 
-1. Save your changes to ``lab_2.py``.
+1. Save your changes to ``forward_kinematics.py``.
 
 2. Run the ROS2 nodes:
 
    .. code-block:: bash
 
-      ros2 launch lab_2.launch.py
+      ros2 launch forward_kinematics.launch.py
 
 3. In another terminal, use the following command to run the main code:
 
    .. code-block:: bash
 
-      python lab_2.py
+      python forward_kinematics.py
 
 4. Move the left front leg of your robot and observe the changes in the published positions.
 
@@ -134,7 +134,7 @@ To test your code in simulation to make sure that the code works as expected, yo
 
    .. code-block:: bash
 
-      rviz2 -d lab_2.rviz
+      rviz2 -d forward_kinematics.rviz
 
 The above command will load the RVIZ config file. If you just run ``rviz2``, you can manually add the configuration. After running `rviz`, click the "Add" button, and then select a Robot Model type. Select the /robot_description topic. Next, add the marker by selecting "Add" again, and select a Marker type. Select the topic /marker.
 
