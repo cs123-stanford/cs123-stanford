@@ -38,7 +38,7 @@ Part 0: Setup
         <a href="https://beepboopbeep.org/raise-a-robot" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">🤖 Open the Raise a Robot build videos in new tab 🤖</a>
 
 .. note::
-   The guide is password protected. Use the password ``abcd`` to access it.
+   The guide is password protected. The password is posted on Ed.
 
 .. raw:: html
 

@@ -35,24 +35,11 @@ Please also fill out the lab document: `Part 1 questions <https://docs.google.co
 Part 0: Setup
 -------------
 
-1. Build the remaining legs for Pupper. Follow the build instructions to assemble the
-   last legs, keeping note that all the pieces for each leg are correctly labeled (each
-   right leg piece has an R on it, and each left leg piece has an L on it).
-
-    .. raw:: html
-
-        <a href="https://docs.google.com/presentation/d/1LWhURxF0z4iUYnUWLJexuQ4GSN4Q30BKO6-dLN8Wb0w/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 Open build instructions in new tab 📝</a>
-
-
-    .. raw:: html
-
-       <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRHYkkOR1CYsA7x-u3RZAFrIjvhlZBjibNNWEvTePSsiXtnQ3fwN75Bu6I5iVGKe202sfwx_FWMzLbF/pubembed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-
-2. Open the `lab code repository <https://github.com/cs123-stanford/ik_heuristic_walking_lab>`_
+1. Open the `lab code repository <https://github.com/cs123-stanford/ik_heuristic_walking_lab>`_
    on your GitHub account. Then fork the repository to your own GitHub account following
    the instructions in :doc:`forking_repositories`.
 
-3. Clone your fork to your Raspberry Pi and open it in VSCode:
+2. Clone your fork to your Raspberry Pi and open it in VSCode:
 
    .. code-block:: bash
 
@@ -63,7 +50,7 @@ Part 0: Setup
 
    Note: Replace ``YOUR_USERNAME`` with your actual GitHub username.
 
-4. Take a look around the repository:
+3. Take a look around the repository:
 
    .. list-table::
       :header-rows: 1

@@ -16,18 +16,32 @@ Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVW
 Part 1: Hardware Build
 ------------------------
 
-1. Follow the build instructions for lab 2 
+In Lab 1 you built the brain, the body, and one leg. In this lab you will build the full
+rest of the robot: the three remaining legs, following the same leg build you have already
+done once.
 
-    .. raw:: html
+.. raw:: html
 
-        <a href="https://docs.google.com/presentation/d/1LWhURxF0z4iUYnUWLJexuQ4GSN4Q30BKO6-dLN8Wb0w/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 Open build instructions in new tab 📝</a>
+        <a href="https://beepboopbeep.org/raise-a-robot" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">🤖 Open the Raise a Robot build videos in new tab 🤖</a>
 
-    
-    .. raw:: html
+.. note::
+   The guide is password protected. The password is posted on Ed.
 
+Begin by checking that your kit contains all the pieces; if not, please ask a TA. All the
+pieces for each leg are labeled — each right leg piece has an **R** on it, and each left
+leg piece has an **L** on it.
+
+.. raw:: html
+
+   <details style="margin: 15px 0; border: 1px solid #d9d9d9; border-radius: 5px; padding: 10px 15px; background-color: #fafafa;">
+     <summary style="cursor: pointer; font-weight: bold; color: #404040;">📝 Optional: prefer slides? Click to show the slide deck instead</summary>
+     <div style="margin-top: 15px;">
+       <p>These slides cover the same leg build. They are optional &mdash; the videos above are the primary instructions.</p>
+       <a href="https://docs.google.com/presentation/d/1LWhURxF0z4iUYnUWLJexuQ4GSN4Q30BKO6-dLN8Wb0w/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 Open build instructions in new tab 📝</a>
+       <br>
        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRHYkkOR1CYsA7x-u3RZAFrIjvhlZBjibNNWEvTePSsiXtnQ3fwN75Bu6I5iVGKe202sfwx_FWMzLbF/pubembed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-    
-    You will build a front left leg for Pupper in this lab. Begin by checking to see that your kits contain all the pieces, if not, please ask a TA. 
+     </div>
+   </details>
 
 
 Part 2: Setup
