@@ -31,28 +31,27 @@ Part 0: Setup
 
 3. Connect to the Raspberry Pi
 
-4. Follow along the assembly instructions to build the robot. There are two ways to do this — use whichever you prefer.
-
-**Option A: the Raise a Robot guide.** Follow the build instructions here to build the full brain, the full body, and one whole leg.
+4. Follow along with the build videos to build the full brain, the full body, and one whole leg:
 
 .. raw:: html
 
-        <a href="https://beepboopbeep.org/raise-a-robot" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">🤖 Open the Raise a Robot guide in new tab 🤖</a>
+        <a href="https://beepboopbeep.org/raise-a-robot" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">🤖 Open the Raise a Robot build videos in new tab 🤖</a>
 
 .. note::
    The guide is password protected. Use the password ``abcd`` to access it.
 
-**Option B: the build instruction slides.** These cover the same build in slide form, and are embedded below.
-
 .. raw:: html
 
-        <a href="https://docs.google.com/presentation/d/1ybz-m6Xk-nR6OFQyP0X7pHQipVa2lH8aqp8fa5Zu2Kw/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 Open build instructions in new tab 📝</a>
-
-    
-.. raw:: html
-
+   <details style="margin: 15px 0; border: 1px solid #d9d9d9; border-radius: 5px; padding: 10px 15px; background-color: #fafafa;">
+     <summary style="cursor: pointer; font-weight: bold; color: #404040;">📝 Optional: prefer slides? Click to show the slide deck instead</summary>
+     <div style="margin-top: 15px;">
+       <p>These slides cover the same build. They are optional &mdash; the videos above are the primary instructions.</p>
+       <a href="https://docs.google.com/presentation/d/1ybz-m6Xk-nR6OFQyP0X7pHQipVa2lH8aqp8fa5Zu2Kw/edit?usp=sharing" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">📝 Open build instructions in new tab 📝</a>
+       <br>
        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT-untWBUKveG9a8hIGxY4dZnkajODhnuP6juyWcETcsVZ6lx1Ob8acVXTcirVsqF7S5w5ttSK95d0J/pubembed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-    
+     </div>
+   </details>
+
 
 
 Your USB should come pre-flashed with the operating system. The Raspberry Pi will boot from the memory on this drive. When you power on the Raspberry Pi, it will automatically boot from this card. Ask a TAs if you have any issues.
