@@ -31,7 +31,18 @@ Part 0: Setup
 
 3. Connect to the Raspberry Pi
 
-4. Follow along the assembly instructions to build the robot body with motor dials: 
+4. Follow along the assembly instructions to build the robot. There are two ways to do this — use whichever you prefer.
+
+**Option A: the Raise a Robot guide.** Follow the build instructions here to build the full brain, the full body, and one whole leg.
+
+.. raw:: html
+
+        <a href="https://beepboopbeep.org/raise-a-robot" target="_blank" style="font-size: 1.2em; font-weight: bold; color: #E53E3E; background-color: #FED7D7; padding: 10px 15px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px 0;">🤖 Open the Raise a Robot guide in new tab 🤖</a>
+
+.. note::
+   The guide is password protected. Use the password ``abcd`` to access it.
+
+**Option B: the build instruction slides.** These cover the same build in slide form, and are embedded below.
 
 .. raw:: html
 
