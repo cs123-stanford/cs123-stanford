@@ -142,6 +142,14 @@ Step 1: Setup PD Control Lab Code Base
 
    Note: In ROS2 code, pay attention to publishers and subscribers defined in the ``__init__`` section of the node definition. Publishers send messages to topics, while subscribers listen to messages on topics. Callback functions run when new information is published to a topic.
 
+4. **Swap the lower leg for the spinning knob.** On the front-left leg, unscrew the lower leg (the last link, with the foot) from the knee motor (``leg_front_l_3``) and bolt the white 3D-printed knob onto the motor output in its place, as in the photo below. The knob is what you will watch (and push on by hand) for the rest of this lab: it makes it obvious how the motor responds without a long link swinging around, and it cannot hit the stand or the body when your controller goes unstable. Keep the lower leg and its screws somewhere safe; you will put it back in Lab 2.
+
+   .. figure:: ../../../_static/pd_control_knob.jpg
+      :align: center
+      :width: 50%
+
+      The front-left leg with the lower leg removed and the spinning knob mounted on the knee motor.
+
 **DELIVERABLE:** Before running your code, explain in your lab document what you understand about the publishers and subscribers. What gets sent and received on each message publish? How does this correspond to what is physically commanded in the motor?
 
 
@@ -159,7 +167,7 @@ Step 2: Run ROS Launch Code
    This command will start all the necessary nodes for your PD control experiment.
 
 .. warning::
-    When you run the launch file, Pupper is trying to calibrate its legs, and so the motor dial will spin for a bit before the software determines that the mechanical calibration stops have been hit. Since we do not have the full legs attached just yet, the motor dial will spin for some time before stopping. Let this process complete (dials stop spinning) before running the code you implement.
+    When you run the launch file, Pupper is trying to calibrate its legs, and so the motor dial will spin for a bit before the software determines that the mechanical calibration stops have been hit. Since we do not have the full legs attached just yet (and the front-left knee has the knob instead of the lower leg), the motor dial will spin for some time before stopping. Let this process complete (dials stop spinning) before running the code you implement.
 
 3. After running the launch file, you should see output in your terminal indicating that the nodes have been started successfully. If you encounter any errors, double-check your file paths and make sure all dependencies are installed.
 

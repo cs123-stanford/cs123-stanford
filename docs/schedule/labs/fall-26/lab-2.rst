@@ -3,9 +3,11 @@ Lab 2: Forward Kinematics
 
 Goal
 ----
-Implement forward kinematics for the left front leg of the Pupper robot using ROS2 and Python.
+Implement forward kinematics for all four legs of the Pupper robot using ROS2 and Python, and
+watch the computed foot positions follow the real legs in a 3D viewer in your browser.
 
-Here's what your implementation should look like when complete (this quarter it will be the left front leg instead):
+Here's what your implementation should look like when complete (the video shows one leg in
+RViz2; this quarter you will do all four legs and watch them in viser, see Part 5):
 
 .. raw:: html
 
@@ -18,7 +20,8 @@ Part 1: Hardware Build
 
 In Lab 1 you built the brain, the body, and one leg. In this lab you will build the full
 rest of the robot: the three remaining legs, following the same leg build you have already
-done once.
+done once. Also put the lower leg back on the front-left knee in place of the spinning knob
+from Lab 1.
 
 .. raw:: html
 
@@ -64,10 +67,11 @@ Part 3: Understanding the Code Structure
 Before we start implementing the ``TODOs``, let's understand the structure of the ``forward_kinematics.py`` file:
 
 1. The code defines a ``ForwardKinematics`` class that inherits from ``rclpy.node.Node``.
-2. It subscribes to the ``joint_states`` topic and publishes to the ``leg_front_l_end_effector_position`` and ``marker`` topics.
-3. The ``forward_kinematics`` method is where we'll implement the forward kinematics calculations.
-4. The code uses NumPy for matrix operations.
-5. Note that it is convention to orient the coordinate frame so that the rotation about each motor is the z axis.
+2. It subscribes to the ``joint_states`` topic and publishes one end-effector position topic per leg (``leg_front_l_end_effector_position``, ``leg_front_r_end_effector_position``, ...) plus one colored sphere per leg on the ``marker`` topic.
+3. The ``rotation_x``, ``rotation_y``, ``rotation_z`` and ``translation`` helpers build the homogeneous transforms, and the four methods ``fk_front_left``, ``fk_front_right``, ``fk_back_left`` and ``fk_back_right`` are where we'll implement the forward kinematics of each leg.
+4. A leg whose method still returns ``None`` is simply skipped, so you can implement and check the legs one at a time.
+5. The code uses NumPy for matrix operations.
+6. Note that it is convention to orient the coordinate frame so that the rotation about each motor is the z axis.
 
 Part 4: Implementing Forward Kinematics
 ------------------------------------------
@@ -77,14 +81,16 @@ For the following steps, you can view the Pupper CAD to help you understand the 
 Step 1: Implement Rotation Matrices
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. Open ``forward_kinematics.py`` and locate the ``forward_kinematics`` method.
+1. Open ``forward_kinematics.py`` and locate the ``rotation_y``, ``rotation_z`` and ``translation`` methods (``rotation_x`` is done for you).
 
 2. Implement the rotation matrices about the x, y, and z axes. Follow the homogeneous coordinates representation as presented in lecture.
 
 **DELIVERABLE:** Which axis is typically used as the default axis for rotations in robotic systems? What angles are we rotating along the default axis? Why?
 
-Step 2: Implement Transformation Matrices
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Step 2: Implement Transformation Matrices (Front-Left Leg)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Start with the front-left leg in ``fk_front_left``.
+
 
 .. note::
    In the following steps, :math:`\theta` (theta) represents the motor angle. Figuring out the sign of :math:`\theta` will be trickier than you might expect!
@@ -125,12 +131,40 @@ Step 2: Implement Transformation Matrices
 
 5. Compute the final transformation matrix following the described process from lecture in ``T_0_ee``. Remember that the end effector position is not in homogeneous coordinates. Calculate ``end_effector_position`` from ``T_0_ee``.
 
-Part 5: Debugging Your Implementation With RVIZ2
+We recommend jumping to Part 5 now to check the front-left leg in the viewer before moving on to the other three legs.
+
+Step 3: Extend to the Other Three Legs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Now implement ``fk_front_right``, ``fk_back_left`` and ``fk_back_right``. Each leg is the same
+chain as the front-left leg (``T_0_1``, ``T_1_2``, ``T_2_3``, ``T_3_ee``, then ``T_0_ee``),
+with two differences:
+
+- ``T_0_1`` starts from a different hip position on the body (we provide the numbers you need as comments in the code).
+- The right legs are mirror images of the left legs, and mirroring changes the sign of some of the terms.
+
+We provide the base link to ``leg_back_r_1`` transformation in the diagram below. The rest of
+the back-right chain follows the same pattern as the front leg:
+
+   .. figure:: ../../../_static/kinematics/base_back_kinematics.png
+      :align: center
+      :width: 75%
+
+      Base to back right leg transformation diagram
+
+For the front-right and back-left legs, no diagram is given on purpose: work them out from
+the front-left and back-right diagrams and the `CAD <https://cad.onshape.com/documents/97a1bc3e752ec66822dbb5bb/w/c7f9232ccbc53a2e3f6ee909/e/74c0b3caf828b9fd1994bcd6?renderMode=0&uiState=67f1c37599fde447b364a89c>`_.
+The viewer in Part 5 tells you immediately whether a leg is right: move one joint at a time
+by hand and check that the sphere stays on the foot. If you are truly stuck after trying, ask a
+TA.
+
+**DELIVERABLE:** For each of the three additional legs, state which terms change compared to the front-left leg and why.
+
+Part 5: Checking Your Implementation in the Viewer
 ---------------------------------------------------
 
 1. Save your changes to ``forward_kinematics.py``.
 
-2. Run the ROS2 nodes:
+2. Run the ROS2 nodes. This also starts the 3D web viewer (viser) on the Pupper:
 
    .. code-block:: bash
 
@@ -142,22 +176,30 @@ Part 5: Debugging Your Implementation With RVIZ2
 
       python forward_kinematics.py
 
-4. Move the left front leg of your robot and observe the changes in the published positions.
+4. Open the viewer in your browser. Both commands above print the exact link when they start. If your laptop is on the same Wi-Fi as the Pupper, browse to ``http://<pupper-ip>:8080`` (several people can have it open at once). If you can only reach the Pupper over SSH, forward the port from your laptop first and browse to ``http://localhost:8080``:
 
-To test your code in simulation to make sure that the code works as expected, you can use RVIZ2. RVIZ2 will show the Pupper model as well as a marker that shows the output from the forward kinematics.
+   .. code-block:: bash
+
+      ssh -N -L 8080:localhost:8080 pi@pupper[YOUR_GROUP_NUMBER].local
+
+   If you have trouble reaching the Pupper, see :doc:`ssh-over-wifi`.
+
+5. The viewer shows the Pupper model following the real joint angles, plus one sphere per leg at the position your forward kinematics computed: front-left **green**, front-right **red**, back-left **blue**, back-right **yellow**. The side panel lists the joint angles and end-effector positions. A leg whose method still returns ``None`` has no sphere yet.
+
+6. Move each leg of your robot by hand (the motors are held limp for you) and check that its sphere stays on the foot. If a sphere drifts off the foot when you move one particular joint, that joint's transform (or the sign of its angle) is the one to fix.
+
+.. note::
+   **No Wi-Fi connection?** If your laptop cannot reach the Pupper's web page (weak or no Wi-Fi in your area, or the ``ssh -L`` route above fails), fall back to RViz2, which draws the same robot model and the same four markers:
 
    .. code-block:: bash
 
       rviz2 -d forward_kinematics.rviz
 
-The above command will load the RVIZ config file. If you just run ``rviz2``, you can manually add the configuration. After running `rviz`, click the "Add" button, and then select a Robot Model type. Select the /robot_description topic. Next, add the marker by selecting "Add" again, and select a Marker type. Select the topic /marker.
-
-.. note::
-   While we've tested this pipeline on a Pupper and it works as expected, rviz2 may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
+   The above command will load the RViz config file. If you just run ``rviz2``, you can manually add the configuration: click "Add", select a Robot Model type and the ``/robot_description`` topic; then "Add" again, select a Marker type and the ``/marker`` topic. RViz2 needs a display (the monitor setup from Lab 1 or X forwarding) and may fail on your robot due to heating in the Raspberry Pi. If this happens, reach out to a TA to check the implementation first, then turn off Pupper, wait a while to let it cool down, and try again.
 
 **DELIVERABLE:** 
 
-1. Take a video of the working implementation with you moving Pupper's leg and the simulation mimicking the results and upload it to the Google Drive
+1. Take a video of the working implementation with you moving each of Pupper's four legs and the viewer mimicking the results, and upload it to the Google Drive
 
 2. Write out the full equation you used to calculate the forward kinematics (in math). Please use LaTeX and take a screenshot, or use the equation functionality in Google Docs. What is the benefit of using homogeneous transformations? 
 
@@ -166,7 +208,7 @@ The above command will load the RVIZ config file. If you just run ``rviz2``, you
 Part 6: Analyzing the Results
 --------------------------------
 
-1. Record the end-effector positions for the left front leg configurations.
+1. Record the end-effector positions for the left front leg configurations (the side panel of the viewer shows them, or run ``ros2 topic echo /leg_front_l_end_effector_position``).
 
 2. Compare these positions with the expected positions based on the physical dimensions of your robot. (Why are the numbers printed in the terminal so small?)
 
@@ -187,17 +229,9 @@ Additional Challenges (Optional)
 
 If you finish early and want to explore further:
 
-1. Extend your implementation to calculate forward kinematics for all four legs of the Pupper robot. Save your calculations for these other legs for lab 3, where we will need forward kinematics for all four legs.
+1. While testing in the viewer, write a script that saves the sequence of your well-crafted motion, recorded as end effector positions into a file. You will have a chance to let Pupper replay this recorded motion in the next lab! You will need to use the ``joint_states`` topic to record the motor angles, and the ``leg_<leg>_end_effector_position`` topics to record the end effector positions.
 
-   We provide the base link to leg_back_r1 transformation in the diagram below. The rest of the transformations are identical to the front leg:
-
-   .. figure:: ../../../_static/kinematics/base_back_kinematics.png
-      :align: center
-      :width: 75%
-
-      Base to back right leg transformation diagram
-   
-2. During the testing with rviz2, write a script that saves the sequence of your well-crafted motion, recorded as end effector positions into a file. You will have a chance to let Pupper replay this recorded motion in the next lab! You will need to use the ``joint_states`` topic to record the motor angles, and the ``leg_front_l_end_effector_position`` topic to record the end effector positions.
+2. Keep your four-leg forward kinematics handy: lab 3 builds on it to make Pupper walk.
 
 Friendly reminder: The first optional lab will be released next week, attempt at your own risk!
 
