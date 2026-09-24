@@ -6,12 +6,12 @@ Goal
 Implement forward kinematics for all four legs of the Pupper robot using ROS2 and Python, and
 watch the computed foot positions follow the real legs in a 3D viewer in your browser.
 
-Here's what your implementation should look like when complete (the video shows one leg in
-RViz2; this quarter you will do all four legs and watch them in viser, see Part 5):
+Here's what your implementation should look like when complete (all four legs, watched in
+the viser web viewer, see Part 5):
 
 .. raw:: html
 
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/lVcSik8-KIg" title="Kinematics RViz Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/FatvKoDci50" title="Forward Kinematics Viser Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVWyHrLkuw0ZJ24BPCPn_Q6XIztvR0/edit?usp=sharing>`_ as you go. Make a copy and add your responses.
 
