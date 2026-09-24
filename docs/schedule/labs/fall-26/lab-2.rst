@@ -15,6 +15,14 @@ the viser web viewer, see Part 5):
 
 Fill out the `lab document <https://docs.google.com/document/d/1uAoTIHvAqEqXTPVWyHrLkuw0ZJ24BPCPn_Q6XIztvR0/edit?usp=sharing>`_ as you go. Make a copy and add your responses.
 
+AI Use Suggestion
+------------------
+Coding agents likely won't be helpful in this lab, and we suggest against using Claude Code or
+Codex for it. The forward kinematics you implement here is exactly the kind of content that will
+be tested on the closed-book, pen-and-paper quiz in Week 4. Even if you fluke your way through the
+lab by leaning on AI, you will have a bad time on the quiz. Work through the derivations and code
+yourself; AI tools are still fine for understanding the material better.
+
 Part 1: Hardware Build
 ------------------------
 
