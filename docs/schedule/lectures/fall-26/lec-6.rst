@@ -1,7 +1,7 @@
 Lecture 6: Robot Foundation Models
 ==================================
 
-**Lab:** :doc:`../../labs/fall-26/lab-6` Integrating a Voice input pipeline on Pupper and benchmarking against other methods!
+**Lab:** :doc:`../../labs/fall-26/lab-6` Talk to Pupper with Gemini Live through tools you design, and teach it to sit, stay, shake, and dance!
 
 **Lecture Slides:** https://drive.google.com/file/d/1BErc7XdMarUXK81Ze9LkbO7hgxeqAcr7/view?usp=sharing by Wenhao Yu
 

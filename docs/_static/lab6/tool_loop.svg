@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 300" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#444444"/>
+    </marker>
+  </defs>
+  <rect width="920" height="300" fill="#ffffff"/>
+
+  <!-- the part students build -->
+  <rect x="372" y="36" width="206" height="160" rx="16" fill="none" stroke="#f9a825" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="475" y="28" text-anchor="middle" font-size="13" font-weight="bold" fill="#f57f17">you build this</text>
+
+  <!-- YOU -->
+  <rect x="20" y="70" width="130" height="90" rx="12" fill="#eceff1" stroke="#607d8b" stroke-width="2"/>
+  <text x="85" y="104" text-anchor="middle" font-size="17" font-weight="bold" fill="#37474f">YOU</text>
+  <text x="85" y="126" text-anchor="middle" font-size="11.5" fill="#455a64">voice, and what</text>
+  <text x="85" y="142" text-anchor="middle" font-size="11.5" fill="#455a64">the camera sees</text>
+
+  <!-- GEMINI -->
+  <rect x="200" y="70" width="140" height="90" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="2"/>
+  <text x="270" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#0d47a1">GEMINI LIVE</text>
+  <text x="270" y="122" text-anchor="middle" font-size="11.5" fill="#1a4f8b">the brain: talks,</text>
+  <text x="270" y="138" text-anchor="middle" font-size="11.5" fill="#1a4f8b">picks a tool</text>
+
+  <!-- TOOL LAYER -->
+  <rect x="390" y="70" width="170" height="90" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
+  <text x="475" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#e65100">TOOL LAYER</text>
+  <text x="475" y="122" text-anchor="middle" font-size="11.5" fill="#8d5524">geminiLive.ts: tools</text>
+  <text x="475" y="138" text-anchor="middle" font-size="11.5" fill="#8d5524">tool_server.py: actions</text>
+
+  <!-- ROBOT -->
+  <rect x="610" y="70" width="130" height="90" rx="12" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="675" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a148c">ROS 2</text>
+  <text x="675" y="122" text-anchor="middle" font-size="11.5" fill="#5e2a72">queue, controller</text>
+  <text x="675" y="138" text-anchor="middle" font-size="11.5" fill="#5e2a72">switches, clips</text>
+
+  <!-- POLICIES -->
+  <rect x="790" y="70" width="110" height="90" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="845" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#1b5e20">POLICIES</text>
+  <text x="845" y="122" text-anchor="middle" font-size="11.5" fill="#33691e">the muscles:</text>
+  <text x="845" y="138" text-anchor="middle" font-size="11.5" fill="#33691e">walk, tricks</text>
+
+  <!-- forward arrows -->
+  <line x1="150" y1="100" x2="196" y2="100" stroke="#444444" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="340" y1="100" x2="386" y2="100" stroke="#444444" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="355" y="90" text-anchor="middle" font-size="11" fill="#333333">call</text>
+  <line x1="560" y1="100" x2="606" y2="100" stroke="#444444" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="593" y="90" text-anchor="middle" font-size="11" fill="#333333">HTTP</text>
+  <line x1="740" y1="100" x2="786" y2="100" stroke="#444444" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <!-- Gemini back to you -->
+  <line x1="196" y1="138" x2="154" y2="138" stroke="#444444" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="175" y="156" text-anchor="middle" font-size="11" fill="#333333">says</text>
+
+  <!-- result path -->
+  <polyline points="675,160 675,236 270,236 270,164" fill="none" stroke="#c62828" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="472" y="256" text-anchor="middle" font-size="13" fill="#b71c1c">{success, message}: all Gemini ever learns about what really happened</text>
+  <text x="472" y="276" text-anchor="middle" font-size="11.5" fill="#555555">(a refusal with a reason, it can explain; a silent failure, it will cover up)</text>
+</svg>

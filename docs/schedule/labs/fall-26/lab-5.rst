@@ -17,8 +17,8 @@ Everything in this lab runs *on the robot*: YOLOv8n-seg on Pupper's Hailo AI
 accelerator turns camera frames into detections, your state machine turns
 detections into motion, and a browser viewer shows you what Pupper sees while
 it happens. No API keys, no cloud, no voice — the tracking API you build here
-(``begin_tracking()`` / ``end_tracking()``) is exactly what the robot
-foundation model lab will drive with language later in the quarter.
+(``begin_tracking()`` / ``end_tracking()``) is exactly the kind of skill the
+robot foundation model lab will drive with language later in the quarter.
 
 The intellectual core of the lab is a single, lovely idea: **your robot's
 camera has no depth sensor, and yet it can tell how far away things are** —
@@ -161,8 +161,8 @@ Test it. In two more terminals:
 (or start tracking immediately with
 ``python3 follow_me.py --ros-args -p target:=person``; the ``KarelPupper``
 API — ``begin_tracking("person")``, ``end_tracking()`` — is what
-``test_tracking.py`` uses under the hood, and what the foundation-model lab
-will call later. ``scripts/run_tracking.sh`` runs all three terminals at once
+``test_tracking.py`` uses under the hood, and the shape of the follow tool the
+foundation-model lab will give a language model. ``scripts/run_tracking.sh`` runs all three terminals at once
 for quick demos.)
 
 .. note::
@@ -285,8 +285,9 @@ and explain why that failure is exactly what your algorithm predicts.
 Congratulations — Pupper now sees. It finds a person, follows them across a
 room, steps around furniture using nothing but bounding-box geometry, and
 (optionally) knows *which* person is yours. In the robot foundation model
-lab, a language model will drive the very ``begin_tracking()`` API you tested
-today — "follow that person" is about to become a sentence.
+lab, a language model will drive a follow skill just like the
+``begin_tracking()`` API you tested today — "follow that person" is about to
+become a sentence.
 
 Resources
 -----------
