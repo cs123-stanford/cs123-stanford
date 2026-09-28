@@ -5,35 +5,30 @@ Part 0: Update Your Pupper (Do This First)
 ------------------------------------------
 
 Before anything else, bring your Pupper's software up to the current CS 123 build. The
-update script runs on your **laptop** and sets up the Pupper over SSH: it updates the Pupper
-code, installs the packages this lab's 3D viewer needs, and checks that everything
-worked. The Pupper only needs to be powered on and on the internet, so start it before the
-hardware build.
+update script runs **on the Pupper itself**: it updates the Pupper code, installs the packages
+this lab's 3D viewer needs, and checks that everything worked. The Pupper only needs to be
+powered on and on the internet, so start it before the hardware build.
 
-1. Set up passwordless SSH to your Pupper, since the script connects several times. Enter the
-   password ``rhea123`` one last time:
+1. Open a terminal on the Pupper, either over SSH as in Lab 1 or with the monitor setup.
 
-   .. code-block:: bash
-
-      ssh-copy-id pi@pupper[YOUR_GROUP_NUMBER].local
-
-2. On your laptop, clone the update repository and run the script. Try the dry run first. It
-   checks the Pupper and prints every command without changing anything:
+2. Clone the update repository and run the script. Try the dry run first. It checks the
+   Pupper and prints every command without changing anything:
 
    .. code-block:: bash
 
+      cd ~
       git clone https://github.com/cs123-stanford/pupper_rebase.git
       cd pupper_rebase
-      ./rebase.sh pi@pupper[YOUR_GROUP_NUMBER].local --dry-run
-      ./rebase.sh pi@pupper[YOUR_GROUP_NUMBER].local
+      ./rebase_local.sh --dry-run
+      ./rebase_local.sh
 
-3. The script ends with a list of ``PASS``/``FAIL`` checks. All of them should say ``PASS``.
-   If any fail, or the script stops with ``ABORT``, ask a TA before moving on.
+3. The script ends with a list of ``PASS``/``FAIL`` checks and then ``REBASE OK``. If you see
+   ``REBASE FAILED`` or ``ABORT``, ask a TA before moving on.
 
 .. note::
-   The script needs ``bash``, ``ssh`` and ``rsync``, which macOS and Linux already have. On
-   Windows, run it from WSL. Your SSH connection may drop for a moment near the end while
-   the WiFi pairing tool installs. That's expected, and the script waits for it.
+   Near the end, the WiFi pairing tool installs and your SSH connection may drop for a
+   moment. That's expected: the update keeps running in the background. Reconnect and run
+   ``tail -f ~/cs123-rebase.log`` to watch it finish.
 
 Goal
 ----
