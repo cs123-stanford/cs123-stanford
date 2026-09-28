@@ -14,7 +14,7 @@ Week 2 To-Do List
 -----------------
 
 1. **Attend lecture** Monday 9/28, 3:30 PM in STLC 114.
-2. **Update your Pupper first.** Part 0 of Lab 2 runs an update script from your laptop over SSH. Start it before the hardware build — the Pupper only needs to be powered on and online.
+2. **Update your Pupper first.** Part 0 of Lab 2 runs an update script on the Pupper itself. Start it before the hardware build — the Pupper only needs to be powered on and online.
 3. **Finish the robot build** — the three remaining legs (Part 1 of Lab 2). The build videos are password protected; the password is posted on Ed.
 4. **Work on Lab 2 in office hours.** TA office hour times are listed on the course home page.
 5. **Submit Lab 2** by Monday 10/5.
