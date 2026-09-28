@@ -9,7 +9,21 @@ update script runs **on the Pupper itself**: it updates the Pupper code, install
 this lab's 3D viewer needs, and checks that everything worked. The Pupper only needs to be
 powered on and on the internet, so start it before the hardware build.
 
-1. Open a terminal on the Pupper, either over SSH as in Lab 1 or with the monitor setup.
+1. Open a terminal on the Pupper, over SSH or with the monitor setup from Lab 1.
+
+   This room has no private network, so ``pupper[YOUR_GROUP_NUMBER].local`` won't resolve.
+   Connect both your laptop and the Pupper to the **Stanford Visitor** WiFi, find the Pupper's
+   IP address with ``ip a``, and SSH by IP address with password ``rhea123``. The
+   :doc:`ssh-over-wifi` guide walks through it:
+
+   .. code-block:: bash
+
+      ssh pi@<pupper_ip_address>
+
+   .. tip::
+      Typing the IP address and password every time gets old. Later, in Gates B08, you can
+      set up passwordless SSH by running ``ssh-copy-id pi@pupper[YOUR_GROUP_NUMBER].local``
+      once from your laptop.
 
 2. Clone the update repository and run the script. Try the dry run first. It checks the
    Pupper and prints every command without changing anything:
