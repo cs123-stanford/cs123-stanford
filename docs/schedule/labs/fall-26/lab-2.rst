@@ -1,6 +1,40 @@
 Lab 2: Forward Kinematics
 =========================
 
+Part 0: Update Your Pupper (Do This First)
+------------------------------------------
+
+Before anything else, bring your Pupper's software up to the current CS 123 build. The
+update script runs on your **laptop** and sets up the Pupper over SSH: it updates the Pupper
+code, installs the packages this lab's 3D viewer needs, and checks that everything
+worked. The Pupper only needs to be powered on and on the internet, so start it before the
+hardware build.
+
+1. Set up passwordless SSH to your Pupper, since the script connects several times. Enter the
+   password ``rhea123`` one last time:
+
+   .. code-block:: bash
+
+      ssh-copy-id pi@pupper[YOUR_GROUP_NUMBER].local
+
+2. On your laptop, clone the update repository and run the script. Try the dry run first. It
+   checks the Pupper and prints every command without changing anything:
+
+   .. code-block:: bash
+
+      git clone https://github.com/cs123-stanford/pupper_rebase.git
+      cd pupper_rebase
+      ./rebase.sh pi@pupper[YOUR_GROUP_NUMBER].local --dry-run
+      ./rebase.sh pi@pupper[YOUR_GROUP_NUMBER].local
+
+3. The script ends with a list of ``PASS``/``FAIL`` checks. All of them should say ``PASS``.
+   If any fail, or the script stops with ``ABORT``, ask a TA before moving on.
+
+.. note::
+   The script needs ``bash``, ``ssh`` and ``rsync``, which macOS and Linux already have. On
+   Windows, run it from WSL. Your SSH connection may drop for a moment near the end while
+   the WiFi pairing tool installs. That's expected, and the script waits for it.
+
 Goal
 ----
 Implement forward kinematics for all four legs of the Pupper robot using ROS2 and Python, and
