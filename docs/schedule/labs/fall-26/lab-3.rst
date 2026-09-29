@@ -58,45 +58,61 @@ Part 0: Setup
 
       * - File
         - What it is
-      * - ``part_1_ik.py``
-        - Parts 1–3. One leg: FK, IK, and trajectory tracking.
-      * - ``part_1.yaml``, ``part_1.launch.py``
+      * - ``kinematics.py``
+        - Parts 1–2. Your lab 2 FK for all four legs, and IK. Both part files import it.
+      * - ``ik.py``
+        - Part 3. One leg: trajectory tracking.
+      * - ``ik.yaml``, ``ik.launch.py``
         - Controller stack for Part 1. Commands 3 joints.
-      * - ``part_2_walking.py``
-        - Parts 4–5. Four legs: FK, trot keyframes, gait loop.
-      * - ``part_2.yaml``, ``part_2.launch.py``
+      * - ``walking.py``
+        - Parts 4–5. Four legs: trot keyframes, gait loop.
+      * - ``walking.yaml``, ``walking.launch.py``
         - Controller stack for Part 2. Commands all 12 joints.
       * - ``extension/``
         - Part 6. Live gait tuning.
 
-   The TODOs are numbered 1–13 and run in the same order as this handout.
+   The TODOs are numbered 1–11 and run in the same order as this handout.
 
 .. warning::
-   Only one program may drive the motors at a time. Stop ``part_1_ik.py`` before you
-   start ``part_2_walking.py``, and stop both before you run the gait tuner in Part 6.
+   Only one program may drive the motors at a time. Stop ``ik.py`` before you
+   start ``walking.py``, and stop both before you run the gait tuner in Part 6.
    Keep Pupper on its stand unless the handout says otherwise.
 
-Part 1: Forward Kinematics on the Right Front Leg
---------------------------------------------------
+Part 1: Bring In Your Forward Kinematics
+-----------------------------------------
 
-1. Open ``part_1_ik.py`` and locate the ``forward_kinematics`` method in the
-   ``InverseKinematics`` class.
+Both parts of this lab need forward kinematics, so it lives in one shared file,
+``kinematics.py``, that ``ik.py`` and ``walking.py`` both import.
 
-2. In this lab we use the right front leg of Pupper. **TODO 1:** implement the
-   ``forward_kinematics`` method for the right front leg. This should be very similar to
-   your implementation of the front left leg from lab 2. You can refer to the
+1. Open ``kinematics.py`` and find the ``LegKinematics`` class.
+
+2. **TODO 1:** Paste your ``rotation_x``, ``rotation_y``, ``rotation_z``, ``translation``,
+   ``fk_front_left``, ``fk_front_right``, ``fk_back_left``, and ``fk_back_right`` methods
+   from lab 2's ``forward_kinematics.py`` over the stubs. The names and arguments match
+   lab 2, so they paste in unchanged. If you are still finishing lab 2, paste what you have
+   and finish it here — it is the same code, and the
    `lab 2 slides <https://docs.google.com/presentation/d/1vwDEvQWVjKgC3QcV1UTe0rU-a5v4iTH6/edit?usp=sharing&ouid=116833000630199851799&rtpof=true&sd=true>`_
-   for the FK transformations on the right leg.
+   have the transforms.
+
+3. Check it without the robot:
+
+   .. code-block:: bash
+
+      python3 kinematics.py
+
+   The foot positions it prints for the zero pose should match what your lab 2 viewer
+   showed with every joint at zero.
 
 Part 2: Implement Inverse Kinematics
 ------------------------------------
 
-Find the ``inverse_kinematics`` method in the ``InverseKinematics`` class.
+Find the ``inverse_kinematics`` function in ``kinematics.py``. It takes the FK function
+of the leg to solve for (``leg_fk``), so the same solver works for all four legs.
 
 **TODO 2:** Implement the ``cost_function(theta)`` for inverse kinematics. This function
 returns ``cost``, a scalar, and ``l1``, a vector of size 3.
 
-- Use the ``forward_kinematics`` method to get the current end-effector position.
+- Use ``leg_fk`` to get the current end-effector position.
 - Calculate the L1 distance between the current and target end-effector positions.
 - Return the sum of squared L1 distances as the cost (AKA the squared L2 norm of the error vector).
 
@@ -120,10 +136,13 @@ numerical gradient for inverse kinematics.
 
 **TODO 4:** Implement the gradient descent algorithm for inverse kinematics.
 
-- Define the learning rate, maximum number of iterations, and tolerance as hyperparameters. We recommend starting with a relatively large learning rate (e.g., 5), which is higher than what is typically used when training neural networks. Tolerance is measured in meters.
+- Set the default learning rate, maximum number of iterations, and tolerance in the function signature. We recommend starting with a relatively large learning rate (e.g., 5), which is higher than what is typically used when training neural networks. Tolerance is measured in meters.
 - Update the joint angles using the calculated gradient.
 - Stop the iteration if the mean L1 distance is below the tolerance.
 - Bonus: Implement a quasi-Newton's method for faster convergence. Check out the `BFGS method <https://en.wikipedia.org/wiki/BFGS_method>`_ if you're feeling ambitious. This method estimates the inverse Hessian matrix using the gradient and the previous iterations. (Part 6 will show you what this buys you.)
+
+Run ``python3 kinematics.py`` again. The IK round trip at the end should report a foot
+error of a few millimeters or less for every leg.
 
 **DELIVERABLE:** We use squared L2 norm for our cost function (AKA objective function or loss function). Why is this a useful objective? Why not use L1?
 
@@ -134,7 +153,9 @@ numerical gradient for inverse kinematics.
 Part 3: Trajectory Generation and Tracking
 -------------------------------------------
 
-Locate the ``interpolate_triangle`` method in the ``InverseKinematics`` class.
+Open ``ik.py``. It imports ``fr_leg_fk`` and ``inverse_kinematics`` from
+``kinematics.py`` and drives only the front right leg. Locate the ``interpolate_triangle``
+method in the ``InverseKinematics`` class.
 
 **TODO 5:** Implement the interpolation for the triangular trajectory.
 
@@ -163,13 +184,13 @@ Run and test your implementation
 
    .. code-block:: bash
 
-      ros2 launch part_1.launch.py
+      ros2 launch ik.launch.py
 
 2. On a separate terminal, run the node:
 
    .. code-block:: bash
 
-      python3 part_1_ik.py
+      python3 ik.py
 
 3. Observe the leg's movement and the terminal output.
 
@@ -195,8 +216,11 @@ Run and test your implementation
 Part 4: From One Leg to Four
 -----------------------------
 
-Open ``part_2_walking.py``. It has the same shape as ``part_1_ik.py``, but it commands
-all twelve joints and it precomputes a whole gait cycle before it starts publishing.
+Open ``walking.py``. It has the same shape as ``ik.py``, but it commands
+all twelve joints and it precomputes a whole gait cycle before it starts publishing. It
+imports the same ``kinematics.py``: ``LEG_FK`` holds the FK function for each leg, and
+``cache_target_joint_positions`` calls your ``inverse_kinematics`` once per leg per frame.
+There is nothing to copy over. Anything you fix in ``kinematics.py`` fixes both parts.
 
 .. raw:: html
 
@@ -206,22 +230,6 @@ all twelve joints and it precomputes a whole gait cycle before it starts publish
 
 |
 
-**TODO 7:** Bring forward the code you already wrote. Paste your ``rotation_x``,
-``rotation_y``, ``rotation_z``, and ``translation`` helpers into the top of the file, and
-your cost function, gradient, hyperparameters, and gradient descent loop into
-``inverse_kinematics_single_leg``. These are marked ``[already done in Part 1]``.
-
-Note that ``inverse_kinematics_single_leg`` takes a ``leg_index`` and solves against that
-leg's FK function, and that the notation is slightly different from Part 1.
-
-**TODO 8:** Implement forward kinematics for the front left, back right, and back left
-legs in ``fl_leg_fk``, ``br_leg_fk``, and ``bl_leg_fk``.
-
-- Use the provided ``fr_leg_fk`` method, along with the diagrams from lab 2, as a reference.
-- Adjust the transformations to account for the different leg positions and orientations. (*Hint:* You essentially need to do an equivalent FK on each of the other legs)
-
-**DELIVERABLE:** You might notice that the ``fr_leg_fk`` method pre-implemented in ``part_2_walking.py`` looks different than your implementation in Part 1. Are they functionally different? If so, why do we need to make these changes here? If not, how are they empirically the same?
-
 **DELIVERABLE:** An underactuated system is one that has more degrees of freedom that can be controlled than the number of independently controlled actuators. How many degrees of freedom does Pupper have? Is it an underactuated system?
 
 **DELIVERABLE:** Why are under-actuated systems more challenging to control?
@@ -229,12 +237,12 @@ legs in ``fl_leg_fk``, ``br_leg_fk``, and ``bl_leg_fk``.
 Part 5: Implement the Trotting Gait
 ------------------------------------
 
-**TODO 9:** Implement the trotting gait trajectory in ``__init__``.
+**TODO 7:** Implement the trotting gait trajectory in ``__init__``.
 
 - Define the positions for each leg's trajectory in the trotting gait.
 - Set the appropriate values for ``rf_ee_triangle_positions``, ``lf_ee_triangle_positions``, ``rb_ee_triangle_positions``, and ``lb_ee_triangle_positions``.
 - Tip: Think about why we are giving you six reference positions for each leg, instead of just three as in Part 1.
-- This is where your answer to the Raibert-heuristic deliverable in Part 3 gets implemented — which legs share a phase, and which are half a cycle apart?
+- This is where your answer to the Raibert-heuristic deliverable in Part 3 gets implemented.
 
 This image describes the reference positions for each leg.
 
@@ -244,7 +252,7 @@ This image describes the reference positions for each leg.
 
     Reference positions for each leg.
 
-**TODO 10:** Implement ``interpolate_triangle`` for all 4 legs.
+**TODO 8:** Implement ``interpolate_triangle`` for all 4 legs.
 
 - Use the provided ``ee_triangle_positions`` for each leg.
 - Here ``t`` is a float between 0 and 1 covering one full gait cycle, and each leg has six keyframes instead of three.
@@ -263,20 +271,20 @@ Run and test your implementation
    .. code-block:: bash
 
       cd ~/ik_heuristic_walking_lab
-      ros2 launch part_2.launch.py
+      ros2 launch walking.launch.py
 
 2. In a separate terminal:
 
    .. code-block:: bash
 
-      python3 part_2_walking.py
+      python3 walking.py
 
 3. Observe the robot's movement and the terminal output, and verify that the robot is
    performing a trotting gait.
 
 .. note::
    Startup runs your IK 200 times (50 frames × 4 legs) and takes a few seconds. Once
-   your gait works, ``python3 part_2_walking.py --save-cache`` writes the result to
+   your gait works, ``python3 walking.py --save-cache`` writes the result to
    ``joint_positions_cache.npz`` and ``--use-cache`` loads it back instantly. Rebuild the
    cache whenever you change the keyframes — ``--use-cache`` will happily replay a stale
    gait, which is a confusing bug to chase.
@@ -294,7 +302,7 @@ Analyze and improve performance
 
 2. Adjust the ``ik_timer_period`` to find the best balance between performance and computational load.
 
-3. As described in lecture, the center of mass of the robot influences how the robot can walk, whether forward or backward. Play around with the offset values in the ``ee_positions``, and see how that affects performance.
+3. As described in lecture, the center of mass of the robot influences how the robot can walk, whether forward or backward. Play around with the offset values (``rf_ee_offset`` and the others), and see how that affects performance.
 
 **DELIVERABLE:** Implement two gaits for Pupper. Make Pupper walk fast, and walk slow. Include videos of Pupper walking fast and walking slow with your submission to Gradescope.
 
@@ -348,12 +356,12 @@ Start in **visualize-only** mode — nothing touches the motors:
 Open the URL it prints (``http://<pi-ip>:8080``) in a browser.
 
 To drive the real robot, put Pupper on its stand, bring up the same controller stack you
-used in Part 5, and run the tuner **instead of** ``part_2_walking.py``:
+used in Part 5, and run the tuner **instead of** ``walking.py``:
 
 .. code-block:: bash
 
    # terminal 1
-   ros2 launch ~/ik_heuristic_walking_lab/part_2.launch.py
+   ros2 launch ~/ik_heuristic_walking_lab/walking.launch.py
    # terminal 2
    cd ~/pupper-gait-tuner && python3 main.py
 
@@ -409,8 +417,8 @@ or one leg's step height to 0.3.
 explain what that tells you about how you would make Pupper turn without adding any new
 control code.
 
-Exercise 5 (TODO 11): Add your own gaits
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exercise 5 (TODO 9): Add your own gaits
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Open ``gait.py`` in your clone of the tuner and find the ``GAIT_PATTERNS`` dictionary.
 Each entry maps a leg name to the fraction of the cycle at which that leg starts its
@@ -421,8 +429,8 @@ are a good place to start. New entries appear in the Preset dropdown automatical
 them. Did it work? If it didn't, was the problem the gait itself or the fact that this
 controller has no feedback?
 
-Exercise 6 (TODO 12): Change the swing arc
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exercise 6 (TODO 10): Change the swing arc
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In ``foot_position()`` in ``gait.py``, the swing phase lifts the foot on a half-sine arc
 while sweeping ``x`` linearly:
@@ -446,10 +454,10 @@ go to zero at touchdown — a cycloid is the standard choice:
 Does the foot scuffing change? Does the peak clearance change? Explain why the two
 profiles pass through the same start, end, and peak points but behave differently.
 
-Exercise 7 (TODO 13): Bring your gait home
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exercise 7 (TODO 11): Bring your gait home
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A tuned gait is a set of continuous parameters; ``part_2_walking.py`` wants six keyframes
+A tuned gait is a set of continuous parameters; ``walking.py`` wants six keyframes
 per leg. Implement ``keyframes_for_leg`` in ``extension/tuned_params_to_keyframes.py`` to
 convert one into the other, then run it with the parameters you liked:
 
@@ -458,7 +466,7 @@ convert one into the other, then run it with the parameters you liked:
    cd ~/ik_heuristic_walking_lab/extension
    python3 tuned_params_to_keyframes.py --pattern trot --step-length 0.12 --frequency 2.5
 
-Paste the output over the keyframes in ``part_2_walking.py`` and run your own code again.
+Paste the output over the keyframes in ``walking.py`` and run your own code again.
 
 **DELIVERABLE:** Run the converter with the tuner's defaults (``--step-length 0.10
 --step-height 0.09 --body-height 0.14 --duty 0.67``). Compare the numbers it prints to
@@ -466,12 +474,12 @@ the keyframes you hand-wrote in Part 5. What do you notice, and what does that t
 about the relationship between "picking keyframes" and "picking gait parameters"?
 
 **DELIVERABLE:** Take a video of Pupper walking with your tuned gait running from
-``part_2_walking.py`` (not the tuner). Race it against your Part 5 time.
+``walking.py`` (not the tuner). Race it against your Part 5 time.
 
 Why the tuner can do this live
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Your ``inverse_kinematics_single_leg`` takes roughly 9 seconds to build a 50-frame,
+Your ``inverse_kinematics`` takes roughly 9 seconds to build a 50-frame,
 4-leg cache. The tuner builds the same cache in about 30 milliseconds with sub-micron
 error, using identical kinematics. Two changes get it there: every frame and leg is
 solved as one batched numpy operation instead of a Python loop, and the solver is
@@ -486,10 +494,9 @@ Gauss-Newton converge in ~5 iterations when gradient descent needs 100?
 Additional Notes
 ----------------
 
-- The ``inverse_kinematics`` method uses gradient descent. Ensure you understand how the cost function and gradient are calculated.
+- The ``inverse_kinematics`` function uses gradient descent. Ensure you understand how the cost function and gradient are calculated.
 - ``interpolate_triangle`` should create a continuous trajectory between the defined points, in both parts.
 - ``cache_target_joint_positions`` pre-calculates joint positions for a full gait cycle. Understand how this affects the system's performance.
-- Pay attention to the coordinate transformations for each leg, as they are crucial for correct movement.
 
 Congratulations on completing Lab 3! You have gone from solving for one leg's joint
 angles to a walking quadruped. This experience with inverse kinematics and heuristic gait
