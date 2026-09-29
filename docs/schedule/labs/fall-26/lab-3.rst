@@ -18,11 +18,8 @@ code.
 Lab Review Slides: `Inverse kinematics slides <https://docs.google.com/presentation/d/1NvK2dUOB0lqD47rk3x3e-lUMVMnwtgSr/edit#slide=id.g2f9b22e15a6_0_233>`_,
 `heuristic gait slides <https://docs.google.com/presentation/d/1KhDySk7tXiDoaovGN39XFggkJt5WCZ5Ue0DzZhLcDKU/edit?usp=sharing>`_
 
-.. TODO(staff): replace the two lab-document links below with the single merged
-   lab document for this offering before releasing the lab.
-
-Please also fill out the lab document: `Part 1 questions <https://docs.google.com/document/d/1X1UOZr6DPuhhVHxnpaHo7VfXr0YNnqKPDF-i4rvzxN8/edit?usp=sharing>`_,
-`Part 2 questions <https://docs.google.com/document/d/1_ZpwR8OAQS39QISJryON0GBG1AbQ2RqVT3LJr9OzBZ8/edit?usp=sharing>`_
+Please also fill out the `Lab 3 document <https://docs.google.com/document/d/1OQQLLXjiOJNvsMC18QwT5ChyXygl1cP2UTDjPQn13wE/edit?usp=sharing>`_
+(make a copy, answer each DELIVERABLE under its Part, and submit it to Gradescope).
 
 .. raw:: html
 

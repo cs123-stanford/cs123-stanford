@@ -29,7 +29,7 @@ We also gathered data using just the slopes without additional materials. Combin
 
 Data Collection
 ---------------
-We're building on the code from lab 3 (``part_1_ik.py``), using the triangular motion pattern you implemented. Pupper executes this motion with its right front leg, making contact with various slopes and surfaces using the DenseTact sensor. To optimize data collection, we programmed a 1-second pause when contact is detected, followed by a 1-second sliding motion along the programmed trajectory. This approach maximizes the number of contact-state images we can collect while minimizing the required motion repetitions.
+We're building on the code from lab 3 (``ik.py``), using the triangular motion pattern you implemented. Pupper executes this motion with its right front leg, making contact with various slopes and surfaces using the DenseTact sensor. To optimize data collection, we programmed a 1-second pause when contact is detected, followed by a 1-second sliding motion along the programmed trajectory. This approach maximizes the number of contact-state images we can collect while minimizing the required motion repetitions.
 
 For contact detection, we developed a reference-based system using pre-collected and preprocessed images for both contact and non-contact states. During operation, the system captures and processes frames (with center cropping and resizing), then computes mean absolute differences against the reference images. By comparing these differences, we can efficiently determine contact state at 10Hz. You will implement this in a later part of this lab.
 
