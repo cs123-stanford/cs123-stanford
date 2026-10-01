@@ -9,14 +9,8 @@ Part 2 you extend that to all four legs and coordinate them into a gait. In the
 extension you tune gaits live in the browser and bring what you find back into your own
 code.
 
-.. note::
-   This lab combines what used to be two separate labs. Parts 1–3 get one leg tracking a
-   trajectory; Parts 4–5 turn that into a walking gait. **Part 6 is an optional
-   extension** — do it if you want to go deeper on gaits, and feel free to keep working
-   on it after the deadline or fold it into your final project.
 
-Lab Review Slides: `Inverse kinematics slides <https://docs.google.com/presentation/d/1NvK2dUOB0lqD47rk3x3e-lUMVMnwtgSr/edit#slide=id.g2f9b22e15a6_0_233>`_,
-`heuristic gait slides <https://docs.google.com/presentation/d/1KhDySk7tXiDoaovGN39XFggkJt5WCZ5Ue0DzZhLcDKU/edit?usp=sharing>`_
+Lab Review Slides: `Inverse kinematics & Heuristic Gait slides <https://docs.google.com/presentation/d/1NvK2dUOB0lqD47rk3x3e-lUMVMnwtgSr/edit#slide=id.g2f9b22e15a6_0_233>`_,
 
 Please also fill out the `Lab 3 document <https://docs.google.com/document/d/1OQQLLXjiOJNvsMC18QwT5ChyXygl1cP2UTDjPQn13wE/edit?usp=sharing>`_
 (make a copy, answer each DELIVERABLE under its question number, Q1–Q24, and submit it to Gradescope).
@@ -35,7 +29,7 @@ We expect you to complete this lab without AI: please don't use coding agents su
 or Codex to write the TODOs or answer the deliverables. Inverse kinematics and the heuristic gait
 are core material, and working through them yourself is the point of the lab. You are welcome, and
 encouraged, to use AI tools to understand the material better — for example, to ask about gradient
-descent, finite differences, or why a trot keeps Pupper stable.
+descent, finite differences, or why a trot keeps Pupper stable :)
 
 Part 0: Setup
 -------------
