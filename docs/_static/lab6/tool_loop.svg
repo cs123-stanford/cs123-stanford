@@ -25,8 +25,8 @@
   <!-- TOOL LAYER -->
   <rect x="390" y="70" width="170" height="90" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
   <text x="475" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#e65100">TOOL LAYER</text>
-  <text x="475" y="122" text-anchor="middle" font-size="11.5" fill="#8d5524">geminiLive.ts: tools</text>
-  <text x="475" y="138" text-anchor="middle" font-size="11.5" fill="#8d5524">tool_server.py: actions</text>
+  <text x="475" y="122" text-anchor="middle" font-size="11.5" fill="#8d5524">tools.py: the tools</text>
+  <text x="475" y="138" text-anchor="middle" font-size="11.5" fill="#8d5524">tool_server.py: the robot</text>
 
   <!-- ROBOT -->
   <rect x="610" y="70" width="130" height="90" rx="12" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
