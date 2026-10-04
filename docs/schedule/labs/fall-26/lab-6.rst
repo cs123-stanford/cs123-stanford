@@ -18,10 +18,9 @@ happened. Then train Pupper to sit, stay and shake a paw.*
    **(Google DeepMind).** This lab is built on his project
    (`sippeyxp/gemini-pupper <https://github.com/sippeyxp/gemini-pupper>`_). Thank you, Peng!
 
-Last year this lab was called *Do What I Say*: Pupper turned your voice
-into commands. Since then, robot foundation models have taken over the
-"brain" of robots: models like Gemini can listen, look through a camera,
-reason about what you want, and decide what to do. But a foundation model
+Robot foundation models are becoming the "brain" of robots: models like
+Gemini can listen, look through a camera, reason about what you want, and
+decide what to do. But a foundation model
 cannot move a single motor. It can only **call tools**. So here is the
 picture for this lab:
 
