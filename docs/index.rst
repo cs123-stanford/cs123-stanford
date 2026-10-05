@@ -154,7 +154,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 **TA Office Hours (subject to change 1st week by classroom availability):**
 
     * Ankush: Mondays 9:30am - 11:00am, Thursdays 9:30am - 11:00am
-    * JC: Tuesdays 3:00pm - 5:00pm, Thursdays 3:00pm - 5:00pm, `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
+    * JC: Tuesdays 3:00pm - 5:00pm, Thursdays 3:00pm - 5:00pm (Gates B02), `additional hours <https://calendly.com/jchu0822/cs-123-additional-oh>`_ by appointment.
 
 **Prerequisites:**
 
@@ -178,7 +178,7 @@ This course offers a hands-on introduction to AI-powered robotics. Unlike most i
 *Final project:* No extensions are allowed for the final project proposal, progress report, or final demo video/presentation.
 
 **Optional Labs:**
-Two optional labs will be offered this quarter, with the first released in Week 3 and second in Week 4. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts way beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
+Three optional labs will be offered this quarter, with the first released in Week 3. These labs will be significantly more challenging and time-consuming than the regular labs. They may involve concepts way beyond the scope of this course and the given prerequisites, and are intentionally open-ended. There are no due dates for these labs—students are encouraged to work on them at their own pace and are welcome to develop them further as part of their final projects.
 TAs will be available to support students working on the optional labs during their office hours.
 
 **Quizzes** 
