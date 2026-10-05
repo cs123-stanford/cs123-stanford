@@ -237,7 +237,7 @@ Part 5: Implement the Trotting Gait
 
 This image describes the reference positions for each leg.
 
-.. figure:: ../../../_static/triangle_swing_states.png
+.. figure:: ../../../_static/triangle_swing.png
     :align: center
     :width: 60%
 
