@@ -202,13 +202,9 @@ Run and test your implementation
 
 **DELIVERABLE (Q5):** Take a video of the robot leg tracking the triangular trajectory and submit it with your submission. The triangle motion should be smooth and continuous based on your implementation.
 
-**DELIVERABLE (Q6):** Review question: Why do we need the damping term in PD control? What will happen if damping is too high? Too low?
+**DELIVERABLE (Q6):** What will the behavior look like if the IK timer has too low of an update frequency? What will happen if the update frequency is too high? Experiment with different frequencies, and upload a video describing each of the cases you notice.
 
-**DELIVERABLE (Q7):** What will the behavior look like if the IK timer has too low of an update frequency? What will happen if the update frequency is too high? Experiment with different frequencies, and upload a video describing each of the cases you notice.
-
-**DELIVERABLE (Q8):** How does the initial guess affect the inverse kinematics convergence? What is the behavior of the optimizer when the initial guess is very poor? Take a video of what happens with the robot and upload it to Google Drive.
-
-**DELIVERABLE (Q9):** Say you are running this controller for a Pupper walking trajectory. What will the behavior look like if K_p is too low? Take a video of what happens with the robot and upload it to Google Drive.
+**DELIVERABLE (Q7):** How does the initial guess affect the inverse kinematics convergence? What is the behavior of the optimizer when the initial guess is very poor? Take a video of what happens with the robot and upload it to Google Drive. (with caution)
 
 Part 4: From One Leg to Four
 -----------------------------
@@ -227,7 +223,7 @@ There is nothing to copy over. Anything you fix in ``kinematics.py`` fixes both 
 
 |
 
-**DELIVERABLE (Q10):** An underactuated system is one that has more degrees of freedom that can be controlled than the number of independently controlled actuators. How many degrees of freedom does Pupper have? Is it an underactuated system? Why are under-actuated systems more challenging to control?
+**DELIVERABLE (Q8):** An underactuated system is one that has more degrees of freedom that can be controlled than the number of independently controlled actuators. How many degrees of freedom does Pupper have? Is it an underactuated system? Why are under-actuated systems more challenging to control?
 
 Part 5: Implement the Trotting Gait
 ------------------------------------
@@ -254,7 +250,7 @@ This image describes the reference positions for each leg.
 - Implement linear interpolation between the trajectory points based on the input time ``t``. (*Hint:* As you probably experienced in Part 1, we suggest writing a custom weighted sum function to perform interpolation, rather than calling ``np.interp``)
 - Ensure the trajectory loops smoothly for each leg.
 
-**DELIVERABLE (Q11):** You have implemented trotting. What are some other gaits that Pupper could exhibit, and why/when would they be useful? List 3 alternative gaits, and the potential setbacks that may prevent Pupper from exhibiting them. (You will get to try yours in Part 6.)
+**DELIVERABLE (Q9):** You have implemented trotting. What are some other gaits that Pupper could exhibit, and why/when would they be useful? List 3 alternative gaits, and the potential setbacks that may prevent Pupper from exhibiting them. (You will get to try yours in Part 6.)
 
 Run and test your implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -282,11 +278,11 @@ Run and test your implementation
    cache whenever you change the keyframes — ``--use-cache`` will happily replay a stale
    gait, which is a confusing bug to chase.
 
-**DELIVERABLE (Q12):** Take a video of the robot performing the trotting gait and submit it with your submission. This can be taken with Pupper on the stand.
+**DELIVERABLE (Q10):** Take a video of the robot performing the trotting gait and submit it with your submission. This can be taken with Pupper on the stand.
 
-**DELIVERABLE (Q13):** The controller implemented is a "heuristic" controller. That means it follows a pre-programmed trajectory, and doesn't use online (real-time) sensor feedback outside the motor to optimize its trajectory. What are some potential pitfalls of this approach? How will Pupper react if you push it?
+**DELIVERABLE (Q11):** The controller implemented is a "heuristic" controller. That means it follows a pre-programmed trajectory, and doesn't use online (real-time) sensor feedback outside the motor to optimize its trajectory. What are some potential pitfalls of this approach? How will Pupper react if you push it?
 
-**DELIVERABLE (Q14):** Many commercial quadrupeds once used model-based controllers that solve an optimization problem online (they all shift to reinforcement learning-based controllers now for locomotion). Why would it be challenging to deploy MBC/MPC on Pupper, which has a lower cost hardware and runs computation on a Raspberry Pi 5?
+**DELIVERABLE (Q12):** Many commercial quadrupeds once used model-based controllers that solve an optimization problem online (they all shift to reinforcement learning-based controllers now for locomotion). Why would it be challenging to deploy MBC/MPC on Pupper, which has a lower cost hardware and runs computation on a Raspberry Pi 5?
 
 Analyze and improve performance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -297,7 +293,7 @@ Analyze and improve performance
 
 3. As described in lecture, the center of mass of the robot influences how the robot can walk, whether forward or backward. Play around with the offset values (``rf_ee_offset`` and the others), and see how that affects performance.
 
-**DELIVERABLE (Q15):** Implement two gaits for Pupper. Make Pupper walk fast, and walk slow. Include videos of Pupper walking fast and walking slow, and report how different trajectory shapes and the center-of-mass offset affected the gait.
+**DELIVERABLE (Q13):** Implement two gaits for Pupper. Make Pupper walk fast, and walk slow. Include videos of Pupper walking fast and walking slow, and report how different trajectory shapes and the center-of-mass offset affected the gait.
 
 Make Pupper even faster, and race!
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -306,7 +302,7 @@ Make Pupper even faster, and race!
 
 2. Time your Pupper's speed to go 10 feet (marked by the tape measure) and race against other groups! *The fastest group will get a prize!*
 
-**DELIVERABLE (Q16):** Report on what you tried to make Pupper go faster — what worked and what didn't? Take a video of you timing Pupper completing the course, and report the fastest time you were able to make Pupper go!
+**DELIVERABLE (Q14):** Report on what you tried to make Pupper go faster — what worked and what didn't? Take a video of you timing Pupper completing the course, and report the fastest time you were able to make Pupper go!
 
 Part 6 (Optional): Live Gait Tuning
 ------------------------------------
@@ -363,7 +359,7 @@ The **Preset** dropdown loads trot, walk, pace, and bound. Each one only changes
 
 Try each preset in the 3D view first, then on the robot.
 
-**DELIVERABLE (Q17):** For each of the four presets, write down the four phase offsets and
+**DELIVERABLE:** For each of the four presets, write down the four phase offsets and
 which legs are in the air at the same time. Which of the four keeps at least two feet on
 the ground at all times? Then set all four leg timings to the same value: what gait is that,
 and why does it behave so differently from a trot even though the foot trajectory is
@@ -374,7 +370,7 @@ Exercise 2: Duty factor
 
 **Duty** is the fraction of the cycle each foot spends planted on the ground.
 
-**DELIVERABLE (Q18):** Sweep duty from 0.4 to 0.9 with a trot. At what value does Pupper stop
+**DELIVERABLE:** Sweep duty from 0.4 to 0.9 with a trot. At what value does Pupper stop
 having all four feet down at any point in the cycle? What does that do to how it walks?
 Report the value you found and what changed.
 
@@ -384,7 +380,22 @@ Exercise 3: Speed vs. stability
 The tuner reports an **estimated body speed** = step length × frequency, assuming the
 feet never slip.
 
-**DELIVERABLE (Q19):** Find the fastest gait you can that still walks in a straight line for
+**DELIVERABLE:** Find the fastest gait you can that still walks in a straight line for
+10 feet. Report the sliders you used, the estimated speed, and the speed you actually
+measured. Why do they disagree, and does the gap grow or shrink as you push the sliders?
+Step length and frequency both raise the estimated speed: which one degrades stability
+faster on the real robot? Give evidence.
+**DELIVERABLE:** Sweep duty from 0.4 to 0.9 with a trot. At what value does Pupper stop
+having all four feet down at any point in the cycle? What does that do to how it walks?
+Report the value you found and what changed.
+
+Exercise 3: Speed vs. stability
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The tuner reports an **estimated body speed** = step length × frequency, assuming the
+feet never slip.
+
+**DELIVERABLE:** Find the fastest gait you can that still walks in a straight line for
 10 feet. Report the sliders you used, the estimated speed, and the speed you actually
 measured. Why do they disagree, and does the gap grow or shrink as you push the sliders?
 Step length and frequency both raise the estimated speed: which one degrades stability
@@ -396,7 +407,7 @@ Exercise 4: Asymmetry
 Open the **per-leg step tuning** section and set one leg's step length multiplier to 1.5,
 or one leg's step height to 0.3.
 
-**DELIVERABLE (Q20):** Take a video of an asymmetric gait. Describe what Pupper does, and
+**DELIVERABLE:** Take a video of an asymmetric gait. Describe what Pupper does, and
 explain what that tells you about how you would make Pupper turn without adding any new
 control code.
 
@@ -408,7 +419,7 @@ Each entry maps a leg name to the fraction of the cycle at which that leg starts
 swing. Add at least **two** of your own patterns — the three gaits you listed in Part 5
 are a good place to start. New entries appear in the Preset dropdown automatically.
 
-**DELIVERABLE (Q21):** Submit your added patterns and a video of Pupper attempting one of
+**DELIVERABLE:** Submit your added patterns and a video of Pupper attempting one of
 them. Did it work? If it didn't, was the problem the gait itself or the fact that this
 controller has no feedback?
 
@@ -433,7 +444,7 @@ go to zero at touchdown — a cycloid is the standard choice:
    x = -\frac{L}{2} + L\left(u - \frac{\sin 2\pi u}{2\pi}\right), \qquad
    z = z_{stance} + h\,\frac{1 - \cos 2\pi u}{2}
 
-**DELIVERABLE (Q22):** Implement it and compare against the sine arc at a high step frequency.
+**DELIVERABLE:** Implement it and compare against the sine arc at a high step frequency.
 Does the foot scuffing change? Does the peak clearance change? Explain why the two
 profiles pass through the same start, end, and peak points but behave differently.
 
@@ -451,7 +462,7 @@ convert one into the other, then run it with the parameters you liked:
 
 Paste the output over the keyframes in ``walking.py`` and run your own code again.
 
-**DELIVERABLE (Q23):** Run the converter with the tuner's defaults (``--step-length 0.10
+**DELIVERABLE:** Run the converter with the tuner's defaults (``--step-length 0.10
 --step-height 0.09 --body-height 0.14 --duty 0.67``). Compare the numbers it prints to
 the keyframes you hand-wrote in Part 5. What do you notice, and what does that tell you
 about the relationship between "picking keyframes" and "picking gait parameters"? Take a
@@ -469,7 +480,7 @@ Gauss-Newton — it builds the 3×3 Jacobian of foot position with respect to jo
 and solves for the step directly, instead of taking many small steps down the gradient.
 Have a look at ``ik_batch()`` in ``gait.py``.
 
-**DELIVERABLE (Q24):** Connect this back to Q3 about numerical versus
+**DELIVERABLE:** Connect this back to Q3 about numerical versus
 analytical gradients. Which of the two changes above mattered more, and why can
 Gauss-Newton converge in ~5 iterations when gradient descent needs 100?
 
