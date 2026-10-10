@@ -225,6 +225,25 @@ lab):
    empty). Close the tab when you're done looking — training runs ~25–30%
    slower while a viewer tab is connected.
 
+.. admonition:: Viewer link shows a 404?
+   :class: warning
+
+   Occasionally the live-viewer link stops working a few minutes into
+   training and shows a **404** page. Your training is not affected — the
+   training cell keeps running and everything still lands on W&B. We are
+   still tracking down the cause, so please help us out:
+
+   1. Without stopping training, add a new code cell (**+ Code**) and run:
+
+      .. code-block:: python
+
+         !tail -40 /content/viewer.log; ps aux | grep watch_live | grep -v grep
+
+   2. Post the **full output** on Ed (along with your ``TASK`` and roughly
+      how many minutes into training the link died).
+   3. To get a viewer back: wait for training to finish and use section 8
+      (Watch it), or re-run the "Watch it live" cell before your next run.
+
 For this step, in section 5 set ``track_linear_velocity`` and
 ``track_yaw_velocity`` to nonzero values, leaving everything else at zero. In
 practice, the linear tracking weight should be more than the angular one.
