@@ -58,7 +58,10 @@ Step 1. Colab and W&B
   reimburse you for the $10 cost — just fill out the
   `reimbursement form here <https://forms.gle/sFHnBEUubMzKw3dT8>`_.
 * **Notebook section 1 (Setup):** run the cell. It clones
-  ``pupper-mjlab`` into ``/content/pupper-mjlab`` and installs it.
+  ``pupper-mjlab`` into ``/content/pupper-mjlab`` and installs it. It is done
+  when it prints ``mjlab ready``. You may see a red ``ERROR: pip's dependency
+  resolver ...`` line about ``moviepy`` and ``decorator`` — that is harmless
+  (Colab's preinstalled ``moviepy`` is never used by this lab); ignore it.
 * To track training progress and compare runs, we use wandb (pronounced
   "weights and biases") to log all our training efforts (*Fun Note:* Weights
   and Biases went through a
@@ -436,11 +439,18 @@ out to be much more closely related than they look.)
 **5b. Deploy your policy**
 
 * On your Pupper, log into the same W&B account you used in the notebook
-  (once):
+  (once), pasting the same API key:
 
   .. code-block:: bash
 
-     wandb login
+     python3 -m wandb login --relogin
+
+  (Use this exact command rather than plain ``wandb login``. W&B's new API
+  keys are longer than older wandb versions accept; the ``./deploy.sh`` you
+  ran in 5a already upgraded wandb, and ``python3 -m wandb`` makes sure you
+  are using the upgraded copy. If login says your key must be 40 characters,
+  run ``cd ~/pupper_gait_deploy && git pull && ./deploy.sh --no-launch``
+  and try again.)
 
 * Grab your run id from the W&B run URL (the last part), then on the Pupper:
 
