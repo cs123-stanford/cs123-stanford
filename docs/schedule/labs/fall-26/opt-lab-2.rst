@@ -24,7 +24,7 @@ Prerequisites
 -------------
 Lab 4, fully — this lab assumes the StableGait sections are muscle memory:
 you know what the 12-dim reference observation is, what ``gait_tracking``
-pays for, and how a run's curves read. Unlike lab 4, nothing here happens in
+rewards, and how a run's curves read. Unlike lab 4, nothing here happens in
 a curated notebook. You will work *in the codebase*:
 
 * **Fork and clone** `pupper-mjlab <https://github.com/cs123-stanford/pupper-mjlab>`_
@@ -137,7 +137,7 @@ specified. That knowledge is sitting in the rollouts. Harvest it:
    physics already endorsed.
 5. **Repeat.** Each round: reference ← rollout of best policy; policy ←
    trained against the new reference. Two to three rounds is typically where
-   the loop stops paying.
+   the loop stops helping.
 
 .. tip::
 
@@ -226,7 +226,7 @@ spelunking:
 What does it train? The task id will not tell you, and neither will the
 docstring — go read it anyway. What we can say: it is MixedGaits with
 something extra. An extra reference slot that the schedule opens now and
-then. Reward machinery that pays for something no other task pays for. And,
+then. Reward machinery that rewards something no other task rewards. And,
 out of the box, only the trot playing in that slot — earning almost none of
 it.
 
