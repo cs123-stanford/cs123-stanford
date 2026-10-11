@@ -726,7 +726,7 @@ exactly what each number controls on lab 3's triangle:
    the duty factor is fixed: every foot spends 4/6 of the cycle in stance and
    2/6 in swing.
 
-**Design questions** — answer these in your lab doc **before** filling in
+**DELIVERABLE** (design questions): Answer these in your lab doc **before** filling in
 numbers. Each one maps to a parameter:
 
 * ``LIFT_STRIDE`` — The trot slides each planted foot backward along the
