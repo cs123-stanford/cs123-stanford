@@ -175,7 +175,11 @@ Two facts about the reward terms that you need before touching any weight:
 * **Negative terms are raw physics.** The penalties multiply unbounded
   physical quantities (torque², rad/s², ...), so their useful magnitudes vary
   wildly between terms. Set them by trial and error, and watch each term's
-  ``Episode_Reward/...`` curve on W&B to see what it actually costs.
+  ``Episode_Reward/...`` curve on W&B to see what it actually costs. **If
+  you notice some of your charts in W&B exploding, check your signs on these
+  terms!** A penalty weight must be negative; a positive weight on an
+  unbounded term rewards the robot for making that quantity as large as it
+  can.
 
 And one fact about judging your runs: **the reward curve is not the metric.**
 Judge runs by ``Metrics/twist/error_vel_xy`` and ``error_vel_yaw`` on W&B
