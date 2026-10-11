@@ -236,7 +236,9 @@ function of the robot's x-velocity when the commanded x-velocity is 1.0 m/s.
 Step 3. From Scratch, Part I: Velocity Tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Let's start with the purest version of the problem: reward the robot for
-matching commanded velocities, and *nothing else*.
+matching commanded velocities, and *nothing else*. Make
+``track_linear_velocity`` nonzero in section 5 of the notebook (use your
+answer above to pick its sign), and let's train your first policy!
 
 **How to launch a training run** (you will repeat this for every run in the
 lab):
