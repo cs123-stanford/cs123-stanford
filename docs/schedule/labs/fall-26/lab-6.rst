@@ -40,19 +40,33 @@ walking!" while Pupper stands perfectly still.
 
 AI Use Suggestion
 ------------------
-Unlike lab 3, a coding agent (Claude Code or Codex) is welcome here, and the
-repo comes with notes for one (``AGENTS.md``). Use it to *explain* code and
-to plan: "read ``behaviors.py`` and explain how ``stand_up`` uses the queue;
-don't edit anything." Then write each TODO yourself, or read every line it
-writes: you have to be able to explain all of it, and the deliverables ask
-you to. Never let an agent move the robot, raise a limit, or weaken a test to
-make something pass. You don't need an agent: every TODO is short, has a card
-in the code that says exactly what it must do, and has its own test.
+**We encourage you to use a coding agent in this lab** (Claude Code or Codex),
+unlike lab 3. Robots like Pupper are built this way now, and the repo comes
+with notes for your agent (``AGENTS.md``). Two conditions:
+
+* **The deliverables are yours.** Answer every DELIVERABLE in your own words,
+  from what you did and saw on your robot. Don't hand the questions to your
+  agent.
+* **Understand everything your agent does.** For every TODO, you should be
+  able to explain what the code does, why it is written that way, and what
+  would go wrong without it, without your agent open. Read every line it
+  writes, and ask it to explain anything you can't explain yourself.
+
+.. important::
+
+   **Quiz 2 tests this.** It asks about the code in this lab: what a TODO
+   does, why it checks what it checks, and what happens when something goes
+   wrong. If your agent wrote it and you never understood it, the quiz will
+   show it.
+
+Good ways to work with an agent are at the end of this handout, in
+`Working With a Coding Agent`_. One rule always holds: never let an agent
+move the robot, raise a limit, or weaken a test to make something pass.
 
 .. important::
 
    **Safety rules for this lab.** Read them now. They apply to you *and* to
-   your coding agent, if you use one.
+   your coding agent.
 
    * Test anything new with Pupper **on the ground, clear space around it, and
      your hand near the e-stop** (press the gamepad's right stick: it relaxes
@@ -75,40 +89,32 @@ Lab roadmap
 
 .. list-table::
    :header-rows: 1
-   :widths: 14 46 20 20
+   :widths: 14 60 26
 
    * - Part
      - What you do
      - TODOs
-     - About
    * - 0
      - Setup; try what Pupper can already do; trace one command
      - (reading)
-     - 1 h
    * - 1
      - **Talk:** the prompt, first pass
      - 1
-     - 0.5 h
    * - 2
      - **Walk:** refuse unsafe moves, the walking job, the move and turn tools
      - 2, 3, 4
-     - 2 h
    * - 3
      - **Follow:** follow mode, and the rule that ends it
      - 5, 6
-     - 1 h
    * - 4
      - **Tricks:** play any trick, and tell Gemini which ones exist
      - 7, 8
-     - 1.5 h
    * - 5
      - **Sit, stay, shake:** build a clip library, train it, give Gemini the actions
      - 9, 10 (+ notebook)
-     - 3 h (training runs in the background)
    * - 6
      - **Together:** the prompt, second pass; demo; reflection
      - 11
-     - 1 h
 
 The TODOs are numbered 1–11 and run in the same order as this handout. In the
 code, each one sits between ``TODO n: YOUR CODE HERE`` banners, under a short
@@ -914,9 +920,9 @@ policy was trained to follow, sent to it once. Give Gemini that jump:
 Want more? :doc:`opt-lab-3` takes you from your own reference motions to a
 dance Gemini can perform.
 
-Working With a Coding Agent (Optional)
---------------------------------------
-If you use one, a few habits help:
+Working With a Coding Agent
+---------------------------
+A few habits that help:
 
 * **Give it checks it can run**: ``python3 robot/test_tools.py todo7``, and the
   notebook's (or ``sit_stay_shake.py``'s) ``ok`` / ``FAIL`` checks.
@@ -927,6 +933,9 @@ If you use one, a few habits help:
   ``curl localhost:8000/system/mode`` are the truth. The agent's summary is
   not.
 * **Don't let it weaken a test or raise a limit** to make something pass.
+* **Make it teach you.** After each TODO: "Explain this function line by line,
+  and tell me what would break if I deleted each check." Then close the agent
+  and explain it to your partner. If you can't, you're not done.
 
 Congratulations! Pupper now listens, answers, and does what it is told, and
 only what it can do safely. You built the leash for a robot foundation model:
