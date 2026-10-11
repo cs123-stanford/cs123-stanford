@@ -620,8 +620,8 @@ current gait phase and the default standing pose.
   it for agreeing.
 
   **Phase** is just time on a modulus: :math:`\phi = (t \bmod T)/T`, where
-  :math:`T` is the length of one gait cycle (1.5 Hz in StableGait, so about
-  0.67 s). It climbs from 0 to 1 over one cycle and then wraps back to 0, like
+  :math:`T` is the length of one gait cycle (StableGait runs 1.5 cycles per
+  second, so :math:`T \approx 0.67` s). It climbs from 0 to 1 over one cycle and then wraps back to 0, like
   the hand of a clock, so ``ref(phase)`` replays the same stride every cycle.
 
 Same network. Same deploy path (the robot reproduces the reference tables from
