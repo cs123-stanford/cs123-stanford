@@ -265,6 +265,20 @@ matching commanded velocities, and *nothing else*.
       empty). Close the tab when you're done looking — training runs ~25–30%
       slower while a viewer tab is connected.
 
+.. important::
+
+   **The viewer does not update on its own.** It loads the first checkpoint of
+   the run and keeps playing that one until you tell it to switch. To see how
+   your run is progressing:
+
+   1. Open the **Checkpoints** tab in the viewer's side panel.
+   2. Click **Use Latest** to load the newest checkpoint. Click it again
+      whenever you want to catch up — new checkpoints keep landing as
+      training runs.
+   3. To pick a specific checkpoint instead (e.g. a mid-training one), click
+      **Sync** to refresh the list, then choose it from the **Checkpoint**
+      dropdown.
+
 **Now train your first policy.** Follow the steps above with
 ``TASK = "Mjlab-VelocityFS-Flat-Pupper-v3"``. In section 5, set
 ``track_linear_velocity`` and ``track_yaw_velocity`` to nonzero values (use
@@ -305,10 +319,12 @@ vibrating? skating on its knees? something more creative?
 
 Step 4. From Scratch, Part II: Good Enough to Deploy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Now shape it into something you can put on a real robot. Add penalty terms to
-kill the exploits — effort, smoothness, stability — and iterate on your weights
-until the policy honestly tracks commands. Each iteration is: edit section 5 →
-run it → run the two section 7 cells.
+**Now train your second policy.** Keep the same task
+(``Mjlab-VelocityFS-Flat-Pupper-v3``) and your step 3 tracking weights, and
+shape the policy into something you can put on a real robot. Add penalty terms
+to kill the exploits — effort, smoothness, stability — and iterate on your
+weights until the policy honestly tracks commands. Each iteration is a new
+training run: edit section 5 → run it → run the two section 7 cells.
 
 * Think about which terms make Pupper conserve energy (``joint_torques_l2``?
   ``joint_acc_l2``?) and which kill the behaviors that shake real robots
