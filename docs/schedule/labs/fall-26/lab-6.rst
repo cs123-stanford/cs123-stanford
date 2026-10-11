@@ -101,7 +101,7 @@ Lab roadmap
      - **Talk:** the prompt, first pass
      - 1
    * - 2
-     - **Walk:** refuse unsafe moves, the walking job, the move and turn tools
+     - **Walk:** refuse unsafe moves, the walking job, the turn and move tools
      - 2, 3, 4
    * - 3
      - **Follow:** follow mode, and the rule that ends it
@@ -388,18 +388,19 @@ Part 2: Walk
 In this part you make Pupper walk, turn and run by voice, and refuse what it
 must not do.
 
-A walk asked for by Gemini goes through three of your functions, from the
+A walk or a turn asked for by Gemini goes through three of your functions, from the
 words to the motors:
 
 .. code-block:: text
 
    "walk forward"  ->  move (tools.py, TODO 4)          words  -> vx, vy, duration
+   "turn left"     ->  turn (tools.py, TODO 4)          words  -> wz_deg, seconds
                    ->  walk (behaviors.py, TODO 3)       check now, queue the job
                          -> check_move (TODO 2)          is this move allowed?
                          -> the job, later               20 speed messages a second
 
 We build them from the inside out: first the safety check, then the walking
-job, then the words Gemini reads.
+job, then the words Gemini reads (``turn`` first, then ``move``).
 
 **TODO 2:** ``check_move`` in ``behaviors.py``: refuse what the robot can't or
 shouldn't do.
@@ -477,38 +478,106 @@ Check it: ``python3 robot/test_tools.py todo3``. The fake robot records every
 speed you send and when, so the test can tell if you sent too few, stopped
 early, or forgot the zero at the end.
 
-**TODO 4:** ``move`` and ``turn`` in ``tools.py``: the tools Gemini calls.
+**TODO 4:** ``turn``, then ``move``, in ``tools.py``: the tools Gemini calls.
+Write ``turn`` first. It's short, and it shows you the whole path from
+Gemini's words to the robot. Then ``move``, the real challenge of this part.
 
 *What Gemini reads.* Gemini picks a tool, and fills in its parameters, only
 from the words in ``@tool(...)``: the tool's description and each parameter's
-description. Replace every ``TODO 4`` there:
+description. For each tool, replace every ``TODO 4`` there:
 
 - Say what the tool does and when to use it. Put the robot's real limits in
   the words: the ``f"..."`` strings can use ``LIMITS.vx_max``,
   ``LIMITS.duration_max`` and the others, so they stay right if a limit
-  changes. Add ``+ ENDS_FOLLOW`` to both descriptions (Part 3 explains it).
+  changes. Add ``+ ENDS_FOLLOW`` to the description (Part 3 explains it).
 - For each parameter: its unit (m/s, seconds, degrees), its range, and its
   default.
 
-*What runs.* The body turns Gemini's words into numbers and calls your
-``walk``:
+**turn: the warm-up.** Turning in place means no forward or sideways speed,
+only a turning speed, for as long as the angle takes:
 
-1. **The speed.** If ``run`` is true and the direction isn't sideways, the
-   speed is at least ``RUN_MIN_SPEED`` (``RUN_DEFAULT_SPEED`` if Gemini gave
-   none); ``max(a, b)`` gives the bigger of two numbers. Otherwise it's
-   ``speed``, or 0.4 m/s if Gemini gave none.
-2. **vx and vy.** Forward is ``+vx``, backward ``-vx``. **Left is +vy**, right
-   ``-vy``: the robot's convention, the opposite of what many people guess.
-3. ``return await behaviors.walk(robot, vx, vy, 0.0, duration)``.
+1. ``wz_deg`` is ``+TURN_SPEED`` (60 deg/s) to the left (counter-clockwise),
+   and ``-TURN_SPEED`` to the right.
+2. The time it takes: ``seconds = abs(angle) / TURN_SPEED``. 90 degrees at
+   60 deg/s takes 1.5 s.
+3. ``return await behaviors.walk(robot, 0.0, 0.0, wz_deg, seconds)``
 
-``turn`` turns in place at ``TURN_SPEED`` degrees per second: ``wz_deg`` is
-``+TURN_SPEED`` to the left (counter-clockwise) and ``-TURN_SPEED`` to the
-right, for ``abs(angle) / TURN_SPEED`` seconds.
+Run ``python3 robot/test_tools.py todo4``: it checks ``turn`` first, on its
+own, so you know it works before you start on ``move``.
+
+**move: the real challenge.** Gemini calls ``move`` with a ``direction`` and,
+if it wants, ``run``, ``speed`` and ``duration``. Anything it leaves out keeps
+the default in the function's signature (``speed`` is ``None`` when Gemini
+gave none). Your job is to turn that into one speed, and then split it into
+``vx`` and ``vy``.
+
+1. **Work out the speed.**
+
+   - *Running* means ``run`` is true **and** the direction is forward or
+     backward. A running speed is at least ``RUN_MIN_SPEED`` (1.0 m/s), and
+     ``RUN_DEFAULT_SPEED`` (1.2 m/s) if Gemini gave no speed. ``max(a, b)``
+     gives the bigger of two numbers: ``max(0.6, RUN_MIN_SPEED)`` is 1.0.
+   - *Otherwise* (walking, or any sideways move, which never runs) it's
+     ``speed``, or 0.4 m/s if Gemini gave none.
+
+2. **Split it by direction.** The robot's convention is +x forward and
+   **+y left**, the opposite of what many people guess:
+
+   .. list-table::
+      :header-rows: 1
+      :widths: 25 25 25
+
+      * - direction
+        - vx
+        - vy
+      * - forward
+        - +speed
+        - 0
+      * - backward
+        - −speed
+        - 0
+      * - left
+        - 0
+        - +speed
+      * - right
+        - 0
+        - −speed
+
+3. ``return await behaviors.walk(robot, vx, vy, 0.0, duration)``
+
+Check your logic against these examples before you run anything. They are
+exactly what the tests ask:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 48 26 26
+
+   * - Gemini calls
+     - vx (m/s)
+     - vy (m/s)
+   * - ``move(direction="forward")``
+     - 0.4
+     - 0
+   * - ``move(direction="backward", speed=0.3)``
+     - −0.3
+     - 0
+   * - ``move(direction="left", speed=0.3)``
+     - 0
+     - 0.3
+   * - ``move(direction="backward", run=True)``
+     - −1.2
+     - 0
+   * - ``move(direction="forward", run=True, speed=0.6)``
+     - 1.0 (run means at least 1.0)
+     - 0
+   * - ``move(direction="right", run=True)``
+     - 0
+     - −0.4 (sideways never runs)
 
 *What "run" means.* The walking policy switches to its running gait above
 about 0.5 m/s, and in this lab "run" means **1.0 m/s or faster**. Gemini might
-call ``move(run=true, speed=0.6)``. Where should the rule live so that this
-still runs: in the description, in code, or both?
+call ``move(run=true, speed=0.6)``. That's why the rule has to be in your
+code, not only in the description. (Q5 asks about it.)
 
 Check it: ``python3 robot/test_tools.py part2`` (TODOs 2–4), then restart
 (``robot/stop.sh && robot/start.sh``) and reconnect in the app.
@@ -525,7 +594,7 @@ Check it: ``python3 robot/test_tools.py part2`` (TODOs 2–4), then restart
 **DELIVERABLE (Q4):** The output of ``python3 robot/test_tools.py part2`` with
 every check passing.
 
-**DELIVERABLE (Q5):** Your ``move`` and ``turn`` descriptions, and one sentence
+**DELIVERABLE (Q5):** Your ``turn`` and ``move`` descriptions, and one sentence
 each on a choice you made (which parameters, which defaults, what the
 description promises). Where is "run means at least 1.0 m/s" enforced, and
 why there?
