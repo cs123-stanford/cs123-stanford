@@ -125,6 +125,18 @@ Almost everything is fixed on purpose — network architecture, PPO
 hyperparameters, observations, terminations. Your entire surface area is a
 handful of ✏️ cells in the notebook:
 
+.. admonition:: Optional: what is PPO?
+
+   PPO (Proximal Policy Optimization) is the RL algorithm that trains your
+   policy. It collects experience from the simulations, then nudges the
+   policy toward actions that earned more reward than expected, while
+   limiting how far each update can move the policy so training stays
+   stable. You don't need to know the details for this lab, but if you are
+   curious, OpenAI's
+   `Spinning Up guide to PPO <https://spinningup.openai.com/en/latest/algorithms/ppo.html>`_
+   is a readable introduction, and the
+   `original paper <https://arxiv.org/abs/1707.06347>`_ has the full method.
+
 .. list-table::
    :header-rows: 1
    :widths: 30 35 35
