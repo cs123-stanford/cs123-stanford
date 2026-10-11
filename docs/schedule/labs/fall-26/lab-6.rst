@@ -18,7 +18,9 @@ question number (Q1–Q22), and submit it to Gradescope.
 
    **Gemini Pupper was created by** `Peng Xu <https://scholar.google.com/citations?user=460NWeQAAAAJ&hl=en>`_
    **(Google DeepMind).** This lab is built on his project
-   (`sippeyxp/gemini-pupper <https://github.com/sippeyxp/gemini-pupper>`_). Thank you, Peng!
+   (`sippeyxp/gemini-pupper <https://github.com/sippeyxp/gemini-pupper>`_), and the
+   terminal chat you meet first (``robot/chat.py``) is based on his minimal Gemini
+   Live example. Thank you, Peng!
 
 Robot foundation models are becoming the "brain" of robots: models like
 Gemini can listen, look through a camera, reason about what you want, and
@@ -76,8 +78,8 @@ move the robot, raise a limit, or weaken a test to make something pass.
      the first time, show a TA its score and the viewer. A badly trained trick
      can slam a paw or the body into the ground.
    * A coding agent never moves the robot on its own: no ``start.sh``, no
-     ``curl`` to a POST endpoint, no ``ros2 topic pub``, unless you say yes,
-     right then, standing at the robot.
+     ``chat.py --robot``, no ``curl`` to a POST endpoint, no ``ros2 topic
+     pub``, unless you say yes, right then, standing at the robot.
    * **Pupper overheats.** Sitting and holding poses load the motors hard. If
      Pupper is hot to the touch or a motor faults, stop, relax the motors
      (``robot/stop.sh``), and let it cool.
@@ -95,7 +97,7 @@ Lab roadmap
      - What you do
      - TODOs
    * - 0
-     - Setup; try what Pupper can already do; trace one command
+     - Setup; meet the loop in your terminal; try what Pupper can already do; trace one command
      - (reading)
    * - 1
      - **Talk:** the prompt, first pass
@@ -306,7 +308,46 @@ Part 0: Setup
    your key. The key goes in ``~/.config/gemini-pupper/api_key`` on the
    Pupper, never in the repo. You can run ``setup.sh`` again at any time.
 
-4. **Wake Pupper up.** Put Pupper on the ground in clear space, then:
+4. **Meet the loop (no robot needed).** Before Pupper, look at the loop
+   itself, in your terminal. ``robot/chat.py`` is based on a short example by
+   Peng Xu: you type, Gemini answers, and every tool call and every reply is
+   printed. Its ``--toy`` mode has a single made-up tool, ``move_robot``, that
+   only prints what it would do. On the Pupper (or on your laptop, after
+   ``python3 -m pip install --user google-genai pyyaml`` and with your key in
+   ``GEMINI_API_KEY``):
+
+   .. code-block:: bash
+
+      python3 robot/chat.py --toy
+
+   Type *"move forward two meters, then back one"*. You will see this:
+
+   .. code-block:: text
+
+      You > move forward two meters, then back one
+        -> Gemini calls move_robot({"direction": "forward", "distance": 2})
+           [toy robot] moving forward by 2 units...
+        <- reply Gemini hears now: {"status": "success", "executed_move": "forward", "distance": 2}
+        -> Gemini calls move_robot({"direction": "backward", "distance": 1})
+        ...
+      Pupper > I moved forward two meters and then back one!
+
+   That is the whole loop the lab is about. Gemini never runs code: it reads
+   a description of a tool (``TOY_TOOL`` in ``chat.py``), asks for a call,
+   and *your* code runs it (``move_robot``) and sends back a reply. The reply
+   is all Gemini ever learns. Two experiments, both in ``chat.py`` (put them
+   back afterwards):
+
+   a. **The words drive the call.** Change ``TOY_TOOL``'s description of
+      ``distance`` to say it is in *steps*, and ask again. What does Gemini
+      send now? What if you remove ``'backward'`` from the description of
+      ``direction``, and ask it to back up?
+   b. **The reply is all Gemini learns.** Make ``move_robot`` return
+      ``{"status": "failure", "reason": "a wall is in the way"}``, and ask for
+      a move. Then make it return success without printing anything, as if
+      the motors had quietly failed. What does Gemini tell you each time?
+
+5. **Wake Pupper up.** Put Pupper on the ground in clear space, then:
 
    .. code-block:: bash
 
@@ -324,18 +365,28 @@ Part 0: Setup
    robot said back: keep it open for the whole lab. ``robot/stop.sh`` relaxes
    the motors and stops everything.
 
-5. **What already works.** The provided tools are ``stand_up``, ``lie_down``,
+6. **What already works.** The provided tools are ``stand_up``, ``lie_down``,
    ``stop`` and ``robot_status``. Try *"stand up"*, *"lie down"*, *"what are
    you doing?"*. Then ask Pupper to walk to you, and to do a trick: those
    tools exist, but they reply that their TODO isn't written yet. Watch what
    Gemini does with that reply.
 
-6. Run the tests once: ``python3 robot/test_tools.py``. The provided robot's
+7. **The same thing, in text.** ``python3 robot/chat.py`` (no ``--toy``) runs
+   *your* prompt and *your* tools, the exact list the web app gets, on the fake
+   robot from the tests: nothing moves, and no Pupper is needed. Ask it to walk
+   to you here too. From now on, this is the fastest way to try a change to
+   what Gemini reads: edit, run ``chat.py``, type. (``python3 robot/chat.py
+   --robot`` sends the calls to the real robot server instead, the path a voice
+   command takes, and Pupper moves.)
+
+8. Run the tests once: ``python3 robot/test_tools.py``. The provided robot's
    checks pass, and every TODO is listed as not written yet.
 
-**DELIVERABLE (Q1):** Ask Pupper to walk toward you. What does Gemini *say*,
-what does the robot *do*, and what tool calls and replies show up in the debug
-view? In a few sentences: why is a model that talks about moving, without
+**DELIVERABLE (Q1):** Your two experiments from step 4. (a) What did Gemini
+send after each change to the description? (b) What did it tell you when the
+move failed, and when it "succeeded" without moving? Then, from step 6: when
+you asked Pupper to walk, did Gemini say it was walking before it knew the
+result? In a few sentences: why is a model that talks about moving, without
 moving, a particularly bad failure for a robot?
 
 **DELIVERABLE (Q2):** Trace one voice command, *"stand up"*, from the
@@ -376,8 +427,9 @@ better than general wishes. Compare:
 A good rule says *when* (in which situation), *what to do*, and, if it
 matters, *what never to do*. Use bullet points: one rule per bullet.
 
-After editing the prompt, just reconnect in the app: no restart needed. Then
-ask for a walk again, and compare with Q1.
+After editing the prompt, try it in text first: ``python3 robot/chat.py``
+reads ``prompt.md`` every time it starts. Then reconnect in the app (no
+restart needed), ask for a walk again, and compare with Q1.
 
 **DELIVERABLE (Q3):** Pick two rules from your prompt. For each: what did
 Gemini do before you wrote it, and what does it do now? Is the sentence in
@@ -579,8 +631,11 @@ about 0.5 m/s, and in this lab "run" means **1.0 m/s or faster**. Gemini might
 call ``move(run=true, speed=0.6)``. That's why the rule has to be in your
 code, not only in the description. (Q5 asks about it.)
 
-Check it: ``python3 robot/test_tools.py part2`` (TODOs 2–4), then restart
-(``robot/stop.sh && robot/start.sh``) and reconnect in the app.
+Check it: ``python3 robot/test_tools.py part2`` (TODOs 2–4). Then try your
+words in text: ``python3 robot/chat.py``, and ask for a run, a sidestep and a
+turn. You see the exact call Gemini makes and the speeds your code sends the
+(fake) robot. Last, restart (``robot/stop.sh && robot/start.sh``), reconnect
+in the app, and try it by voice.
 
 .. note::
 
@@ -660,7 +715,9 @@ of ``prompt.md``.
 ``ENDS_FOLLOW``, the sentence you added to every motion tool's description in
 TODO 4, is the third place the rule now lives.
 
-Check it: ``python3 robot/test_tools.py part3``, restart, and try it.
+Check it: ``python3 robot/test_tools.py part3``, then in text
+(``python3 robot/chat.py``: *"follow me"*, *"what do you see?"*, *"now sit"*),
+then restart and try it on the robot.
 
 **DELIVERABLE (Q9):** The follow rule now lives in three places: the prompt,
 the tool descriptions, and ``leave_follow_mode``. Make a table: for each
@@ -754,8 +811,10 @@ body is already written; replace the ``TODO 8`` words.
   looks wrong from lying down, and a trick keeps its final pose until the next
   motion.
 
-Check it: ``python3 robot/test_tools.py part4``, restart, and ask for a few
-tricks, some that end standing and some that end lying down.
+Check it: ``python3 robot/test_tools.py part4``, then ask for tricks in text
+(``python3 robot/chat.py``): does Gemini pick the trick you meant from your
+words? Then restart and ask for a few on the robot, some that end standing and
+some that end lying down.
 
 **DELIVERABLE (Q11):** The output of ``python3 robot/test_tools.py part4`` with
 every check passing.
@@ -926,8 +985,10 @@ Check it: ``python3 robot/test_tools.py todo9``
   ``{actions}`` in it, and the robot turns it into the list of actions with
   your descriptions. Then tell Gemini what has to happen first (the trick),
   and what ends it (any other motion).
-- ``python3 robot/test_tools.py part5``, restart, and try it by voice. Test
-  "sit, and give me your paw" said in one breath.
+- ``python3 robot/test_tools.py part5``. Try *"sit, and give me your paw"*
+  in text first (``python3 robot/chat.py``: you see both calls, back to back,
+  before the sit has happened), then restart and say it to Pupper in one
+  breath.
 
 **DELIVERABLE (Q18):** The output of ``python3 robot/test_tools.py part5`` with
 every check passing.
@@ -1018,6 +1079,8 @@ Resources
 `Peng Xu <https://scholar.google.com/citations?user=460NWeQAAAAJ&hl=en>`_
 (Google DeepMind), and his write-up, *Interactive Robot Dog with Gemini Live*
 (``docs/interactive-robot-dog.md`` in your repo)
+
+``robot/chat.py`` is based on Peng's minimal Gemini Live robot-tool example.
 
 `Gemini Live API <https://ai.google.dev/gemini-api/docs/live>`_ and
 `function calling <https://ai.google.dev/gemini-api/docs/function-calling>`_
