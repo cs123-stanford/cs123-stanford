@@ -5,11 +5,11 @@ Lab 4: How to Train Your Pupper
 then guided by the reference gait machinery you built in lab 3.*
 
 .. TODO(staff): add this offering's lab slides link
-.. TODO(staff): add this offering's lab document link
 
 `Lab slides <#>`_ (TODO)
 
-`Lab document <#>`_ (TODO)
+Please fill out the `Lab 4 document <https://docs.google.com/document/d/1IT0vtZAucEH23M9amxJ22-_b3V9gB0TB8vc7Iq9z5Ks/edit?usp=sharing>`_
+(make a copy, answer each DELIVERABLE under its question, and submit it to Gradescope).
 
 This lab has two acts. In the first, you train a walking policy **from
 scratch**: nothing but reward weights standing between a randomly initialized
