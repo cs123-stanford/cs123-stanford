@@ -696,7 +696,7 @@ out near zero command:
 
 **6c. Design your lift gait (notebook section 4)**
 
-The trot is already built. The one thing missing is the **lift gait**: the
+The trot is already built for you. The one thing missing is the **lift gait**: the
 reference that plays for turning in place and sidestepping (6b). Its job is
 to keep the feet stepping — so the policy can rotate or shift the body
 between touchdowns — without the reference itself dragging the robot
