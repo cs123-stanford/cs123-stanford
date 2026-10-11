@@ -852,15 +852,23 @@ task, and section 4 now matters.
    scratch dict over and call it done. Finding *which* terms need to move (and
    in which direction) is part of the deliverable.
 
-**The curriculum.** As the task gets more sophisticated — a reference to
-imitate *and* a body to balance *and* commands to follow — handing the policy
-everything at once makes learning slow and unstable: a random policy falls
-over immediately, so it never gets enough practice moving its legs to
-discover what the reference is asking for. So StableGait uses a
-**curriculum**: it first trains a strictly easier sub-problem, then switches
-on the full problem once the policy has the basics. Concretely, there are two
-stages, switched automatically by iteration count (there is nothing to
-configure):
+The Training Curriculum
+-----------------------
+
+.. important::
+
+   **StableGait uses a training curriculum.** Training does not start on the
+   full problem: it first trains a strictly easier sub-problem, then switches
+   on the full problem once the policy has the basics.
+
+Why? As the task gets more sophisticated — a reference to imitate *and* a
+body to balance *and* commands to follow — handing the policy everything at
+once makes learning slow and unstable: a random policy falls over
+immediately, so it never gets enough practice moving its legs to discover
+what the reference is asking for.
+
+Concretely, there are two stages, switched automatically by iteration count
+(there is nothing to configure):
 
 .. list-table::
    :header-rows: 1
