@@ -619,6 +619,11 @@ current gait phase and the default standing pose.
   joints to be right now*. A matching reward term (``gait_tracking``) rewards
   it for agreeing.
 
+  **Phase** is just time on a modulus: :math:`\phi = (t \bmod T)/T`, where
+  :math:`T` is the length of one gait cycle (1.5 Hz in StableGait, so about
+  0.67 s). It climbs from 0 to 1 over one cycle and then wraps back to 0, like
+  the hand of a clock, so ``ref(phase)`` replays the same stride every cycle.
+
 Same network. Same deploy path (the robot reproduces the reference tables from
 ``policy.json`` with its own phase clock, so nothing is stale). The *only*
 difference is whether those twelve dimensions carry zeros or a choreography.
