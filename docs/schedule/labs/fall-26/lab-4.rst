@@ -248,6 +248,8 @@ matching commanded velocities, and *nothing else*.
       Skip section 4 for now — VelocityFS ignores it. We will come back to
       section 4 in step 6, when we design our reference motion.
    2. **Section 5 (Reward weights):** edit ``REWARD_WEIGHTS`` and run the cell.
+      This is the **main thing you change on each training run** — choosing
+      these weights is what we call **reward tuning** (or reward shaping).
    3. **Section 6 (Domain randomization):** run the cell (defaults are fine
       until step 8).
    4. **Section 7, first code cell — "Watch it live":** run it. It starts a
