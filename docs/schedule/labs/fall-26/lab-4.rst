@@ -434,8 +434,8 @@ Is it actually still? Why do you think you observe the behavior you see?
 
 Step 5. Deploy the From-Scratch Policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Time to test the whole pipeline on hardware — this matters beyond the first
-act, because the reference policies deploy through exactly the same path.
+Time to test the whole pipeline on hardware. You will use this same
+deployment path later for the reference policies.
 
 **5a. Set up the robot and check the default policy**
 
