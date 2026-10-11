@@ -821,24 +821,27 @@ previously require?
 Step 7. The Reference, Part II: Training StableGait
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Same launch procedure as step 3, with two differences — section 3 changes
-task, and section 4 now matters:
+task, and section 4 now matters.
 
-1. **Section 3:** set ``TASK = "Mjlab-StableGait-Flat-Pupper-v3"`` and run the
-   cell.
-2. **Section 4:** make sure your four ``LIFT_*`` values are filled in and
-   **run the cell**. Do this every time you start a new runtime — the lift
-   gait lives in the runtime's copy of the repo, and StableGait refuses to
-   build without it.
-3. **Section 5:** set your reward weights and run the cell.
-   ``gait_tracking`` is the new star of the show and **must be nonzero** (see
-   the curriculum below for why). Note that the StableGait tasks also expose
-   ``track_angular_velocity``, a roll/pitch-rate stabilizer that only exists
-   here.
-4. **Section 6:** run the cell (defaults are still fine).
-5. **Section 7:** run the "Watch it live" cell, then the training cell. Keep
-   the viewer open for the first few minutes — the beginning of a StableGait
-   run looks *broken* if you don't know what you're watching. It isn't.
-   Explained below.
+.. admonition:: Training your reference policy
+   :class: note
+
+   1. **Section 3:** set ``TASK = "Mjlab-StableGait-Flat-Pupper-v3"`` and run the
+      cell.
+   2. **Section 4:** make sure your four ``LIFT_*`` values are filled in and
+      **run the cell**. Do this every time you start a new runtime — the lift
+      gait lives in the runtime's copy of the repo, and StableGait refuses to
+      build without it.
+   3. **Section 5:** set your reward weights and run the cell.
+      ``gait_tracking`` is the new star of the show and **must be nonzero** (see
+      the curriculum below for why). Note that the StableGait tasks also expose
+      ``track_angular_velocity``, a roll/pitch-rate stabilizer that only exists
+      here.
+   4. **Section 6:** run the cell (defaults are still fine).
+   5. **Section 7:** run the "Watch it live" cell, then the training cell. Keep
+      the viewer open for the first few minutes — the beginning of a StableGait
+      run looks *broken* if you don't know what you're watching. It isn't.
+      Explained below.
 
 .. warning::
 
