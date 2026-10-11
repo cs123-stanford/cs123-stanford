@@ -199,7 +199,8 @@ Judge runs by ``Metrics/twist/error_vel_xy`` and ``error_vel_yaw`` on W&B
 
    (One exception: in StableGait (step 7), the first ~500 iterations look
    exactly like this *by design* — the robot is held in the air and cannot
-   track velocity yet. Read step 7 before killing one of those.)
+   track velocity yet. We call this staged training a **curriculum**. Read
+   step 7 before killing one of those.)
 
 **DELIVERABLE**: Before training anything, which rewards do you think will
 matter most for making Pupper walk forwards? What about walking *stably*?
