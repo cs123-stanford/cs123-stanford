@@ -66,8 +66,6 @@ Step 1. Colab and W&B
      saved — work only in your own copy.
    * **Confirm the runtime is G4** before you train. The ~18-minute estimate
      assumes it; on a slower GPU the same run takes much longer.
-   * **Fill out the reimbursement form** — we can only pay back the $10 if
-     you submit it.
 
 * **Notebook section 1 (Setup):** run the cell. It clones
   ``pupper-mjlab`` into ``/content/pupper-mjlab`` and installs it. It is done
