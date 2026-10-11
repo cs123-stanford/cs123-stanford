@@ -964,7 +964,25 @@ Step 8. The Reference, Part III: Rough Terrain and Domain Randomization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The reference fixed the style; now make the policy *robust*. The simulator is
 not your robot: real motors run weaker or stronger than modeled, and real
-floors grip differently. Two moves:
+floors grip differently. We use **domain randomization** (plus rougher
+terrain) to make the policy robust to these differences.
+
+.. admonition:: What is domain randomization?
+   :class: note
+
+   Domain randomization means training on many slightly different versions of
+   the simulator instead of one. Each episode samples physical parameters —
+   here motor gains and ground friction — from a range, so the policy cannot
+   overfit to any single setting. If the real robot falls inside the ranges
+   it trained on, it is just one more variation the policy has already seen.
+   To learn more, Lilian Weng's
+   `Domain Randomization for Sim2Real Transfer <https://lilianweng.github.io/posts/2019-05-05-domain-randomization/>`_
+   is a readable overview, and Peng et al.,
+   `Sim-to-Real Transfer of Robotic Control with Dynamics Randomization <https://arxiv.org/abs/1710.06537>`_,
+   applies the idea to robot dynamics — the same kind of randomization you
+   use here.
+
+Two moves:
 
 * **Terrain — section 3:** set ``TASK = "Mjlab-StableGait-Bumpy-Pupper-v3"``
   and run the cell — the same task on rough ground. This is the sim2real
