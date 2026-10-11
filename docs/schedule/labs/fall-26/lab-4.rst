@@ -213,7 +213,7 @@ function of the robot's x-velocity when the commanded x-velocity is 1.0 m/s.
 
     Exponential tracking function for velocity
 
-Answer the following in your lab document:
+**DELIVERABLE:** Answer the following in your lab document:
 
 1. Explain in words how the exponential shaping works. What does ``std``
    control? Since Pupper maximizes this function, should its reward
