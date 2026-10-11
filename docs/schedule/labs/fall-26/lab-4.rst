@@ -775,36 +775,37 @@ numbers. Each one maps to a parameter:
   at standing height and clear the terrain. Is there any reason to change
   them for a gait that steps in place?
 
-**Procedure:**
+.. admonition:: Lift gait reference procedure
+   :class: note
 
-1. In section 4, replace each ``None`` with your value and **run the cell**.
-   It writes your design into the repo (so the visualizer and later training
-   see it) and runs the IK immediately, so an impossible design fails here
-   instead of mid-training.
-2. **Add a new code cell** directly below the section 4 cell
-   (**+ Code**), paste this line into it, and run it:
+   1. In section 4, replace each ``None`` with your value and **run the cell**.
+      It writes your design into the repo (so the visualizer and later training
+      see it) and runs the IK immediately, so an impossible design fails here
+      instead of mid-training.
+   2. **Add a new code cell** directly below the section 4 cell
+      (**+ Code**), paste this line into it, and run it:
 
-   .. code-block:: python
+      .. code-block:: python
 
-      !cd /content/pupper-mjlab && python -m mjlab.tasks.pupper_gait.visualize_reference --gait lift --viser --share
+         !cd /content/pupper-mjlab && python -m mjlab.tasks.pupper_gait.visualize_reference --gait lift --viser --share
 
-   It prints a link; open it to see your lift gait played on the robot model.
-   This is pure choreography — no physics, no policy — exactly what the
-   reference observation will stream.
-3. Not happy? Stop the visualizer cell (stop button), change the numbers in
-   section 4, **re-run the section 4 cell**, then re-run the visualizer cell.
-4. Once you are happy, record a short video of the visualizer for your
-   deliverable, then stop the visualizer cell and **delete it**
-   (trash-can icon on the cell). The visualizer runs until you interrupt it,
-   so if you leave it in the notebook, the next **Run all** gets stuck on it
-   and never reaches training.
+      It prints a link; open it to see your lift gait played on the robot model.
+      This is pure choreography — no physics, no policy — exactly what the
+      reference observation will stream.
+   3. Not happy? Stop the visualizer cell (stop button), change the numbers in
+      section 4, **re-run the section 4 cell**, then re-run the visualizer cell.
+   4. Once you are happy, record a short video of the visualizer for your
+      deliverable, then stop the visualizer cell and **delete it**
+      (trash-can icon on the cell). The visualizer runs until you interrupt it,
+      so if you leave it in the notebook, the next **Run all** gets stuck on it
+      and never reaches training.
 
-.. figure:: ../../../_static/lab4/lift_gait.gif
-   :align: center
-   :width: 384px
+   .. figure:: ../../../_static/lab4/lift_gait.gif
+      :align: center
+      :width: 384px
 
-   The reference visualizer playing a lift gait. This is pure choreography —
-   no physics, no policy — exactly what the reference observation will stream.
+      The reference visualizer playing a lift gait. This is pure choreography —
+      no physics, no policy — exactly what the reference observation will stream.
 
 **DELIVERABLE**: Your lift gait design: your four parameter values, plus your
 written answers to the three design questions above. Include a short video
