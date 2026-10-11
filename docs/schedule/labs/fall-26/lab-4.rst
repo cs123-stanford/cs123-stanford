@@ -236,32 +236,40 @@ function of the robot's x-velocity when the commanded x-velocity is 1.0 m/s.
 Step 3. From Scratch, Part I: Velocity Tracking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Let's start with the purest version of the problem: reward the robot for
-matching commanded velocities, and *nothing else*. Make
-``track_linear_velocity`` nonzero in section 5 of the notebook (use your
-answer above to pick its sign), and let's train your first policy!
+matching commanded velocities, and *nothing else*.
 
-**How to launch a training run** (you will repeat this for every run in the
-lab):
+.. admonition:: How to launch a training run
+   :class: note
 
-1. **Section 3 (Choose your task):** set ``TASK`` and run the cell. For this
-   step: ``TASK = "Mjlab-VelocityFS-Flat-Pupper-v3"`` ("FS" = from scratch).
-   Skip section 4 for now — VelocityFS ignores it. We will come back to
-   section 4 in step 6, when we design our reference motion.
-2. **Section 5 (Reward weights):** edit ``REWARD_WEIGHTS`` and run the cell.
-3. **Section 6 (Domain randomization):** run the cell (defaults are fine
-   until step 8).
-4. **Section 7, first code cell — "Watch it live":** run it. It starts a
-   viewer in the background and prints a link. It does *not* train anything
-   and finishes in a few seconds. (Optional, but you need it for the
-   deliverables below.)
-5. **Section 7, second code cell — the one that starts with**
-   ``from mjlab.scripts.train import ...``: **this is the cell that trains.**
-   It blocks for the whole run (~18 minutes for 3,000 iterations on G4) and
-   prints a W&B link for your curves.
-6. Open the link from step 4 in a browser tab. The robot appears once the
-   first checkpoint lands, about a minute into training (reload if the page is
-   empty). Close the tab when you're done looking — training runs ~25–30%
-   slower while a viewer tab is connected.
+   You will repeat these steps for every run in the lab.
+
+   1. **Section 3 (Choose your task):** set ``TASK`` and run the cell. For this
+      step: ``TASK = "Mjlab-VelocityFS-Flat-Pupper-v3"`` ("FS" = from scratch).
+      Skip section 4 for now — VelocityFS ignores it. We will come back to
+      section 4 in step 6, when we design our reference motion.
+   2. **Section 5 (Reward weights):** edit ``REWARD_WEIGHTS`` and run the cell.
+   3. **Section 6 (Domain randomization):** run the cell (defaults are fine
+      until step 8).
+   4. **Section 7, first code cell — "Watch it live":** run it. It starts a
+      viewer in the background and prints a link. It does *not* train anything
+      and finishes in a few seconds. (Optional, but you need it for the
+      deliverables below.)
+   5. **Section 7, second code cell — the one that starts with**
+      ``from mjlab.scripts.train import ...``: **this is the cell that trains.**
+      It blocks for the whole run (~18 minutes for 3,000 iterations on G4) and
+      prints a W&B link for your curves.
+   6. Open the link from step 4 in a browser tab. The robot appears once the
+      first checkpoint lands, about a minute into training (reload if the page is
+      empty). Close the tab when you're done looking — training runs ~25–30%
+      slower while a viewer tab is connected.
+
+**Now train your first policy.** Follow the steps above with
+``TASK = "Mjlab-VelocityFS-Flat-Pupper-v3"``. In section 5, set
+``track_linear_velocity`` and ``track_yaw_velocity`` to nonzero values (use
+your answer above to pick their sign), leaving everything else at zero. In
+practice, the linear tracking weight should be more than the angular one.
+Then run both section 7 cells and let the run train — the deliverables below
+are all about this run.
 
 .. admonition:: Viewer link shows a 404?
    :class: warning
@@ -281,10 +289,6 @@ lab):
       how many minutes into training the link died).
    3. To get a viewer back: wait for training to finish and use section 8
       (Watch it), or re-run the "Watch it live" cell before your next run.
-
-For this step, in section 5 set ``track_linear_velocity`` and
-``track_yaw_velocity`` to nonzero values, leaving everything else at zero. In
-practice, the linear tracking weight should be more than the angular one.
 
 **DELIVERABLE**: While training runs, open the viewer from the **"Watch it
 live" cell (section 7, first code cell)** and use its
