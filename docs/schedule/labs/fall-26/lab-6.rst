@@ -821,6 +821,12 @@ while the trick plays, then leaves the robot in the right pose, in four steps:
 Every outcome says which pose the robot is in now: Gemini (and
 ``robot_status``) can only plan the next move if it knows.
 
+A trick policy plays its motion *by itself*: unlike a walk, it doesn't need
+speeds sent to keep going. So the provided ``stop`` tool can't stop a trick
+that is still playing by standing still; it relaxes the motors instead, like
+the gamepad e-stop, and the reply says so. A trick that has finished and only
+holds its pose is left as it is.
+
 What it does, *later*, in each case (read the code with this table next to
 it, and check that you can see each row happen):
 
@@ -1026,6 +1032,11 @@ Check it: ``python3 lab/test.py todo8``
 
       python3 robot/get_trick.py <entity>/mjlab/<run-id> --name sit_stay_shake
 
+   From now on, the old ``sit`` and ``stand_sit_shake_sit_stand`` step aside:
+   their ``trick.yaml`` says ``replaced_by: sit_stay_shake``, so once yours is
+   installed they get no controller and Gemini no longer sees them. A plain
+   "sit" then has only one trick to go to.
+
 **TODO 9:** What Gemini reads about the actions.
 
 - Fill in ``tricks/sit_stay_shake/trick.yaml`` (``get_trick.py`` wrote a
@@ -1035,7 +1046,9 @@ Check it: ``python3 lab/test.py todo8``
   about 35 degrees).
   Gemini reads the ``description`` and the action descriptions word for word,
   so write them for Gemini: what the robot does, and what it does after
-  (keeps sitting, or stands up).
+  (keeps sitting, or stands up). Say when to use the trick, too: when someone
+  just says *"sit"*, they mean sit and stay, and Gemini picks a trick from
+  these words alone (``stand_sit_stand`` also sits, briefly).
 - The ``trick_action`` tool at the bottom of ``lab/part5_sit_stay_shake.py``.
   Its body is one line, ``return await trick_action(robot, action)``. Its description: put
   ``{actions}`` in it, and the robot turns it into the list of actions with
