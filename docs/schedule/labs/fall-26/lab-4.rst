@@ -57,11 +57,28 @@ Step 1. Colab and W&B
   3,000-iteration training run finishes in about 18 minutes on it. We will
   reimburse you for the $10 cost — just fill out the
   `reimbursement form here <https://forms.gle/sFHnBEUubMzKw3dT8>`_.
+
+.. important::
+
+   **Easy to miss before you start:**
+
+   * **Save a copy in Drive first.** Edits to the original notebook are not
+     saved — work only in your own copy.
+   * **Confirm the runtime is G4** before you train. The ~18-minute estimate
+     assumes it; on a slower GPU the same run takes much longer.
+   * **Fill out the reimbursement form** — we can only pay back the $10 if
+     you submit it.
+
 * **Notebook section 1 (Setup):** run the cell. It clones
   ``pupper-mjlab`` into ``/content/pupper-mjlab`` and installs it. It is done
-  when it prints ``mjlab ready``. You may see a red ``ERROR: pip's dependency
-  resolver ...`` line about ``moviepy`` and ``decorator`` — that is harmless
-  (Colab's preinstalled ``moviepy`` is never used by this lab); ignore it.
+  when it prints ``mjlab ready``.
+
+.. note::
+
+   You may see a red ``ERROR: pip's dependency resolver ...`` line about
+   ``moviepy`` and ``decorator``. It is harmless (Colab's preinstalled
+   ``moviepy`` is never used by this lab) — ignore it and continue.
+
 * To track training progress and compare runs, we use wandb (pronounced
   "weights and biases") to log all our training efforts (*Fun Note:* Weights
   and Biases went through a
