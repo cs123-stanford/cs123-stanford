@@ -430,7 +430,7 @@ walking backward, sidestepping, and turning in place. (Drive the robot with
 the command sliders.)
 
 **DELIVERABLE**: Record a video of Pupper standing still given a zero command.
-Is it actually still?
+Is it actually still? Why do you think you observe the behavior you see?
 
 Step 5. Deploy the From-Scratch Policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
