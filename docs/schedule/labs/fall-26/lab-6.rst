@@ -257,7 +257,7 @@ hears what was **accepted**, and the **outcomes** go to the log.
    * - ``await robot.queue(name, job, seconds, then_holding=None)``
      - Put ``job`` (an ``async`` function with no arguments) in line, and
        return the *accepted* Result now. ``then_holding``: the clip trick
-       holding a pose once this job is done.
+       (Part 4 explains them) holding a pose once this job is done.
    * - ``await robot.switch_to(controller)``
      - Give the legs to one controller (``None``: relax the motors). Also
        stands up safely after a fall, and plays a sitting trick's exit clip
@@ -739,7 +739,44 @@ what Gemini reads about the trick, and the pose it starts and ends in. The
 launch file loads one controller per trick, called ``trick_<name>``, all
 switched off.
 
-*Playing a trick is a change of state.* Before, the walking policy has the
+**Two kinds of trick.** Most tricks are one motion, played start to finish.
+A few, called *clip tricks*, are made of several short pieces of motion the
+robot plays one at a time, on request. Compare ``sit``, which you already have,
+with ``sit_stay_shake``, which you will train in Part 5:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 39 39
+
+   * -
+     - ``sit``: a normal trick
+     - ``sit_stay_shake``: a clip trick
+   * - What it is
+     - One recorded motion: sit down, hold for two seconds, stand back up.
+       It always plays the whole thing.
+     - Five pieces of motion, called **clips**: ``sit_down``, ``sit_idle``
+       (sitting still), ``shake_left``, ``shake_right`` and ``stand_up``.
+   * - When you play it
+     - It sits, holds for two seconds, and stands up again, all by itself.
+     - It plays ``sit_down``, then ``sit_idle`` over and over: Pupper **stays**
+       sitting, for as long as you like.
+   * - While it plays
+     - Nothing to ask for: it's busy.
+     - Gemini can ask for a clip by name: ``trick_action("shake_left")``
+       plays ``shake_left``, then goes back to ``sit_idle`` (Part 5).
+   * - How it ends
+     - By itself, standing.
+     - When Gemini asks for ``stand_up``, its **exit clip**, or when any other
+       motion is asked for (``switch_to`` plays the exit clip first).
+   * - In the code
+     - ``trick.clips`` is ``[]`` (empty)
+     - ``trick.clips`` lists the five clips; ``trick.actions`` the ones Gemini
+       may ask for; ``trick.exit_clip`` is ``"stand_up"``
+
+Until Part 5 you have no clip trick, but ``play_trick`` has to handle them
+already. The tests use a made-up one called ``hold_pose``.
+
+**Playing a trick is a change of state.** Before, the walking policy has the
 legs. You give them to ``trick_<name>``, wait while it plays, and then decide
 who has the legs afterwards:
 
@@ -747,17 +784,18 @@ who has the legs afterwards:
    :header-rows: 1
    :widths: 30 35 35
 
-   * - The trick ends…
+   * - The trick…
      - Who has the legs afterwards
      - Examples
-   * - standing (``end_pose: standing``)
+   * - ends standing (``end_pose: standing``)
      - the walking policy again, so Pupper can walk away
      - ``sit``, ``push_up``, ``sneeze``
-   * - lying down (anything else)
+   * - ends lying down (any other ``end_pose``)
      - the trick's controller, holding its last pose until the next motion
      - ``swim``, ``twerk``, ``upward_dog``
-   * - holding a pose, taking requests (a *clip trick*, Part 5)
-     - the trick's controller, which keeps playing its "stay" clip
+   * - is a clip trick
+     - the trick's controller, which keeps playing its looping clip (the
+       "stay")
      - ``sit_stay_shake``
 
 **TODO 7:** ``play_trick`` and ``play_policy_trick`` in ``behaviors.py``: the
@@ -773,12 +811,32 @@ the job is long.
    now, so wrap it in a one-line function: ``job = lambda:
    play_policy_trick(robot, trick)``.
 4. Queue it with ``robot.queue(f"trick {name}", job, trick.total_time,
-   then_holding=...)``, with the note in front. ``then_holding`` is how the
-   queue keeps track of "will a clip trick be holding a pose when this job is
-   done?": the trick if it is a clip trick (``trick.clips`` isn't empty),
-   else ``None``. Part 5 relies on it.
+   then_holding=...)``, with the note in front. ``then_holding`` tells the
+   queue whether a clip trick will be holding a pose once this job is done:
+   the trick if it is a clip trick (``trick.clips`` isn't empty), else
+   ``None``. Part 5 relies on it: it's how "sit, then shake" said in one
+   breath knows the sit is coming.
 
-``play_policy_trick`` (*the job*):
+Examples, *now* (what Gemini hears straight away):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 22 48
+
+   * - Gemini calls
+     - ``then_holding``
+     - Gemini hears now
+   * - ``play_trick("backflip")``
+     - (not queued)
+     - ``unknown trick 'backflip'; available: ['lie_downward_dog', 'lie_sit_lie', ...]``
+   * - ``play_trick("sit")``
+     - ``None``
+     - ``trick sit queued; the queue should finish in 10.7 s``
+   * - ``play_trick("sit_stay_shake")``
+     - the trick
+     - ``trick sit_stay_shake queued; the queue should finish in 5.5 s``
+
+``play_policy_trick`` (*the job*, later):
 
 1. A clip trick that is already holding its pose (``robot.holding_now is
    trick``): nothing to do, so say it is already doing it.
@@ -796,6 +854,48 @@ the job is long.
 
 Every outcome says which pose the robot is in now: Gemini (and
 ``robot_status``) can only plan the next move if it knows.
+
+Examples, *later* (what the job does, and the outcome it returns). Check your
+logic against these before you run anything:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 24 22 30 24
+
+   * - The job for…
+     - when the robot is…
+     - it does (steps)
+     - and returns
+   * - ``sit`` (ends standing)
+     - walking
+     - 3: switch to ``trick_sit``, wait 11.0 s; 4: switch to ``gemini_walk``
+     - ``played sit; back on the walking policy``
+   * - ``swim`` (ends lying)
+     - walking
+     - 3: switch to ``trick_swim``, wait 11.5 s; 4: nothing (it stays)
+     - ``played swim; the trick controller holds the final pose``
+   * - ``swim`` again
+     - lying at the end of ``swim`` (``trick_swim`` is still on)
+     - 2: switch to ``None`` first; then the same as above
+     - the same as above
+   * - ``sit_stay_shake`` (a clip trick)
+     - walking
+     - 3: switch to ``trick_sit_stay_shake``, wait 5.8 s; 4:
+       ``robot.holding_now = trick``
+     - ``played sit_stay_shake; it now stays sitting. Trick actions:
+       shake_left, shake_right, stand_up. Any other motion first plays
+       stand_up.``
+   * - ``sit_stay_shake`` again
+     - already sitting in it
+     - 1: nothing at all
+     - ``already doing sit_stay_shake``
+   * - ``sit``
+     - walking, but it falls over during the trick
+     - 3: switch to ``trick_sit``, wait; ``robot.fallen`` is set
+     - ``sit ended in a fall: the robot fell over: ...``
+
+The wording is yours: the tests check what each reply *says* (where the legs
+went, the pose, the actions), not the exact words.
 
 Check it: ``python3 robot/test_tools.py todo7``. The fake robot records every
 controller switch and when, so the test can tell if a trick never got the
