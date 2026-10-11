@@ -420,7 +420,8 @@ an interactive viewer — use it (or the live viewer) for the videos below.
 **DELIVERABLE**: What is your final reward function? For each nonzero term: why is it there, and what
 did you observe change when you added it?
 
-**DELIVERABLE**: Show your ``error_vel_xy`` and ``error_vel_yaw`` curves. Did
+**DELIVERABLE**: Include screenshots of your ``Metrics/twist/error_vel_xy``
+and ``Metrics/twist/error_vel_yaw`` curves **from your W&B run page**. Did
 you hit the 0.25 bar? If your reward curve rose somewhere while the error
 curves stayed flat, which term was being farmed and how did you find it?
 
