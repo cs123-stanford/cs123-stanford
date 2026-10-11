@@ -243,7 +243,8 @@ lab):
 
 1. **Section 3 (Choose your task):** set ``TASK`` and run the cell. For this
    step: ``TASK = "Mjlab-VelocityFS-Flat-Pupper-v3"`` ("FS" = from scratch).
-   Skip section 4 — VelocityFS ignores it.
+   Skip section 4 for now — VelocityFS ignores it. We will come back to
+   section 4 in step 6, when we design our reference motion.
 2. **Section 5 (Reward weights):** edit ``REWARD_WEIGHTS`` and run the cell.
 3. **Section 6 (Domain randomization):** run the cell (defaults are fine
    until step 8).
