@@ -6,7 +6,7 @@ then guided by the reference gait machinery you built in lab 3.*
 
 .. TODO(staff): add this offering's lab slides link
 
-`Lab slides <#>`_ (TODO)
+`Lab slides <https://docs.google.com/presentation/d/1sVKhUMICH_CJG5yAjGueFl2pZ1bArbmU/edit?usp=sharing&ouid=116833000630199851799&rtpof=true&sd=true>`_
 
 Please fill out the `Lab 4 document <https://docs.google.com/document/d/1IT0vtZAucEH23M9amxJ22-_b3V9gB0TB8vc7Iq9z5Ks/edit?usp=sharing>`_
 (make a copy, answer each DELIVERABLE under its question, and submit it to Gradescope).
