@@ -1659,8 +1659,9 @@ policy was trained to follow, sent to it once. Give Gemini that jump:
 3. ``python3 lab/test.py optional_jump``, then ask Pupper to jump, with clear
    space around it.
 
-Want more? :doc:`opt-lab-3` takes you from your own reference motions to a
-dance Gemini can perform.
+Want more? :doc:`opt-lab-3` teaches Pupper secrets: in words (a password, a
+secret handshake), and in its legs (a dance move you describe in a sentence and
+train), which it performs only for someone who knows the password.
 
 Working With a Coding Agent
 ---------------------------

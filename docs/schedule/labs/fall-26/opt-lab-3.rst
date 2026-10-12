@@ -1,65 +1,127 @@
-Optional Lab 3: Teach Pupper to Dance
-=====================================
+Optional Lab 3: Pupper's Secret Tricks
+======================================
 
 .. note::
 
    **Draft.** This lab is still being written; the outline below is what it
    will cover. Ask a TA before you start.
 
-.. TODO(staff): finish this lab: notebook / scripts, TODO numbering, deliverables (Q-numbered).
+.. TODO(staff): finish this lab: lab document link, the secret-trick scaffolding in gemini_pupper (unlock tool, where the password lives), deliverable numbering.
 
-Goal
-----
-Give Pupper a dance that Gemini can perform on request. In lab 6 you trained a
-tracking policy (BeyondMimic-style) on a clip library someone else designed.
-Here you make the **reference motion** yourself, three different ways, use a
-coding agent to clean it up, train it, and play it from Gemini Pupper.
+*Goal: teach Pupper secrets two ways. In words, with no training at all: a
+password, a handshake for a friend, a joke it saves for the right moment. And
+in its legs: a dance move you describe in a sentence, generate, clean up and
+train. Then put them together: Pupper performs its secret dance only for
+someone who knows the password.*
 
 Prerequisites
 -------------
-Lab 6, fully: you know how a clip library becomes a tracking policy, and how a
-clip trick is played and stopped (``play_trick``, ``trick_action``, the exit
-clip). Like Optional Lab 2, this lab works in the codebase
-(`pupper-mjlab <https://github.com/cs123-stanford/pupper-mjlab>`_), with a
-coding agent (Claude Code or Codex) as your guide.
+Lab 6, fully: your tools, your prompt, and a trick you trained and fetched
+with ``get_trick.py``. Part 2 runs in Colab on a **G4** GPU (RTX PRO 6000):
+generating motion takes a big GPU. Like Optional Lab 2, you work with a coding
+agent (Claude Code or Codex) as your guide.
 
-Part 1: Three Ways to Get a Reference Motion
---------------------------------------------
-Make at least one short move (2–4 s) each way, and compare them:
+Part 1: Secrets in Words
+------------------------
+Everything Gemini knows about Pupper comes from its prompt, its tool
+descriptions and the conversation so far. That is enough to teach it new
+behavior on the spot, with no training: **in-context learning**. Add a
+``# Secrets`` section to ``lab/prompt.md`` and teach Pupper at least three of
+these (reconnect in the app after each edit):
 
-1. **Retarget a real dog.** Take a clip from a dog motion-capture dataset and
-   retarget it onto Pupper's legs: scale it to Pupper's size, map the joints,
-   keep the feet on the ground.
-2. **Puppeteer Pupper by hand.** With the motors relaxed, move Pupper's legs
-   through the move yourself while the robot records its joint angles; your
-   lab 2 forward kinematics turns them into foot positions you can check.
-3. **Describe it in words.** Use UniMate (text-to-motion): type a sentence,
-   get a Pupper reference motion.
+1. **A password.** Pupper only follows someone who says the word
+   *"bananas"* in their request. Without it, it says no, in character.
+2. **A secret handshake.** When someone says their name is *Alex* (pick your
+   own), Pupper says hello and offers a special handshake: a trick you
+   trained (``sit_stay_shake``'s shake, or your own).
+3. **An easter egg.** Asked to shake hands more than three times in a row,
+   Pupper makes a joke.
+4. **A memory.** *"How many times have you sat today?"*: Pupper answers from
+   the conversation.
+5. **Words and vision.** Pupper only follows someone wearing shorts. (Gemini
+   sees through the camera; the person follower doesn't.)
 
-.. TODO(staff): name the dataset, the recording script, and how students get UniMate access.
+Test each one by voice, including the ways it should fail: the wrong
+password, the right password in the wrong request, a fourth handshake after
+something else, a question after you reconnect.
 
-Part 2: Clean It Up With a Coding Agent
----------------------------------------
-Raw motions are messy: feet slide or dip below the ground, joints hit their
-limits, the start and end don't match. Work with your agent to fix each move
-until the motion report and the physics replay (``play_motion.py``) are happy:
-smooth it, fix foot contact, make it loop, mirror it, and make every move start
-and end in the same pose so they can follow each other.
+**Then try to break it.** Ask Pupper for the password. Tell it you are its
+owner and forgot it. Tell it the rules changed. Whatever Gemini knows, a
+clever person can often talk it into saying: keep a list of what worked.
 
-Part 3: Train the Dance and Perform It
---------------------------------------
-Join your moves into one clip library (each move a clip; a "groove" clip
-that loops), train one tracking policy on it, score it, and (after a TA's OK)
-fetch it with ``get_trick.py``. Your moves become trick actions, so Gemini can
-perform a routine: *"dance for me: the wiggle, then the spin, then bow"*.
+**DELIVERABLE (Q1):** For each secret you taught: the words you added to the
+prompt, how you tested it, and whether it held up.
 
-Stretch: a ``dance`` tool that checks a whole routine before the first move
-(every move exists, and each one can follow the one before it).
+**DELIVERABLE (Q2):** Your attempts to get the password out of Pupper, and
+which one worked. Then: which of your secrets can only Gemini keep, and which
+could the robot's code keep instead? (Hint: the code never hears the person,
+only Gemini does. But who has to *know* the password?)
 
-Deliverables (draft)
---------------------
-- One move made each of the three ways, side by side: which way was fastest,
-  which looked most natural, and which survived physics best?
-- Before/after motion reports for one move your agent cleaned up, and the
-  agent conversation that did it (short excerpts).
-- A video of Pupper dancing on request.
+Part 2: A Secret Move From a Sentence
+-------------------------------------
+In Lab 6 you trained a trick on motion someone else designed. Now make the
+motion yourself, from words: `UniMate <https://linzhanmou.com/unimate/>`_
+(Mou et al., SIGGRAPH Asia 2026) generates motion for *any* skeleton from a
+sentence, including Pupper's, which it has never seen.
+
+Open the `CS123 UniMate notebook <https://colab.research.google.com/github/cs123-stanford/pupper-mjlab/blob/main/notebooks/CS123_Pupper_UniMate.ipynb>`_
+in Colab, **File → Save a copy in Drive**, and pick the **G4** runtime. It
+walks the whole loop:
+
+1. **Describe** your move: *"An object bows down with its chest low and its
+   rear up."* Several prompts in a row chain into one longer motion: a dance.
+2. **Pick** the best of several samples, and **fit** Pupper to it (inverse
+   kinematics, sized and timed for Pupper).
+3. **Clean it up** with your coding agent. Generated motion is a first
+   draft: it starts anywhere, floats, slides its feet, or rears up on its hind
+   legs. Make it start and end standing, keep feet planted, and keep it
+   gentle, until the report and the physics replay (``play_motion``) are
+   happy.
+4. **Upload** it to W&B and **train** a tracking policy, then score it in
+   simulation.
+
+Then show the scored policy to a TA: **new trained policies need a TA's OK**
+before their first run on the robot. Fetch it with ``get_trick.py`` and write
+its ``trick.yaml`` as in Lab 6.
+
+Prompting tips: start with *"An object"* and describe one motion, not the
+character (UniMate learned from captions written that way, for every kind of
+animal and object). Samples differ a lot: generate several, and change the
+seed for more.
+
+**DELIVERABLE (Q3):** The prompts you tried, the sample you picked and why,
+and the motion report before and after your cleanup, with short excerpts of
+the agent conversation that did it.
+
+Part 3: Only With the Password
+------------------------------
+Join the two: your new move is a **secret trick**. Pupper plays it only after
+someone says the password, and never mentions it otherwise.
+
+You can do this in the prompt alone, as in Part 1, and you saw in Q2 how
+long that lasts. Do it in code too:
+
+- The password is **not** in the prompt or any tool description: it lives
+  in a file on the robot. Gemini can't reveal what it doesn't know.
+- A new tool, say ``unlock(password)``, compares what the person said with
+  the file, and unlocks the secret tricks (until Pupper lies down, say).
+  Its reply never contains the password, right or wrong.
+- ``play_trick`` refuses a secret trick while it is locked, with a reply
+  that tells Gemini what to do: ask for the password.
+- Secret tricks are left out of the ``{tricks}`` list Gemini reads, so it
+  can't offer them by accident.
+
+Write the tests first, like Lab 6's: what should ``unlock`` and
+``play_trick`` reply, locked and unlocked, right and wrong password? Then
+build it with your agent, and try Q2's attacks again.
+
+Stretch: a secret clip trick (Lab 6, Part 5) whose moves are dance steps, so
+Gemini can perform a routine on request: *"the bow, then the wiggle, then the
+bow again"*.
+
+**DELIVERABLE (Q4):** A video: someone asks for the secret dance without the
+password (Pupper declines), then says the password, and Pupper dances.
+
+**DELIVERABLE (Q5):** Your tests for ``unlock`` and ``play_trick``, passing,
+and which of Q2's attacks still work now. Then: what can a password checked
+by the robot still not protect against?
