@@ -121,19 +121,19 @@ This lab is expected to take **two weeks**.
      - 1
    * - 2
      - **Walk:** refuse unsafe moves; read the walking job; the turn, move and arc tools; trace one command
-     - 2, 3
+     - 2, 3, 4
    * - 3
      - **Follow:** the rule that ends follow mode, and the follow tool
-     - 4, 5
+     - 5, 6
    * - 4
      - **Tricks:** play any trick; read the trick job; tell Gemini which tricks exist
-     - 6, 7
+     - 7, 8
    * - 5
      - **Sit, stay, shake:** build a clip library, train it, give Gemini the actions
-     - 8, 9 (+ notebook)
+     - 9, 10 (+ notebook)
    * - 6
      - **Together:** the prompt, second pass; demo; reflection
-     - 10
+     - 11
 
 **The big picture: you are building one big state machine.** Like the state
 machine in lab 5, only much bigger. Pupper is always in exactly one mode, and
@@ -664,8 +664,8 @@ line, and make sure you could explain it (Q4):
   goes to the debug log and ``robot_status`` only (see *Gemini is not told
   when a job finishes*, above).
 
-**TODO 3:** ``turn``, then ``move``, at the bottom of ``lab/part2_walk.py``: the
-tools Gemini calls.
+**TODO 3:** ``turn``, then ``move``, near the bottom of ``lab/part2_walk.py``:
+the tools Gemini calls.
 Write ``turn`` first. It's short, and it shows you the whole path from
 Gemini's words to the robot. Then ``move``, the real challenge of this part.
 
@@ -679,6 +679,11 @@ description. For each tool, replace every ``TODO 3`` there:
   changes. Add ``+ ENDS_FOLLOW`` to the description (Part 3 explains it).
 - For each parameter: its unit (m/s, seconds, degrees), its range, and its
   default.
+- Give a worked example wherever Gemini has to do arithmetic or pick a number.
+  When we tested the answer key, *"walk forward 2 meters"* walked 0.6 m until
+  ``duration``'s words said *"Distance = speed x duration: 2 m at 0.4 m/s is
+  5 s"*, and *"walk in a square"* came out with 45° corners until ``angle``'s
+  words said *"90 a square's corner, 120 a triangle's"*.
 
 **turn: the warm-up.** Turning in place means no forward or sideways speed,
 only a turning speed, for as long as the angle takes:
@@ -924,7 +929,10 @@ Check it: ``python3 lab/test.py part2`` (TODOs 2–4). Then try your words in
 text: ``python3 lab/chat.py``, and ask for a run, a sidestep, a turn,
 *"run in a circle around me"* (did Gemini pick a radius the robot can do?), and
 a shape: *"walk in a rectangle"*, *"walk a star"*, *"trace the letter D"*. You see
-the exact call Gemini makes and the speeds your code sends the (fake) robot.
+the exact call Gemini makes and the speeds your code sends the (fake) robot. If
+Gemini struggles with shapes, one sentence in your prompt's *How you move* can
+help: shapes and letters are several calls in a row (a straight line, a sharp
+corner, a curve), planned first and then called in order.
 Last, restart (``robot/stop.sh && robot/start.sh``), reconnect in the app, and
 try it by voice.
 
@@ -1071,7 +1079,7 @@ place, does it *tell* Gemini about the rule or *enforce* it? Then make
 Pupper to sit while it follows you. What happens? (Put it back.)
 
 **DELIVERABLE (Q7): Video 1**, by voice only: Pupper walks forward and
-backward, turns both ways, sidesteps and runs; refuses one request and
+backward, turns both ways, sidesteps, runs, and walks a circle; refuses one request and
 explains why (the refusal checkpoint); then follows you, keeps following while
 you ask it a question, and tells you it will stop following before it does
 something else.
@@ -1175,6 +1183,9 @@ Examples, *now* (what Gemini hears straight away):
    * - ``play_trick("backflip")``
      - (not queued)
      - ``unknown trick 'backflip'; available: ['lie_downward_dog', 'lie_sit_lie', ...]``
+       (From Gemini, the tool registry refuses it first, since ``name`` only
+       takes the listed names: ``"play_trick: name must be one of [...]"``.
+       Your check is the one behind it.)
    * - ``play_trick("sit")``
      - ``None``
      - ``trick sit queued; the queue should finish in 10.7 s``
@@ -1615,7 +1626,7 @@ As in TODO 1, these look for words. The live demo is where you see whether Gemin
 Run ``python3 lab/test.py`` once more: everything passes.
 
 * **Live demo (TA checkoff).** A short, unscripted conversation with Pupper
-  that walks and turns, plays a trick, sits and **stays** (wait at least ten
+  that walks, turns and curves, plays a trick, sits and **stays** (wait at least ten
   seconds), shakes both paws, stands up, and refuses at least one request with
   a reason.
 * **Reflection.** A page, not more:
@@ -1638,7 +1649,7 @@ passing.
 Optional: The Jump
 ------------------
 Pupper's default locomotion policy can already jump: you have seen it on the
-gamepad. The jump isn't a policy of its own: it is a *reference* the walking
+gamepad. The jump isn't a policy of its own: it is a *reference* the locomotion
 policy was trained to follow, sent to it once. Give Gemini that jump:
 
 1. Rename ``tricks/jump/trick.yaml.optional`` to ``trick.yaml`` and restart.

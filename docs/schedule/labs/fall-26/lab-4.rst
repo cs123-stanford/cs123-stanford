@@ -19,6 +19,20 @@ phase-clocked version of the very gait you designed in lab 3) and watch most
 of the difficulty evaporate. The quiet thesis of this lab: *reference motion
 makes RL easy.* Keep that in mind every time the first act makes you suffer.
 
+.. admonition:: AI Use Suggestion
+   :class: note
+
+   **We encourage you to use a coding agent** (Claude Code or Codex) in this
+   lab, **to understand it, not to do it.** The work here is choosing reward
+   weights, designing a gait and reading training curves: an agent can't train
+   or tune Pupper for you, and won't save you much time on the lab itself.
+   Where it helps is understanding: ask it how mjlab computes a reward term,
+   what the policy observes, or why a weight change shows up the way it does
+   in your curves. Answer the deliverables in your own words.
+
+   For :doc:`opt-lab-2`, a coding agent is **required**: you work in the full
+   pupper-mjlab codebase, and the agent is how you find your way around it.
+
 .. list-table:: Lab roadmap
    :header-rows: 1
    :widths: 12 48 40
