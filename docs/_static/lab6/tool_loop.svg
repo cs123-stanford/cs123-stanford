@@ -24,9 +24,9 @@
 
   <!-- TOOL LAYER -->
   <rect x="390" y="70" width="170" height="90" rx="12" fill="#fff8e1" stroke="#f9a825" stroke-width="2"/>
-  <text x="475" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#e65100">TOOL LAYER</text>
-  <text x="475" y="122" text-anchor="middle" font-size="11.5" fill="#8d5524">tools.py: Gemini's view</text>
-  <text x="475" y="138" text-anchor="middle" font-size="11.5" fill="#8d5524">behaviors.py: the robot</text>
+  <text x="475" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#e65100">GEMINI PUPPER</text>
+  <text x="475" y="122" text-anchor="middle" font-size="11.5" fill="#8d5524">the heart: lab/, your</text>
+  <text x="475" y="138" text-anchor="middle" font-size="11.5" fill="#8d5524">prompt, tools, behaviors</text>
 
   <!-- ROBOT -->
   <rect x="610" y="70" width="130" height="90" rx="12" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
@@ -37,8 +37,8 @@
   <!-- POLICIES -->
   <rect x="790" y="70" width="110" height="90" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
   <text x="845" y="100" text-anchor="middle" font-size="17" font-weight="bold" fill="#1b5e20">POLICIES</text>
-  <text x="845" y="122" text-anchor="middle" font-size="11.5" fill="#33691e">the muscles:</text>
-  <text x="845" y="138" text-anchor="middle" font-size="11.5" fill="#33691e">walk, tricks</text>
+  <text x="845" y="122" text-anchor="middle" font-size="11.5" fill="#33691e">nervous system:</text>
+  <text x="845" y="138" text-anchor="middle" font-size="11.5" fill="#33691e">moves the motors</text>
 
   <!-- forward arrows -->
   <line x1="150" y1="100" x2="196" y2="100" stroke="#444444" stroke-width="1.8" marker-end="url(#arrow)"/>

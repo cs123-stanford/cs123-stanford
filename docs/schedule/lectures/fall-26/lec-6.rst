@@ -1,7 +1,7 @@
 Lecture 6: Robot Foundation Models
 ==================================
 
-**Lab:** :doc:`../../labs/fall-26/lab-6` A foundation model on a leash: let Gemini drive Pupper through tools you write, then train it to sit, stay, and shake a paw!
+**Lab:** :doc:`../../labs/fall-26/lab-6` Bringing your Pupper to life: let Gemini drive Pupper through tools you write, then train it to sit, stay, and shake a paw!
 
 **Lecture Slides:** https://drive.google.com/file/d/1BErc7XdMarUXK81Ze9LkbO7hgxeqAcr7/view?usp=sharing by Wenhao Yu
 

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#444444"/>
+    </marker>
+  </defs>
+  <rect width="920" height="420" fill="#ffffff"/>
+
+  <!-- MOTORS OFF -->
+  <rect x="20" y="150" width="160" height="90" rx="12" fill="#eceff1" stroke="#607d8b" stroke-width="2"/>
+  <text x="100" y="186" text-anchor="middle" font-size="16" font-weight="bold" fill="#37474f">MOTORS OFF</text>
+  <text x="100" y="207" text-anchor="middle" font-size="11.5" fill="#455a64">no controller holds</text>
+  <text x="100" y="223" text-anchor="middle" font-size="11.5" fill="#455a64">the legs: lying down</text>
+  <text x="100" y="262" text-anchor="middle" font-size="11" fill="#455a64">gamepad e-stop:</text>
+  <text x="100" y="277" text-anchor="middle" font-size="11" fill="#455a64">from anywhere to here</text>
+
+  <!-- LOCOMOTION MODE -->
+  <rect x="290" y="40" width="300" height="210" rx="14" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="440" y="66" text-anchor="middle" font-size="16" font-weight="bold" fill="#1b5e20">LOCOMOTION MODE</text>
+  <text x="440" y="85" text-anchor="middle" font-size="11.5" fill="#33691e">the default neural controller (gemini_walk)</text>
+  <rect x="305" y="105" width="115" height="50" rx="10" fill="#ffffff" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="362" y="135" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1b5e20">not following</text>
+  <rect x="460" y="105" width="115" height="50" rx="10" fill="#ffffff" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="517" y="135" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1b5e20">following</text>
+  <path d="M422,120 L458,120" stroke="#444444" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+  <path d="M458,140 L422,140" stroke="#444444" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+  <text x="440" y="178" text-anchor="middle" font-size="11" fill="#333333">→ follow(true)</text>
+  <text x="440" y="194" text-anchor="middle" font-size="11" fill="#333333">← any motion, or follow(false) (TODO 4, 5)</text>
+  <text x="440" y="222" text-anchor="middle" font-size="11" fill="#333333">walk, turn, move: stay in this mode (TODO 2, 3)</text>
+  <text x="440" y="238" text-anchor="middle" font-size="11" fill="#333333">questions (robot_status): keep following</text>
+
+  <!-- TRACKING MODE -->
+  <rect x="700" y="40" width="200" height="210" rx="14" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+  <text x="800" y="66" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a148c">TRACKING MODE</text>
+  <text x="800" y="85" text-anchor="middle" font-size="11.5" fill="#5e2a72">one trick's tracking policy</text>
+  <rect x="715" y="100" width="170" height="38" rx="10" fill="#ffffff" stroke="#6a1b9a" stroke-width="1.5"/>
+  <text x="800" y="124" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#4a148c">playing the trick</text>
+  <path d="M800,140 L800,160" stroke="#444444" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+  <rect x="715" y="162" width="170" height="38" rx="10" fill="#ffffff" stroke="#6a1b9a" stroke-width="1.5"/>
+  <text x="800" y="186" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#4a148c">holding its end pose</text>
+  <text x="800" y="220" text-anchor="middle" font-size="11" fill="#333333">clip trick: trick_action</text>
+  <text x="800" y="236" text-anchor="middle" font-size="11" fill="#333333">plays a clip, keeps holding (TODO 8)</text>
+
+  <!-- FALLEN -->
+  <rect x="360" y="320" width="230" height="74" rx="12" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="475" y="350" text-anchor="middle" font-size="16" font-weight="bold" fill="#b71c1c">FALLEN</text>
+  <text x="475" y="371" text-anchor="middle" font-size="11.5" fill="#8e2a2a">motors only damp; motions are refused</text>
+
+  <!-- motors off <-> locomotion -->
+  <path d="M182,170 L287,125" stroke="#444444" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <text x="222" y="137" text-anchor="middle" font-size="12" font-weight="bold" fill="#333333">stand_up</text>
+  <path d="M287,215 L183,222" stroke="#444444" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <text x="236" y="238" text-anchor="middle" font-size="12" font-weight="bold" fill="#333333">lie_down</text>
+
+  <!-- locomotion <-> tracking -->
+  <path d="M592,95 L697,95" stroke="#444444" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <text x="645" y="87" text-anchor="middle" font-size="12" font-weight="bold" fill="#333333">play_trick</text>
+  <text x="645" y="112" text-anchor="middle" font-size="10.5" fill="#555555">(TODO 6)</text>
+  <path d="M697,185 L593,185" stroke="#444444" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <text x="645" y="177" text-anchor="middle" font-size="11" fill="#333333">ends standing,</text>
+  <text x="645" y="202" text-anchor="middle" font-size="11" fill="#333333">exit clip,</text>
+  <text x="645" y="216" text-anchor="middle" font-size="11" fill="#333333">or stand_up</text>
+
+  <!-- tracking -> motors off, over the top -->
+  <path d="M800,38 L800,16 L100,16 L100,147" stroke="#444444" stroke-width="1.6" fill="none" marker-end="url(#arrow)"/>
+  <text x="560" y="30" text-anchor="middle" font-size="11" fill="#333333">lie_down, or stop while a trick is still playing (relaxes the motors)</text>
+
+  <!-- falls -->
+  <path d="M440,252 L440,317" stroke="#c62828" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <path d="M800,252 L800,357 L593,357" stroke="#c62828" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <text x="452" y="290" font-size="11.5" font-weight="bold" fill="#b71c1c">falls over (tilt e-stop)</text>
+
+  <!-- fallen -> locomotion -->
+  <path d="M358,372 L320,372 L320,253" stroke="#444444" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <text x="312" y="300" text-anchor="end" font-size="11" fill="#333333">a person sets it</text>
+  <text x="312" y="315" text-anchor="end" font-size="11" fill="#333333">upright, then stand_up</text>
+</svg>
