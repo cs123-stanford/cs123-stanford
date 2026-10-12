@@ -228,8 +228,7 @@ function of the robot's x-velocity when the commanded x-velocity is 1.0 m/s.
    weight tuning possible?
 3. What would go wrong if one positive term were **unbounded**?
 4. What other functions would also work as a velocity tracking reward? Write
-   at least one down in math — for instance, the negative squared L2 norm of
-   the velocity error, :math:`-\lVert \mathbf{v}_{cmd} - \mathbf{v} \rVert^2`.
+   at least one down in math.
    Is your alternative bounded? Compared to the exponential, how does its
    gradient behave when the error is large, and when it is near zero?
 
