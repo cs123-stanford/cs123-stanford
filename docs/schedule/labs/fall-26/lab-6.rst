@@ -120,7 +120,7 @@ This lab is expected to take **two weeks**.
      - **Talk:** the prompt, first pass
      - 1
    * - 2
-     - **Walk:** refuse unsafe moves; read the walking job; the turn and move tools; trace one command
+     - **Walk:** refuse unsafe moves; read the walking job; the turn, move and arc tools; trace one command
      - 2, 3
    * - 3
      - **Follow:** the rule that ends follow mode, and the follow tool
@@ -151,7 +151,7 @@ a rule to it.
    straight to locomotion mode, a trick straight to tracking mode. Follow mode
    lives inside locomotion mode, and any motion ends it.
 
-The TODOs are numbered 1–10 and run in the same order as this handout. In the
+The TODOs are numbered 1–11 and run in the same order as this handout. In the
 code, each one sits between ``TODO n: YOUR CODE HERE`` banners, under a short
 **card** that says what happens now, what happens later, what Gemini hears,
 what must always be true, which helpers to use, and what its tests check. Some
@@ -302,12 +302,12 @@ sends back a reply. The prompt and the tools are yours, in ``lab/``:
 
    gemini_pupper/
    ├── lab/                         ← you work here
-   │   ├── prompt.md                who Pupper is and how it behaves        TODO 1, 5, 10
+   │   ├── prompt.md                who Pupper is and how it behaves        TODO 1, 6, 11
    │   ├── basics.py                read first: finished examples
-   │   ├── part2_walk.py            check_move, walk (finished), turn, move TODO 2, 3
-   │   ├── part3_follow.py          the follow rule, the follow tool        TODO 4, 5
-   │   ├── part4_tricks.py          play_trick, the trick job (finished)    TODO 6, 7
-   │   ├── part5_sit_stay_shake.py  trick_action, its tool                  TODO 8, 9
+   │   ├── part2_walk.py            check_move, walk, turn, move, arc       TODO 2, 3, 4
+   │   ├── part3_follow.py          the follow rule, the follow tool        TODO 5, 6
+   │   ├── part4_tricks.py          play_trick, the trick job (finished)    TODO 7, 8
+   │   ├── part5_sit_stay_shake.py  trick_action, its tool                  TODO 9, 10
    │   ├── test.py                  python3 lab/test.py todo3   (tests on a fake robot)
    │   └── chat.py                  python3 lab/chat.py         (talk to Gemini in text)
    ├── tricks/                      one folder per trick
@@ -354,7 +354,7 @@ Step through it, in the order things happen when someone says *"stand up"*:
    one, and calls it. The robot server runs ``stand_up_tool``, which calls the
    behavior, ``stand_up``.
 2. **Now: decide what can be decided right away.** ``leave_follow_mode``
-   (your TODO 4) ends follow mode if it is on, and returns a note for Gemini
+   (your TODO 5) ends follow mode if it is on, and returns a note for Gemini
    (``""`` if there's nothing to say).
 3. **Now: define the work for later.** ``async def job()`` *defines* a
    function, but doesn't run it. It is the work itself: give the legs to the
@@ -455,7 +455,7 @@ that isn't in the table. When a check fails, it prints what your code produced
 and an example that passes.
 
 Many checks look for a word or a number in what Gemini reads: a tool's reply
-(``"... at most 10.0 s"``) or a description (``"follow"``). That is on purpose.
+(``"... at most 20.0 s"``) or a description (``"follow"``). That is on purpose.
 Gemini knows only what you tell it. A reply that says ``"too fast"`` leaves it
 guessing; one that says ``"too fast: |vx|<=1.5 m/s"`` lets it retry at a speed
 that works, or tell the person why it can't. **When you build tools for a
@@ -557,20 +557,22 @@ the prompt enough, or will the robot also have to make sure of it in code?
 
 Part 2: Walk
 ------------
-In this part you make Pupper walk, turn and run by voice, and refuse what it
-must not do. A walk or a turn asked for by Gemini goes through three functions
-in ``lab/part2_walk.py``, from the words to the motors:
+In this part you make Pupper walk, turn, run and curve by voice, and refuse
+what it must not do. A walk or a turn asked for by Gemini goes through three
+functions in ``lab/part2_walk.py``, from the words to the motors:
 
 .. code-block:: text
 
    "walk forward"  ->  move (TODO 3)                     words  -> vx, vy, duration
    "turn left"     ->  turn (TODO 3)                     words  -> wz_deg, seconds
+   "go in a circle" -> arc (TODO 4)                      words  -> vx, wz_deg, seconds
                    ->  walk (finished: read it)          check now, queue the job
                          -> check_move (TODO 2)          is this move allowed?
                          -> the job, later               20 speed messages a second
 
 We build them in the order of the file: the safety check, then reading the
-walking job, then the words Gemini reads (``turn`` first, then ``move``).
+walking job, then the words Gemini reads (``turn`` first, then ``move``),
+and last ``arc``, which walks and turns at the same time.
 
 **TODO 2:** ``check_move`` in ``lab/part2_walk.py``: refuse what the robot
 can't or shouldn't do.
@@ -624,11 +626,11 @@ return the first problem you find:
      - ``check_move(1.5, 0, 0, 1.0)`` returns ``None``
      - refusing it because you wrote ``>=`` instead of ``>``
    * - Refuses each bad move with a reason: too fast (forward, backward, sideways, turning), too slow on all three, a zero or negative duration, longer than ``duration_max``, farther than ``distance_max``
-     - ``"duration must be more than 0 and at most 10.0 s"``
+     - ``"duration must be more than 0 and at most 20.0 s"``
      - ``None``, or ``""``
-   * - The reason contains the limit's number, as Python prints it: ``1.5`` (vx_max), ``0.5`` (vy_max), ``114.0`` (wz_max), ``10.0`` (duration_max), ``5.0`` (distance_max)
-     - ``f"... at most {limits.duration_max} s"`` gives ``"... at most 10.0 s"``
-     - ``"too long"`` (no number); ``f"{limits.duration_max:.0f}"`` gives ``"10"``
+   * - The reason contains the limit's number, as Python prints it: ``1.5`` (vx_max), ``0.5`` (vy_max), ``114.0`` (wz_max), ``20.0`` (duration_max), ``7.0`` (distance_max)
+     - ``f"... at most {limits.duration_max} s"`` gives ``"... at most 20.0 s"``
+     - ``"too long"`` (no number); ``f"{limits.duration_max:.0f}"`` gives ``"20"``
    * - (finished ``walk``) Gemini hears your reason, limit included
      - ``walk(robot, 5.0, 0, 0, 1.0)`` fails with ``"too fast: limits are |vx|<=1.5 m/s, ..."``
      - ``"too fast"``
@@ -644,7 +646,7 @@ shape, with a loop in the job. You don't write it, but read it now, line by
 line, and make sure you could explain it (Q4):
 
 * *Now:* it asks your ``check_move`` and refuses with its reason; it leaves
-  follow mode (``leave_follow_mode``, your TODO 4); it refuses if the robot
+  follow mode (``leave_follow_mode``, your TODO 5); it refuses if the robot
   has already fallen.
 * *Later, in the job:* it hands the legs to the locomotion policy, then sends the
   speed with ``robot.send_speed`` 20 times a second (``LLM_CMD_RATE``) until
@@ -728,7 +730,17 @@ gave none). Your job is to turn that into one speed, and then split it into
         - 0
         - −speed
 
-3. ``return await walk(robot, vx, vy, 0.0, duration)``
+3. **Say what you changed.** If Gemini asked to run sideways, your code walks
+   instead. Nothing fails, so the reply would be a plain "queued", and Gemini
+   would happily tell the person "Running left!" while Pupper walks. Start the
+   reply with a note:
+
+   .. code-block:: python
+
+      note = "Sideways never runs; walking instead. " if run and sideways else ""
+      return with_note(note, await walk(robot, vx, vy, 0.0, duration))
+
+   ``with_note`` (provided) puts the note in front of ``walk``'s message.
 
 Check your logic against these examples before you run anything. They are
 exactly what the tests ask:
@@ -764,6 +776,13 @@ about 0.5 m/s, and in this lab "run" means **1.0 m/s or faster**. Gemini might
 call ``move(run=true, speed=0.6)``. That's why the rule has to be in your
 code, not only in the description. (Q3 asks about it.)
 
+.. tip::
+
+   The same lesson as TODO 2's limits, from the other side: **whenever your
+   code changes what Gemini asked for, the reply says so.** Gemini only knows
+   what the reply tells it, and a silent change becomes a confident wrong
+   sentence out loud. We missed this case ourselves when we wrote the lab.
+
 **What** ``python3 lab/test.py todo3`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
@@ -788,15 +807,123 @@ code, not only in the description. (Q3 asks about it.)
    * - ``move``'s words contain ``"follow"``
      - ``"..." + ENDS_FOLLOW``
      - leaving ``ENDS_FOLLOW`` out
-   * - The five ``move`` examples in the table above send exactly those speeds
+   * - The six ``move`` examples in the table above send exactly those speeds
      - ``move("right", run=True)`` sends ``vy = -0.4``
      - ``vy = -1.2`` (running sideways)
+   * - ``move("right", run=True)``'s reply says ``"walk"``
+     - ``"Sideways never runs; walking instead. move vx=0 vy=-0.4 ... queued"``
+     - ``"move vx=0 vy=-0.4 ... queued"`` (Gemini then says it's running)
    * - A move ``check_move`` refuses comes back as a failure with its reason
-     - ``move("forward", speed=1.5, duration=10)``: ``"that would travel more than 5.0 m; ..."``
+     - ``move("forward", speed=1.5, duration=10)``: ``"that would travel 15.00 m, more than 7.0 m in one move: split it into shorter moves"``
      - a success, or a crash
 
-Check it: ``python3 lab/test.py part2`` (TODOs 2–3). Then try your words in
-text: ``python3 lab/chat.py``, and ask for a run, a sidestep and a turn. You see
+**TODO 4:** ``arc``, at the very bottom of ``lab/part2_walk.py``: walk and
+turn at the same time.
+
+``turn`` sends only a turning speed, and ``move`` only a straight one. Ask for
+"a circle" with just those, and the best Gemini can do is chain them: Pupper
+walks, stops, turns, walks again. But ``walk`` takes ``vx`` and ``wz_deg``
+together, and the locomotion policy was trained on both at once. ``arc`` is how
+Gemini asks for a smooth curve.
+
+Its parameters are given, so the tests can check them: ``direction`` (left or
+right), ``angle`` (degrees of the circle to go around, **required**), ``radius``
+(m, default 0.5) and ``speed`` (m/s, default 0.4). You write the words and the
+body. ``angle`` has no default on purpose: with a default of 90, Gemini asked
+for "a circle" by leaving it out, and Pupper walked a quarter of one.
+
+**The math.** Going around a circle of radius *r* at speed *v*, Pupper turns
+*v / r* radians per second. ``walk`` wants degrees per second, and the time
+comes from the angle:
+
+.. code-block:: python
+
+   wz_deg = math.degrees(speed / radius)   # + to the left, - to the right
+   seconds = abs(angle) / abs(wz_deg)
+   return await walk(robot, speed, 0.0, wz_deg, seconds)
+
+.. list-table::
+   :header-rows: 1
+   :widths: 46 54
+
+   * - Gemini calls
+     - What happens
+   * - ``arc(direction="left", angle=90)``
+     - vx 0.4, wz +45.8 deg/s for 1.96 s: a quarter circle
+   * - ``arc(direction="right", angle=180, radius=1.0, speed=0.6)``
+     - vx 0.6, wz −34.4 deg/s for 5.24 s: a U-turn
+   * - ``arc(direction="left", angle=360, radius=1.0)``
+     - vx 0.4, wz +22.9 deg/s for 15.7 s: a circle 2 m across (6.3 m of path)
+   * - ``arc(direction="left", angle=90, radius=0)``
+     - a sharp corner: turns in place, like ``turn``, and says so: ``"Radius 0: turned in place (a sharp corner). move ..."``
+   * - ``arc(direction="left", angle=90, radius=0.1)``
+     - refused by *your* code, with what works: ``"too tight: at 0.4 m/s the radius must be at least 0.25 m"``
+   * - ``arc(direction="left", angle=360, radius=1.5, speed=1.2)``
+     - refused by ``check_move``: ``"that would travel 9.42 m, more than 7.0 m in one move: split it into shorter moves"``
+   * - ``arc(direction="left", angle=90, radius=-1)``
+     - refused by your code: ``"no arc: radius must be 0 m or more ..."``
+
+Three things to get right. Each one comes from watching Gemini use an ``arc``
+that didn't have it:
+
+- **A too-tight arc: say what works.** ``check_move`` would refuse it too, but
+  its reason is ``"|wz|<=114.0 deg/s"``. Gemini can't tell from that that the
+  *radius* is the problem: asked to "run in a circle", it sent the same arc five
+  times. Check it yourself first, and reply with the smallest radius that works
+  at that speed, ``speed / math.radians(LIMITS.wz_max)``, rounded up.
+- **Radius 0 is a sharp corner, not an error.** Gemini plans a whole shape
+  and sends every call at once, and it likes to ask for corners as
+  ``arc(radius=0)``. When those were refused, the sides still ran, and "walk
+  in a rectangle" came out as one straight line. ``speed / 0`` would crash
+  anyway, so handle it before the math: turn in place, as ``turn`` does, and put
+  a note in front of the reply (``with_note``, as in TODO 3). A negative radius,
+  or a speed of 0 or less, is refused.
+- **Give Gemini the limits in the words,** computed from ``LIMITS``. The
+  tighter the circle, the faster the turn, and the robot turns at most
+  ``LIMITS.wz_max`` deg/s: at speed *v* the smallest radius is
+  ``v / math.radians(LIMITS.wz_max)``, about 0.2 m at a walk and 0.6 m at a
+  run. One arc goes at most ``LIMITS.distance_max`` m. And say what ``arc``
+  is *not* for: straight sides with sharp corners (a square, a star) are
+  ``move`` and ``turn``.
+
+**What** ``python3 lab/test.py todo4`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 36 34 30
+
+   * - Check
+     - Passes
+     - Fails
+   * - ``arc`` has a description of 20+ characters, and every parameter is described
+     - ``"Walk forward and turn at the same time, around part of a circle ..."``
+     - ``"arc"``, or a parameter still saying ``"TODO 4"``
+   * - Its words contain ``LIMITS.distance_max`` (``7.0``) and ``"follow"``
+     - ``f"... One arc goes at most {LIMITS.distance_max} m." + ENDS_FOLLOW``
+     - ``"Walk in a curve."``
+   * - ``arc("left", angle=90, radius=0.5)`` sends ``vx = +0.4``, ``vy = 0``, ``wz = +45.8`` deg/s, and turns about 90° (70–110)
+     - ``wz_deg = math.degrees(speed / radius)``
+     - ``vx = 0`` (a turn in place); or ``wz_deg = speed / radius`` (0.8: that's rad/s, and ``check_move`` refuses the 112 s it then takes)
+   * - ``arc("right", angle=90, ...)`` sends a negative ``wz``, still going forward
+     - ``wz_deg = -45.8``, ``vx = +0.4``
+     - ``vx = -0.4`` (that backs up)
+   * - ``arc("left", angle=90, speed=0.6, radius=1.0)`` sends ``vx = 0.6``, ``wz = +34.4`` deg/s
+     - ``vx = speed``
+     - ``vx = 0.4`` (the speed ignored)
+   * - ``arc("left", angle=90, radius=0)`` turns in place, left, about 90°, and the reply says ``"place"``
+     - ``"Radius 0: turned in place (a sharp corner). move vx=0 ... queued"``
+     - a crash (dividing by 0), or a refusal
+   * - ``arc("left", angle=90, radius=-1)`` is a failure that says ``"radius"``, and sends nothing
+     - ``"no arc: radius must be 0 m or more ..."``
+     - a success, or a crash
+   * - ``arc("left", angle=90, radius=0.1)`` (229 deg/s) fails, says ``"radius"``, and gives the smallest radius (0.2–0.3 m)
+     - ``"too tight: at 0.4 m/s the radius must be at least 0.25 m"``
+     - ``check_move``'s ``"too fast: ... |wz|<=114.0 deg/s"``; or a success that quietly turned slower
+
+Check it: ``python3 lab/test.py part2`` (TODOs 2–4). Then try your words in
+text: ``python3 lab/chat.py``, and ask for a run, a sidestep, a turn,
+*"run in a circle around me"* (did Gemini pick a radius the robot can do?), and
+a shape: *"walk in a rectangle"*, *"walk a star"*, *"trace the letter D"*. You see
 the exact call Gemini makes and the speeds your code sends the (fake) robot.
 Last, restart (``robot/stop.sh && robot/start.sh``), reconnect in the app, and
 try it by voice.
@@ -808,10 +935,10 @@ try it by voice.
    you using *only the robot's reply*. If your descriptions are so good that
    Gemini never asks for anything impossible, great: try something that fits
    the tool but breaks another rule. "Run forward for ten seconds" is more
-   than 5 m. Show a TA the conversation and the debug view.
+   than 7 m. Show a TA the conversation and the debug view.
 
-**DELIVERABLE (Q3):** Your ``turn`` and ``move`` descriptions, and one sentence
-each on a choice you made (which parameters, which defaults, what the
+**DELIVERABLE (Q3):** Your ``turn``, ``move`` and ``arc`` descriptions, and one
+sentence each on a choice you made (which parameters, which defaults, what the
 description promises). Where is "run means at least 1.0 m/s" enforced, and
 why there?
 
@@ -845,7 +972,7 @@ Part 3: Follow
 The robot has a person follower: camera → person detection → walking, like
 your lab 5 state machine. Follow mode needs one rule:
 
-   *Questions and conversation keep following. Any motion (walk, turn,
+   *Questions and conversation keep following. Any motion (walk, turn, arc,
    trick, stand up, lie down) ends follow mode, and Pupper says so first:
    "Let me stop following you and ..."*
 
@@ -853,7 +980,7 @@ Turning the follower on and off is provided (``robot.set_following``). The
 rule is yours, in two halves: the code that makes it true, and the words that
 let Gemini talk about it.
 
-**TODO 4:** ``leave_follow_mode`` in ``lab/part3_follow.py``. Every motion calls
+**TODO 5:** ``leave_follow_mode`` in ``lab/part3_follow.py``. Every motion calls
 it in its *now* part: look for it in ``stand_up`` and ``lie_down``
 (``basics.py``) and ``walk`` (``part2_walk.py``). So whatever you write here
 applies to every motion at once.
@@ -874,7 +1001,7 @@ own reply (``with_note`` in ``stand_up`` puts it there).
 4. Return the note, e.g. ``"Stopped following the person first. "``: end it
    with a space, since the tool's own reply comes right after it.
 
-**What** ``python3 lab/test.py todo4`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+**What** ``python3 lab/test.py todo5`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
    :header-rows: 1
@@ -896,9 +1023,9 @@ own reply (``with_note`` in ``stand_up`` puts it there).
      - following is still on afterwards
      - calling ``leave_follow_mode`` from a question
 
-Check it: ``python3 lab/test.py todo4``
+Check it: ``python3 lab/test.py todo5``
 
-**TODO 5:** The ``follow`` tool at the bottom of ``lab/part3_follow.py``, and the
+**TODO 6:** The ``follow`` tool at the bottom of ``lab/part3_follow.py``, and the
 *Follow mode* section of ``lab/prompt.md``.
 
 - The body is one line: ``return await robot.set_following(enabled)``.
@@ -909,9 +1036,9 @@ Check it: ``python3 lab/test.py todo4``
   motion ends follow mode.
 
 ``ENDS_FOLLOW``, the sentence you added to every motion tool's description in
-TODO 3, is the third place the rule now lives.
+TODOs 3 and 4, is the third place the rule now lives.
 
-**What** ``python3 lab/test.py todo5`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+**What** ``python3 lab/test.py todo6`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
    :header-rows: 1
@@ -922,9 +1049,9 @@ TODO 3, is the third place the rule now lives.
      - Fails
    * - ``follow`` has a description of 20+ characters, and ``enabled`` is described
      - ``"true to start following, false to stop."``
-     - ``"TODO 5"``
+     - ``"TODO 6"``
    * - Its description says what ends it (contains ``"end"`` or ``"stop"``)
-     - ``"... any motion tool (walk, turn, trick, stand up, lie down) ends it."``
+     - ``"... any motion tool (move, turn, arc, trick, stand up, lie down) ends it."``
      - ``"Follow the nearest person."``
    * - ``prompt.md``'s *Follow mode* says what ends it (``"end"`` or ``"stop"``)
      - "Any motion ends follow mode. Before you call that tool, say so."
@@ -1019,7 +1146,7 @@ who has the legs afterwards:
        "stay")
      - ``sit_stay_shake``
 
-**TODO 6:** ``play_trick`` in ``lab/part4_tricks.py``: the *now* part, the
+**TODO 7:** ``play_trick`` in ``lab/part4_tricks.py``: the *now* part, the
 same shape as ``walk``. Its job, ``play_policy_trick``, is finished: you read
 it next.
 
@@ -1120,7 +1247,7 @@ it, and check that you can see each row happen):
      - 3: switch to ``trick_sit``, wait; ``robot.fallen`` is set
      - ``sit ended in a fall: the robot fell over: ...``
 
-**What** ``python3 lab/test.py todo6`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+**What** ``python3 lab/test.py todo7`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
    :header-rows: 1
@@ -1147,12 +1274,12 @@ it, and check that you can see each row happen):
 
 The fake robot's tricks: ``bow`` ends standing, ``roll_over`` ends lying down, and ``hold_pose`` is a clip trick (actions ``wave_left``, ``wave_right``, exit clip ``leave``).
 
-Check it: ``python3 lab/test.py todo6``. It runs your ``play_trick`` with the
+Check it: ``python3 lab/test.py todo7``. It runs your ``play_trick`` with the
 finished job behind it, on the fake robot, which records every controller
 switch and when.
 
-**TODO 7:** The ``play_trick`` tool at the bottom of ``lab/part4_tricks.py``:
-what Gemini reads. The body is already written; replace the ``TODO 7`` words.
+**TODO 8:** The ``play_trick`` tool at the bottom of ``lab/part4_tricks.py``:
+what Gemini reads. The body is already written; replace the ``TODO 8`` words.
 
 - Put ``{tricks}`` in the description: the robot turns it into the list of
   installed tricks, each with the description from its ``trick.yaml``. Look
@@ -1161,7 +1288,7 @@ what Gemini reads. The body is already written; replace the ``TODO 7`` words.
   looks wrong from lying down, and a trick keeps its final pose until the next
   motion.
 
-**What** ``python3 lab/test.py todo7`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+**What** ``python3 lab/test.py todo8`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
    :header-rows: 1
@@ -1172,7 +1299,7 @@ what Gemini reads. The body is already written; replace the ``TODO 7`` words.
      - Fails
    * - ``play_trick`` has a description of 20+ characters, and ``name`` is described
      - ``"The exact trick name."``
-     - ``"TODO 7"``
+     - ``"TODO 8"``
    * - Its description contains ``{tricks}`` (every trick's own description appears in it)
      - ``"... \nTricks:\n{tricks}"``
      - typing the trick names yourself (stale when a trick is added)
@@ -1286,13 +1413,13 @@ makes an open-ended stay possible?
 
 Part C: Give Gemini the Actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A clip trick holds a pose and takes requests. ``play_trick`` (your TODO 6)
+A clip trick holds a pose and takes requests. ``play_trick`` (your TODO 7)
 already sits and stays; the requests (*shake*, *the other paw*, *stand up*)
 are **trick actions**, and they only make sense while the trick holds its
 pose. Until a clip trick is installed, Gemini is told the ``trick_action`` tool
 has nothing to choose from.
 
-**TODO 8:** ``trick_action`` in ``lab/part5_sit_stay_shake.py``. You can write
+**TODO 9:** ``trick_action`` in ``lab/part5_sit_stay_shake.py``. You can write
 and test it while your policy trains: the tests use a made-up clip trick called
 ``hold_pose`` (actions ``wave_left``, ``wave_right``, and the exit clip
 ``leave``).
@@ -1345,7 +1472,7 @@ part is *when* to ask, because of the queue:
    from step 1, 3 or 8, right away. The job's result (the shake played, or
    the sit was gone by then) goes to the debug log and ``robot_status``.
 
-**What** ``python3 lab/test.py todo8`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+**What** ``python3 lab/test.py todo9`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
    :header-rows: 1
@@ -1376,7 +1503,7 @@ part is *when* to ask, because of the queue:
      - the job first checks ``await robot.is_active(trick.controller)``
      - checking only *now*
 
-Check it: ``python3 lab/test.py todo8``
+Check it: ``python3 lab/test.py todo9``
 
 **On the robot:**
 
@@ -1393,7 +1520,7 @@ Check it: ``python3 lab/test.py todo8``
    installed they get no controller and Gemini no longer sees them. A plain
    "sit" then has only one trick to go to.
 
-**TODO 9:** What Gemini reads about the actions.
+**TODO 10:** What Gemini reads about the actions.
 
 - Fill in ``tricks/sit_stay_shake/trick.yaml`` (``get_trick.py`` wrote a
   template): the trick's ``description``, the ``actions`` Gemini may ask for
@@ -1415,7 +1542,7 @@ Check it: ``python3 lab/test.py todo8``
   before the sit has happened), then restart and say it to Pupper in one
   breath.
 
-**What** ``python3 lab/test.py todo9`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+**What** ``python3 lab/test.py todo10`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
    :header-rows: 1
@@ -1426,7 +1553,7 @@ Check it: ``python3 lab/test.py todo8``
      - Fails
    * - ``trick_action`` has a description of 20+ characters, and ``action`` is described
      - ``"The exact action name."``
-     - ``"TODO 9"``
+     - ``"TODO 10"``
    * - Its description contains ``{actions}`` (each action's description appears in it)
      - ``"... Actions:\n{actions}"``
      - typing the action names yourself
@@ -1448,7 +1575,7 @@ case where the *other* check (in the job) is the one that matters.
 
 Part 6: Put It Together
 -----------------------
-**TODO 10:** The last two sections of ``lab/prompt.md``.
+**TODO 11:** The last two sections of ``lab/prompt.md``.
 
 - **Tricks.** A trick keeps its final pose until the next motion. Trick
   actions only work while their trick holds its pose. When the person asks for
@@ -1461,7 +1588,7 @@ Part 6: Put It Together
   refuses to stand up until it is upright and still, in code; your prompt
   is what makes Gemini ask for help instead of trying again and again.
 
-**What** ``python3 lab/test.py todo10`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+**What** ``python3 lab/test.py todo11`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
 .. list-table::
    :header-rows: 1
@@ -1528,9 +1655,9 @@ Working With a Coding Agent
 ---------------------------
 A few habits that help:
 
-* **Give it checks it can run**: ``python3 lab/test.py todo6``, and the
+* **Give it checks it can run**: ``python3 lab/test.py todo7``, and the
   notebook's (or ``sit_stay_shake.py``'s) ``ok`` / ``FAIL`` checks.
-* **Ask for the plan before the code.** "Read the TODO 8 card in
+* **Ask for the plan before the code.** "Read the TODO 9 card in
   ``lab/part5_sit_stay_shake.py`` and tell me how a trick action should use the
   queue; don't edit anything yet."
 * **Check its claims against the robot.** The server log, the debug view and
