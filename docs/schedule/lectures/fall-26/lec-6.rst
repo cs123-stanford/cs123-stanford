@@ -1,5 +1,5 @@
-Lecture 6: Robot Foundation Models
-==================================
+Lecture 6: Foundation Models and Human-Robot Interaction
+========================================================
 
 **Lab:** :doc:`../../labs/fall-26/lab-6` Bringing your Pupper to life: let Gemini drive Pupper through tools you write, then train it to sit, stay, and shake a paw!
 

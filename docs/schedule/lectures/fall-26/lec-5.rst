@@ -1,7 +1,7 @@
-Lecture 5: Vision and Navigation
-================================
+Lecture 5: Onboard Computer Vision
+==================================
 
-**Lab:** :doc:`../../labs/fall-26/lab-5` Integrate Computer Vision to Pupper that enables object tracking and voice control!
+**Lab:** :doc:`../../labs/fall-26/lab-5` Integrate Computer Vision to Pupper that enables object tracking and avoid obstacles!
 
 **Lecture Slides:** by Nathan & Gabrael (Pupper's creators): https://docs.google.com/presentation/d/1D4PkpB8UiqQQ3B4OK1W82MBIK9-kjJVnK3rV9RYrwSE/edit?usp=sharing 
 
