@@ -1338,6 +1338,16 @@ stands right back up. By the end of this part, Pupper will **sit when told,
 stay sitting for as long as you like, shake whichever paw you ask for, and
 stand up when you say so**, all by voice.
 
+.. note::
+
+   Once you fetch your ``sit_stay_shake`` (end of Part C), **it takes over
+   "sit"**. The old ``sit`` (sit, hold two seconds, stand back up) and
+   ``stand_sit_shake_sit_stand`` step aside: Gemini no longer sees them. So
+   if Pupper now sits and *stays* where it used to stand right back up,
+   that's your new trick, not a bug. To get the old ones back, move
+   ``tricks/sit_stay_shake`` out of ``tricks/`` and restart
+   (``robot/stop.sh && robot/start.sh``).
+
 You won't design any new poses. You get two finished motions, *sit down and
 stand up* and *shake the left paw while sitting*, and you cut and join them
 into a **clip library**: named pieces of motion the robot plays one at a time,
@@ -1529,7 +1539,8 @@ Check it: ``python3 lab/test.py todo9``
    From now on, the old ``sit`` and ``stand_sit_shake_sit_stand`` step aside:
    their ``trick.yaml`` says ``replaced_by: sit_stay_shake``, so once yours is
    installed they get no controller and Gemini no longer sees them. A plain
-   "sit" then has only one trick to go to.
+   "sit" now goes to your clip trick: Pupper sits and stays until you ask it
+   to shake or stand up.
 
 **TODO 10:** What Gemini reads about the actions.
 
