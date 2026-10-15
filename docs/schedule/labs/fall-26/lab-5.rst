@@ -26,6 +26,68 @@ because everything stands on the same floor, and the floor recedes upward in
 the image. The bottom edge of a bounding box *is* a distance sensor. You will
 build all of the obstacle avoidance out of that one observation.
 
+.. admonition:: AI Use Suggestion
+   :class: note
+
+   **This lab is designed to be completed without a coding agent.** Every
+   TODO is a few lines, and the desk-side tests tell you exactly what each one
+   must do. That said, you are free to use a coding agent (Claude Code or
+   Codex) for the coding part, on two conditions:
+
+   * **Understand the high-level ideas** — why the bottom edge of a box is a
+     distance sensor, how the state machine moves between states, how the
+     detour picks a side, and how the target lock tells people apart — well
+     enough to explain them without your agent open.
+   * **Understand every line your agent writes**: what it does and why it is
+     there. If you cannot explain a line, ask the agent to explain it until
+     you can.
+
+   Answer every DELIVERABLE in your own words, from what you did and saw on
+   your robot.
+
+   .. important::
+
+      **Quiz 2 tests this.** Some implementation details of this lab — what a
+      function returns, why a check is written the way it is, what the robot
+      does when a check is missing — will be on Quiz 2.
+
+.. list-table:: Lab roadmap
+   :header-rows: 1
+   :widths: 10 50 40
+
+   * - Step
+     - What you do
+     - Code and tests
+   * - 0
+     - **Setup:** fork, clone, download the model
+     - (reading)
+   * - 1
+     - **See:** run the camera, detector and viewer
+     - (nothing to write)
+   * - 2
+     - **Geometry:** the four bounding-box primitives
+     - ``avoidance.py`` · ``test_avoidance.py geometry``
+   * - 3
+     - **Track:** the state machine, and stopping at a polite distance
+     - ``follow_me.py``, ``target_lock.py`` (``STOP_BOTTOM``,
+       ``approach_speed``) · ``test_target_lock.py distance``
+   * - 4
+     - **Avoid:** decide when something is in the way, and detour around it
+     - ``avoidance.py``, ``follow_me.py`` · ``test_avoidance.py avoidance``
+   * - 5
+     - **Lock on:** follow *your* person, not whoever is most centred
+     - ``target_lock.py`` · ``test_target_lock.py lock``
+
+**The tests: what they check.** Two desk-side scripts run your code on fake
+detections — no robot, no ROS. Each takes a section name, so you can test one
+step at a time (``python3 test_avoidance.py geometry``); with no name, it runs
+everything. A check whose code you have not written yet is skipped (``--``),
+not failed, so run them after every function. A failing check prints what your
+code returned, what was wanted, and an example that passes. Each step below
+ends with a table of *every* check its tests make: nothing is checked that is
+not in the table. The state machine in ``follow_me.py`` has no desk tests — the
+robot is its test.
+
 Step 0. Setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 1. Fork the `follow_me_pupper <https://github.com/cs123-stanford/follow_me_pupper>`_
@@ -109,7 +171,33 @@ harness — run it after every function:
 
 .. code-block:: bash
 
-   python3 test_avoidance.py
+   python3 test_avoidance.py geometry
+
+**What** ``python3 test_avoidance.py geometry`` **checks.** Every check, with
+an example that passes and a common way to fail it.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 36 34 30
+
+   * - Check
+     - Passes
+     - Fails
+   * - ``box_bottom`` is the bottom edge
+     - a box from y=200 to y=500 gives ``500``
+     - ``350`` (the centre), or ``200`` (the top: image y grows *downward*)
+   * - ``box_offset`` of a centred box is 0, and of a box at the right edge
+       about +0.49
+     - centre x=690 of 700 gives ``690 / 700 - 0.5 = 0.486``
+     - ``0.986`` (forgot the ``- 0.5``), or ``340`` (not normalized)
+   * - ``box_left_fraction`` is 1 for a box fully left of centre, and 0.25
+       for a box with 30 of its 120 px left of x=350
+     - ``1.0`` and ``0.25``
+     - ``1.0`` for the straddling box (judged by its centre alone)
+   * - ``obstacle_weight`` is ``SIDE_WEIGHT_NEAR`` at the image bottom, and a
+       nearer object weighs more than a farther one
+     - bottom 572 gives ``2.0``; bottom 30 gives about ``0.58``
+     - weights that grow toward the *top* of the image
 
 **DELIVERABLE:** Explain the distance-from-bottom-edge trick in your own
 words: *why* does a lower bottom edge mean a nearer object? Then give two
@@ -166,11 +254,41 @@ Work through the marked sections:
 
    ``approach_speed`` is then a second proportional controller on the error
    to ``STOP_BOTTOM`` — walk in when the person is far, stand still inside
-   ``STOP_TOLERANCE``, step back when they come too close. Run
-   ``python3 test_target_lock.py``; its distance scenes should pass (the
-   rest are Step 5).
+   ``STOP_TOLERANCE``, step back when they come too close. Check it with
+   ``python3 test_target_lock.py distance`` (table below).
 5. **Constants**: pick and tune ``TIMEOUT``, ``SEARCH_YAW_VEL``,
    ``TRACK_FORWARD_VEL``, ``KP``.
+
+**What** ``python3 test_target_lock.py distance`` **checks.** The examples
+use ``KP_DISTANCE = 1.5``, ``STOP_TOLERANCE = 15``, ``MAX_BACKUP_VEL = 0.2``
+and a cap of 0.3 m/s.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 36 34 30
+
+   * - Check
+     - Passes
+     - Fails
+   * - ``STOP_BOTTOM`` is measured: a bottom edge inside the 572 px frame
+     - ``STOP_BOTTOM = 448.0`` (from your Live feed image)
+     - ``None`` (skipped until you measure it), or the raw pixel y from a
+       screenshot of a different height, not scaled to 572
+   * - At ``STOP_BOTTOM``, and anywhere inside ``STOP_TOLERANCE``: stand still
+     - ``0.0``
+     - a tiny speed like ``0.02`` (no dead band: Pupper shuffles in place)
+   * - Far away: walk in at the cap
+     - 200 px short gives ``0.3`` (1.5 × 200 / 572 = 0.52, capped)
+     - ``0.52`` (not capped at ``max_forward``)
+   * - A little far: proportional, ``KP_DISTANCE * error / 572``
+     - 40 px short gives ``0.105``
+     - ``0.3`` (full speed whenever it is far: not proportional)
+   * - Too close: back away
+     - 60 px past gives ``-0.157``
+     - ``0.0`` or a positive speed (the sign of the error is flipped)
+   * - Right on top of us: back away no faster than ``MAX_BACKUP_VEL``
+     - bottom 572 gives ``-0.2``
+     - ``-0.31`` (not clamped backward)
 
 Test it. In two more terminals:
 
@@ -236,8 +354,51 @@ image space, using nothing but bottom edges), the right panel is the *detour*
    half of the frame, else away from the obstacle's side, else toward the
    target.
 
-Run ``python3 test_avoidance.py`` until all 16 scenes pass — every one of
-them is a bug you did not have to debug on a moving robot.
+Run ``python3 test_avoidance.py avoidance`` until every check passes — each
+one is a bug you did not have to debug on a moving robot.
+
+**What** ``python3 test_avoidance.py avoidance`` **checks.** The scene: the
+person you chase stands mid-frame with their bottom edge at y=272.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 36 34 30
+
+   * - Check
+     - Passes
+     - Fails
+   * - ``measure_crowding``: a near chair on the left outweighs a far one on
+       the right
+     - ``(left, right) = (1.95, 0.92)``
+     - left and right swapped, or every box weighted the same
+   * - ``find_blocking_obstacle``: an object *beyond* the target (bottom
+       edge 222, above the target's 272) does not block
+     - ``None``
+     - its offset (test 1 missing: anything centred counts as in the way)
+   * - ... an object between us and the target but still far (280 px from
+       the image bottom, more than ``OBSTACLE_BOTTOM_MARGIN``) does not block
+     - ``None``
+     - its offset (test 2 missing, or measured from the top of the image)
+   * - ... a near object off to a side (offset −0.37, outside
+       ``OBSTACLE_CENTER_BAND``) does not block
+     - ``None``
+     - ``-0.37`` (test 3 missing, or compared without ``abs``)
+   * - ... a near, centred object between us and the target blocks
+     - ``-0.014``, the blocker's ``box_offset``
+     - ``None``, or the detection itself instead of its offset
+   * - ... of two blockers, the nearest wins
+     - ``+0.029`` (bottom 532 beats bottom 472)
+     - ``-0.014`` (the first one found, or the farther one)
+   * - ``choose_side``: crowded right → left (``+1``); crowded left → right
+       (``-1``)
+     - ``(1.0, 'crowding L 0.50 / R 3.00')``
+     - the signs swapped (``+1`` is *left*, as for yaw)
+   * - ... even sides, obstacle right of centre → left
+     - ``1.0``
+     - ``-1.0`` (stepping toward the obstacle's side)
+   * - ... all even, target right → right, the shorter way back
+     - ``-1.0``
+     - ``1.0``
 
 **The detour**, in ``follow_me.py`` — three timed states:
 
@@ -305,8 +466,64 @@ your person from a stranger. But two things still can:
 Build it in ``target_lock.py``: ``position_distance`` and ``color_distance``
 measure the two cues, ``pick_target`` combines them (its TODO lays out the
 order), and ``remember`` updates what the robot knows about its target after
-every frame. ``follow_me.py`` already calls them. Run
-``python3 test_target_lock.py`` until every scene passes.
+every frame. ``follow_me.py`` already calls them (until ``pick_target`` is
+written, it falls back to the most centred person). Run
+``python3 test_target_lock.py lock`` until every check passes.
+
+**What** ``python3 test_target_lock.py lock`` **checks.** The people wear red
+(200, 40, 40), blue (40, 60, 200), or "reddish" (185, 55, 50): the red shirt
+under slightly different light. The lock was just following a red person at
+the centre of the frame, bottom edge at y=400.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 36 34 30
+
+   * - Check
+     - Passes
+     - Fails
+   * - ``position_distance`` is 0 to a detection's own position, and in image
+       fractions (70 px sideways = 0.1)
+     - ``0.1``
+     - ``70.0`` (pixels, not fractions of the image)
+   * - ``color_distance`` of the same shirt is 0; with no color on the
+       detection, or nothing remembered, it is ``None``
+     - ``None`` for ``id == ""``
+     - ``0.0`` or a crash when a color is missing (missing is *no evidence*,
+       not a perfect match)
+   * - ``remember`` stores the color on first sight, and the position
+       (``box_position``)
+     - ``lock.color == [200, 40, 40]``
+     - ``lock.color`` still ``None``
+   * - ``remember`` after that blends the color by ``REID_BLEND``
+     - 0.9 × red + 0.1 × reddish = ``[198.5, 41.5, 41]``
+     - ``[185, 55, 50]`` (replaced, not blended), or the weights swapped
+   * - ``pick_target``, new chase: the most centred person
+     - the person at x=370, not the one at x=200
+     - the first in the list
+   * - ... nearest to the last position wins, even over a better color
+       match far away
+     - the reddish person 15 px from where we were
+     - the red person at x=100 (color checked before position)
+   * - ... a stranger alone in our spot does not steal the lock
+     - ``None`` (blue is too far from red)
+     - the stranger (position trusted without the color veto)
+   * - ... a frame of only strangers has no target
+     - ``None``
+     - the stranger (falling back to the most centred)
+   * - ... two people crossing, both nearby: the color decides
+     - the reddish one
+     - the blue one (nearest position wins even when several are nearby)
+   * - ... a stranger in our spot and us elsewhere: re-acquire us by color
+     - the reddish person at x=120
+     - ``None`` (gave up after the color veto instead of looking further)
+   * - ... after a search (no position remembered): re-acquire by color
+       anywhere
+     - the reddish person at x=600
+     - the blue one at x=300 (most centred)
+   * - ... with no masks (no colors at all): nearest position decides
+     - the person 10 px away, not the one 40 px away
+     - ``None`` (a missing color treated as a mismatch)
 
 Some questions to settle before you write code: what does the robot do when
 it lost you and spun around — is "where you were" still worth anything? A
