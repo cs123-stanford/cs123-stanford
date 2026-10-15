@@ -246,6 +246,19 @@ Part 0: Setup
    your key. The key goes in ``~/.config/gemini-pupper/api_key`` on the
    Pupper, never in the repo. You can run ``setup.sh`` again at any time.
 
+   .. note::
+
+      **Follow mode is your Lab 5.** When Gemini follows someone, it runs your
+      ``follow_me.py`` state machine, with your target lock and stop distance,
+      through ``follow_service.py`` in ``~/follow_me_pupper``. Keep that repo
+      on the Pupper with its model downloaded. Obstacle avoidance stays off,
+      and the Hailo only runs while Pupper is following, which keeps it
+      cooler. Pupper's on-screen eyes therefore track people only while it
+      follows. For eyes that track people all the time, start with
+      ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (Pupper runs warmer). Without
+      ``~/follow_me_pupper``, follow mode falls back to the monorepo's simpler
+      follower.
+
 5. **Wake Pupper up.** Put Pupper on the ground in clear space, then:
 
    .. code-block:: bash
