@@ -152,12 +152,23 @@ Work through the marked sections:
 4. **Keeping your distance** (``approach_speed`` in ``target_lock.py``): a
    robot that walks at a constant speed walks straight into your shins.
    The bottom edge of the target's box is a distance sensor (Step 2), so
-   steer *that* too: ``STOP_BOTTOM`` is the bottom edge we measured with a
-   person standing at a comfortable distance, and ``approach_speed`` is a
-   second proportional controller on the error to it — walk in when the
-   person is far, stand still inside ``STOP_TOLERANCE``, step back when they
-   come too close. Run ``python3 test_target_lock.py``; its distance scenes
-   should pass (the rest are Step 5).
+   steer *that* too. First, measure where Pupper should stop:
+
+   a. With the launch running, open the viewer and stand in front of Pupper
+      at the distance you want it to keep (close, but not on top of it —
+      your feet should still be in frame).
+   b. Save the **Live feed** image from the viewer's side panel (it is the
+      equirectangular frame the detector sees, without padding).
+   c. In the image, find the y of your box's bottom edge, in pixels, and
+      scale it to the 572 px reference frame:
+      ``STOP_BOTTOM = y_bottom / image_height * 572``. Put it into
+      ``target_lock.py``.
+
+   ``approach_speed`` is then a second proportional controller on the error
+   to ``STOP_BOTTOM`` — walk in when the person is far, stand still inside
+   ``STOP_TOLERANCE``, step back when they come too close. Run
+   ``python3 test_target_lock.py``; its distance scenes should pass (the
+   rest are Step 5).
 5. **Constants**: pick and tune ``TIMEOUT``, ``SEARCH_YAW_VEL``,
    ``TRACK_FORWARD_VEL``, ``KP``.
 
@@ -185,7 +196,8 @@ for quick demos.)
 
 **DELIVERABLE:** A video of Pupper tracking a person, showing both search and
 track behavior — including it stopping at the right distance, and backing
-off when you step toward it. Upload to Gradescope.
+off when you step toward it — plus the Live feed image you measured
+``STOP_BOTTOM`` from and the value you got. Upload to Gradescope.
 
 **DELIVERABLE:** A video with *two* people in frame. Which one does your
 robot follow, and why? (Notice anything unsatisfying? Hold that thought for
