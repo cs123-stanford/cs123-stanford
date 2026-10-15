@@ -74,8 +74,9 @@ code.
    .. figure:: ../../../_static/lab5/pupper_viser.png
       :align: center
 
-      The viser viewer on the equirectangular view: a person detected with
-      a bounding box, confidence score, and segmentation mask.
+      The viser viewer on the equirectangular view: a person, a chair, a TV
+      and a bed, each with a bounding box, confidence score, and
+      segmentation mask.
 
 4. Notice the **View** dropdown: the raw image is a fisheye, but detection
    always runs on the *equirectangular* (undistorted) view. The fisheye lens
@@ -148,7 +149,16 @@ Work through the marked sections:
 3. **Behaviors**: motion commands per state. TRACK is proportional control —
    steer against the offset with gain ``KP``. For SEARCH, think about *which
    way* to spin: where was the target last seen?
-4. **Constants**: pick and tune ``TIMEOUT``, ``SEARCH_YAW_VEL``,
+4. **Keeping your distance** (``approach_speed`` in ``target_lock.py``): a
+   robot that walks at a constant speed walks straight into your shins.
+   The bottom edge of the target's box is a distance sensor (Step 2), so
+   steer *that* too: ``STOP_BOTTOM`` is the bottom edge we measured with a
+   person standing at a comfortable distance, and ``approach_speed`` is a
+   second proportional controller on the error to it — walk in when the
+   person is far, stand still inside ``STOP_TOLERANCE``, step back when they
+   come too close. Run ``python3 test_target_lock.py``; its distance scenes
+   should pass (the rest are Step 5).
+5. **Constants**: pick and tune ``TIMEOUT``, ``SEARCH_YAW_VEL``,
    ``TRACK_FORWARD_VEL``, ``KP``.
 
 Test it. In two more terminals:
@@ -174,11 +184,12 @@ for quick demos.)
    (``p variable`` prints, ``n`` steps, ``c`` continues.)
 
 **DELIVERABLE:** A video of Pupper tracking a person, showing both search and
-track behavior. Upload to Gradescope.
+track behavior — including it stopping at the right distance, and backing
+off when you step toward it. Upload to Gradescope.
 
 **DELIVERABLE:** A video with *two* people in frame. Which one does your
 robot follow, and why? (Notice anything unsatisfying? Hold that thought for
-the optional part.)
+Step 5.)
 
 Step 4. Something in the Way
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -229,6 +240,14 @@ steps the phase clock, ``ready_to_avoid`` gates when a detour may begin —
 including a cooldown after each one. Detections keep arriving during the
 detour, so the chase resumes seamlessly when it ends.
 
+.. warning::
+
+   Let's be frank: this obstacle avoidance is not very good. It is a stack of
+   hand-tuned heuristics, and on the real robot it will sometimes miss an
+   obstacle, detour around nothing, or pick the wrong side. Do not expect it
+   to work every time — that is not a bug in your code, and you will be asked
+   to explain why below. One clean run is all the video deliverable needs.
+
 **DELIVERABLE:** The output of ``test_avoidance.py`` with all scenes passing.
 
 **DELIVERABLE:** We drew the three-state machine for you in Step 3 — now it
@@ -236,55 +255,69 @@ is your turn. Draw the full six-state machine (IDLE, SEARCH, TRACK,
 AVOID_TURN, AVOID_PASS, AVOID_RETURN) with every transition condition
 labeled. Upload to Gradescope.
 
-**DELIVERABLE:** A video of Pupper walking toward you, detouring around an
-obstacle placed in its path, and resuming the chase.
+**DELIVERABLE:** A video of Pupper walking toward you, detouring around one
+obstacle placed in its path, and resuming the chase. It does not have to be
+reliable: one successful run is enough.
 
-**DELIVERABLE:** Two design questions, a short paragraph each: (a) The detour
+**DELIVERABLE:** Three design questions, a short paragraph each: (a) The detour
 is *open-loop* — during AVOID_PASS the robot does not re-check the obstacle.
 We chose that deliberately: the onboard detector is unreliable exactly when an
 object is very close and fills the frame. What would happen to a closed-loop
 detour built on a detector with that failure mode? (b) Why is the cooldown in
 ``ready_to_avoid`` necessary — what does the robot do without it, right after
-a detour ends?
+a detour ends? (c) You probably saw the avoidance fail a few times while
+filming. Why is this heuristic approach so fragile? Look at what every
+function in ``avoidance.py`` takes as input, then think about where those
+inputs come from on *this* robot: a camera a few centimetres off the floor,
+on a body that is walking. What would a sturdier approach need?
 
-Step 5 (Optional). Follow *Me*, Specifically
+Step 5. Follow *Me*, Specifically
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Your Step 3 two-person video exposed the weakness: "track the most centred
-person" happily hops between people. This time we are not going to hand you
-the fix — it is a design problem, and it is yours.
+person" happily hops between people. Time to fix it.
 
 The constraint that makes it interesting: no new sensors, no new models. To
 YOLO, every person is just the class ``person`` — a bounding box cannot tell
-your person from a stranger. But boxes are not all the detector gives you.
-Look at the viewer from Step 1 again and ask: what is on screen that could
-tell two people apart, and how would ``pick_target`` use it without losing
-the lock the moment it flickers?
+your person from a stranger. But two things still can:
 
-.. hint::
+- **Where they were.** Detections arrive about ten times a second, and
+  nobody teleports between frames. The person nearest to where your target
+  just was is almost certainly your target — so search *there* first.
+- **What they look like.** A box says *where* a person is; the segmentation
+  mask says which pixels *are* the person — and a person's pixels are mostly
+  their clothes. Every detection ships the **mean color of its mask** in
+  the message's ``id`` field, as ``"r,g,b"``. When position cannot decide —
+  two people crossing paths, or your target vanishing and reappearing
+  somewhere else — the color does.
 
-   The segmentation masks are the key. A box says *where* a person is; the
-   mask says which pixels *are* the person — and a person's pixels are
-   mostly their clothes. If you would rather not touch the image pipeline:
-   every detection already ships the **mean color of its mask** in the
-   message's ``id`` field, as ``"r,g,b"``, and ``pick_target`` has a marked
-   optional section (``ENABLE_COLOR_REID``) waiting for you. What to do
-   with that color is the design: what do you memorize, when do you trust a
-   match, and how does the memory survive a slow change in lighting?
+Build it in ``target_lock.py``: ``position_distance`` and ``color_distance``
+measure the two cues, ``pick_target`` combines them (its TODO lays out the
+order), and ``remember`` updates what the robot knows about its target after
+every frame. ``follow_me.py`` already calls them. Run
+``python3 test_target_lock.py`` until every scene passes.
 
-**DELIVERABLE (optional):** Your design, before your code: explain how the
-segmentation masks make it possible to tell one person from another when
-bounding boxes alone cannot, and describe the algorithm you built on them —
-including what stops a frame containing only strangers from stealing the
-lock.
+Some questions to settle before you write code: what does the robot do when
+it lost you and spun around — is "where you were" still worth anything? A
+frame contains only strangers: what stops one of them from stealing the lock?
+And the lighting changes as you walk from the window to the hallway: how does
+the remembered color keep up without forgetting who you are?
 
-**DELIVERABLE (optional):** The two-person video again — but now the robot
-stays locked on the same person as they cross paths. Then break it on
-purpose: find a situation where your approach *must* fail, show it failing,
-and explain why that failure is exactly what your algorithm predicts.
+**DELIVERABLE:** Your design, before your code: explain how position and the
+segmentation masks together tell one person from another when bounding boxes
+alone cannot, and how ``pick_target`` decides — including what stops a frame
+containing only strangers from stealing the lock.
+
+**DELIVERABLE:** The output of ``test_target_lock.py`` with all scenes
+passing.
+
+**DELIVERABLE:** The two-person video again — but now the robot stays locked
+on the same person as they cross paths. Then break it on purpose: find a
+situation where your approach *must* fail, show it failing, and explain why
+that failure is exactly what your algorithm predicts.
 
 Congratulations — Pupper now sees. It finds a person, follows them across a
-room, steps around furniture using nothing but bounding-box geometry, and
-(optionally) knows *which* person is yours. In the robot foundation model
+room, steps around furniture using nothing but bounding-box geometry, stops at a
+polite distance, and knows *which* person is yours. In the robot foundation model
 lab, a language model will drive a follow skill just like the
 ``begin_tracking()`` API you tested today — "follow that person" is about to
 become a sentence.
