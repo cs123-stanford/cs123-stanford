@@ -272,7 +272,8 @@ one, so rounding or an equivalent formula never fails a check.
      - Passes
      - Fails
    * - ``STOP_BOTTOM`` is measured: a bottom edge inside the 572 px frame
-     - ``STOP_BOTTOM = 448.0`` (from your Live feed image)
+     - the value you measured from your Live feed image, a number of pixels
+       between 0 and 572
      - ``None`` (skipped until you measure it), or the raw pixel y from a
        screenshot of a different height, not scaled to 572
    * - At ``STOP_BOTTOM``, and halfway to the edge of ``STOP_TOLERANCE``:
