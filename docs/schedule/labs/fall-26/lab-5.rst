@@ -261,7 +261,8 @@ Work through the marked sections:
 
 **What** ``python3 test_target_lock.py distance`` **checks.** The examples
 use ``KP_DISTANCE = 1.5``, ``STOP_TOLERANCE = 15``, ``MAX_BACKUP_VEL = 0.2``
-and a cap of 0.3 m/s.
+and a cap of 0.3 m/s. Every speed passes within ±0.01 m/s of the expected
+one, so rounding or an equivalent formula never fails a check.
 
 .. list-table::
    :header-rows: 1
@@ -274,7 +275,8 @@ and a cap of 0.3 m/s.
      - ``STOP_BOTTOM = 448.0`` (from your Live feed image)
      - ``None`` (skipped until you measure it), or the raw pixel y from a
        screenshot of a different height, not scaled to 572
-   * - At ``STOP_BOTTOM``, and anywhere inside ``STOP_TOLERANCE``: stand still
+   * - At ``STOP_BOTTOM``, and halfway to the edge of ``STOP_TOLERANCE``:
+       stand still
      - ``0.0``
      - a tiny speed like ``0.02`` (no dead band: Pupper shuffles in place)
    * - Far away: walk in at the cap
@@ -473,7 +475,8 @@ written, it falls back to the most centred person). Run
 **What** ``python3 test_target_lock.py lock`` **checks.** The people wear red
 (200, 40, 40), blue (40, 60, 200), or "reddish" (185, 55, 50): the red shirt
 under slightly different light. The lock was just following a red person at
-the centre of the frame, bottom edge at y=400.
+the centre of the frame, bottom edge at y=400. Distances pass with a small
+margin: ±0.005 for positions, ±1 (on the 0–255 scale) for colors.
 
 .. list-table::
    :header-rows: 1
