@@ -149,7 +149,8 @@ a rule to it.
    Pupper's modes, and the tools that move it between them. Any motion tool
    switches the legs to the mode it needs: a walk from motors off goes
    straight to locomotion mode, a trick straight to tracking mode. Follow mode
-   lives inside locomotion mode, and any motion ends it.
+   lives inside locomotion mode, and any motion ends it. Follow mode is the
+   follower you built in lab 5, without its obstacle avoidance.
 
 The TODOs are numbered 1–11 and run in the same order as this handout. In the
 code, each one sits between ``TODO n: YOUR CODE HERE`` banners, under a short
@@ -254,8 +255,9 @@ Part 0: Setup
       on the Pupper with its model downloaded, and Lab 5's Steps 2 and 3 working
       (``python3 lab/test.py step2 step3`` all passing): follow mode runs your
       ``process_detections``, ``pick_target`` and ``approach_speed``, and
-      crashes on a function that is not written yet. Obstacle avoidance stays off,
-      and the Hailo only runs while Pupper is following, which keeps it
+      crashes on a function that is not written yet. Lab 5's obstacle avoidance
+      (Step 4) stays off: as you saw in lab 5, it is not stable enough to run
+      while Gemini is driving. The Hailo only runs while Pupper is following, which keeps it
       cooler. Pupper's on-screen eyes therefore track people only while it
       follows. For eyes that track people all the time, start with
       ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (Pupper runs warmer). Without
@@ -993,8 +995,11 @@ agent helped, point out anything it got wrong, skipped or made up.
 
 Part 3: Follow
 --------------
-The robot has a person follower: camera → person detection → walking, like
-your lab 5 state machine. Follow mode needs one rule:
+Follow mode is the person follower you built in lab 5: camera → person
+detection → your state machine → walking, with your target lock and stop
+distance. It runs without lab 5's obstacle avoidance, which is not stable
+enough to trust while Gemini is driving: Pupper follows you straight, and it is
+up to you to lead it around furniture. Follow mode needs one rule:
 
    *Questions and conversation keep following. Any motion (walk, turn, arc,
    trick, stand up, lie down) ends follow mode, and Pupper says so first:
