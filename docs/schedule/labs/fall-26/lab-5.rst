@@ -236,8 +236,10 @@ Work through the marked sections:
 
 1. **Detection processing** (``detection_callback``): split the incoming
    ``Detection2DArray`` into your target class and everything else, pick
-   *the* target (``pick_target`` — most centred wins, for now), store its
-   offset, and stamp the time. The
+   *the* target with ``self.pick_target(targets)``, store its offset, and
+   stamp the time. ``self.pick_target`` in ``follow_me.py`` is provided: it
+   hands the choice to ``pick_target`` in ``target_lock.py``, which you
+   implement in Step 5. Until then it picks the most centred detection. The
    `message documentation <http://docs.ros.org/en/kinetic/api/vision_msgs/html/msg/Detection2DArray.html>`_
    has the structure.
 2. **Transitions** (``timer_callback``): when is a detection *stale*? What
@@ -477,7 +479,9 @@ your person from a stranger. But two things still can:
 Build it in ``target_lock.py``: ``position_distance`` and ``color_distance``
 measure the two cues, ``pick_target`` combines them (its TODO lays out the
 order), and ``remember`` updates what the robot knows about its target after
-every frame. ``follow_me.py`` already calls them (until ``pick_target`` is
+every frame. You do not need to touch ``follow_me.py`` for this: the
+``self.pick_target`` you called in Step 3 already calls
+``target_lock.pick_target`` and then ``remember`` (until ``pick_target`` is
 written, it falls back to the most centred person). Run
 ``python3 lab/test_target_lock.py lock`` until every check passes.
 
