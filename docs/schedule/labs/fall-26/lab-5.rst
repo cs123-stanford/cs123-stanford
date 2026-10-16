@@ -66,21 +66,21 @@ build all of the obstacle avoidance out of that one observation.
      - (nothing to write)
    * - 2
      - **Geometry:** the four bounding-box primitives
-     - ``avoidance.py`` · ``test_avoidance.py geometry``
+     - ``lab/avoidance.py`` · ``lab/test_avoidance.py geometry``
    * - 3
      - **Track:** the state machine, and stopping at a polite distance
-     - ``follow_me.py``, ``target_lock.py`` (``STOP_BOTTOM``,
-       ``approach_speed``) · ``test_target_lock.py distance``
+     - ``lab/follow_me.py``, ``lab/target_lock.py`` (``STOP_BOTTOM``,
+       ``approach_speed``) · ``lab/test_target_lock.py distance``
    * - 4
      - **Avoid:** decide when something is in the way, and detour around it
-     - ``avoidance.py``, ``follow_me.py`` · ``test_avoidance.py avoidance``
+     - ``lab/avoidance.py``, ``lab/follow_me.py`` · ``lab/test_avoidance.py avoidance``
    * - 5
      - **Lock on:** follow *your* person, not whoever is most centred
-     - ``target_lock.py`` · ``test_target_lock.py lock``
+     - ``lab/target_lock.py`` · ``lab/test_target_lock.py lock``
 
 **The tests: what they check.** Two desk-side scripts run your code on fake
 detections — no robot, no ROS. Each takes a section name, so you can test one
-step at a time (``python3 test_avoidance.py geometry``); with no name, it runs
+step at a time (``python3 lab/test_avoidance.py geometry``); with no name, it runs
 everything. A check whose code you have not written yet is skipped (``--``),
 not failed, so run them after every function. A failing check prints what your
 code returned, what was wanted, and an example that passes. Each step below
@@ -101,13 +101,21 @@ Step 0. Setup
    cd ~/
    git clone https://github.com/YOUR_USERNAME/follow_me_pupper.git
    cd follow_me_pupper
-   ./scripts/download_model.sh      # yolov8n_seg.hef, ~11 MB
+   ./scripts/download_model.sh      # robot/yolov8n_seg.hef, ~11 MB
 
-3. Skim the README — especially the "How the pieces talk" diagram. Three
-   programs cooperate over ROS topics: ``viser_camera.py`` (camera → YOLO →
-   ``/detections``), ``follow_me.py`` (your state machine, ``/detections`` →
-   ``/cmd_vel``), and ``karel.py`` (the API that switches tracking on and
-   off over ``/tracking_control``).
+3. Skim the README — especially the "How the pieces talk" diagram. Everything
+   you write is in ``lab/``: ``follow_me.py``, ``avoidance.py``,
+   ``target_lock.py``, and the desk tests for them. ``robot/`` is provided
+   (camera, detector, viewer, launch file, Karel API): read it, don't rewrite
+   it. Run every command from the repo root. Three programs cooperate over ROS
+   topics: ``robot/viser_camera.py`` (camera → YOLO → ``/detections``),
+   ``lab/follow_me.py`` (your state machine, ``/detections`` →
+   ``/cmd_vel``), and ``robot/karel.py`` (the API that switches tracking on
+   and off over ``/tracking_control``).
+
+   Every function you write has a card at the end of its docstring: what each
+   input is, what it should return (with an example), what calls it, and the
+   test to run.
 
 Step 1. See What Pupper Sees
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -118,7 +126,7 @@ code.
 
 .. code-block:: bash
 
-   ros2 launch follow_me.launch.py
+   ros2 launch robot/follow_me.launch.py
 
 2. Open the viewer. On the same Wi-Fi, browse to ``http://<pupper-ip>:8080``.
    Over SSH, forward the port from your laptop first and browse to
@@ -171,9 +179,9 @@ harness — run it after every function:
 
 .. code-block:: bash
 
-   python3 test_avoidance.py geometry
+   python3 lab/test_avoidance.py geometry
 
-**What** ``python3 test_avoidance.py geometry`` **checks.** Every check, with
+**What** ``python3 lab/test_avoidance.py geometry`` **checks.** Every check, with
 an example that passes and a common way to fail it.
 
 .. list-table::
@@ -255,11 +263,11 @@ Work through the marked sections:
    ``approach_speed`` is then a second proportional controller on the error
    to ``STOP_BOTTOM`` — walk in when the person is far, stand still inside
    ``STOP_TOLERANCE``, step back when they come too close. Check it with
-   ``python3 test_target_lock.py distance`` (table below).
+   ``python3 lab/test_target_lock.py distance`` (table below).
 5. **Constants**: pick and tune ``TIMEOUT``, ``SEARCH_YAW_VEL``,
    ``TRACK_FORWARD_VEL``, ``KP``.
 
-**What** ``python3 test_target_lock.py distance`` **checks.** The examples
+**What** ``python3 lab/test_target_lock.py distance`` **checks.** The examples
 use ``KP_DISTANCE = 1.5``, ``STOP_TOLERANCE = 15``, ``MAX_BACKUP_VEL = 0.2``
 and a cap of 0.3 m/s. Every speed passes within ±0.01 m/s of the expected
 one, so rounding or an equivalent formula never fails a check.
@@ -297,20 +305,20 @@ Test it. In two more terminals:
 
 .. code-block:: bash
 
-   python3 follow_me.py             # terminal 2: your state machine
-   python3 test_tracking.py         # terminal 3: choose what to track
+   python3 lab/follow_me.py             # terminal 2: your state machine
+   python3 robot/test_tracking.py       # terminal 3: choose what to track
 
 (or start tracking immediately with
-``python3 follow_me.py --ros-args -p target:=person``; the ``KarelPupper``
+``python3 lab/follow_me.py --ros-args -p target:=person``; the ``KarelPupper``
 API — ``begin_tracking("person")``, ``end_tracking()`` — is what
-``test_tracking.py`` uses under the hood, and the shape of the follow tool the
+``robot/test_tracking.py`` uses under the hood, and the shape of the follow tool the
 foundation-model lab will give a language model. ``scripts/run_tracking.sh`` runs all three terminals at once
 for quick demos.)
 
 .. note::
 
    **Debugging with pdb**: add ``breakpoint()`` inside ``detection_callback``
-   or ``timer_callback`` and run ``python3 follow_me.py`` to inspect what is
+   or ``timer_callback`` and run ``python3 lab/follow_me.py`` to inspect what is
    actually arriving: what does ``msg.detections`` contain? Is
    ``self.target_pos`` sensible? Are transitions firing when you expect?
    (``p variable`` prints, ``n`` steps, ``c`` continues.)
@@ -357,10 +365,10 @@ image space, using nothing but bottom edges), the right panel is the *detour*
    half of the frame, else away from the obstacle's side, else toward the
    target.
 
-Run ``python3 test_avoidance.py avoidance`` until every check passes — each
+Run ``python3 lab/test_avoidance.py avoidance`` until every check passes — each
 one is a bug you did not have to debug on a moving robot.
 
-**What** ``python3 test_avoidance.py avoidance`` **checks.** The scene: the
+**What** ``python3 lab/test_avoidance.py avoidance`` **checks.** The scene: the
 person you chase stands mid-frame with their bottom edge at y=272.
 
 .. list-table::
@@ -471,9 +479,9 @@ measure the two cues, ``pick_target`` combines them (its TODO lays out the
 order), and ``remember`` updates what the robot knows about its target after
 every frame. ``follow_me.py`` already calls them (until ``pick_target`` is
 written, it falls back to the most centred person). Run
-``python3 test_target_lock.py lock`` until every check passes.
+``python3 lab/test_target_lock.py lock`` until every check passes.
 
-**What** ``python3 test_target_lock.py lock`` **checks.** The people wear red
+**What** ``python3 lab/test_target_lock.py lock`` **checks.** The people wear red
 (200, 40, 40), blue (40, 60, 200), or "reddish" (185, 55, 50): the red shirt
 under slightly different light. The lock was just following a red person at
 the centre of the frame, bottom edge at y=400. Distances pass with a small

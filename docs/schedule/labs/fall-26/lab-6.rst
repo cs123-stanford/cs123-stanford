@@ -249,8 +249,8 @@ Part 0: Setup
    .. note::
 
       **Follow mode is your Lab 5.** When Gemini follows someone, it runs your
-      ``follow_me.py`` state machine, with your target lock and stop distance,
-      through ``follow_service.py`` in ``~/follow_me_pupper``. Keep that repo
+      ``lab/follow_me.py`` state machine, with your target lock and stop distance,
+      through ``robot/follow_service.py`` in ``~/follow_me_pupper``. Keep that repo
       on the Pupper with its model downloaded. Obstacle avoidance stays off,
       and the Hailo only runs while Pupper is following, which keeps it
       cooler. Pupper's on-screen eyes therefore track people only while it
