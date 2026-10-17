@@ -163,8 +163,13 @@ Part 0: Setup
 1. **Your Gemini API key.** Create one in
    `Google AI Studio <https://aistudio.google.com/apikey>`_.
 
-   .. TODO(staff): confirm whether students need billing enabled / course
-      credits for the Live API models the app uses, and say so here.
+   .. important::
+
+      * **Sign in to Google AI Studio with your own personal Gmail account,
+        not your Stanford account.**
+      * **You might need some credits.** The Live API models the app uses
+        may require billing or credits on your AI Studio account before your
+        key works for them.
 
 2. **Meet the loop (no robot needed).** Before you touch Pupper, look at the
    loop itself. Open the
