@@ -11,11 +11,10 @@ happened. Then train Pupper to sit, stay and shake a paw, and give Gemini
 those moves too.*
 
 .. TODO(staff): add this offering's lab slides link
-.. TODO(staff): add this offering's lab document link
 
 `Lab slides <#>`_ (TODO)
 
-`Lab document <#>`_ (TODO): make a copy, answer each DELIVERABLE under its
+`Lab document <https://docs.google.com/document/d/1kp3xRDpWT6fy1FBzcx5_VDpdCx2mRkD5-4JWlJbUOac/edit?usp=sharing>`_: make a copy, answer each DELIVERABLE under its
 question number (Q1–Q15), and submit it to Gradescope.
 
 .. note::
