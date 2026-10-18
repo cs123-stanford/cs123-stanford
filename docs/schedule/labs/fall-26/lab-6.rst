@@ -256,12 +256,12 @@ Part 0: Setup
       **Follow mode is your Lab 5.** When Gemini follows someone, it runs your
       ``lab/follow_me.py`` state machine, with your target lock and stop distance,
       through ``robot/follow_service.py`` in ``~/follow_me_pupper``. Keep that repo
-      on the Pupper with its model downloaded, and Lab 5's Steps 2 and 3 working
-      (``python3 lab/test.py step2 step3`` all passing): follow mode runs your
+      on the Pupper with its model downloaded, and Lab 5's Steps 2–4 working
+      (``python3 lab/test.py`` all passing): follow mode runs your
       ``process_detections``, ``pick_target`` and ``approach_speed``, and
-      crashes on a function that is not written yet. Lab 5's obstacle avoidance
-      (Step 4) stays off: as you saw in lab 5, it is not stable enough to run
-      while Gemini is driving. The Hailo only runs while Pupper is following, which keeps it
+      crashes on a function that is not written yet. Lab 5's optional steps
+      stay off — color re-identification (Step 5) and obstacle avoidance
+      (Step 6) are not stable enough to run while Gemini is driving. The Hailo only runs while Pupper is following, which keeps it
       cooler. Pupper's on-screen eyes therefore track people only while it
       follows. For eyes that track people all the time, start with
       ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (Pupper runs warmer). Without
