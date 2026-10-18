@@ -34,21 +34,19 @@ clothes (Step 5), and stepping around **something in the way** (Step 6). Both
 are built from simple heuristics, and both are fragile on the real robot — do
 them if you are curious; the follower works without them.
 
-.. admonition:: AI Use Suggestion
+.. admonition:: AI Use Policy
    :class: note
 
-   **This lab is designed to be completed without a coding agent.** Every
+   **Write the main lab (Steps 2–4) yourself, without a coding agent.** Every
    TODO is a few lines, and the desk-side tests tell you exactly what each one
-   must do. That said, you are free to use a coding agent (Claude Code or
-   Codex) for the coding part, on two conditions:
+   must do. Writing them is how you learn why the bottom edge of a box is a
+   distance sensor, how the state machine moves between states, and how the
+   target lock stays on one person.
 
-   * **Understand the high-level ideas** — why the bottom edge of a box is a
-     distance sensor, how the state machine moves between states, and how
-     the target lock stays on one person — well enough to explain them
-     without your agent open.
-   * **Understand every line your agent writes**: what it does and why it is
-     there. If you cannot explain a line, ask the agent to explain it until
-     you can.
+   **For the optional Steps 5 and 6, you are welcome to use a coding agent**
+   (Claude Code or Codex), as long as you **understand every line it
+   writes**: what it does and why it is there. If you cannot explain a line,
+   ask the agent to explain it until you can.
 
    Answer every DELIVERABLE in your own words, from what you did and saw on
    your robot.
