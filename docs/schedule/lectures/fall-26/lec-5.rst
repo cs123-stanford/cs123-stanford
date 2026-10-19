@@ -3,7 +3,7 @@ Lecture 5: Onboard Computer Vision
 
 **Lab:** :doc:`../../labs/fall-26/lab-5` Integrate Computer Vision to Pupper that enables object tracking and avoid obstacles!
 
-**Lecture Slides:** : To be updated
+**Lecture Slides:** : https://docs.google.com/presentation/d/1klSB0FtmwvRoA_cYS8CwHz_5vEg7BZIkSR5wf-lGQ8s/edit?usp=sharing
 
 **Lab Review Slides (still updating!):** https://docs.google.com/presentation/d/1B9dPRIVNvwTZaD_4BA07pDRL4pYIENYV/edit
 
