@@ -9,9 +9,9 @@ machine, stay on that one person, and stop at a polite distance.*
 .. TODO(staff): capture a detour sequence figure on a robot. Old Foxglove
    screenshots no longer apply.
 
-`Lab slides <#>`_ (TODO)
+`Lab slides <https://docs.google.com/presentation/d/1B9dPRIVNvwTZaD_4BA07pDRL4pYIENYV/edit>`_
 
-`Lab document <#>`_ (TODO)
+`Lab document <https://docs.google.com/document/d/1vuTr2JlZVNP0s9xGapJpVQhzDdOWI51Wk_jKFPYBJE4/edit?usp=sharing>`_
 
 Everything in this lab runs *on the robot*: YOLOv8n-seg on Pupper's Hailo AI
 accelerator turns camera frames into detections, your state machine turns
