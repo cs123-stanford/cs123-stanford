@@ -636,6 +636,11 @@ went wrong, what the limit is, and what the real choices are.**
    * - ``robot.state_now``, ``robot.state_after_queue``
      - The state Pupper is in right now, and the one it will be in once
        everything already queued has run.
+   * - ``robot.speeds()``
+     - Where Pupper will be once the queue has run, how it walks there: its
+       default speeds (``.walk`` in m/s, ``.turn`` in deg/s) and its
+       ``MoveLimits`` (``.limits``). The normal ones in locomotion mode; a
+       walking trick's own in it (Part 6).
    * - ``robot.send_speed(vx, vy, wz_deg)``
      - One speed command to the locomotion policy.
    * - ``await robot.sleep(s)``, ``robot.now()``
@@ -843,9 +848,12 @@ description. For each tool, replace every ``TODO 3`` there:
 **turn: the warm-up.** Turning in place means no forward or sideways speed,
 only a turning speed, for as long as the angle takes:
 
-1. ``wz_deg`` is ``+TURN_SPEED`` (60 deg/s) to the left (counter-clockwise),
-   and ``-TURN_SPEED`` to the right.
-2. The time it takes: ``seconds = abs(angle) / TURN_SPEED``. 90 degrees at
+1. The turning speed is ``turn_speed = robot.speeds().turn``: 60 deg/s in
+   locomotion mode. (A trick that walks in its own stance, like the spider in
+   Part 6, turns at its own speed: ``robot.speeds()`` answers for where Pupper
+   will be when the turn runs.) ``wz_deg`` is ``+turn_speed`` to the left
+   (counter-clockwise), and ``-turn_speed`` to the right.
+2. The time it takes: ``seconds = abs(angle) / turn_speed``. 90 degrees at
    60 deg/s takes 1.5 s.
 3. ``return await walk(robot, 0.0, 0.0, wz_deg, seconds)``
 
@@ -956,11 +964,11 @@ code, not only in the description. (Q3 asks about it.)
      - ``"Turn in place to the left or right." + ENDS_FOLLOW``
      - ``"turn"``, or a parameter still saying ``"TODO 3"``
    * - ``turn("left", 90)`` sends a positive turn rate, about 90° in all (70–110), with ``vx = vy = 0``
-     - ``wz_deg = +TURN_SPEED`` for 1.5 s
-     - ``-TURN_SPEED``; or ``seconds = angle`` (90 s)
+     - ``wz_deg = +turn_speed`` for 1.5 s
+     - ``-turn_speed``; or ``seconds = angle`` (90 s)
    * - ``turn("right", 90)`` sends a negative turn rate
-     - ``wz_deg = -TURN_SPEED``
-     - ``+TURN_SPEED``
+     - ``wz_deg = -turn_speed``
+     - ``+turn_speed``
    * - ``move``'s words contain ``LIMITS.vx_max`` (``1.5``)
      - ``f"running {RUN_MIN_SPEED}-{LIMITS.vx_max} m/s"``
      - ``"runs fast"``, or a typed-in ``1.5`` (it passes, but goes stale)
@@ -1030,7 +1038,9 @@ that didn't have it:
   its reason is ``"|wz|<=114.0 deg/s"``. Gemini can't tell from that that the
   *radius* is the problem: asked to "run in a circle", it sent the same arc five
   times. Check it yourself first, and reply with the smallest radius that works
-  at that speed, ``speed / math.radians(LIMITS.wz_max)``, rounded up.
+  at that speed, ``speed / math.radians(wz_max)``, rounded up, with
+  ``wz_max = robot.speeds().limits.wz_max`` (``LIMITS.wz_max`` walking). When
+  Gemini gives no speed, use ``robot.speeds().walk`` (0.4 m/s walking).
 - **Radius 0 is a sharp corner, not an error.** Gemini plans a whole shape
   and sends every call at once, and it likes to ask for corners as
   ``arc(radius=0)``. When those were refused, the sides still ran, and "walk
@@ -1848,8 +1858,13 @@ already works with it, unchanged:
 * ``walk`` (finished, Part 2: read it again) asks ``robot.state_after_queue``
   which policy walks, the same now-question as your TODO 9: in the spider
   trick, its walking policy does. So ``move``, ``turn`` and ``arc`` walk the
-  spider, slowed to the speeds it was trained for (and longer, so it still
-  goes as far), and Pupper stays in the trick.
+  spider, and Pupper stays in the trick. How fast is the trick's call too:
+  its ``trick.yaml`` has a ``walk`` block (default speed, top speeds forward
+  and sideways, turning speed, whether it can run), ``robot.speeds()`` hands
+  those to your tools as their defaults and to your ``check_move`` as its
+  limits, and Gemini reads them in the trick's description. A move too fast
+  for the spider is refused with the spider's numbers, exactly like a move
+  too fast for Pupper in Part 2.
 * Any other motion leaves it, through its exit clip: ``switch_to`` gives the
   legs back to the clip policy, started at ``spider_up`` (the controller's
   ``start_clip``), then to whatever comes next. ``interactive_action("spider_up")``
@@ -1908,7 +1923,8 @@ zero actions it sags onto its belly), so holding the body up is something the
 policy has to learn; and ``abduction_angle`` pulls joints toward the zero the
 spider splays away from on purpose. Train, then watch it in the viewer: low
 (never on its belly), legs stepping like the reference, going where it is
-told. It will be slower than commanded: the spider creeps.
+told. It will be slower than commanded: the spider creeps. (Note how much:
+the top speeds you allow it in Part C should be ones it can really reach.)
 
 **DELIVERABLE (Q15):** Your reward weights, next to your lab 4 StableGait
 weights. Which ones did you change, and why? A short clip or screenshots of
@@ -1924,16 +1940,20 @@ Part C: On the Robot
       python3 robot/get_trick.py <clip-trick-run> --walk <spider-walk-run> --name spider_walk
       robot/stop.sh && robot/start.sh
 
-3. Fill in ``tricks/spider_walk/trick.yaml``: the ``description`` (say that
-   ``move``, ``turn`` and ``arc`` walk slowly in the spider stance, and how to
-   leave it), ``actions`` with ``spider_up`` (and what it does),
-   ``exit_clip: spider_up``, ``end_pose: spider``, and the ``walk_policy:
-   walk_policy.json`` line ``get_trick.py`` wrote. The old ``spider`` (lie
+3. Fill in ``tricks/spider_walk/trick.yaml``: the ``description`` (what it
+   does, when to use it, and how to leave it), ``actions`` with ``spider_up``
+   (and what it does), ``exit_clip: spider_up``, ``end_pose: spider``, and the
+   ``walk`` block ``get_trick.py`` wrote: a default ``speed``, ``max_forward``,
+   ``max_sideways`` and ``turn`` (each at most what your walking policy was
+   trained for: the template says), ``run: false``, and a ``note`` for Gemini.
+   The robot appends a sentence with these numbers to the description, so
+   Gemini knows how fast the spider goes. The old ``spider`` (lie
    down, wiggle, lie still) steps aside: its ``trick.yaml`` says
    ``replaced_by: spider_walk``.
 
 Try it by voice: *"Be a spider. Walk forward a bit, turn around, come back.
-Now stand up."* Watch the debug view: which replies say the move is slower?
+Now stand up."* Then ask it to run as a spider. Watch the debug view: what
+does the refusal say, and what does Gemini do next?
 
 **DELIVERABLE (Q16):** Trace *"be a spider, walk forward, then sit"* through
 the state machine. For each step: the state Pupper is in, the controller that
