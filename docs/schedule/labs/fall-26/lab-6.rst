@@ -1306,9 +1306,9 @@ switched off.
 **Why every trick is a policy, not a replay.** The monorepo used to play these
 tricks by replaying the recorded joint angles, open loop. That only works on a
 robot exactly like the one they were recorded on, and on real Puppers it is
-unreliable. Here is ``pee`` in simulation, on a Pupper 50% heavier than
-nominal (a payload). The green ghost is the reference motion; the robot is
-what physics does with it:
+unreliable. Here is ``pee`` in simulation with a little domain randomization
+(the robot slightly different from the one in the recording). The green ghost
+is the reference motion; the robot is what physics does with it:
 
 .. list-table::
    :header-rows: 1
@@ -1324,18 +1324,7 @@ what physics does with it:
 Replay drives the joints to the recorded angles and hopes; it has no way to
 notice that the body is tipping. The policy watches the robot (its tilt, its
 joints, where the reference says it should be) and corrects, 50 times a
-second. It trained on a robot whose mass varied by 0.9-1.3x, and it still holds
-at 2x. Try the replay yourself in pupper-mjlab, with any trick's ``motion.npz``
-(they are in ``tricks/`` in your ``gemini_pupper`` repo), and in Part 5 compare
-it with your own trained policy's checkpoint:
-
-.. code-block:: bash
-
-   uv run python -m mjlab.tasks.tracking.config.pupper.play_motion motion.npz --mass-scale 1.5
-   uv run python -m mjlab.tasks.tracking.config.pupper.play_motion motion.npz --mass-scale 1.5 --checkpoint model_2999.pt
-
-(``--com-x``/``--com-y`` move the torso's center of mass instead, in m: for
-``pee``, a 2 cm shift matters much less than the extra mass.)
+second, and it was trained on many slightly different robots.
 
 **Two kinds of trick.** A **playback trick** plays one reference motion from
 start to finish; its trick policy keeps Pupper balanced while it plays, so it
