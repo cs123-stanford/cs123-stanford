@@ -1295,13 +1295,17 @@ something else.
 
 Part 4: Tricks
 --------------
-Every trick is a policy, played by its own controller: the 14 tricks in
-``tricks/`` (``sit``, ``push_up``, ``swim``, …) were recorded on the Pupper
-monorepo and trained as trick policies in simulation. Each folder has a
-``policy.json`` and a ``trick.yaml`` (``robot/tricks.py`` lists the fields):
-what Gemini reads about the trick, and the pose it starts and ends in. The
-launch file loads one controller per trick, called ``trick_<name>``, all
-switched off.
+Every trick is played by trick policies, each on its own controller: a
+playback trick has one, an interactive trick one or more (the spider in
+Part 6 has two). The tricks in ``tricks/`` (``sit``, ``push_up``, ``swim``, …)
+started as reference motions, most of them recorded on the Pupper monorepo, a
+few designed (``sit`` and ``sneeze``), and each was trained into a trick
+policy in simulation. Each folder has its policy (``policy.json``) and a
+``trick.yaml`` (``robot/tricks.py`` lists the fields): what Gemini reads
+about the trick, and the pose it starts and ends in. The launch file loads one
+controller per policy, called ``trick_<name>``, all switched off. (The
+optional jump, at the end of this lab, is the one trick with no policy of its
+own: the locomotion policy plays it.)
 
 **Why every trick is a policy, not a replay.** The monorepo used to play these
 tricks by replaying the recorded joint angles, open loop. That only works on a
