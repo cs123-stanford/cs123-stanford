@@ -300,10 +300,19 @@ Part 0: Setup
    robot said back: keep it open for the whole lab. ``robot/stop.sh`` relaxes
    the motors and stops everything.
 
-   .. admonition:: TODO (staff): screenshot of the debug view
+   .. list-table::
+      :widths: 50 50
 
-      A screenshot of the app's debug view, with a few tool calls and their
-      replies, goes here.
+      * - .. image:: ../../../_static/lab6/app_face.png
+             :width: 100%
+        - .. image:: ../../../_static/lab6/app_debug_view.jpg
+             :width: 100%
+
+   The app's two views; the buttons at the bottom switch between them.
+   **Left:** the face, what Pupper shows on its screen while you talk.
+   **Right:** the debug view: the camera, the log (each tool call and the
+   robot's reply show up here as you talk), and manual controls: STOP,
+   follow mode, the arrows, and every trick with its description.
 
    .. admonition:: Debugging tips
       :class: tip
@@ -1110,6 +1119,13 @@ try it by voice.
    the tool but breaks another rule. "Run forward for ten seconds" is more
    than 7 m. Show a TA the conversation and the debug view.
 
+Here is what a finished Part 2 can do: run, turn, walk shapes, and even draw
+letters, all by voice.
+
+.. youtube:: MN6Rts2vVfs
+   :width: 640
+   :height: 360
+
 **DELIVERABLE (Q3):** Your ``turn``, ``move`` and ``arc`` descriptions, and one
 sentence each on a choice you made (which parameters, which defaults, what the
 description promises). Where is "run means at least 1.0 m/s" enforced, and
@@ -1280,6 +1296,13 @@ TODOs 3 and 4, is the third place the rule now lives.
 Check it: ``python3 lab/test.py part3``, then in text (``python3 lab/chat.py``:
 *"follow me"*, *"what do you see?"*, *"now sit"*), then restart and try it on
 the robot.
+
+Here is follow mode working. Pupper follows, keeps following while it answers
+a question, and says it will stop following before it does something else:
+
+.. youtube:: hcfi0rLNM1A
+   :width: 640
+   :height: 360
 
 **DELIVERABLE (Q6):** The follow rule now lives in three places: the prompt,
 the tool descriptions, and ``prepare_to_move``. Make a table: for each
@@ -1981,6 +2004,14 @@ Part C: On the Robot
 Try it by voice: *"Be a spider. Walk forward a bit, turn around, come back.
 Now stand up."* Then ask it to run as a spider. Watch the debug view: what
 does the refusal say, and what does Gemini do next?
+
+Here are all three kinds of trick working by voice: the ``sneeze`` playback
+trick (Part 4), and the ``sit_stay_shake`` (Part 5) and ``spider_walk``
+(Part 6) interactive tricks:
+
+.. youtube:: _xNUQlaKRTU
+   :width: 640
+   :height: 360
 
 **DELIVERABLE (Q16):** Trace *"be a spider, walk forward, then sit"* through
 the state machine. For each step: the state Pupper is in, the controller that
