@@ -1774,6 +1774,15 @@ lies down like a spider, legs splayed wide and torso just off the ground,
 wiggles its legs, **walks around like that**, and wiggles its way back up to
 standing when you are done.
 
+.. note::
+
+   Once you fetch your ``spider_walk`` (Part C), **it takes over "spider"**.
+   The old playback ``spider`` (lie down, wiggle, lie still) steps aside:
+   its ``trick.yaml`` says ``replaced_by: spider_walk``, so it gets no
+   controller and Gemini no longer sees it. To get it back, move
+   ``tricks/spider_walk`` out of ``tricks/`` and restart
+   (``robot/stop.sh && robot/start.sh``).
+
 The locomotion policy can't do this: it was trained to walk standing up. So
 the spider is two policies:
 
