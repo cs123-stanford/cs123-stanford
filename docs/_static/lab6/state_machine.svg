@@ -50,9 +50,9 @@
   <text x="715" y="244" text-anchor="middle" font-size="12" fill="#4a148c">sit_idle ⟲</text>
   <line x1="615" y1="239" x2="657" y2="239" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
   <path d="M770,232 C800,212 830,222 830,239 C830,256 800,266 773,248" fill="none" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
-  <text x="840" y="236" font-size="11.5" fill="#333">trick_action:</text>
-  <text x="840" y="251" font-size="11.5" fill="#333">a shake (TODO 9)</text>
-  <text x="505" y="282" font-size="12" fill="#333">leaves through its exit clip (stand_up) before any other motion</text>
+  <text x="840" y="236" font-size="11.5" fill="#333">interactive_action:</text>
+  <text x="840" y="251" font-size="11.5" fill="#333">shake_left / _right</text>
+  <text x="505" y="282" font-size="12" fill="#333">each shake returns to sit_idle (TODO 9); leaves through stand_up</text>
 
   <!-- walking -->
   <rect x="490" y="308" width="470" height="138" rx="10" fill="#ffffff" stroke="#7b1fa2"/>
@@ -67,7 +67,7 @@
   <text x="888" y="357" font-size="11.5" fill="#333">move, turn,</text>
   <text x="888" y="372" font-size="11.5" fill="#333">arc (slower)</text>
   <text x="505" y="404" font-size="12" fill="#333">its own walking policy holds the legs in between; any other motion</text>
-  <text x="505" y="421" font-size="12" fill="#333">leaves through spider_up: the clip trick again, started at that clip</text>
+  <text x="505" y="421" font-size="12" fill="#333">leaves through spider_up: the clip policy again, started at that clip</text>
   <text x="505" y="438" font-size="11" fill="#607d8b">walk (Part 2) asks robot.state_after_queue which policy walks</text>
 
   <!-- locomotion <-> trick mode -->

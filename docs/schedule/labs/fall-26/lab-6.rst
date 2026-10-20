@@ -376,7 +376,7 @@ sends back a reply. The prompt and the tools are yours, in ``lab/``:
    │   ├── part2_walk.py            check_move, walk, turn, move, arc       TODO 2, 3, 4
    │   ├── part3_follow.py          the follow rule, the follow tool        TODO 5, 6
    │   ├── part4_tricks.py          play_trick, the trick job (finished)    TODO 7, 8
-   │   ├── part5_sit_stay_shake.py  trick_action, its tool                  TODO 9, 10
+   │   ├── part5_sit_stay_shake.py  interactive_action, its tool                  TODO 9, 10
    │   ├── test.py                  python3 lab/test.py todo3   (tests on a fake robot)
    │   └── chat.py                  python3 lab/chat.py         (talk to Gemini in text)
    ├── tricks/                      one folder per trick
@@ -476,7 +476,7 @@ makes two function calls, back to back:
 
 Gemini heard both replies before Pupper took a single step. Tricks work the
 same way: *"sit, then shake"* is two function calls,
-``play_trick("sit_stay_shake")`` then ``trick_action("shake_left")``, both
+``play_trick("sit_stay_shake")`` then ``interactive_action("shake_left")``, both
 answered at once; the shake's job starts only when the sit's job is done.
 
 .. important::
@@ -639,7 +639,7 @@ went wrong, what the limit is, and what the real choices are.**
    * - ``await robot.play_clip(trick, clip)``
      - Play one clip of an interactive trick, and wait for it.
    * - ``robot.tricks``, ``robot.action_ids()``
-     - The installed tricks; trick actions → (trick, clip).
+     - The installed tricks; interactive actions → (trick, clip).
 
 Part 1: Talk
 ------------
@@ -1286,7 +1286,7 @@ with ``sit_stay_shake``, which you will train in Part 5:
        sitting, for as long as you like.
    * - While it plays
      - Nothing to ask for: it's busy.
-     - Gemini can ask for a clip by name: ``trick_action("shake_left")``
+     - Gemini can ask for a clip by name: ``interactive_action("shake_left")``
        plays ``shake_left``, then goes back to ``sit_idle`` (Part 5).
    * - How it ends
      - By itself, standing.
@@ -1414,7 +1414,7 @@ it, and check that you can see each row happen):
      - walking
      - 3: switch to ``trick_sit_stay_shake`` (``state_now`` becomes the trick),
        wait 5.8 s; 4: nothing (it stays)
-     - ``played sit_stay_shake; it now stays sitting. Trick actions:
+     - ``played sit_stay_shake; it now stays sitting. Interactive actions:
        shake_left, shake_right, stand_up. Any other motion first plays
        stand_up.``
    * - ``sit_stay_shake`` again
@@ -1531,7 +1531,7 @@ the left paw, ...). Each clip starts and ends at a pose it shares with its
 neighbours, so any clip can follow the one before it without a jump. On the
 robot, the trick plays one clip at a time, and *which clip comes next* is
 chosen while it runs: the looping clip repeats until Gemini asks for another
-one (``trick_action``). For training, you join the clips back together into
+one (``interactive_action``). For training, you join the clips back together into
 one long reference motion that passes through every change the robot can make
 on request, so the policy has practiced each one.
 
@@ -1554,10 +1554,16 @@ This is the library you build:
    :align: center
    :width: 95%
 
-   An interactive trick. Every clip starts and ends at a pose it shares with its
-   neighbours, so the robot can go straight from the end of one clip to the
-   start of the next. A looping clip repeats until something else is asked
-   for.
+   ``sit_stay_shake`` as the state machine inside the trick. Every clip starts
+   and ends at a pose it shares with its neighbours, so the robot can go
+   straight from the end of one clip to the start of the next: ``sit_idle``
+   loops until something is asked for, each shake goes back to ``sit_idle``,
+   and ``stand_up`` leaves. **To Gemini Pupper, this whole graph is a single
+   state**, the trick ``sit_stay_shake``: ``robot.state_now`` is the trick from
+   ``sit_down`` to the end of ``stand_up``, whichever clip is playing. Any
+   interactive trick you design works the same way: a few clips that share a
+   pose, one that loops, actions that return to it, and an exit clip (the
+   spider's are ``spider_down``, ``spider_idle`` and ``spider_up``).
 
 Fill in the four TODOs in the notebook:
 
@@ -1604,23 +1610,23 @@ Part C: Give Gemini the Actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 An interactive trick is one Pupper stays in and that takes requests.
 ``play_trick`` (your TODO 7) already sits and stays; the requests (*shake*,
-*the other paw*, *stand up*) are **trick actions**, and they only make sense
+*the other paw*, *stand up*) are **interactive actions**, and they only make sense
 while Pupper is in that trick. Until an interactive trick is installed, Gemini
-is told the ``trick_action`` tool has nothing to choose from.
+is told the ``interactive_action`` tool has nothing to choose from.
 
-**TODO 9:** ``trick_action`` in ``lab/part5_sit_stay_shake.py``. You can write
+**TODO 9:** ``interactive_action`` in ``lab/part5_sit_stay_shake.py``. You can write
 and test it while your policy trains: the tests use a made-up interactive
 trick called ``hold_pose`` (actions ``wave_left``, ``wave_right``, and the exit
 clip ``leave``).
 
 *The new idea: an action only makes sense in one state.* A shake is a clip of
 ``sit_stay_shake``: it can only play while Pupper is in that trick. So
-``trick_action`` has to ask "is Pupper sitting?". The interesting part is
+``interactive_action`` has to ask "is Pupper sitting?". The interesting part is
 *when* to ask, because of the queue:
 
 - Someone says "sit, and give me your paw" in one breath. Gemini calls
-  ``play_trick`` and ``trick_action`` back to back, before Pupper has even
-  started to sit. If ``trick_action`` asked "is it sitting *right now*?", it
+  ``play_trick`` and ``interactive_action`` back to back, before Pupper has even
+  started to sit. If ``interactive_action`` asked "is it sitting *right now*?", it
   would refuse a perfectly good request. So, **now**, it asks: "will it be
   sitting once everything already queued has run?" That's
   ``robot.state_after_queue``, kept up to date by the ``then=`` every motion
@@ -1669,7 +1675,7 @@ clip ``leave``).
      - Passes
      - Fails
    * - An unknown action fails, and the message lists the real ones
-     - ``"unknown trick action fetch_the_ball; available: ['wave_left', 'wave_right', 'leave']"``
+     - ``"unknown interactive action fetch_the_ball; available: ['wave_left', 'wave_right', 'leave']"``
      - ``"unknown action"``
    * - An action while Pupper isn't in its trick (or queued to be) fails right away, names the trick, and queues nothing
      - ``"wave_left only works while hold_pose is running; play it first (play_trick hold_pose)"``
@@ -1720,8 +1726,8 @@ Check it: ``python3 lab/test.py todo9``
   (keeps sitting, or stands up). Say when to use the trick, too: when someone
   just says *"sit"*, they mean sit and stay, and Gemini picks a trick from
   these words alone (``stand_sit_stand`` also sits, briefly).
-- The ``trick_action`` tool at the bottom of ``lab/part5_sit_stay_shake.py``.
-  Its body is one line, ``return await trick_action(robot, action)``. Its description: put
+- The ``interactive_action`` tool at the bottom of ``lab/part5_sit_stay_shake.py``.
+  Its body is one line, ``return await interactive_action(robot, action)``. Its description: put
   ``{actions}`` in it, and the robot turns it into the list of actions with
   your descriptions. Then tell Gemini what has to happen first (the trick),
   and what ends it (any other motion).
@@ -1739,14 +1745,14 @@ Check it: ``python3 lab/test.py todo9``
    * - Check
      - Passes
      - Fails
-   * - ``trick_action`` has a description of 20+ characters, and ``action`` is described
+   * - ``interactive_action`` has a description of 20+ characters, and ``action`` is described
      - ``"The exact action name."``
      - ``"TODO 10"``
    * - Its description contains ``{actions}`` (each action's description appears in it)
      - ``"... Actions:\n{actions}"``
      - typing the action names yourself
    * - ``action`` keeps ``enum=ACTION_IDS``, and calling the tool plays the clip
-     - ``return await trick_action(robot, action)``
+     - ``return await interactive_action(robot, action)``
      - removing the enum
    * - ``trick.yaml`` (once fetched) has no TODO left, and its ``description`` has 20+ characters
      - ``description: "Sit, and stay sitting until asked to stand. Use it when someone says sit."``
@@ -1771,7 +1777,7 @@ standing when you are done.
 The locomotion policy can't do this: it was trained to walk standing up. So
 the spider is two policies:
 
-* **The spider clip trick**, like ``sit_stay_shake``: three clips cut from a
+* **The spider's clip policy**, like ``sit_stay_shake``: three clips cut from a
   recorded spider. ``spider_down`` (stand, lie down, wiggle, settle into the
   spider stance), ``spider_idle`` (the stance) and ``spider_up`` (wiggle, stand
   back up).
@@ -1805,8 +1811,8 @@ already works with it, unchanged:
   spider, slowed to the speeds it was trained for (and longer, so it still
   goes as far), and Pupper stays in the trick.
 * Any other motion leaves it, through its exit clip: ``switch_to`` gives the
-  legs back to the clip trick, started at ``spider_up`` (the controller's
-  ``start_clip``), then to whatever comes next. ``trick_action("spider_up")``
+  legs back to the clip policy, started at ``spider_up`` (the controller's
+  ``start_clip``), then to whatever comes next. ``interactive_action("spider_up")``
   (your TODO 9) does the same on purpose.
 
 You train both policies in one notebook, the
@@ -1981,7 +1987,7 @@ A few habits that help:
 * **Give it checks it can run**: ``python3 lab/test.py todo7``, and the
   notebook's (or ``sit_stay_shake.py``'s) ``ok`` / ``FAIL`` checks.
 * **Ask for the plan before the code.** "Read the TODO 9 card in
-  ``lab/part5_sit_stay_shake.py`` and tell me how a trick action should use the
+  ``lab/part5_sit_stay_shake.py`` and tell me how an interactive action should use the
   queue; don't edit anything yet."
 * **Check its claims against the robot.** The server log, the debug view and
   ``curl localhost:8000/system/mode`` are the truth. The agent's summary is
