@@ -384,7 +384,7 @@ sends back a reply. The prompt and the tools are yours, in ``lab/``:
    │   ├── part2_walk.py            check_move, walk, turn, move, arc       TODO 2, 3, 4
    │   ├── part3_follow.py          the follow rule, the follow tool        TODO 5, 6
    │   ├── part4_tricks.py          play_trick, the trick job (finished)    TODO 7, 8
-   │   ├── part5_sit_stay_shake.py  interactive_action, its tool                  TODO 9, 10
+   │   ├── part5_interactive_action.py  interactive_action, its tool                  TODO 9, 10
    │   ├── test.py                  python3 lab/test.py todo3   (tests on a fake robot)
    │   └── chat.py                  python3 lab/chat.py         (talk to Gemini in text)
    ├── tricks/                      one folder per trick
@@ -1647,7 +1647,7 @@ An interactive trick is one Pupper stays in and that takes requests.
 while Pupper is in that trick. Until an interactive trick is installed, Gemini
 is told the ``interactive_action`` tool has nothing to choose from.
 
-**TODO 9:** ``interactive_action`` in ``lab/part5_sit_stay_shake.py``. You can write
+**TODO 9:** ``interactive_action`` in ``lab/part5_interactive_action.py``. You can write
 and test it while your policy trains: the tests use a made-up interactive
 trick called ``hold_pose`` (actions ``wave_left``, ``wave_right``, and the exit
 clip ``leave``).
@@ -1759,7 +1759,7 @@ Check it: ``python3 lab/test.py todo9``
   (keeps sitting, or stands up). Say when to use the trick, too: when someone
   just says *"sit"*, they mean sit and stay, and Gemini picks a trick from
   these words alone (``stand_sit_stand`` also sits, briefly).
-- The ``interactive_action`` tool at the bottom of ``lab/part5_sit_stay_shake.py``.
+- The ``interactive_action`` tool at the bottom of ``lab/part5_interactive_action.py``.
   Its body is one line, ``return await interactive_action(robot, action)``. Its description: put
   ``{actions}`` in it, and the robot turns it into the list of actions with
   your descriptions. Then tell Gemini what has to happen first (the trick),
@@ -2028,7 +2028,7 @@ A few habits that help:
 * **Give it checks it can run**: ``python3 lab/test.py todo7``, and the
   notebook's (or ``sit_stay_shake.py``'s) ``ok`` / ``FAIL`` checks.
 * **Ask for the plan before the code.** "Read the TODO 9 card in
-  ``lab/part5_sit_stay_shake.py`` and tell me how an interactive action should use the
+  ``lab/part5_interactive_action.py`` and tell me how an interactive action should use the
   queue; don't edit anything yet."
 * **Check its claims against the robot.** The server log, the debug view and
   ``curl localhost:8000/system/mode`` are the truth. The agent's summary is
