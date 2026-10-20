@@ -15,7 +15,7 @@ those moves too.*
 `Lab slides <#>`_ (TODO)
 
 `Lab document <https://docs.google.com/document/d/1kp3xRDpWT6fy1FBzcx5_VDpdCx2mRkD5-4JWlJbUOac/edit?usp=sharing>`_: make a copy, answer each DELIVERABLE under its
-question number (Q1–Q19), and submit it to Gradescope.
+question number (Q1–Q20), and submit it to Gradescope.
 
 .. note::
 
@@ -147,7 +147,7 @@ This lab is expected to take **two weeks**.
      - **The spider:** a trick that walks: build its clips and train its walking policy (reward weights, as in lab 4)
      - (notebook)
    * - 7
-     - **Together:** the prompt, second pass; demo; reflection
+     - **Together:** the prompt, second pass; **Pupper's personality**; demo; reflection
      - 11
 
 **The big picture: you are building one big state machine.** Like the state
@@ -1988,8 +1988,8 @@ Part 7: Put It Together
 -----------------------
 **TODO 11:** The last two sections of ``lab/prompt.md``.
 
-- **Tricks.** A trick keeps its final pose until the next motion. Trick
-  actions only work while their trick holds its pose. When the person asks for
+- **Tricks.** A trick keeps its final pose until the next motion.
+  Interactive actions only work while Pupper is in their trick. When the person asks for
   several things in a row ("sit, shake, then stand up"), Gemini should call
   the tools in that order: the queue plays them one after the other.
 - **Safety.** If someone says stop, Gemini should call ``stop`` right away,
@@ -2025,11 +2025,47 @@ As in TODO 1, these look for words. The live demo is where you see whether Gemin
 
 Run ``python3 lab/test.py`` once more: everything passes.
 
+Bring It to Life: Pupper's Personality
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**This is the most important part of the lab.** Everything so far makes
+Pupper *work*: it hears you, moves safely, does tricks and tells the truth
+about what happened. Now make it someone. Go back to *Who you are* in
+``lab/prompt.md`` (your TODO 1 draft) and turn it into a character people want
+to talk to again.
+
+- **Who is it?** A name, an age, a backstory, things it loves and things it
+  is afraid of, a way of talking (short, out loud: everything is spoken). Pick
+  a voice to match in the app's **Settings → Voice**.
+- **Show it, don't just say it.** A personality is more than words: Pupper
+  has a body and a camera. Write rules that turn feelings into tools. Maybe it
+  greets people it sees with a little bow, or turns away shyly when it's teased.
+  Maybe it shows off with a chain of tricks when someone says it's a good dog,
+  becomes a spider when it's feeling sneaky, or follows a friend around when it
+  is bored. Use what it sees: *"what am I holding?"* is a question about the
+  camera.
+- **Make it consistent.** It is the same Pupper when a tool refuses, when it
+  is asked for a trick it doesn't know, when it falls over: a refusal in character ("My legs only go
+  0.15 metres a second when I'm a spider!") beats a dry error.
+- **Personality never beats safety or honesty.** Stop still means stop,
+  right away. It still never claims to move without calling a tool. The limits
+  stay in code; the personality lives in the words and in which tools it
+  chooses.
+
+Then test it on someone who has never met Pupper: five minutes, no
+instructions. What did they try first? What made them laugh? Where did the
+character break? Change the prompt and try again (just reconnect in the app).
+
+**DELIVERABLE (Q17):** Your *Who you are* section. Three moments from
+conversations that show the personality, each with what was said, the tool
+calls in the debug view, and what Pupper did. One moment where the
+personality and a rule pulled in different directions, and how you resolved
+it. And what someone who had never met Pupper said about it, in three words.
+
 * **Live demo (TA checkoff).** A short, unscripted conversation with Pupper
-  that walks, turns and curves, plays a trick, sits and **stays** (wait at least ten
-  seconds), shakes both paws, stands up, becomes a spider and walks a little
-  in its stance, stands back up, and refuses at least one request with a
-  reason.
+  that shows off its **personality**, and walks, turns and curves, plays a
+  trick, sits and **stays** (wait at least ten seconds), shakes both paws,
+  stands up, becomes a spider and walks a little in its stance, stands back
+  up, and refuses at least one request with a reason.
 * **Reflection.** A page, not more:
 
   - Where did you put each rule: in the prompt, in a tool description, or in
@@ -2040,12 +2076,12 @@ Run ``python3 lab/test.py`` once more: everything passes.
     wrong, and how you caught it. Attach short excerpts (no secrets).
   - What would you tell next year's students?
 
-**DELIVERABLE (Q17):** The output of ``python3 lab/test.py`` with every check
+**DELIVERABLE (Q18):** The output of ``python3 lab/test.py`` with every check
 passing.
 
-**DELIVERABLE (Q18): Video 2**, your demo conversation (by voice only).
+**DELIVERABLE (Q19): Video 2**, your demo conversation (by voice only), with the personality on show.
 
-**DELIVERABLE (Q19):** Your reflection.
+**DELIVERABLE (Q20):** Your reflection.
 
 Optional: The Jump
 ------------------
