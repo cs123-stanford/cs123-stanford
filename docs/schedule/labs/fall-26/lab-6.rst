@@ -32,14 +32,20 @@ pieces work together:
 
 * **Gemini Live** hears you, sees through the camera, decides what to do, and
   talks back.
-* **The policies** drive Pupper's 12 motors. Pupper is in one of two modes:
+* **The policies** drive Pupper's 12 motors, one policy at a time:
 
-  - **Locomotion mode**: our default neural controller, the locomotion policy
-    from lab 4. It walks, turns and runs; Gemini Pupper calls it *walking*.
-  - **Trick mode**: a **trick policy** holds the legs instead of the
-    locomotion policy. A trick policy is a tracking policy: it was trained
-    (BeyondMimic-style) to follow a reference motion and keep Pupper balanced
-    while it does. You will train one in this lab.
+  - **Locomotion mode**: the default locomotion policy, from lab 4. It walks,
+    turns and runs.
+  - **Trick mode**: a trick's own policy holds the legs instead. A **playback
+    trick** is one **tracking policy**, trained (BeyondMimic-style) to follow
+    a reference motion and keep Pupper balanced while it does. An
+    **interactive trick** is a state Pupper stays in, held by one policy or
+    more: ``sit_stay_shake`` by its clip policy, the spider by its clip policy
+    and its own walking policy. You will train both kinds in this lab:
+    tracking policies (``sit_stay_shake``, the spider's clips) and a walking
+    policy (the spider walk).
+
+  When no policy holds the legs, the motors are idle and Pupper lies down.
 
 * **Gemini Pupper**, the system you build in this lab, connects the two. It
   decides which tools exist, what Gemini is told about them, what each one
