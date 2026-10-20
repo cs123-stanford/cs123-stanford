@@ -424,9 +424,11 @@ Follow it from the words *"stand up"*:
    Gemini API's name for a tool call). The robot server runs
    ``stand_up_tool``, which calls the behavior, ``stand_up``.
 2. **Now: get ready.** ``prepare_to_move`` (your TODO 5) gets the robot ready
-   for a new motion. Today that means one thing: if Pupper is following
-   someone, stop. It returns a note for Gemini (``""`` if there's nothing to
-   say).
+   for a new motion: it stops anything that runs *on its own, outside the
+   queue*, and would fight with the motion. Right now nothing does, so it
+   does nothing and returns ``""``. In Part 3 you make it end follow mode
+   (the person follower drives the legs by itself), and it returns a note
+   for Gemini saying so.
 3. **Now: write down the work for later.** ``async def job()`` *defines* the
    work without running it: give the legs to the locomotion policy. It can
    use ``stand_up``'s variables (``robot`` here; ``vx`` and ``duration`` in
@@ -792,9 +794,9 @@ failures with your reason.
 shape, with a loop in the job. You don't write it, but read it now, line by
 line, and make sure you could explain it (Q4):
 
-* *Now:* it asks your ``check_move`` and refuses with its reason; it leaves
-  follow mode (``prepare_to_move``, your TODO 5); it refuses if the robot
-  has already fallen.
+* *Now:* it asks your ``check_move`` and refuses with its reason; it calls
+  ``prepare_to_move`` to get the robot ready (it does nothing yet: you write
+  it in Part 3, TODO 5); it refuses if the robot has already fallen.
 * *Later, in the job:* it hands the legs to the locomotion policy, then sends the
   speed with ``robot.send_speed`` 20 times a second (``LLM_CMD_RATE``) until
   the duration is up, and ends with a zero speed.
@@ -1159,7 +1161,30 @@ let Gemini talk about it.
 robot ready for a new motion, and every motion calls it first, in its *now*
 part: look for it in ``stand_up`` and ``lie_down`` (``basics.py``) and
 ``walk`` (``part2_walk.py``). So whatever you write here applies to every
-motion at once. Today it has one job: end follow mode.
+motion at once.
+
+*What it is for.* ``prepare_to_move`` stops anything that runs on its own,
+outside the queue, before a new motion is queued. In Gemini Pupper that is
+one thing, the person follower, so its one job is to end follow mode. But it
+is the hook for anything like it you add later. Getting the *legs* ready is a
+different job, done later, inside the job, by ``switch_to``: the state when
+the job runs may not be the state when it was queued.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 26 34
+
+   * - If you add…
+     - put it in…
+     - because
+   * - A behavior that runs by itself, outside the queue: a patrol or
+       look-around loop, dancing to music, head tracking that sends speeds
+     - ``prepare_to_move`` (now)
+     - a new request should end it at once, like the follower
+   * - A new way to get the legs into or out of something: a trick that
+       must be left a special way, a pose that needs a warm-up
+     - ``switch_to``, or the trick's exit clip (later)
+     - it depends on the state when the job runs, not when it was asked
 
 *Why right away, and not in the job?* Say Pupper is following you and two
 walks are queued. You say "sit". If following only ended when the queue got
