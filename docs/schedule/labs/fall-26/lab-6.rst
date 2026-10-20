@@ -157,9 +157,11 @@ a rule to it.
 
    Pupper's states, and the tools that move it between them. **Locomotion
    mode** is one state, with follow mode on or off inside it. **Trick mode**
-   is one state per trick: a playback trick, or an interactive trick Pupper
-   stays in (its actions are the arrows inside it), including one that walks
-   in its own stance (the spider, Part 6). **Motors idle** is
+   is one state per trick, of two kinds: a **playback trick** is one policy
+   that plays its motion once; an **interactive trick** is a state Pupper
+   stays in and takes requests in, held by one policy (``sit_stay_shake``) or
+   more (the spider, Part 6). Each has a state machine of its own inside
+   (Parts 5 and 6), but here it is one state. **Motors idle** is
    Pupper lying down with no controller holding the legs, and **fallen** is
    where a tilt e-stop leaves it. Any motion tool switches straight to the
    state it needs: a walk from motors idle goes to locomotion mode, a trick to
@@ -1793,18 +1795,16 @@ the spider is two policies:
 * **The spider walk**, a walking policy like your lab 4 one, but trained in the
   spider stance: it takes the same speed commands, and walks low and splayed.
 
-.. code-block:: text
+.. figure:: ../../../_static/lab6/spider_graph.svg
+   :align: center
+   :width: 95%
 
-   locomotion ──play_trick spider_walk──▶  trick_spider_walk: spider_down
-                                                │ (the trick's walking policy takes the legs)
-                                                ▼
-                                    walk_spider_walk: the spider walk  ◀── move / turn / arc (slower)
-                                                │ stand_up, or any other motion
-                                                ▼
-                                   trick_spider_walk, started at spider_up
-                                                │
-                                                ▼
-                                           locomotion
+   ``spider_walk`` as the state machine inside the trick, like
+   ``sit_stay_shake``'s in Part 5. Two policies take turns holding the legs:
+   the clip policy plays ``spider_down`` and ``spider_idle``, hands the legs
+   to the walking policy, and takes them back at ``spider_up``. **To Gemini
+   Pupper, this whole graph is still a single state**, the trick
+   ``spider_walk``.
 
 **This is why an interactive trick is a state, not a motion.** Pupper is in
 the spider trick from the moment it lies down until it is standing again, even
@@ -1866,8 +1866,9 @@ the velocity command decides where the steps take the body.
    :align: center
    :width: 70%
 
-   The spider reference gait (two cycles), the joint angles the policy is
-   rewarded for tracking. Torso 1 cm off the ground.
+   The spider reference gait, played open loop in the viewer: the joint
+   angles the policy is rewarded for tracking, two cycles a second, torso
+   1 cm off the ground.
 
 All you set are the **reward weights**, the same terms as lab 4. Start from
 your StableGait weights, and think about what is different here: the height
