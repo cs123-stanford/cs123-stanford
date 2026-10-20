@@ -15,7 +15,7 @@ those moves too.*
 `Lab slides <#>`_ (TODO)
 
 `Lab document <https://docs.google.com/document/d/1kp3xRDpWT6fy1FBzcx5_VDpdCx2mRkD5-4JWlJbUOac/edit?usp=sharing>`_: make a copy, answer each DELIVERABLE under its
-question number (Q1–Q15), and submit it to Gradescope.
+question number (Q1–Q19), and submit it to Gradescope.
 
 .. note::
 
@@ -25,55 +25,62 @@ question number (Q1–Q15), and submit it to Gradescope.
    terminal chat you meet first (``lab/chat.py``) is based on his minimal Gemini
    Live example. Thank you, Peng!
 
-Robot foundation models are becoming the "brain" of robots: models like
-Gemini can listen, look through a camera, reason about what you want, and
-decide what to do. But a foundation model cannot move a single motor. It can
-only **call tools**. So picture Pupper as a body:
+Robot foundation models like Gemini can listen, look through a camera,
+reason about what you want, and decide what to do. But a foundation model
+cannot move a single motor. It can only **call tools**. In this lab, three
+pieces work together:
 
-* **The brain** is Gemini Live: it hears you, sees through the camera, decides
-  what to do, and talks back.
-* **The muscles** are Pupper's 12 motors.
-* **The nervous system** is the policies that drive the motors. There are two
-  kinds:
+* **Gemini Live** hears you, sees through the camera, decides what to do, and
+  talks back.
+* **The policies** drive Pupper's 12 motors. Pupper is in one of two modes:
 
   - **Locomotion mode**: our default neural controller, the locomotion policy
     from lab 4. It walks, turns and runs; Gemini Pupper calls it *walking*.
-  - **Tracking mode**: a **tracking policy** plays one trick by following a
-    reference motion. We also call it a **trick policy**: the two names mean
-    the same thing. You will train one in this lab.
+  - **Trick mode**: a **trick policy** holds the legs instead of the
+    locomotion policy. A trick policy is a tracking policy: it was trained
+    (BeyondMimic-style) to follow a reference motion and keep Pupper balanced
+    while it does. You will train one in this lab.
 
-* **The heart and blood vessels** are Gemini Pupper, the system you build in
-  this lab. It pumps the whole feedback loop: what Gemini asks for flows out
-  to the policies, and what really happened flows back to Gemini. It decides
-  which tools exist, what Gemini is told about them, what each one does on the
-  robot, what it refuses, and what it reports back. It is what turns a brain
-  and a body into one system you can talk to: it brings Pupper to life.
+* **Gemini Pupper**, the system you build in this lab, connects the two. It
+  decides which tools exist, what Gemini is told about them, what each one
+  does on the robot, what it refuses, and what it reports back.
 
 The idea to keep in mind: *a foundation model is only as good as its tools,
 and it only knows what its tools tell it.* A tool that fails silently is a
 robot that lies to you. Remember that every time Gemini says "Okay, I'm
 walking!" while Pupper stands perfectly still.
 
+Before You Start
+----------------
+In this lab you build a **human-robot interaction agent pipeline**, piece by
+piece: from the words a person says, to the tool Gemini picks, to the policy
+that moves the motors, and back to what Gemini tells the person. The amount
+of code is moderate: most TODOs are a few lines to a few dozen. **The ideas
+behind them are heavy.** Almost every TODO is about something that happens at
+the same time as something else, later than you'd think, or out of Gemini's
+sight. Read the explanations, not just the TODO cards, and give this lab real
+time: start early, and don't leave Part 5 (which trains a policy) for the
+last days.
+
+It is worth it. Gemini Pupper is one of the best starting points for a final
+project that any CS 123 quarter has had: a robot you can talk to, that walks,
+follows people and does tricks you trained yourself. We expect great things
+from the projects that build on it.
+
 AI Use Suggestion
 ------------------
-**We encourage you to use a coding agent in this lab** (Claude Code or Codex),
-unlike lab 3. Robots like Pupper are built this way now, and the repo comes
-with notes for your agent (``AGENTS.md``). Two conditions:
+**This lab is designed so that you can complete it without AI.** You are
+welcome to use a coding agent (Claude Code or Codex) to understand the code
+and for light coding, as long as you understand what every line it writes
+means. The repo comes with notes for your agent (``AGENTS.md``).
 
 * **The deliverables are yours.** Answer every DELIVERABLE in your own words,
   from what you did and saw on your robot. Don't hand the questions to your
   agent.
 * **Understand everything your agent does.** For every TODO, you should be
   able to explain what the code does, why it is written that way, and what
-  would go wrong without it, without your agent open. Read every line it
-  writes, and ask it to explain anything you can't explain yourself.
-
-.. important::
-
-   **Quiz 2 tests this.** It asks about the code in this lab: what a TODO
-   does, why it checks what it checks, and what happens when something goes
-   wrong. If your agent wrote it and you never understood it, the quiz will
-   show it.
+  would go wrong without it, without your agent open. Quiz 2 asks about this
+  code.
 
 Good ways to work with an agent are at the end of this handout, in
 `Working With a Coding Agent`_. One rule always holds: never let an agent
@@ -131,13 +138,16 @@ This lab is expected to take **two weeks**.
      - **Sit, stay, shake:** build a clip library, train it, give Gemini the actions
      - 9, 10 (+ notebook)
    * - 6
+     - **The spider:** a trick that walks: build its clips and train its walking policy (reward weights, as in lab 4)
+     - (notebook)
+   * - 7
      - **Together:** the prompt, second pass; demo; reflection
      - 11
 
 **The big picture: you are building one big state machine.** Like the state
 machine in lab 5, only much bigger. Pupper is always in exactly one mode, and
-every tool Gemini calls either moves it to another mode, or is refused because
-it can't happen from the mode Pupper is in (or will be in, once everything
+every tool Gemini calls either moves it to another state, or is refused because
+it can't happen from the state Pupper is in (or will be in, once everything
 already queued has run). Keep this picture in mind: each TODO adds an arrow or
 a rule to it.
 
@@ -145,11 +155,16 @@ a rule to it.
    :align: center
    :width: 95%
 
-   Pupper's modes, and the tools that move it between them. Any motion tool
-   switches the legs to the mode it needs: a walk from motors off goes
-   straight to locomotion mode, a trick straight to tracking mode. Follow mode
-   lives inside locomotion mode, and any motion ends it. Follow mode is the
-   follower you built in lab 5, without its obstacle avoidance.
+   Pupper's states, and the tools that move it between them. **Locomotion
+   mode** is one state, with follow mode on or off inside it. **Trick mode**
+   is one state per trick: a playback trick, or an interactive trick Pupper
+   stays in (its actions are the arrows inside it), including one that walks
+   in its own stance (the spider, Part 6). **Motors idle** is
+   Pupper lying down with no controller holding the legs, and **fallen** is
+   where a tilt e-stop leaves it. Any motion tool switches straight to the
+   state it needs: a walk from motors idle goes to locomotion mode, a trick to
+   that trick. Follow mode is the follower you built in lab 5, without its
+   obstacle avoidance.
 
 The TODOs are numbered 1–11 and run in the same order as this handout. In the
 code, each one sits between ``TODO n: YOUR CODE HERE`` banners, under a short
@@ -190,15 +205,15 @@ Part 0: Setup
 
       You > lie down, then stand up, then walk forward
         -> Gemini calls lie_down({})
-        <- reply Gemini hears now: {"success": true, "message": "deactivate queued; the queue should finish in 1.0 s"}
+        <- reply Gemini hears now: {"success": true, "message": "lie down queued; the queue should finish in 1.0 s"}
            ...later, when the queue gets to it:
            [fake robot] legs: relaxed gemini_walk
-           [fake robot] outcome: deactivate: ok
+           [fake robot] outcome: lie down: ok
         -> Gemini calls stand_up({})
-        <- reply Gemini hears now: {"success": true, "message": "activate walking queued; the queue should finish in 5.2 s"}
+        <- reply Gemini hears now: {"success": true, "message": "stand up queued; the queue should finish in 5.2 s"}
            ...later, when the queue gets to it:
            [fake robot] legs: gemini_walk took over
-           [fake robot] outcome: activate walking: ok
+           [fake robot] outcome: stand up: ok
         -> Gemini calls move({"direction": "forward"})
         <- reply Gemini hears now: {"success": false, "message": "TODO 3 is not written yet (move in lab/part2_walk.py)"}
       Pupper > ...
@@ -206,9 +221,11 @@ Part 0: Setup
    That is the whole loop the lab is about. Gemini never runs code: it reads
    the description of each tool (the ``@tool(...)`` lines in ``lab/``), asks
    for a call, and *your* code runs it and sends back a reply. The reply is
-   all Gemini ever learns. ``stand_up``, ``lie_down``, ``stop`` and
-   ``robot_status`` are finished (in ``lab/basics.py``); the other tools reply
-   that their TODO isn't written yet. Watch what Gemini does with that reply.
+   how Gemini gets feedback on what the robot did.
+
+   **Already done for you, in** ``lab/basics.py``: ``stand_up``,
+   ``lie_down``, ``stop`` and ``robot_status``. The other tools reply that
+   their TODO isn't written yet. Watch what Gemini does with that reply.
 
    Two experiments in ``lab/basics.py`` (the notebook shows you how to edit
    it there; ``chat.py`` reads ``lab/`` when it starts, so restart it after
@@ -219,7 +236,7 @@ Part 0: Setup
       ``lie_down``'s description (it spans two lines) and ask again. Last, change the description
       to ``"Makes the robot jump."`` and ask it to jump. What does Gemini call
       each time?
-   b. **The reply is all Gemini learns.** Make ``stand_up_tool`` return
+   b. **The reply is how Gemini gets feedback.** Make ``stand_up_tool`` return
       ``Result(False, "a wall is in the way")`` instead of calling
       ``stand_up``, and ask Pupper to stand up. Then make it return
       ``Result(True, "standing up")``, still without calling ``stand_up``:
@@ -251,40 +268,57 @@ Part 0: Setup
    your key. The key goes in ``~/.config/gemini-pupper/api_key`` on the
    Pupper, never in the repo. You can run ``setup.sh`` again at any time.
 
-   .. note::
+   Keep your Lab 5 repo (``~/follow_me_pupper``) on the Pupper: follow mode
+   runs it in Part 3.
 
-      **Follow mode is your Lab 5.** When Gemini follows someone, it runs your
-      ``lab/follow_me.py`` state machine, with your target lock and stop distance,
-      through ``robot/follow_service.py`` in ``~/follow_me_pupper``. Keep that repo
-      on the Pupper with its model downloaded, and Lab 5's Steps 2–4 working
-      (``python3 lab/test.py`` all passing): follow mode runs your
-      ``process_detections``, ``pick_target`` and ``approach_speed``, and
-      crashes on a function that is not written yet. Lab 5's optional steps
-      stay off — color re-identification (Step 5) and obstacle avoidance
-      (Step 6) are not stable enough to run while Gemini is driving. The Hailo only runs while Pupper is following, which keeps it
-      cooler. Pupper's on-screen eyes therefore track people only while it
-      follows. For eyes that track people all the time, start with
-      ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (Pupper runs warmer). Without
-      ``~/follow_me_pupper``, follow mode falls back to the monorepo's simpler
-      follower.
+5. **Wake Pupper up.** Put Pupper on the ground in clear space. There are two
+   ways to run the app:
 
-5. **Wake Pupper up.** Put Pupper on the ground in clear space, then:
+   * **From your laptop: use this while you build and debug.** It is much,
+     much easier: the debug view gets a big screen, and you can type as well
+     as talk. On the Pupper, run ``robot/start.sh``. On your laptop, forward
+     the port, browse to ``http://localhost:8000``, open **Settings**, paste
+     your key, and press **WAKE PUPPER**:
 
-   .. code-block:: bash
+     .. code-block:: bash
 
-      robot/start.sh --kiosk     # the app on Pupper's own screen, with its mic and speaker
+        ssh -N -L 8000:localhost:8000 pi@pupper[YOUR_GROUP_NUMBER].local
 
-   Or run ``robot/start.sh`` and use the app from your laptop: forward the
-   port, browse to ``http://localhost:8000``, open **Settings**, paste your
-   key, and press **WAKE PUPPER**:
-
-   .. code-block:: bash
-
-      ssh -N -L 8000:localhost:8000 pi@pupper[YOUR_GROUP_NUMBER].local
+   * **On Pupper itself: use this for demos.** ``robot/start.sh --kiosk``
+     runs the app on Pupper's own screen, with its mic and speaker, and no
+     laptop. This is how you record your demo videos.
 
    Say hi. The **debug view** shows every tool call Gemini makes and what the
    robot said back: keep it open for the whole lab. ``robot/stop.sh`` relaxes
    the motors and stops everything.
+
+   .. admonition:: TODO (staff): screenshot of the debug view
+
+      A screenshot of the app's debug view, with a few tool calls and their
+      replies, goes here.
+
+   .. admonition:: Debugging tips
+      :class: tip
+
+      * **Start from the debug view.** It shows every function call Gemini
+        made and the reply it heard. When Gemini says something odd, find the
+        reply it was answering.
+      * **Read the logs on the Pupper**: ``/tmp/gemini-pupper/server.log``
+        (your ``lab/`` code: every tool call, every job's outcome, every
+        error) and ``/tmp/gemini-pupper/robot.log`` (ROS 2: controllers and
+        policies). ``tail -f`` one while you talk.
+      * **Ask the robot, not Gemini.** Gemini only knows what the replies
+        told it. ``curl localhost:8000/system/mode`` on the Pupper says what
+        the robot is really doing.
+      * **Try it without the robot.** ``python3 lab/chat.py`` runs the same
+        conversation on the fake robot, and ``python3 lab/test.py todoN``
+        checks one TODO.
+      * **Changed a** ``.py`` **file in** ``lab/``? Restart
+        (``robot/stop.sh && robot/start.sh``). Changed ``lab/prompt.md``?
+        Just reconnect in the app.
+      * **The app won't start?** ``robot/start.sh`` prints where it got
+        stuck: controllers still loading (see ``robot.log``), or the server
+        didn't start (see ``server.log``).
 
 6. **What already works.** The provided tools are ``stand_up``, ``lie_down``,
    ``stop`` and ``robot_status``. Try *"stand up"*, *"lie down"*, *"what are
@@ -292,15 +326,28 @@ Part 0: Setup
    tools exist, but they reply that their TODO isn't written yet. Watch what
    Gemini does with that reply.
 
+   .. admonition:: TODO (staff): video
+
+      A short video of Pupper not working: Gemini says it is walking while
+      Pupper stands still.
+
 7. Run the tests once: ``python3 lab/test.py``. The provided robot's checks
    pass, and every TODO is listed as not written yet.
 
-**DELIVERABLE (Q1):** Your two experiments from step 2. (a) What did Gemini
-call after each change to the description? (b) What did it tell you when
-``stand_up`` failed, and when it "succeeded" without the robot moving? Then, from step 6: when
-you asked Pupper to walk, did Gemini say it was walking before it knew the
-result? In a few sentences: why is a model that talks about moving, without
-moving, a particularly bad failure for a robot?
+**DELIVERABLE (Q1):**
+
+(a) Step 2a: what did Gemini call after each change to ``lie_down``'s
+description?
+
+(b) Step 2b: what did Gemini tell you when ``stand_up`` failed? And when it
+"succeeded" without the robot moving?
+
+(c) Step 6: when you asked Pupper to walk, what did Gemini say, and what did
+Pupper actually do?
+
+(d) A robot that says it is doing something it isn't doing is bad
+human-robot interaction. Why is it worse on a robot than in a chatbot? Give a
+possible explanation for why Gemini said it.
 
 How Gemini Pupper Works
 -----------------------
@@ -317,8 +364,8 @@ sends back a reply. The prompt and the tools are yours, in ``lab/``:
    :width: 95%
 
    The loop you are building. Gemini picks a tool from its *description*;
-   your code on the robot does the work and reports back; the report is the
-   only thing Gemini learns about what actually happened.
+   your code on the robot does the work and replies; the reply is how Gemini
+   gets feedback on what actually happened.
 
 .. code-block:: text
 
@@ -336,84 +383,101 @@ sends back a reply. The prompt and the tools are yours, in ``lab/``:
    ├── robot/                       provided: the Robot API, the robot server, launch files, scripts
    └── web/                         provided: the web app; you never need it
 
-.. admonition:: Python you'll need (read this even if you know Python)
-   :class: note
+**The one idea: now and later.** Every motion tool runs in two moments:
 
-   **async / await.** The robot server does many things at once: it runs a
-   walk, answers Gemini, and listens for the e-stop. An ``async def``
-   function can pause while it waits (``await robot.sleep(0.05)``, ``await
-   robot.switch_to(...)``) and let everything else run meanwhile. Two rules:
-   call an ``async`` function with ``await`` in front, and never use
-   ``time.sleep``: it freezes the whole server, the ``stop`` tool included.
+* **Now**, the moment Gemini calls it: check that the request is allowed, put
+  a **job** in line for the robot, and reply right away. Gemini hears this
+  reply: refused (and why), or accepted.
+* **Later**, when the robot gets to it: the job moves the robot. What
+  happened (done, fell over, controller failed) is the job's **outcome**. It
+  goes to the debug log and to ``robot_status``.
 
-   **Result.** Every tool and every job returns ``Result(ok, message)``:
-   ``ok`` is ``True`` or ``False``, and ``message`` is the sentence Gemini (or
-   the debug log) reads. Write messages for a person: what happened, or what
-   was wrong and what would work instead.
+Why two moments? Gemini often asks for several things in one breath
+(*"stand up, then walk forward"*). The robot can only do them one at a time,
+and Gemini shouldn't go silent until they're done. So every motion waits in a
+**queue**, and every tool replies as soon as its job is in line.
 
-**Start from the code: stand_up.** Here are both halves of the first
-finished example in ``lab/basics.py``, the behavior and the tool:
+**In the code: stand_up.** Here are both halves of the first finished
+example in ``lab/basics.py``: the tool Gemini reads, and the behavior it
+runs.
 
 .. code-block:: python
-
-   async def stand_up(robot: Robot) -> Result:                 # what the robot does
-       note = await leave_follow_mode(robot)                     # (2) NOW
-
-       async def job() -> Result:                                # (3) defined now, run LATER
-           return await robot.switch_to(WALKING_CONTROLLER)
-
-       return with_note(note, await robot.queue("activate walking", job, WALK_READY_S))  # (4) NOW
-
 
    @tool("stand_up", "Stand up and turn on walking. Needed before moving, ..." + ENDS_FOLLOW)
    async def stand_up_tool(robot: Robot) -> Result:            # what Gemini reads
        return await stand_up(robot)                              # (1)
 
-Step through it, in the order things happen when someone says *"stand up"*:
+   async def stand_up(robot: Robot) -> Result:                 # what the robot does
+       note = await prepare_to_move(robot)                       # (2) NOW
 
-1. **Gemini picks the tool.** It has read every ``@tool(...)``: a name and a
-   description. From those words alone, it decides that ``stand_up`` is the
-   one, and calls it. The robot server runs ``stand_up_tool``, which calls the
-   behavior, ``stand_up``.
-2. **Now: decide what can be decided right away.** ``leave_follow_mode``
-   (your TODO 5) ends follow mode if it is on, and returns a note for Gemini
-   (``""`` if there's nothing to say).
-3. **Now: define the work for later.** ``async def job()`` *defines* a
-   function, but doesn't run it. It is the work itself: give the legs to the
-   locomotion policy. It can still use ``stand_up``'s variables (``robot``
-   here; ``vx`` and ``duration`` in ``walk``). A ``lambda`` is a one-line
-   function: ``job = lambda: play_policy_trick(robot, trick)`` is a job too.
-4. **Now: queue it, and answer.** ``robot.queue(name, job, seconds)`` puts
-   the job in line and returns straight away with the *accepted* Result:
-   ``"activate walking queued; the queue should finish in 4.2 s"``.
-   ``with_note`` puts the note in front. That is what ``stand_up`` returns,
-   and the server sends it to Gemini. **It is all Gemini hears.**
-5. **Later: the job runs.** When every job before it has finished, the queue
-   calls ``job()``. ``await robot.switch_to(...)`` waits while the controller
-   switches, without freezing the server. The job returns its *outcome*,
-   ``"activate walking: ok"``, which goes to the debug log and to
-   ``robot_status``.
+       async def job() -> Result:                                # (3) defined now, run LATER
+           return await robot.switch_to(LOCOMOTION_CONTROLLER)
 
-**Every motion in the lab has this shape: check now, queue a job, report.**
+       return with_note(note, await robot.queue("stand up", job, WALK_READY_S, then=LOCOMOTION))  # (4) NOW
 
-Every ``lab/`` file has the same two halves, in order:
+Follow it from the words *"stand up"*:
 
-* **What the robot does**: behaviors, like ``stand_up``. Is the request
-  allowed? Do it. Report what happened.
-* **What Gemini reads**: tools, each an ``@tool(...)`` line with the tool's
-  name (the one Gemini calls), a description, and a description of each
-  parameter, over a short function that turns Gemini's words into numbers and
-  calls a behavior. Gemini picks a tool, and fills in its parameters, from
-  these words alone.
+1. **Gemini calls the tool.** From the ``@tool(...)`` words alone, Gemini
+   decides that ``stand_up`` is the one and makes a **function call** (the
+   Gemini API's name for a tool call). The robot server runs
+   ``stand_up_tool``, which calls the behavior, ``stand_up``.
+2. **Now: get ready.** ``prepare_to_move`` (your TODO 5) gets the robot ready
+   for a new motion. Today that means one thing: if Pupper is following
+   someone, stop. It returns a note for Gemini (``""`` if there's nothing to
+   say).
+3. **Now: write down the work for later.** ``async def job()`` *defines* the
+   work without running it: give the legs to the locomotion policy. It can
+   use ``stand_up``'s variables (``robot`` here; ``vx`` and ``duration`` in
+   ``walk``). A ``lambda`` is a one-line function:
+   ``job = lambda: play_policy_trick(robot, trick)`` is a job too.
+4. **Now: queue it and reply.** ``robot.queue(name, job, seconds, then=...)``
+   puts the job in line and returns at once with the *accepted* reply,
+   ``"stand up queued; the queue should finish in 4.2 s"``. ``then=`` is the
+   state Pupper will be in once the job is done (here ``LOCOMOTION``): the
+   queue keeps it as ``robot.state_after_queue``, so the next request knows
+   where Pupper will be by the time it gets its turn. ``with_note`` puts the
+   note in front. This reply is what Gemini hears.
+5. **Later: the job runs.** When every job before it is done, the queue calls
+   ``job()``. Its outcome, ``"stand up: ok"``, goes to the debug log
+   and to ``robot_status``.
 
-Why a queue? Gemini often asks for several things in one breath ("sit, then
-shake"). The queue runs them one at a time, in order, while Gemini keeps
-talking. That means a tool call has **two messages at two moments**:
+**Every motion in the lab has this shape: check now, queue a job, reply.**
 
-* **Accepted (now).** What the tool returns right away: refused with a
-  reason, or queued. *This is what Gemini hears.*
-* **Outcome (later).** What the job returns when it finishes: done, fell
-  over, controller failed. It goes to the debug log and to ``robot_status``.
+**On a timeline.** Someone says *"stand up and walk forward"*, and Gemini
+makes two function calls, back to back:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 11 33 30 26
+
+   * - Time
+     - Gemini: function call → the reply it hears
+     - The robot
+     - The debug log (outcomes)
+   * - 0.00 s
+     - ``stand_up()`` → *"stand up queued; the queue should finish
+       in 4.2 s"*
+     - ``stand_up``: not following, nothing to stop; its job is queued.
+     -
+   * - 0.01 s
+     - ``move(direction="forward")`` → *"move vx=0.4 … queued; the queue
+       should finish in 5.7 s"*
+     - ``walk``: ``check_move`` is happy; its job is queued behind
+       stand_up's.
+     -
+   * - 0.01–4.2 s
+     - (nothing: Gemini is talking to you)
+     - stand_up's job: ``switch_to(gemini_walk)``, wait for the policy.
+     - *"stand up: ok"*
+   * - 4.2–5.7 s
+     - (nothing)
+     - walk's job: send the speed 20 times a second, then a zero.
+     - *"move vx=0.4 …: moved vx=0.4 … for 1.5 s"*
+
+Gemini heard both replies before Pupper took a single step. Tricks work the
+same way: *"sit, then shake"* is two function calls,
+``play_trick("sit_stay_shake")`` then ``trick_action("shake_left")``, both
+answered at once; the shake's job starts only when the sit's job is done.
 
 .. important::
 
@@ -425,50 +489,108 @@ talking. That means a tool call has **two messages at two moments**:
    queued, and nothing more. To learn what really happened, it has to ask
    (call ``robot_status``). Q4 asks what this means for a long walk.
 
-**The whole story, once more, with a trick.** Someone says *"sit, then
-shake"*. Gemini turns that into two tool calls, back to back:
-``play_trick("sit_stay_shake")``, then ``trick_action("shake_left")``. Each
-tool answers right away: refused with a reason, or accepted and queued.
-Gemini hears both answers within a fraction of a second, before Pupper has
-moved at all. The jobs run later, one at a time: the shake's job doesn't
-start until the sit's job has finished. While a job waits on the robot
-(``await robot.sleep(...)``, ``await robot.play_clip(...)``), the server keeps
-running, so it still hears *"stop"* and the e-stop. When the shake has
-finished, its outcome goes to the debug log and to ``robot_status``: not to
-Gemini.
+**The Python behind it: async and await.** The robot server does many things
+at once: it runs a job, answers Gemini, and listens for *"stop"* and the
+e-stop. ``async`` functions are how: one can pause while it waits, and
+everything else keeps running meanwhile. Two rules are all you need:
 
-Here is what happens, in order, when someone says *"stand up and walk
-forward"* and Gemini calls two tools back to back:
+* **Put** ``await`` **in front of every** ``async`` **call**:
+  ``await robot.switch_to(...)``, ``await robot.sleep(0.05)``,
+  ``await robot.queue(...)``. Without ``await``, the call never runs: Python
+  makes it and throws it away, with at most a warning that it "was never
+  awaited".
+* **Never** ``time.sleep``. It doesn't pause your function: it freezes the
+  whole server, the ``stop`` tool and the e-stop included. Use
+  ``await robot.sleep(seconds)``.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 12 44 44
+.. raw:: html
 
-   * - Time
-     - What runs
-     - What Gemini hears / the log says
-   * - 0.00 s
-     - ``stand_up``: no follow mode to leave; its job is queued.
-     - Gemini: *"activate walking queued; the queue should finish in 4.2 s"*
-   * - 0.01 s
-     - ``walk``: ``check_move`` is happy; its job is queued behind stand_up's.
-     - Gemini: *"move vx=0.4 … queued; the queue should finish in 5.7 s"*
-   * - 0.01–4.2 s
-     - stand_up's job: ``switch_to(gemini_walk)``, wait for the policy.
-     - Log: *"activate walking: ok"*
-   * - 4.2–5.7 s
-     - walk's job: send the speed 20 times a second, then a zero.
-     - Log: *"move vx=0.4 …: moved vx=0.4 … for 1.5 s"*
+   <details style="margin-bottom: 1.5em">
+   <summary><b>New to async? A two-minute example (click to open)</b></summary>
 
-Notice that Gemini heard both replies before Pupper took a single step: it
-hears what was **accepted**, and the **outcomes** go to the log.
+Run this on your laptop (``python3 example.py``):
 
-The robot is always in exactly one state: **locomotion mode** (the default
-neural controller, ``gemini_walk``), **tracking mode** (one trick's tracking
-policy, on its ``trick_<name>`` controller), or **motors off**. The code and
-the replies call locomotion mode *walking*: ``WALKING_CONTROLLER``,
-``"back on the walking policy"``, ``robot_status`` saying ``mode: walking``.
-Every job changes the state with one call, ``robot.switch_to(...)``.
+.. code-block:: python
+
+   import asyncio
+
+
+   async def walk():
+       print("walk: start")
+       await asyncio.sleep(1.2)  # pause walk; everything else keeps running
+       print("walk: done")
+
+
+   async def listen():
+       for _ in range(3):
+           print("listen: did anyone say stop?")
+           await asyncio.sleep(0.5)
+
+
+   async def main():
+       await asyncio.gather(walk(), listen())  # run both at once
+
+
+   asyncio.run(main())
+
+.. code-block:: text
+
+   walk: start
+   listen: did anyone say stop?
+   listen: did anyone say stop?
+   listen: did anyone say stop?
+   walk: done
+
+``await asyncio.sleep(1.2)`` pauses ``walk``, and ``listen`` runs in the
+meantime. Now break it, twice:
+
+* Change it to ``time.sleep(1.2)`` (and ``import time``): ``listen`` stays
+  silent until the walk is over. On Pupper, ``listen`` is the ``stop`` tool.
+* Delete the ``await``: ``walk`` doesn't wait at all, and Python warns
+  ``coroutine 'sleep' was never awaited``.
+
+The robot server works the same way: ``robot.queue`` runs the jobs one at a
+time, ``await``-ing each, while the server keeps answering Gemini and
+listening for *"stop"*. More: the Python docs'
+`Coroutines and Tasks <https://docs.python.org/3/library/asyncio-task.html>`_,
+and Real Python's `Async IO in Python <https://realpython.com/async-io-python/>`_.
+
+.. raw:: html
+
+   </details>
+
+**Result.** Every tool and every job returns ``Result(ok, message)``: ``ok``
+is ``True`` or ``False``, and ``message`` is the sentence Gemini (or the
+debug log) reads. Write messages for a person: what happened, or what was
+wrong and what would work instead.
+
+Every ``lab/`` file has the same two halves, in order:
+
+* **What the robot does**: behaviors, like ``stand_up``. Is the request
+  allowed? Do it. Report what happened.
+* **What Gemini reads**: tools, each an ``@tool(...)`` line with the tool's
+  name (the one Gemini calls), a description, and a description of each
+  parameter, over a short function that turns Gemini's words into numbers and
+  calls a behavior. Gemini picks a tool, and fills in its parameters, from
+  these words alone.
+
+**Pupper's state.** The robot is always in exactly one state, and the state
+is whatever holds the legs: **locomotion mode** (``LOCOMOTION``: the default
+locomotion policy, on the ``gemini_walk`` controller; following or not),
+**trick mode** (one trick: its trick policy, on its ``trick_<name>``
+controller), **motors idle** (``MOTORS_IDLE``: nothing holds the legs, so
+Pupper lies down) or **fallen** (``FALLEN``). Every job changes the state
+with one call, ``robot.switch_to(...)``, and the robot keeps track of two
+states for you:
+
+* ``robot.state_now``: the state Pupper is in right now. Only ``switch_to``
+  (and a fall, the e-stop or ``stop``) changes it.
+* ``robot.state_after_queue``: the state it will be in once everything already
+  queued has run. Each ``robot.queue(..., then=...)`` sets it.
+
+A request asked for *now* checks ``state_after_queue`` (where will Pupper be
+when its turn comes?); a job checks ``state_now`` when it runs (where is it
+really?). You will use both in Part 5.
 
 **The tests: what they check, and why.** ``python3 lab/test.py`` runs your
 code on a fake robot. Each TODO below ends with a table of *every* check its
@@ -492,14 +614,18 @@ went wrong, what the limit is, and what the real choices are.**
 
    * - Call
      - What it does
-   * - ``await robot.queue(name, job, seconds, then_holding=None)``
+   * - ``await robot.queue(name, job, seconds, then=state)``
      - Put ``job`` (an ``async`` function with no arguments) in line, and
-       return the *accepted* Result now. ``then_holding``: the clip trick
-       (Part 4 explains them) holding a pose once this job is done.
+       return the *accepted* Result now. ``then``: the state Pupper is in once
+       this job is done (``LOCOMOTION``, ``MOTORS_IDLE`` or a trick).
    * - ``await robot.switch_to(controller)``
-     - Give the legs to one controller (``None``: relax the motors). Also
-       stands up safely after a fall, and plays a sitting trick's exit clip
-       before another motion takes the legs.
+     - Give the legs to one controller (``None``: relax the motors), and update
+       ``robot.state_now``. Also stands up safely after a fall, and leaves an
+       interactive trick through its exit clip before another motion takes
+       the legs.
+   * - ``robot.state_now``, ``robot.state_after_queue``
+     - The state Pupper is in right now, and the one it will be in once
+       everything already queued has run.
    * - ``robot.send_speed(vx, vy, wz_deg)``
      - One speed command to the locomotion policy.
    * - ``await robot.sleep(s)``, ``robot.now()``
@@ -508,13 +634,10 @@ went wrong, what the limit is, and what the real choices are.**
      - Which controller fell over (``None`` while upright), and what to say.
    * - ``robot.following``, ``await robot.stop_following()``
      - Follow mode.
-   * - ``robot.holding_now``, ``robot.holding_after_queue``
-     - The clip trick holding a pose right now, and once everything already
-       queued has run.
    * - ``await robot.is_active(controller)``
      - Is this controller driving the legs right now?
    * - ``await robot.play_clip(trick, clip)``
-     - Play one clip of a clip trick, and wait for it.
+     - Play one clip of an interactive trick, and wait for it.
    * - ``robot.tricks``, ``robot.action_ids()``
      - The installed tricks; trick actions → (trick, clip).
 
@@ -628,8 +751,8 @@ return the first problem you find:
 .. important::
 
    **Your reason must name the limit, and the tests check for it.** The string
-   you return goes to Gemini word for word as the tool's reply, and it is all
-   Gemini learns about the refusal. ``"too fast"`` leaves it guessing a new
+   you return goes to Gemini word for word as the tool's reply: it is how
+   Gemini learns why it was refused. ``"too fast"`` leaves it guessing a new
    speed (and maybe guessing wrong again, or giving up).
    ``"too fast: |vx|<=1.5 m/s"`` lets it retry at a speed that works, or tell
    you why it can't. Write the number with the ``MoveLimits`` field in an
@@ -668,7 +791,7 @@ shape, with a loop in the job. You don't write it, but read it now, line by
 line, and make sure you could explain it (Q4):
 
 * *Now:* it asks your ``check_move`` and refuses with its reason; it leaves
-  follow mode (``leave_follow_mode``, your TODO 5); it refuses if the robot
+  follow mode (``prepare_to_move``, your TODO 5); it refuses if the robot
   has already fallen.
 * *Later, in the job:* it hands the legs to the locomotion policy, then sends the
   speed with ``robot.send_speed`` 20 times a second (``LLM_CMD_RATE``) until
@@ -990,7 +1113,7 @@ to Gemini) or *later* (when the queue gets to the job):
    1. web/services/geminiLive.ts   a toolCall arrives; the app calls robotBridge.callTool("stand_up", {})   now
    2. ...
    ...
-   n. robot/robot_api.py           Robot.switch_to(WALKING_CONTROLLER): the locomotion policy takes the legs   later
+   n. robot/robot_api.py           Robot.switch_to(LOCOMOTION_CONTROLLER): the locomotion policy takes the legs   later
 
 Use a coding agent or read the code yourself (start at the ``stand_up`` tool
 in ``lab/basics.py``, and work outward in both directions). Check your trace
@@ -1009,14 +1132,32 @@ up to you to lead it around furniture. Follow mode needs one rule:
    trick, stand up, lie down) ends follow mode, and Pupper says so first:
    "Let me stop following you and ..."*
 
+.. note::
+
+   **What follow mode needs.** When Gemini follows someone, it runs your
+   ``lab/follow_me.py`` state machine, with your target lock and stop
+   distance, through ``robot/follow_service.py`` in ``~/follow_me_pupper``.
+   Keep that repo on the Pupper with its model downloaded, and Lab 5's Steps
+   2–4 working (``python3 lab/test.py`` all passing): follow mode runs your
+   ``process_detections``, ``pick_target`` and ``approach_speed``, and crashes
+   on a function that is not written yet. Lab 5's optional steps stay off:
+   color re-identification (Step 5) and obstacle avoidance (Step 6) are not
+   stable enough to run while Gemini is driving. The Hailo only runs while
+   Pupper is following, which keeps it cooler, so Pupper's on-screen eyes
+   track people only while it follows. For eyes that track people all the
+   time, start with ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (Pupper runs
+   warmer). Without ``~/follow_me_pupper``, follow mode falls back to the
+   monorepo's simpler follower.
+
 Turning the follower on and off is provided (``robot.set_following``). The
 rule is yours, in two halves: the code that makes it true, and the words that
 let Gemini talk about it.
 
-**TODO 5:** ``leave_follow_mode`` in ``lab/part3_follow.py``. Every motion calls
-it in its *now* part: look for it in ``stand_up`` and ``lie_down``
-(``basics.py``) and ``walk`` (``part2_walk.py``). So whatever you write here
-applies to every motion at once.
+**TODO 5:** ``prepare_to_move`` in ``lab/part3_follow.py``. It gets the
+robot ready for a new motion, and every motion calls it first, in its *now*
+part: look for it in ``stand_up`` and ``lie_down`` (``basics.py``) and
+``walk`` (``part2_walk.py``). So whatever you write here applies to every
+motion at once. Today it has one job: end follow mode.
 
 *Why right away, and not in the job?* Say Pupper is following you and two
 walks are queued. You say "sit". If following only ended when the queue got
@@ -1031,8 +1172,8 @@ own reply (``with_note`` in ``stand_up`` puts it there).
 2. ``await robot.stop_following()`` turns the person follower off.
 3. ``robot.send_speed(0, 0, 0)``: stand still (the follower may have been
    walking).
-4. Return the note, e.g. ``"Stopped following the person first. "``: end it
-   with a space, since the tool's own reply comes right after it.
+4. Return the note, e.g. ``"Stopped following the person first."``
+   (``with_note`` puts it in front of the tool's own reply).
 
 **What** ``python3 lab/test.py todo5`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
@@ -1044,17 +1185,17 @@ own reply (``with_note`` in ``stand_up`` puts it there).
      - Passes
      - Fails
    * - ``stand_up``, ``lie_down`` and ``walk`` stop the follower right away, before the queue gets to them
-     - ``await robot.stop_following()`` in ``leave_follow_mode``
+     - ``await robot.stop_following()`` in ``prepare_to_move``
      - stopping it inside a job
    * - Their reply contains ``"follow"``
-     - ``"Stopped following the person first. activate walking queued; ..."``
-     - ``"Done. activate walking queued; ..."``
+     - ``"Stopped following the person first. stand up queued; ..."``
+     - ``"Done. stand up queued; ..."``
    * - When it isn't following, the reply does *not* contain ``"follow"``
-     - ``"activate walking queued; ..."``
+     - ``"stand up queued; ..."``
      - the note every time (return ``""`` when not following)
    * - ``robot_status`` (a question) keeps following
      - following is still on afterwards
-     - calling ``leave_follow_mode`` from a question
+     - calling ``prepare_to_move`` from a question
 
 Check it: ``python3 lab/test.py todo5``
 
@@ -1098,9 +1239,9 @@ Check it: ``python3 lab/test.py part3``, then in text (``python3 lab/chat.py``:
 the robot.
 
 **DELIVERABLE (Q6):** The follow rule now lives in three places: the prompt,
-the tool descriptions, and ``leave_follow_mode``. Make a table: for each
+the tool descriptions, and ``prepare_to_move``. Make a table: for each
 place, does it *tell* Gemini about the rule or *enforce* it? Then make
-``leave_follow_mode`` return ``""`` without stopping anything, and ask
+``prepare_to_move`` return ``""`` without stopping anything, and ask
 Pupper to sit while it follows you. What happens? (Put it back.)
 
 **DELIVERABLE (Q7): Video 1**, by voice only: Pupper walks forward and
@@ -1113,15 +1254,18 @@ Part 4: Tricks
 --------------
 Every trick is a policy, played by its own controller: the 14 tricks in
 ``tricks/`` (``sit``, ``push_up``, ``swim``, …) were recorded on the Pupper
-monorepo and trained as tracking policies (trick policies) in simulation. Each folder has a
+monorepo and trained as trick policies in simulation. Each folder has a
 ``policy.json`` and a ``trick.yaml`` (``robot/tricks.py`` lists the fields):
 what Gemini reads about the trick, and the pose it starts and ends in. The
 launch file loads one controller per trick, called ``trick_<name>``, all
 switched off.
 
-**Two kinds of trick.** Most tricks are one motion, played start to finish.
-A few, called *clip tricks*, are made of several short pieces of motion the
-robot plays one at a time, on request. Compare ``sit``, which you already have,
+**Two kinds of trick.** A **playback trick** plays one reference motion from
+start to finish; its trick policy keeps Pupper balanced while it plays, so it
+holds up where a plain replay of the recording would wobble or fall. An
+**interactive trick** is one Pupper *stays in* and that takes requests: it is
+made of several short pieces of motion the robot plays one at a time, on
+request. Compare ``sit``, which you already have,
 with ``sit_stay_shake``, which you will train in Part 5:
 
 .. list-table::
@@ -1129,8 +1273,8 @@ with ``sit_stay_shake``, which you will train in Part 5:
    :widths: 22 39 39
 
    * -
-     - ``sit``: a normal trick
-     - ``sit_stay_shake``: a clip trick
+     - ``sit``: a playback trick
+     - ``sit_stay_shake``: an interactive trick
    * - What it is
      - One recorded motion: sit down, hold for two seconds, stand back up.
        It always plays the whole thing.
@@ -1149,34 +1293,34 @@ with ``sit_stay_shake``, which you will train in Part 5:
      - When Gemini asks for ``stand_up``, its **exit clip**, or when any other
        motion is asked for (``switch_to`` plays the exit clip first).
    * - In the code
-     - ``trick.clips`` is ``[]`` (empty)
-     - ``trick.clips`` lists the five clips; ``trick.actions`` the ones Gemini
+     - ``trick.interactive`` is ``False`` (``trick.clips`` is empty)
+     - ``trick.interactive`` is ``True``: ``trick.clips`` lists the five clips; ``trick.actions`` the ones Gemini
        may ask for; ``trick.exit_clip`` is ``"stand_up"``
 
-Until Part 5 you have no clip trick, but ``play_trick`` has to handle them
+Until Part 5 you have no interactive trick, but ``play_trick`` has to handle them
 already. The tests use a made-up one called ``hold_pose``.
 
-**Playing a trick is a change of state**, from locomotion mode to tracking
-mode. Before, the locomotion policy has the legs. You give them to
-``trick_<name>``, wait while it plays, and then decide
-who has the legs afterwards:
+**Playing a trick is a change of state**, from locomotion mode to that trick
+(trick mode). Before, the locomotion policy has the legs. You give them to
+``trick_<name>``, wait while it plays, and then decide which state Pupper is
+in afterwards:
 
 .. list-table::
    :header-rows: 1
    :widths: 30 35 35
 
    * - The trick…
-     - Who has the legs afterwards
+     - The state afterwards
      - Examples
-   * - ends standing (``end_pose: standing``)
-     - the locomotion policy again (locomotion mode), so Pupper can walk away
+   * - is a playback trick that ends standing (``end_pose: standing``)
+     - ``LOCOMOTION``: the locomotion policy has the legs again, so Pupper can
+       walk away
      - ``sit``, ``push_up``, ``sneeze``
-   * - ends lying down (any other ``end_pose``)
-     - the trick's controller, holding its last pose until the next motion
+   * - is a playback trick that ends lying down (any other ``end_pose``)
+     - the trick: its controller holds the last pose until the next motion
      - ``swim``, ``twerk``, ``upward_dog``
-   * - is a clip trick
-     - the trick's controller, which keeps playing its looping clip (the
-       "stay")
+   * - is an interactive trick
+     - the trick: its controller keeps playing its looping clip (the "stay")
      - ``sit_stay_shake``
 
 **TODO 7:** ``play_trick`` in ``lab/part4_tricks.py``: the *now* part, the
@@ -1185,16 +1329,15 @@ it next.
 
 1. ``trick = robot.tricks.get(name)``. If it's ``None``, fail, and list the
    real names (``list(robot.tricks)``), so Gemini can pick a real one.
-2. ``note = await leave_follow_mode(robot)``.
+2. ``note = await prepare_to_move(robot)``.
 3. The job is ``play_policy_trick(robot, trick)``. You don't want to run it
    now, so wrap it in a one-line function: ``job = lambda:
    play_policy_trick(robot, trick)``.
 4. Queue it with ``robot.queue(f"trick {name}", job, trick.total_time,
-   then_holding=...)``, with the note in front. ``then_holding`` tells the
-   queue whether a clip trick will be holding a pose once this job is done:
-   the trick if it is a clip trick (``trick.clips`` isn't empty), else
-   ``None``. Part 5 relies on it: it's how "sit, then shake" said in one
-   breath knows the sit is coming.
+   then=...)``, with the note in front. ``then`` is the state Pupper is in
+   once the job is done, from the table above: ``LOCOMOTION`` after a
+   playback trick that ends standing, else ``trick``. Part 5 relies on it:
+   it's how "sit, then shake" said in one breath knows the sit is coming.
 
 Examples, *now* (what Gemini hears straight away):
 
@@ -1203,7 +1346,7 @@ Examples, *now* (what Gemini hears straight away):
    :widths: 30 22 48
 
    * - Gemini calls
-     - ``then_holding``
+     - ``then``
      - Gemini hears now
    * - ``play_trick("backflip")``
      - (not queued)
@@ -1212,7 +1355,7 @@ Examples, *now* (what Gemini hears straight away):
        takes the listed names: ``"play_trick: name must be one of [...]"``.
        Your check is the one behind it.)
    * - ``play_trick("sit")``
-     - ``None``
+     - ``LOCOMOTION``
      - ``trick sit queued; the queue should finish in 10.7 s``
    * - ``play_trick("sit_stay_shake")``
      - the trick
@@ -1220,25 +1363,25 @@ Examples, *now* (what Gemini hears straight away):
 
 **Read: play_policy_trick** (finished, in ``lab/part4_tricks.py``), the job
 your ``play_trick`` queues. It gives the legs to the trick's controller, waits
-while the trick plays, then leaves the robot in the right pose, in four steps:
+while the trick plays, then leaves the robot in the right state, in four steps:
 
-1. A clip trick that is already holding its pose (``robot.holding_now is
-   trick``): nothing to do.
-2. A trick that is still holding the end of its last run (its controller is
-   still on) is relaxed first, with ``switch_to(None)``. Switching to a
+1. An interactive trick Pupper is already in (``robot.state_now is trick``):
+   nothing to do.
+2. A playback trick that is still holding the end of its last run (Pupper is
+   still in its state) is relaxed first, with ``switch_to(None)``. Switching to a
    controller that is already on does nothing at all, so without this, "swim
    again" would just keep lying there.
 3. ``switch_to(trick.controller)``, then wait ``trick.total_time + 0.3`` s
    while it plays. If the robot fell, say so.
-4. Leave the robot in the right pose, using the table above, and say which: a
-   clip trick sets ``robot.holding_now = trick`` and lists its actions; a
+4. Leave the robot in the right state, using the table above, and say which:
+   an interactive trick stays (and the reply lists its actions); a playback
    trick that ends standing hands the legs back to the locomotion policy; any
    other trick just stays where it is.
 
 Every outcome says which pose the robot is in now: Gemini (and
 ``robot_status``) can only plan the next move if it knows.
 
-A tracking policy plays its motion *by itself*: unlike a walk, it doesn't need
+A trick policy plays its motion *by itself*: unlike a walk, it doesn't need
 speeds sent to keep going. So the provided ``stop`` tool can't stop a trick
 that is still playing by standing still; it relaxes the motors instead, like
 the gamepad e-stop, and the reply says so. A trick that has finished and only
@@ -1258,19 +1401,19 @@ it, and check that you can see each row happen):
    * - ``sit`` (ends standing)
      - walking
      - 3: switch to ``trick_sit``, wait 11.0 s; 4: switch to ``gemini_walk``
-     - ``played sit; back on the walking policy``
+     - ``played sit; back in locomotion mode``
    * - ``swim`` (ends lying)
      - walking
      - 3: switch to ``trick_swim``, wait 11.5 s; 4: nothing (it stays)
-     - ``played swim; the trick controller holds the final pose``
+     - ``played swim; it holds its final pose (lying)``
    * - ``swim`` again
      - lying at the end of ``swim`` (``trick_swim`` is still on)
      - 2: switch to ``None`` first; then the same as above
      - the same as above
-   * - ``sit_stay_shake`` (a clip trick)
+   * - ``sit_stay_shake`` (an interactive trick)
      - walking
-     - 3: switch to ``trick_sit_stay_shake``, wait 5.8 s; 4:
-       ``robot.holding_now = trick``
+     - 3: switch to ``trick_sit_stay_shake`` (``state_now`` becomes the trick),
+       wait 5.8 s; 4: nothing (it stays)
      - ``played sit_stay_shake; it now stays sitting. Trick actions:
        shake_left, shake_right, stand_up. Any other motion first plays
        stand_up.``
@@ -1298,17 +1441,17 @@ it, and check that you can see each row happen):
    * - A real trick is accepted right away
      - ``"trick bow queued; the queue should finish in ... s"``
      - awaiting ``play_policy_trick`` yourself (nothing is queued)
-   * - The queued job is ``play_policy_trick``: the trick's controller takes the legs for ``trick.total_time``, and its outcomes appear (``"back on the walking policy"``, ``"holds the final pose"``, relax and restart)
+   * - The queued job is ``play_policy_trick``: the trick's controller takes the legs for ``trick.total_time``, and its outcomes appear (``"back in locomotion mode"``, ``"holds its final pose"``, relax and restart)
      - ``job = lambda: play_policy_trick(robot, trick)``
      - ``job = play_policy_trick(robot, trick)`` (runs it now, not in the queue)
-   * - A clip trick is queued with ``then_holding=trick``, so asking for it again while it holds does nothing
+   * - ``then=``: ``LOCOMOTION`` after a trick that ends standing, else the trick, so asking for an interactive trick again while Pupper is in it does nothing
      - outcome ``"already doing hold_pose"``
-     - ``then_holding=None``: it replays
+     - ``then=LOCOMOTION`` for every trick: it replays
    * - With follow mode on, the reply contains ``"follow"``
      - ``with_note(note, await robot.queue(...))``
      - dropping the note
 
-The fake robot's tricks: ``bow`` ends standing, ``roll_over`` ends lying down, and ``hold_pose`` is a clip trick (actions ``wave_left``, ``wave_right``, exit clip ``leave``).
+The fake robot's tricks: ``bow`` ends standing, ``roll_over`` ends lying down, and ``hold_pose`` is an interactive trick (actions ``wave_left``, ``wave_right``, exit clip ``leave``).
 
 Check it: ``python3 lab/test.py todo7``. It runs your ``play_trick`` with the
 finished job behind it, on the fake robot, which records every controller
@@ -1380,7 +1523,7 @@ on request.
 
 **What is a clip, and why cut a motion into pieces?** A reference motion is
 one long recording: the body's pose and the 12 joint angles, frame by frame.
-A normal trick plays its whole recording, start to finish, every time. But
+A playback trick plays its whole recording, start to finish, every time. But
 "stay until I say so" and "shake when I ask" can't be one recording: nobody
 knows in advance how long the stay lasts, or which paw comes next. So you cut
 the recording into short named pieces, **clips** (sit down, sit still, shake
@@ -1411,7 +1554,7 @@ This is the library you build:
    :align: center
    :width: 95%
 
-   A clip trick. Every clip starts and ends at a pose it shares with its
+   An interactive trick. Every clip starts and ends at a pose it shares with its
    neighbours, so the robot can go straight from the end of one clip to the
    start of the next. A looping clip repeats until something else is asked
    for.
@@ -1459,32 +1602,32 @@ makes an open-ended stay possible?
 
 Part C: Give Gemini the Actions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A clip trick holds a pose and takes requests. ``play_trick`` (your TODO 7)
-already sits and stays; the requests (*shake*, *the other paw*, *stand up*)
-are **trick actions**, and they only make sense while the trick holds its
-pose. Until a clip trick is installed, Gemini is told the ``trick_action`` tool
-has nothing to choose from.
+An interactive trick is one Pupper stays in and that takes requests.
+``play_trick`` (your TODO 7) already sits and stays; the requests (*shake*,
+*the other paw*, *stand up*) are **trick actions**, and they only make sense
+while Pupper is in that trick. Until an interactive trick is installed, Gemini
+is told the ``trick_action`` tool has nothing to choose from.
 
 **TODO 9:** ``trick_action`` in ``lab/part5_sit_stay_shake.py``. You can write
-and test it while your policy trains: the tests use a made-up clip trick called
-``hold_pose`` (actions ``wave_left``, ``wave_right``, and the exit clip
-``leave``).
+and test it while your policy trains: the tests use a made-up interactive
+trick called ``hold_pose`` (actions ``wave_left``, ``wave_right``, and the exit
+clip ``leave``).
 
 *The new idea: an action only makes sense in one state.* A shake is a clip of
-``sit_stay_shake``: it can only play while that trick's controller holds the
-sit. So ``trick_action`` has to ask "is Pupper sitting?". The interesting
-part is *when* to ask, because of the queue:
+``sit_stay_shake``: it can only play while Pupper is in that trick. So
+``trick_action`` has to ask "is Pupper sitting?". The interesting part is
+*when* to ask, because of the queue:
 
 - Someone says "sit, and give me your paw" in one breath. Gemini calls
   ``play_trick`` and ``trick_action`` back to back, before Pupper has even
   started to sit. If ``trick_action`` asked "is it sitting *right now*?", it
   would refuse a perfectly good request. So, **now**, it asks: "will it be
   sitting once everything already queued has run?" That's
-  ``robot.holding_after_queue``, kept up to date by the ``then_holding`` you
-  pass to ``robot.queue``.
+  ``robot.state_after_queue``, kept up to date by the ``then=`` every motion
+  passes to ``robot.queue``.
 - But a lot can happen between the call and the shake: Pupper can fall over,
   someone can press the e-stop or say "stop". So **later**, in the job, it
-  asks again, about right now: ``await robot.is_active(trick.controller)``.
+  asks again, about right now: ``robot.state_now``.
 
 *Now*, when Gemini calls:
 
@@ -1492,30 +1635,28 @@ part is *when* to ask, because of the queue:
    action's name to ``(trick, clip)``. If it's ``None``, fail, listing the
    real names (``list(robot.action_ids())``).
 2. ``trick, clip = found``
-3. If ``robot.holding_after_queue is not trick``, fail, and say which trick
-   to play first: ``f"... play it first (play_trick {trick.name})"``.
+3. If ``robot.state_after_queue is not trick``, fail, and say which trick to
+   play first: ``f"... play it first (play_trick {trick.name})"``.
 
 *Later*, in ``async def job()``:
 
-4. If ``not await robot.is_active(trick.controller)``, fail the same way.
-5. ``res = await robot.play_clip(trick, clip)`` plays the clip and waits
-   until it is done.
-6. If that failed, or the clip isn't the trick's exit clip
-   (``trick.exit_clip``), return ``res``: the robot keeps sitting.
-7. The exit clip stands Pupper up, so nothing is holding a pose any more:
-   ``robot.holding_now = None``, then ``await
-   robot.switch_to(WALKING_CONTROLLER)``, and report how that went.
+4. If ``robot.state_now is not trick``, fail the same way.
+5. The exit clip (``clip == trick.exit_clip``) leaves the trick: hand the
+   legs back with ``await robot.switch_to(LOCOMOTION_CONTROLLER)``, which plays
+   the exit clip on the way out, and report how that went.
+6. Any other clip: ``return await robot.play_clip(trick, clip)``. It plays the
+   clip and waits until it is done; Pupper stays in the trick.
 
 *Queue it*:
 
-8. ``robot.queue(f"{trick.name} {clip}", job,
-   trick.clip_time_estimate(clip), then_holding=...)``: ``None`` after the
-   exit clip (it stands up), else ``trick`` (it keeps sitting).
+7. ``robot.queue(f"{trick.name} {clip}", job,
+   trick.clip_time_estimate(clip), then=...)``: ``LOCOMOTION`` after the exit
+   clip (it stands up), else ``trick`` (it keeps sitting).
 
 .. note::
 
    **Gemini still isn't told when the shake finishes.** It hears the reply
-   from step 1, 3 or 8, right away. The job's result (the shake played, or
+   from step 1, 3 or 7, right away. The job's result (the shake played, or
    the sit was gone by then) goes to the debug log and ``robot_status``.
 
 **What** ``python3 lab/test.py todo9`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
@@ -1530,23 +1671,23 @@ part is *when* to ask, because of the queue:
    * - An unknown action fails, and the message lists the real ones
      - ``"unknown trick action fetch_the_ball; available: ['wave_left', 'wave_right', 'leave']"``
      - ``"unknown action"``
-   * - An action while its trick isn't holding (or queued to hold) fails right away, names the trick, and queues nothing
+   * - An action while Pupper isn't in its trick (or queued to be) fails right away, names the trick, and queues nothing
      - ``"wave_left only works while hold_pose is running; play it first (play_trick hold_pose)"``
      - ``"not sitting"`` (which trick?); or queuing it and failing later
-   * - While the trick holds: accepted, the clip plays, nothing fails, and the trick keeps holding
+   * - In the trick: accepted, the clip plays, nothing fails, and Pupper stays in the trick
      - ``"hold_pose wave_left queued; ..."``
-     - switching back to walking after every clip
-   * - The exit clip plays, then walking takes the legs back, and ``holding_now`` is ``None``
-     - outcome ``"played leave; back on the walking policy"``
-     - staying on the trick's controller
+     - switching back to locomotion after every clip
+   * - The exit clip plays, then locomotion takes the legs back, and ``state_now`` is ``LOCOMOTION``
+     - outcome ``"played leave; back in locomotion mode"``
+     - ``play_clip`` for the exit clip too (Pupper stays on the trick's controller)
    * - After the exit clip, actions are refused again
-     - ``then_holding=None`` when you queue the exit clip
-     - ``then_holding=trick``
+     - ``then=LOCOMOTION`` when you queue the exit clip
+     - ``then=trick``
    * - "Sit, then shake" in one breath: an action queued right behind its trick is accepted and plays
-     - the *now* check asks ``robot.holding_after_queue``
-     - asking ``robot.holding_now`` or ``is_active`` *now*
+     - the *now* check asks ``robot.state_after_queue``
+     - asking ``robot.state_now`` or ``is_active`` *now*
    * - If the trick was relaxed before the queue got to the action, the job refuses and sends no clip
-     - the job first checks ``await robot.is_active(trick.controller)``
+     - the job first checks ``robot.state_now is trick``
      - checking only *now*
 
 Check it: ``python3 lab/test.py todo9``
@@ -1564,7 +1705,7 @@ Check it: ``python3 lab/test.py todo9``
    From now on, the old ``sit`` and ``stand_sit_shake_sit_stand`` step aside:
    their ``trick.yaml`` says ``replaced_by: sit_stay_shake``, so once yours is
    installed they get no controller and Gemini no longer sees them. A plain
-   "sit" now goes to your clip trick: Pupper sits and stays until you ask it
+   "sit" now goes to your interactive trick: Pupper sits and stays until you ask it
    to shake or stand up.
 
 **TODO 10:** What Gemini reads about the actions.
@@ -1620,7 +1761,140 @@ Until you fetch your policy, the ``trick.yaml`` checks are skipped.
 it do, and what does it say? Which of your two checks fired? Then describe a
 case where the *other* check (in the job) is the one that matters.
 
-Part 6: Put It Together
+Part 6: The Spider: A Trick That Walks
+--------------------------------------
+``sit_stay_shake`` holds one pose. Some tricks are a *place to be*: Pupper
+lies down like a spider, legs splayed wide and torso just off the ground,
+wiggles its legs, **walks around like that**, and wiggles its way back up to
+standing when you are done.
+
+The locomotion policy can't do this: it was trained to walk standing up. So
+the spider is two policies:
+
+* **The spider clip trick**, like ``sit_stay_shake``: three clips cut from a
+  recorded spider. ``spider_down`` (stand, lie down, wiggle, settle into the
+  spider stance), ``spider_idle`` (the stance) and ``spider_up`` (wiggle, stand
+  back up).
+* **The spider walk**, a walking policy like your lab 4 one, but trained in the
+  spider stance: it takes the same speed commands, and walks low and splayed.
+
+.. code-block:: text
+
+   locomotion ──play_trick spider_walk──▶  trick_spider_walk: spider_down
+                                                │ (the trick's walking policy takes the legs)
+                                                ▼
+                                    walk_spider_walk: the spider walk  ◀── move / turn / arc (slower)
+                                                │ stand_up, or any other motion
+                                                ▼
+                                   trick_spider_walk, started at spider_up
+                                                │
+                                                ▼
+                                           locomotion
+
+**This is why an interactive trick is a state, not a motion.** Pupper is in
+the spider trick from the moment it lies down until it is standing again, even
+though three different policies hold its legs on the way. Everything you wrote
+already works with it, unchanged:
+
+* ``play_trick`` (your TODO 7) queues the trick with ``then=trick``: Pupper
+  will be *in* it. ``play_policy_trick`` plays its opening clips, then (step 4)
+  hands the legs to the trick's walking policy.
+* ``walk`` (finished, Part 2: read it again) asks ``robot.state_after_queue``
+  which policy walks, the same now-question as your TODO 9: in the spider
+  trick, its walking policy does. So ``move``, ``turn`` and ``arc`` walk the
+  spider, slowed to the speeds it was trained for (and longer, so it still
+  goes as far), and Pupper stays in the trick.
+* Any other motion leaves it, through its exit clip: ``switch_to`` gives the
+  legs back to the clip trick, started at ``spider_up`` (the controller's
+  ``start_clip``), then to whatever comes next. ``trick_action("spider_up")``
+  (your TODO 9) does the same on purpose.
+
+You train both policies in one notebook, the
+`CS123 Spider notebook <https://colab.research.google.com/github/cs123-stanford/pupper-mjlab/blob/main/notebooks/CS123_Pupper_Spider.ipynb>`_
+(**File → Save a copy in Drive**, GPU runtime). The same TODOs are in
+``tricks/spider.py`` in
+`pupper-mjlab <https://github.com/cs123-stanford/pupper-mjlab/tree/main/src/mjlab/tasks/tracking/config/pupper>`_.
+
+Part A: The Spider's Clips
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+You get the recorded spider (11 s: stand, lie down, wiggle, lie still) and
+``settle_into_stance``, which blends a motion's last frame into the spider
+stance the walking policy starts from. Paste your ``cut`` and ``hold`` from
+Part 5, then:
+
+* **S1, reverse:** the motion played backwards: every array's frames in
+  reverse order.
+* **S2, the clips and ORDER:** ``spider_down`` is the recording up to 7 s
+  (still wiggling), settled into the stance. ``spider_idle`` holds that
+  stance. And ``spider_up``? It has to go from the stance back to standing,
+  wiggling on the way, and you already have a motion that does exactly that,
+  backwards.
+
+Replay the library with physics: it **falls**. Lying down is easy to play
+open loop; pushing back up from the belly is not. Upload it and train it, as
+in Part 5.
+
+**DELIVERABLE (Q14):** Your ``reverse`` and your clips. Why can ``spider_up``
+be ``spider_down`` played backwards, and why doesn't the plain replay survive
+it? Name a clip from Part 5 that could *not* be made by reversing another.
+
+Part B: The Spider Walk
+^^^^^^^^^^^^^^^^^^^^^^^
+This is lab 4 again, in a new stance. ``Mjlab-SpiderWalk-Flat-Pupper-v3``
+tracks a **reference gait**, a spider trot in place: the diagonal leg pairs
+take turns stepping, twice a second, low and splayed. The leg motion comes
+from the recorded spider: the front legs fold the knee and swing up and out,
+the back legs swing up. At zero command the reference is the still stance;
+the velocity command decides where the steps take the body.
+
+.. figure:: ../../../_static/lab6/spider_gait.gif
+   :align: center
+   :width: 70%
+
+   The spider reference gait (two cycles), the joint angles the policy is
+   rewarded for tracking. Torso 1 cm off the ground.
+
+All you set are the **reward weights**, the same terms as lab 4. Start from
+your StableGait weights, and think about what is different here: the height
+target is 4.2 cm, not 14.5; the motors alone can't hold this low stance (with
+zero actions it sags onto its belly), so holding the body up is something the
+policy has to learn; and ``abduction_angle`` pulls joints toward the zero the
+spider splays away from on purpose. Train, then watch it in the viewer: low
+(never on its belly), legs stepping like the reference, going where it is
+told. It will be slower than commanded: the spider creeps.
+
+**DELIVERABLE (Q15):** Your reward weights, next to your lab 4 StableGait
+weights. Which ones did you change, and why? A short clip or screenshots of
+your trained spider walk in the viewer.
+
+Part C: On the Robot
+^^^^^^^^^^^^^^^^^^^^
+1. **TA gate.** Show a TA both policies in the viewer.
+2. Fetch both into one trick on the Pupper, then restart:
+
+   .. code-block:: bash
+
+      python3 robot/get_trick.py <clip-trick-run> --walk <spider-walk-run> --name spider_walk
+      robot/stop.sh && robot/start.sh
+
+3. Fill in ``tricks/spider_walk/trick.yaml``: the ``description`` (say that
+   ``move``, ``turn`` and ``arc`` walk slowly in the spider stance, and how to
+   leave it), ``actions`` with ``spider_up`` (and what it does),
+   ``exit_clip: spider_up``, ``end_pose: spider``, and the ``walk_policy:
+   walk_policy.json`` line ``get_trick.py`` wrote. The old ``spider`` (lie
+   down, wiggle, lie still) steps aside: its ``trick.yaml`` says
+   ``replaced_by: spider_walk``.
+
+Try it by voice: *"Be a spider. Walk forward a bit, turn around, come back.
+Now stand up."* Watch the debug view: which replies say the move is slower?
+
+**DELIVERABLE (Q16):** Trace *"be a spider, walk forward, then sit"* through
+the state machine. For each step: the state Pupper is in, the controller that
+holds the legs, and what plays between them. Why does ``move`` keep Pupper in
+the spider trick, while ``play_trick("sit_stay_shake")`` leaves it? Where in
+the code is each of those decided?
+
+Part 7: Put It Together
 -----------------------
 **TODO 11:** The last two sections of ``lab/prompt.md``.
 
@@ -1663,8 +1937,9 @@ Run ``python3 lab/test.py`` once more: everything passes.
 
 * **Live demo (TA checkoff).** A short, unscripted conversation with Pupper
   that walks, turns and curves, plays a trick, sits and **stays** (wait at least ten
-  seconds), shakes both paws, stands up, and refuses at least one request with
-  a reason.
+  seconds), shakes both paws, stands up, becomes a spider and walks a little
+  in its stance, stands back up, and refuses at least one request with a
+  reason.
 * **Reflection.** A page, not more:
 
   - Where did you put each rule: in the prompt, in a tool description, or in
@@ -1675,12 +1950,12 @@ Run ``python3 lab/test.py`` once more: everything passes.
     wrong, and how you caught it. Attach short excerpts (no secrets).
   - What would you tell next year's students?
 
-**DELIVERABLE (Q13):** The output of ``python3 lab/test.py`` with every check
+**DELIVERABLE (Q17):** The output of ``python3 lab/test.py`` with every check
 passing.
 
-**DELIVERABLE (Q14): Video 2**, your demo conversation (by voice only).
+**DELIVERABLE (Q18): Video 2**, your demo conversation (by voice only).
 
-**DELIVERABLE (Q15):** Your reflection.
+**DELIVERABLE (Q19):** Your reflection.
 
 Optional: The Jump
 ------------------
@@ -1717,7 +1992,7 @@ A few habits that help:
   and explain it to your partner. If you can't, you're not done.
 
 Congratulations! Pupper now listens, answers, and does what it is told, and
-only what it can do safely: you brought it to life. You built the heart of a
+only what it can do safely: you brought it to life. You built the core of a
 robot driven by a foundation model:
 tools a model can reason about, honest reports of what happened, state and
 preconditions, and a trick pipeline that turns motions into a policy on
