@@ -800,7 +800,7 @@ numbers. Each one maps to a parameter:
 
       .. code-block:: python
 
-         !cd /content/pupper-mjlab && python -m mjlab.tasks.pupper_gait.visualize_reference --gait lift --viser --share
+         !cd /content/pupper-mjlab && python -m mjlab.tasks.pupper_gait.visualize_reference --gait lift --viser True --share True
 
       It prints a link; open it to see your lift gait played on the robot model.
       This is pure choreography — no physics, no policy — exactly what the
