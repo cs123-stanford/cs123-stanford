@@ -119,6 +119,7 @@ Lab roadmap
 This lab is expected to take **two weeks**.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 10 64 26
 
@@ -527,6 +528,7 @@ Follow it from the words *"stand up"*:
 makes two function calls, back to back:
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 11 33 30 26
 
@@ -673,10 +675,9 @@ Pupper be when its turn comes? When its job runs (*later*), it checks
 ``state_now``: where is Pupper really? You will use both in Part 5.
 
 **The tests: what they check, and why.** ``python3 lab/test.py`` runs your
-code on a fake robot. Each TODO below ends with a table of *every* check its
-tests make, with an example that passes and one that fails: nothing is checked
-that isn't in the table. When a check fails, it prints what your code produced
-and an example that passes.
+code on a fake robot. Each TODO below ends with one Run box for its test, and
+a table of *every* check that test makes, with an example that passes and one
+that fails: nothing is checked that isn't in the table.
 
 Many checks look for a word or a number in what Gemini reads: a tool's reply
 (``"... at most 20.0 s"``) or a description (``"follow"``). That is on purpose.
@@ -689,6 +690,7 @@ went wrong, what the limit is, and what the real choices are.**
 **The Robot API.** These are the only parts of ``robot/robot_api.py`` you need:
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 42 58
 
@@ -770,11 +772,24 @@ After editing the prompt, try it in text first (``chat.py`` reads
 Then reconnect in the app (no restart needed), ask for a walk again, and
 compare with Q1.
 
-**What** ``python3 lab/test.py todo1`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: the three sections of ``lab/prompt.md`` are written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo1
+
+   This runs a test that checks your TODO 1 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -788,15 +803,6 @@ compare with Q1.
    * - They say ``"tool"``
      - "You can only move by calling a tool."
      - "You can walk, turn and do tricks."
-
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: the three sections are written.
-
-   .. code-block:: bash
-
-      python3 lab/test.py todo1
 
 These checks can only look for words. In Q2, you will test whether Gemini actually *follows* your rules by talking to it.
 
@@ -867,11 +873,27 @@ return the first problem you find:
    you why it can't. Write the number with the ``MoveLimits`` field in an
    f-string, so it stays right if a limit changes.
 
-**What** ``python3 lab/test.py todo2`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``check_move`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo2
+
+   This runs a test that checks your TODO 2 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
+
+   It also runs the finished ``walk`` (below) with your ``check_move``, so you
+   see refused moves come back as failures with your reason.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -890,18 +912,6 @@ return the first problem you find:
      - ``"too fast"``
 
 The other checks under *(provided) walk* test the finished ``walk``: they pass once ``check_move`` works.
-
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: ``check_move`` is written.
-
-   .. code-block:: bash
-
-      python3 lab/test.py todo2
-
-   It also runs the finished ``walk`` (below) with your ``check_move``, so you
-   see refused moves come back as failures with your reason.
 
 **Read: walk** (finished, in ``lab/part2_walk.py``). This is ``stand_up``'s
 shape, with a loop in the job. You don't write it, but read it now, line by
@@ -929,7 +939,8 @@ line, and make sure you could explain it (Q4):
 **TODO 3:** Implement the ``turn`` and ``move`` tools (the ones Gemini
 calls), near the bottom of ``lab/part2_walk.py``.
 Write ``turn`` first. It's short, and it shows you the whole path from
-Gemini's words to the robot. Then ``move``, the real challenge of this part.
+Gemini's words to the robot, and the TODO 3 test checks it on its own. Then
+``move``, the real challenge of this part.
 
 *What Gemini reads.* Gemini picks a tool, and fills in its parameters, only
 from the words in ``@tool(...)``: the tool's description and each parameter's
@@ -958,18 +969,6 @@ only a turning speed, for as long as the angle takes:
 2. The time it takes: ``seconds = abs(angle) / turn_speed``. 90 degrees at
    60 deg/s takes 1.5 s.
 3. ``return await walk(robot, 0.0, 0.0, wz_deg, seconds)``
-
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: ``turn`` is written, before you start on ``move``.
-
-   .. code-block:: bash
-
-      python3 lab/test.py todo3
-
-   It checks ``turn`` first, on its own, so you know it works. The ``move``
-   checks say not written yet until you write it.
 
 **move: the real challenge.** Gemini calls ``move`` with a ``direction`` and,
 if it wants, ``run``, ``speed`` and ``duration``. Anything it leaves out keeps
@@ -1025,6 +1024,7 @@ Check your logic against these examples before you run anything. They are
 exactly what the tests ask:
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 48 26 26
 
@@ -1062,11 +1062,24 @@ code, not only in the description. (Q3 asks about it.)
    what the reply tells it, and a silent change becomes a confident wrong
    sentence out loud. We missed this case ourselves when we wrote the lab.
 
-**What** ``python3 lab/test.py todo3`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``turn`` is written (the ``move`` checks say not written yet until ``move`` is), and again when ``move`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo3
+
+   This runs a test that checks your TODO 3 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -1096,17 +1109,6 @@ code, not only in the description. (Q3 asks about it.)
      - ``move("forward", speed=1.5, duration=10)``: ``"that would travel 15.00 m, more than 7.0 m in one move: split it into shorter moves"``
      - a success, or a crash
 
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: ``move`` is written too.
-
-   .. code-block:: bash
-
-      python3 lab/test.py todo3
-
-   Every check passes now, ``turn``'s and ``move``'s.
-
 **TODO 4:** Implement the ``arc`` tool, at the very bottom of
 ``lab/part2_walk.py``, so that Pupper can walk and turn at the same time.
 
@@ -1133,6 +1135,7 @@ comes from the angle:
    return await walk(robot, speed, 0.0, wz_deg, seconds)
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 46 54
 
@@ -1178,11 +1181,24 @@ an ``arc`` without it:
   is *not* for: straight sides with sharp corners (a square, a star) are
   ``move`` and ``turn``.
 
-**What** ``python3 lab/test.py todo4`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``arc`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo4
+
+   This runs a test that checks your TODO 4 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -1215,14 +1231,13 @@ an ``arc`` without it:
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
 
-   When: ``arc`` is written (TODOs 2–4 all done).
+   When: TODOs 2–4 pass their tests. Try your words in text first:
 
    .. code-block:: bash
 
-      python3 lab/test.py part2     # TODOs 2-4
       python3 lab/chat.py
 
-Then try your words in the chat: ask for a run, a sidestep, a turn,
+In the chat, ask for a run, a sidestep, a turn,
 *"run in a circle around me"* (did Gemini pick a radius the robot can do?), and
 a shape: *"walk in a rectangle"*, *"walk a star"*, *"trace the letter D"*. You see
 the exact call Gemini makes and the speeds your code sends the (fake) robot. If
@@ -1335,6 +1350,7 @@ different: ``switch_to`` does that later, when the job runs, because the
 state when the job runs may not be the state when it was queued.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 40 26 34
 
@@ -1366,11 +1382,24 @@ own reply (``with_note`` in ``stand_up`` puts it there).
 4. Return the note, e.g. ``"Stopped following the person first."``
    (``with_note`` puts it in front of the tool's own reply).
 
-**What** ``python3 lab/test.py todo5`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``prepare_to_move`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo5
+
+   This runs a test that checks your TODO 5 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -1388,15 +1417,6 @@ own reply (``with_note`` in ``stand_up`` puts it there).
      - following is still on afterwards
      - calling ``prepare_to_move`` from a question
 
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: ``prepare_to_move`` is written.
-
-   .. code-block:: bash
-
-      python3 lab/test.py todo5
-
 **TODO 6:** Implement the ``follow`` tool at the bottom of
 ``lab/part3_follow.py``, and write the *Follow mode* section of
 ``lab/prompt.md``.
@@ -1411,11 +1431,24 @@ own reply (``with_note`` in ``stand_up`` puts it there).
 ``ENDS_FOLLOW``, the sentence you added to every motion tool's description in
 TODOs 3 and 4, is the third place the rule now lives.
 
-**What** ``python3 lab/test.py todo6`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: the ``follow`` tool and the *Follow mode* section are written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo6
+
+   This runs a test that checks your TODO 6 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -1436,11 +1469,10 @@ TODOs 3 and 4, is the third place the rule now lives.
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
 
-   When: the ``follow`` tool and the *Follow mode* section are written.
+   When: TODOs 5 and 6 pass their tests. Try your words in text first:
 
    .. code-block:: bash
 
-      python3 lab/test.py part3     # TODOs 5-6
       python3 lab/chat.py
 
 In the chat, try *"follow me"*, *"what do you see?"*, *"now sit"*.
@@ -1497,6 +1529,7 @@ unreliable. Here is ``pee`` in simulation with a little domain randomization
 is the reference motion; the robot is what physics does with it:
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 50 50
 
@@ -1521,6 +1554,7 @@ request. Compare ``sit``, which you already have,
 with ``sit_stay_shake``, which you will train in Part 5:
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 22 39 39
 
@@ -1558,6 +1592,7 @@ already. The tests use a made-up one called ``hold_pose``.
 in afterwards:
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 30 35 35
 
@@ -1595,6 +1630,7 @@ it next.
 Examples, *now* (what Gemini hears straight away):
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 30 22 48
 
@@ -1645,6 +1681,7 @@ What it does, *later*, in each case (read the code with this table next to
 it, and check that you can see each row happen):
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
    :widths: 24 22 30 24
 
@@ -1680,11 +1717,27 @@ it, and check that you can see each row happen):
      - 3: switch to ``trick_sit``, wait; ``robot.fallen`` is set
      - ``sit ended in a fall: the robot fell over: ...``
 
-**What** ``python3 lab/test.py todo7`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``play_trick`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo7
+
+   This runs a test that checks your TODO 7 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
+
+   It runs your ``play_trick`` with the finished job behind it, on the fake
+   robot, which records every controller switch and when.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -1707,18 +1760,6 @@ it, and check that you can see each row happen):
 
 The fake robot's tricks: ``bow`` ends standing, ``roll_over`` ends lying down, and ``hold_pose`` is an interactive trick (actions ``wave_left``, ``wave_right``, exit clip ``leave``).
 
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: ``play_trick`` is written.
-
-   .. code-block:: bash
-
-      python3 lab/test.py todo7
-
-   It runs your ``play_trick`` with the finished job behind it, on the fake
-   robot, which records every controller switch and when.
-
 **TODO 8:** Write the description of the ``play_trick`` tool at the bottom of
 ``lab/part4_tricks.py``: the words Gemini reads. The body is already written;
 replace the ``TODO 8`` words.
@@ -1732,11 +1773,24 @@ replace the ``TODO 8`` words.
   looks wrong if Pupper is lying down when it begins, and a trick keeps its
   final pose until the next motion.
 
-**What** ``python3 lab/test.py todo8`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: the ``play_trick`` description is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo8
+
+   This runs a test that checks your TODO 8 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -1757,11 +1811,10 @@ replace the ``TODO 8`` words.
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
 
-   When: TODOs 7 and 8 are written.
+   When: TODOs 7 and 8 pass their tests. Try your words in text first:
 
    .. code-block:: bash
 
-      python3 lab/test.py part4     # TODOs 7-8
       python3 lab/chat.py
 
 In the chat, ask for tricks: does Gemini pick the trick you meant from your
@@ -1953,11 +2006,24 @@ clip ``leave``).
    from step 1, 3 or 7, right away. The job's result (the shake played, or
    the sit was gone by then) goes to the debug log and ``robot_status``.
 
-**What** ``python3 lab/test.py todo9`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``interactive_action`` is written (your policy can still be training).
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo9
+
+   This runs a test that checks your TODO 9 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -1983,15 +2049,6 @@ clip ``leave``).
    * - If the trick was relaxed before the queue got to the action, the job refuses and sends no clip
      - the job first checks ``robot.state_now is trick``
      - checking only *now*
-
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: ``interactive_action`` is written (your policy can still be training).
-
-   .. code-block:: bash
-
-      python3 lab/test.py todo9
 
 **On the robot:**
 
@@ -2035,11 +2092,24 @@ clip ``leave``).
   your descriptions. Then tell Gemini what has to happen first (the trick),
   and what ends it (any other motion).
 
-**What** ``python3 lab/test.py todo10`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: the ``interactive_action`` tool and ``tricks/sit_stay_shake/trick.yaml`` are written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo10
+
+   This runs a test that checks your TODO 10 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -2065,11 +2135,10 @@ Until you fetch your policy, the ``trick.yaml`` checks are skipped.
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
 
-   When: TODOs 9 and 10 are written, and ``tricks/sit_stay_shake/trick.yaml`` is filled in.
+   When: TODOs 9 and 10 pass their tests. Try your words in text first:
 
    .. code-block:: bash
 
-      python3 lab/test.py part5     # TODOs 9-10
       python3 lab/chat.py
 
 In the chat, try *"sit, and give me your paw"*: you see both calls, back to
@@ -2279,11 +2348,28 @@ Part 7: Put It Together
   refuses to stand up until it is upright and still, in code; your prompt
   is what makes Gemini ask for help instead of trying again and again.
 
-**What** ``python3 lab/test.py todo11`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: the last two sections of ``lab/prompt.md`` are written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo11
+      python3 lab/test.py
+
+   This runs a test that checks your TODO 11 code. The table below lists
+   every check it makes, with an example that passes and one that fails. If
+   a check fails, the test prints what your code produced next to an example
+   that passes.
+
+   The second line runs every test in the lab once more: everything passes,
+   and that output is your Q17.
 
 .. list-table::
+   :class: wrap
    :header-rows: 1
-   :widths: 36 34 30
+   :widths: 30 35 35
 
    * - Check
      - Passes
@@ -2303,17 +2389,6 @@ Part 7: Put It Together
 
 As in TODO 1, these checks only look for words. You'll see whether Gemini
 actually follows your rules in the live demo.
-
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: TODO 11 is written.
-
-   .. code-block:: bash
-
-      python3 lab/test.py
-
-   Everything passes. This output is your Q17.
 
 Bring It to Life: Pupper's Personality
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

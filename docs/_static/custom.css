@@ -20,3 +20,9 @@
 .rst-content .admonition.run .admonition-title {
     background: #5b4bb7;
 }
+
+/* Tables marked :class: wrap wrap their text instead of scrolling sideways */
+.rst-content table.docutils.wrap td,
+.rst-content table.docutils.wrap th {
+    white-space: normal;
+}
