@@ -756,8 +756,13 @@ do: 3 m/s, a 30-second walk, a speed so small the legs just shuffle. (*"Sit,
 then run 100 mph"*: Gemini calls ``move``, with a speed far over the limit.)
 You'll meet the other kind, a request with no tool at all (*"do a backflip"*),
 in Part 4. Your tool descriptions *ask* Gemini to stay within the limits;
-``check_move`` *makes sure* of it. It is a plain function (no robot, no ``await``), so it is the
-easiest place to start.
+``check_move`` *makes sure* of it. It is the easiest place to start.
+
+.. tip::
+
+   Remember: a function needs ``async def`` only if its body has to
+   ``await`` something that takes time (see *async and await* above). Do any
+   of the checks in ``check_move`` need time for the robot to do something?
 
 It gets a velocity (``vx`` forward and ``vy`` left, in m/s; ``wz_deg``
 counter-clockwise, in deg/s) and a ``duration`` in seconds, and returns
