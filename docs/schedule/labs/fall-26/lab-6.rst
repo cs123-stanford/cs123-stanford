@@ -52,20 +52,16 @@ pieces work together:
   does on the robot, what it refuses, and what it reports back.
 
 The idea to keep in mind: *a foundation model is only as good as its tools,
-and it only knows what its tools tell it.* A tool that fails silently makes
-the robot lie to you. Remember that every time Gemini says "Okay, I'm
-walking!" while Pupper stands perfectly still.
+and it only knows what its tools tell it.* If a tool fails without reporting it, Gemini will tell you something false, such as "Okay, I'm walking!" while Pupper stands still.
 
 Before You Start
 ----------------
 In this lab you build a **human-robot interaction agent pipeline**, piece by
 piece: from the words a person says, to the tool Gemini picks, to the policy
 that moves the motors, and back to what Gemini tells the person. The amount
-of code is moderate: most TODOs are a few lines to a few dozen. **The ideas
-behind them are heavy.** Almost every TODO deals with one of three hard
+of code is moderate: most TODOs are a few lines to a few dozen. **The concepts behind them are difficult.** Almost every TODO deals with one of three hard
 things: two things happening at the same time, something happening later than
-you expect, or something Gemini can't see. Read the explanations, not just the TODO cards, and give this lab real
-time: start early, and don't leave Part 5 (which trains a policy) for the
+you expect, or something Gemini can't see. Read the explanations, not just the TODO cards, and plan enough time for this lab: start early, and don't leave Part 5 (which trains a policy) for the
 last days.
 
 It is worth it. Gemini Pupper is one of the best starting points for a final
@@ -81,8 +77,7 @@ and for light coding, as long as you understand what every line it writes
 means. The repo comes with notes for your agent (``AGENTS.md``).
 
 * **The deliverables are yours.** Answer every DELIVERABLE in your own words,
-  from what you did and saw on your robot. Don't hand the questions to your
-  agent.
+  from what you did and saw on your robot. Do not ask your agent to answer the questions.
 * **Understand everything your agent does.** For every TODO, you should be
   able to explain what the code does, why it is written that way, and what
   would go wrong without it, without your agent open. Quiz 2 asks about this
@@ -98,15 +93,13 @@ move the robot, raise a limit, or weaken a test to make something pass.
    your coding agent.
 
    * Test anything new with Pupper **on the ground, clear space around it, and
-     your hand near the e-stop** (press the gamepad's right stick: it relaxes
-     the motors, whatever Gemini is doing). Never on a table. On the stand,
-     tricks look shakier than they are: test them on the ground.
+     your hand near the e-stop** (pressing the gamepad's right stick relaxes the motors, no matter what Gemini is doing). Never test on a table. Tricks look less stable on the stand than they really are, so test them on the ground.
    * **TA gate:** before your newly trained trick policy runs on the robot for
      the first time, show a TA its score and the simulation viewer. A badly
      trained trick can slam a paw or the body into the ground.
    * A coding agent never moves the robot on its own: no ``start.sh``, no
      ``chat.py --robot``, no ``curl`` to a POST endpoint, no ``ros2 topic
-     pub``, unless you say yes, right then, standing at the robot.
+     pub``, unless you approve it at that moment, while standing at the robot.
    * **Pupper overheats.** Sitting and holding poses load the motors hard. If
      Pupper is hot to the touch or a motor faults, stop, relax the motors
      (``robot/stop.sh``), and let it cool.
@@ -155,8 +148,7 @@ This lab is expected to take **two weeks**.
 lab 5 but much bigger. Pupper is always in exactly one state. Every tool Gemini
 calls either moves Pupper to another state, or refuses because that move can't
 happen from the state Pupper is in (or the state it will be in, once everything
-already queued has run). Keep this picture in mind: each TODO adds an arrow or
-a rule to it.
+already queued has run). Keep this state machine in mind: each TODO adds a transition or a rule to it.
 
 .. figure:: ../../../_static/lab6/state_machine.svg
    :align: center
@@ -257,7 +249,7 @@ Part 0: Setup
    laptop, run ``python3 lab/chat.py`` again). When you're done, undo your
    changes:
 
-   a. **The words drive the call.** Ask Pupper to *"take a nap"*. Then delete the
+   a. **The description determines the call.** Ask Pupper to *"take a nap"*. Then delete the
       sentence *"Use when the user says sleep, relax or lie down."* from
       ``lie_down``'s description (it spans two lines) and ask again. Last, change the description
       to ``"Makes the robot jump."`` and ask it to jump. What does Gemini call
@@ -309,12 +301,10 @@ Part 0: Setup
    Keep your Lab 5 repo (``~/follow_me_pupper``) on the Pupper: follow mode in
    Part 3 runs your Lab 5 code.
 
-5. **Wake Pupper up.** Put Pupper on the ground in clear space. There are two
+5. **Start the app.** Put Pupper on the ground in clear space. There are two
    ways to run the app:
 
-   * **From your laptop: use this while you build and debug.** It is much,
-     much easier: the debug view gets a big screen, and you can type as well
-     as talk.
+   * **From your laptop: use this while you build and debug.** It is much easier for development: the debug view fills a large screen, and you can type as well as talk.
 
      .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
         :class: run
@@ -347,7 +337,7 @@ Part 0: Setup
 
            robot/start.sh --kiosk
 
-   Say hi. The **debug view** shows every tool call Gemini makes and the
+   Say hello to Pupper. The **debug view** shows every tool call Gemini makes and the
    robot's reply to it. Keep it open for the whole lab. To stop, run
    ``robot/stop.sh`` on the Pupper, in ``~/gemini_pupper``: it relaxes the
    motors and stops everything.
@@ -370,14 +360,13 @@ Part 0: Setup
       :class: tip
 
       * **Start from the debug view.** It shows every function call Gemini
-        made and the reply it heard. When Gemini says something odd, find the
-        reply it was answering.
+        made and the reply it heard. When Gemini says something unexpected, find the tool reply it was responding to.
       * **Read the logs on the Pupper.** ``/tmp/gemini-pupper/server.log``
         records your ``lab/`` code: every tool call, every job's outcome and
         every error. ``/tmp/gemini-pupper/robot.log`` records ROS 2: the
         controllers and policies. Watch one while you talk: on the Pupper, in a second
         terminal, ``tail -f /tmp/gemini-pupper/server.log``.
-      * **Ask the robot, not Gemini.** Gemini only knows what the replies
+      * **Check the robot directly, not through Gemini.** Gemini only knows what the replies
         told it. To see what the robot is really doing, run
         ``curl localhost:8000/system/mode`` on the Pupper.
       * **Try it without the robot.** On the Pupper, in ``~/gemini_pupper``:
@@ -475,14 +464,13 @@ moments, now and later:**
   job's **outcome** is what happened (done, fell over, controller failed). The
   robot writes it to the debug log and to ``robot_status``.
 
-Why two moments? Gemini often asks for several things in one breath
+Tools work this way because Gemini often asks for several things in a single request
 (*"stand up, then walk forward"*). The robot can only do them one at a time,
-and Gemini shouldn't go silent until they're done. So every motion waits in a
+and Gemini should not stay silent until all of them are done. So every motion waits in a
 **queue**, and every tool replies as soon as its job is in line.
 
 **Here is how this looks in the code, for** ``stand_up``. It is the first
-finished example in ``lab/basics.py``, and it has both halves: the tool
-Gemini reads, and the behavior that tool runs.
+finished example in ``lab/basics.py``, and it has both parts: the tool Gemini reads, and the behavior that tool runs.
 
 .. code-block:: python
 
@@ -506,11 +494,11 @@ Here is what happens when someone says *"stand up"*:
    ``stand_up_tool``, which calls the behavior, ``stand_up``.
 2. **Now: get ready.** ``prepare_to_move`` (your TODO 5) gets the robot ready
    for a new motion. It stops anything that runs *on its own, outside the
-   queue*, that would fight with the new motion. For now, nothing like that
+   queue*, that would conflict with the new motion. For now, nothing like that
    runs, so it does nothing and returns ``""``. In Part 3, you make it end
-   follow mode (the person follower drives the legs by itself) and return a
+   follow mode (the person follower controls the legs directly) and return a
    note telling Gemini it did.
-3. **Now: write down the work for later.** ``async def job()`` *defines* the
+3. **Now: define the work for later.** ``async def job()`` *defines* the
    work without running it. Here the work is to give the legs to the
    locomotion policy. The job can use ``stand_up``'s variables (``robot``
    here; ``vx`` and ``duration`` in ``walk``). You can also write a job as a
@@ -631,7 +619,7 @@ On your laptop, save this as ``example.py`` and run ``python3 example.py``:
    walk: done
 
 ``await asyncio.sleep(1.2)`` pauses ``walk``, and ``listen`` runs in the
-meantime. Now break it in two ways:
+meantime. Now change it in two ways and compare the output:
 
 * Change it to ``time.sleep(1.2)`` (and ``import time``): ``listen`` stays
   silent until the walk is over. On Pupper, the ``stop`` tool plays the
@@ -654,7 +642,7 @@ is ``True`` or ``False``, and ``message`` is the sentence that Gemini (or the
 debug log) reads. Write each message for a person: say what happened, or what
 was wrong and what would work instead.
 
-Every ``lab/`` file has the same two halves, in order:
+Every ``lab/`` file has the same two parts, in this order:
 
 * **What the robot does**: the behaviors, like ``stand_up``. A behavior
   checks that the request is allowed, does it, and reports what happened.
@@ -689,11 +677,10 @@ that test makes, with an example that passes and one that fails. The test
 checks nothing that isn't in the table.
 
 Many checks look for a word or a number in what Gemini reads: a tool's reply
-(``"... at most 20.0 s"``) or a description (``"follow"``). That is on purpose.
-Gemini knows only what you tell it. A reply that says ``"too fast"`` leaves it
-guessing; one that says ``"too fast: |vx|<=1.5 m/s"`` lets it retry at a speed
+(``"... at most 20.0 s"``) or a description (``"follow"``). This is intentional.
+Gemini knows only what you tell it. A reply that says ``"too fast"`` forces Gemini to guess; a reply that says ``"too fast: |vx|<=1.5 m/s"`` lets it retry at a speed
 that works, or tell the person why it can't. **When you build tools for a
-foundation model, put a bit more in every reply than you think you need: what
+foundation model, include more information in every reply than you think you need: what
 went wrong, what the limit is, and what the real choices are.**
 
 **You need only these parts of the Robot API** (``robot/robot_api.py``):
@@ -750,14 +737,14 @@ are*, *How you move*, and *When a tool says no*.
 - **Who you are.** Give Pupper a personality and a way of talking. Everything
   Gemini says is spoken out loud, so short sentences work best.
 - **How you move.** Pupper can only move by calling a tool. Should it call the
-  tool first and talk after, or the other way round? (Think about what
+  tool first and talk after, or the other way around? (Think about what
   happens if it says "I'm walking!" and the tool then refuses.) What must it
   never say?
 - **When a tool says no.** Every tool reply says what really happened. What
   should Pupper do when a tool refuses, or says its TODO isn't written yet?
   What should it never pretend?
 
-Gemini follows short, concrete rules much better than general wishes.
+Gemini follows short, concrete rules much better than vague goals.
 Compare:
 
 .. code-block:: text
@@ -847,7 +834,7 @@ refuses what the robot can't or shouldn't do.
 Here is why ``check_move`` matters. Most refusals don't come from a missing
 tool. Usually Gemini
 finds the right tool but calls it with values the robot can't or shouldn't
-handle: 3 m/s, a 30-second walk, or a speed so small the legs just shuffle.
+handle: 3 m/s, a 30-second walk, or a speed so low that the legs only shuffle in place.
 For example, if someone says *"Sit, then run 100 mph"*, Gemini calls ``move``
 with a speed far over the limit. (You'll meet the other kind of refusal, a
 request with no tool at all like *"do a backflip"*, in Part 4.) Your tool
@@ -870,8 +857,7 @@ them one at a time, and return the first problem you find:
    ``wz_deg``. (``abs``, because backward and right are negative.)
 2. **Too slow to move at all:** ``vx``, ``vy`` *and* ``wz_deg`` are all below
    their minimums (``vx_min``, ``vy_min``, ``wz_min``). Refuse only if all
-   three are: a turn in place has ``vx = vy = 0``, and that is a perfectly
-   good move.
+   three are: a turn in place has ``vx = vy = 0``, and that is a valid move.
 3. **Duration:** it must be more than 0 and at most ``limits.duration_max``.
 4. **Too far:** the distance is speed × duration, where speed is
    ``(vx**2 + vy**2) ** 0.5``. Refuse if it is more than
@@ -882,11 +868,7 @@ them one at a time, and return the first problem you find:
 
    **Your reason must name the limit, and the tests check for it.** Gemini
    receives the string you return, word for word, as the tool's reply. That
-   is how Gemini learns why the robot refused. ``"too fast"`` leaves it
-   guessing a new speed (and maybe guessing wrong again, or giving up).
-   ``"too fast: |vx|<=1.5 m/s"`` lets it retry at a speed that works, or tell
-   you why it can't. Write the number with the ``MoveLimits`` field in an
-   f-string, so it stays right if a limit changes.
+   is how Gemini learns why the robot refused. With only ``"too fast"``, Gemini has to guess a new speed, and it may guess wrong again or give up. With ``"too fast: |vx|<=1.5 m/s"``, it can retry at a speed that works, or tell you why it can't. Build the number from the ``MoveLimits`` field in an f-string, so the message stays correct if a limit changes.
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -956,19 +938,15 @@ pass once ``check_move`` works.
 
 **TODO 3:** Implement the ``turn`` and ``move`` tools (the ones Gemini
 calls), near the bottom of ``lab/part2_walk.py``.
-Write ``turn`` first. It's short, it shows you the whole path from Gemini's
-words to the robot, and the TODO 3 test checks it on its own. Then write
-``move``, the real challenge of this part.
+Write ``turn`` first. It is short, it shows the whole path from Gemini's words to the robot, and the TODO 3 test checks it separately. Then write ``move``, the hardest part of this section.
 
 Gemini chooses a tool, and fills in its parameters, using only the words in
 ``@tool(...)``: the tool's description and each
 parameter's description. In each tool, replace every ``TODO 3`` in those
 words:
 
-- Say what the tool does and when to use it. Put the robot's real limits in
-  the words: the ``f"..."`` strings can use ``LIMITS.vx_max``,
-  ``LIMITS.duration_max`` and the others, so they stay right if a limit
-  changes. Add ``+ ENDS_FOLLOW`` to the description (Part 3 explains it).
+- Say what the tool does and when to use it. Include the robot's actual limits in the description: the ``f"..."`` strings can use ``LIMITS.vx_max``,
+  ``LIMITS.duration_max`` and the others, so they stay correct if a limit changes. Add ``+ ENDS_FOLLOW`` to the description (Part 3 explains it).
 - For each parameter, give its unit (m/s, seconds, degrees), its range, and
   its default.
 - Give a worked example wherever Gemini has to do arithmetic or pick a number.
@@ -978,8 +956,7 @@ words:
   corners until we added *"90 a square's corner, 120 a triangle's"* to
   ``angle``'s description.
 
-**Start with** ``turn``, **the warm-up.** To turn in place, send no forward or sideways speed,
-only a turning speed, for as long as the angle takes:
+**Write** ``turn`` **first.** To turn in place, send only a turning speed (no forward or sideways speed) for as long as the angle requires:
 
 1. Get the turning speed: ``turn_speed = robot.speeds().turn``, which is
    60 deg/s in locomotion mode. (A trick that walks in its own stance, like
@@ -989,10 +966,9 @@ only a turning speed, for as long as the angle takes:
    turn right.
 2. Work out how long the turn takes: ``seconds = abs(angle) / turn_speed``.
    For example, 90 degrees at 60 deg/s takes 1.5 s.
-3. Hand it to ``walk``: ``return await walk(robot, 0.0, 0.0, wz_deg, seconds)``.
+3. Pass the values to ``walk``: ``return await walk(robot, 0.0, 0.0, wz_deg, seconds)``.
 
-**Next, write** ``move``, **the real challenge.** Gemini calls ``move`` with a ``direction`` and,
-if it wants, ``run``, ``speed`` and ``duration``. Any argument Gemini leaves
+**Then write** ``move``. Gemini calls ``move`` with a ``direction`` and, optionally, ``run``, ``speed`` and ``duration``. Any argument Gemini leaves
 out takes the default from the function's signature (``speed`` is ``None``
 when Gemini doesn't give one). Your job is to turn these into one speed, and
 then split that speed into ``vx`` and ``vy``.
@@ -1008,7 +984,7 @@ then split that speed into ``vx`` and ``vy``.
      use ``speed``, or 0.4 m/s if Gemini gave none.
 
 2. **Split it by direction.** The robot's convention is +x forward and
-   **+y left**, the opposite of what many people guess:
+   **+y left**, the opposite of what many people expect:
 
    .. list-table::
       :header-rows: 1
@@ -1030,9 +1006,7 @@ then split that speed into ``vx`` and ``vy``.
         - 0
         - −speed
 
-3. **Say what you changed.** If Gemini asked to run sideways, your code walks
-   instead. Nothing fails, so the reply would be a plain "queued", and Gemini
-   would happily tell the person "Running left!" while Pupper walks. Start the
+3. **Report what you changed.** If Gemini asks to run sideways, your code walks instead. Nothing fails, so without a note the reply would only say "queued", and Gemini would tell the person "Running left!" while Pupper walks. Start the
    reply with a note:
 
    .. code-block:: python
@@ -1079,11 +1053,7 @@ not only in the description. (Q3 asks about it.)
 
 .. tip::
 
-   This is TODO 2's lesson from the other side: **whenever your code changes
-   what Gemini asked for, the reply must say so.** Gemini only knows what the
-   reply tells it. If your code changes a request silently, Gemini will
-   confidently say something wrong, out loud. We missed this case ourselves
-   when we wrote the lab.
+   This follows the same principle as TODO 2: **whenever your code changes what Gemini asked for, the reply must say so.** Gemini only knows what the reply tells it. If your code changes a request without reporting it, Gemini will tell the person something incorrect. (We missed this case ourselves when we wrote the lab.)
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -1144,7 +1114,7 @@ at once. ``arc`` lets Gemini ask for a smooth curve.
 We give you its parameters, so the tests can check them: ``direction`` (left or
 right), ``angle`` (degrees of the circle to go around, **required**), ``radius``
 (m, default 0.5) and ``speed`` (m/s, default 0.4). You write the words and the
-body. ``angle`` has no default on purpose. When it had a default of 90,
+body. ``angle`` intentionally has no default. When it had a default of 90,
 Gemini asked for "a circle" by leaving ``angle`` out, and Pupper walked only a
 quarter of one.
 
@@ -1180,10 +1150,9 @@ you get the time from the angle:
    * - ``arc(direction="left", angle=90, radius=-1)``
      - refused by your code: ``"no arc: radius must be 0 m or more ..."``
 
-Get three things right. Each one fixes a problem we saw when Gemini used an
-``arc`` that didn't handle it:
+Handle the following three cases. Each one fixes a problem we observed when Gemini used an ``arc`` that did not handle it:
 
-- **A too-tight arc: say what works.** ``check_move`` would refuse a too-tight
+- **If the arc is too tight, reply with a radius that works.** ``check_move`` would refuse a too-tight
   arc too, but its reason is ``"|wz|<=114.0 deg/s"``, and from that reply
   Gemini can't tell that the *radius* is the problem. When we asked it to "run
   in a circle", it sent the same arc five times. So check the radius yourself
@@ -1193,7 +1162,7 @@ Get three things right. Each one fixes a problem we saw when Gemini used an
   normally). When Gemini gives no speed, use ``robot.speeds().walk`` (0.4 m/s
   when walking normally).
 - **Radius 0 is a sharp corner, not an error.** Gemini plans a whole shape
-  and sends every call at once, and it likes to ask for corners as
+  and sends every call at once, and it often asks for corners as
   ``arc(radius=0)``. When our code refused those calls, the sides still ran,
   so "walk in a rectangle" came out as one straight line. ``speed / 0`` would
   crash anyway, so handle radius 0 before the math: turn in place, as
@@ -1267,7 +1236,7 @@ In the chat, ask for a run, a sidestep, a turn,
 *"run in a circle around me"* (did Gemini pick a radius the robot can do?), and
 a shape: *"walk in a rectangle"*, *"walk a star"*, *"trace the letter D"*. The
 chat shows you the exact call Gemini makes and the speeds your code sends to
-the (fake) robot. If Gemini struggles with shapes, add one sentence to your
+the (fake) robot. If Gemini has trouble with shapes, add one sentence to your
 prompt's *How you move* section: shapes and letters take several calls in a
 row (a straight line, a sharp corner, a curve), and Gemini should plan them
 first, then call them in order.
@@ -1287,9 +1256,7 @@ Then reconnect in the app and try it by voice.
 
    **Checkpoint: a refusal Gemini can explain.** Get Gemini to call your
    motion tool with a request the robot refuses, and explain the refusal to
-   you using *only the robot's reply*. If your descriptions are so good that
-   Gemini never asks for anything impossible, great: try something that fits
-   the tool but breaks another rule. For example, "run forward for ten
+   you using *only the robot's reply*. If your descriptions are good enough that Gemini never asks for anything impossible, try a request that fits the tool but breaks another rule. For example, "run forward for ten
    seconds" goes more than 7 m. Show a TA the conversation and the debug view.
 
 Here is what a finished Part 2 can do: run, turn, walk shapes, and even draw
@@ -1334,8 +1301,7 @@ Part 3: Follow
 --------------
 Follow mode runs the person follower you built in lab 5: camera → person
 detection → your state machine → walking, with your target lock and stop
-distance. It leaves out lab 5's obstacle avoidance, which isn't stable enough
-to trust while Gemini is driving. Pupper follows you in a straight line, so you
+distance. It leaves out lab 5's obstacle avoidance, which isn't reliable enough to use while Gemini is in control. Pupper follows you in a straight line, so you
 have to lead it around furniture. Follow mode needs one rule:
 
    *Questions and conversation keep following. Any motion (walk, turn, arc,
@@ -1353,7 +1319,7 @@ have to lead it around furniture. Follow mode needs one rule:
    ``process_detections``, ``pick_target`` and ``approach_speed``, and crashes
    if any of them isn't written yet. Follow mode leaves Lab 5's optional steps
    off: color re-identification (Step 5) and obstacle avoidance (Step 6)
-   aren't stable enough to run while Gemini is driving. To keep Pupper cooler,
+   aren't reliable enough to use while Gemini is in control. To keep Pupper cooler,
    the Hailo runs only while Pupper is following, so Pupper's on-screen eyes
    track people only during follow mode. For eyes that track people all the
    time, start the app with ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (on the
@@ -1362,8 +1328,7 @@ have to lead it around furniture. Follow mode needs one rule:
    simpler follower.
 
 We provide the code that turns the follower on and off
-(``robot.set_following``). You write the rule, in two halves: the code that makes it true, and the words that
-let Gemini talk about it.
+(``robot.set_following``). You implement the follow rule in two parts: the code that enforces it (TODO 5), and the descriptions that tell Gemini about it (TODO 6).
 
 **TODO 5:** Implement ``prepare_to_move`` in ``lab/part3_follow.py``. It gets the
 robot ready for a new motion. Every motion calls it first, in its *now* part:
@@ -1399,7 +1364,7 @@ be in a different state than when the job was queued.
 ``prepare_to_move`` ends follow mode right away, not in the job. Say Pupper
 is following you, two walks are queued, and you say "sit". If following only
 ended when the queue got
-to the sit, Pupper would keep chasing you for several seconds after you asked
+to the sit, Pupper would keep following you for several seconds after you asked
 it to stop. The person asked for something else *now*, so follow mode has to
 end now.
 
@@ -1527,11 +1492,11 @@ a question, and says it will stop following before it does something else:
    :width: 640
    :height: 360
 
-**DELIVERABLE (Q6):** The follow rule now lives in three places: the prompt,
+**DELIVERABLE (Q6):** The follow rule now appears in three places: the prompt,
 the tool descriptions, and ``prepare_to_move``. Make a table: for each
 place, does it *tell* Gemini about the rule or *enforce* it? Then make
 ``prepare_to_move`` return ``""`` without stopping anything, and ask
-Pupper to sit while it follows you. What happens? (Put it back.)
+Pupper to sit while it follows you. What happens? (Undo the change afterwards.)
 
 **DELIVERABLE (Q7): Video 1**, by voice only: Pupper walks forward and
 backward, turns both ways, sidesteps, runs, and walks a circle; refuses one request and
@@ -1554,14 +1519,12 @@ lists all the fields). The launch file loads one controller per policy, named
 end of this lab, is the only trick without its own policy: the locomotion
 policy plays it.)
 
-**Every trick is a policy, not a replay, and here is why.** The monorepo
+**Every trick is a policy, not a replay.** The monorepo
 used to play these
 tricks by replaying the recorded joint angles, open loop. Open-loop replay
 only works on a robot exactly like the one used for the recording, so on real
-Puppers it is unreliable. Below is ``pee`` in simulation with a little domain
-randomization (a robot slightly different from the one in the recording). The
-green ghost shows the reference motion, and the robot shows what physics does
-with it:
+Puppers it is unreliable. Below is ``pee`` in simulation with a small amount of domain randomization (a robot slightly different from the one in the recording). The
+green ghost shows the reference motion, and the robot shows the result in the physics simulation:
 
 .. list-table::
    :class: wrap
@@ -1575,14 +1538,12 @@ with it:
      - .. image:: ../../../_static/lab6/pee_motion_policy.gif
           :width: 100%
 
-Replay drives the joints to the recorded angles and hopes for the best: it
-can't notice that the body is tipping. The policy watches the robot (its tilt,
+Replay drives the joints to the recorded angles without any feedback, so it cannot detect that the body is tipping. The policy watches the robot (its tilt,
 its joints, and where the reference says it should be) and corrects 50 times a
 second. We also trained it on many slightly different robots.
 
 **There are two kinds of trick.** A **playback trick** plays one reference motion from
-start to finish; its trick policy keeps Pupper balanced while it plays, so it
-holds up where a plain replay of the recording would wobble or fall. An
+start to finish; its trick policy keeps Pupper balanced while it plays, so it stays balanced where a plain replay of the recording would wobble or fall. An
 **interactive trick** is a state Pupper *stays in* while it takes requests.
 It is made of several short pieces of motion, and the robot plays them one at
 a time, on request. Compare ``sit``, which you already have,
@@ -1660,11 +1621,10 @@ only the *now* part, with the same shape as ``walk``. Its job,
    then=...)``, and put the note in front of the reply. Set ``then`` to the
    state Pupper will be in once the job is done, from the table above:
    ``LOCOMOTION`` after a playback trick that ends standing, and ``trick``
-   otherwise. Part 5 relies on this: when someone says "sit, then shake" in
-   one breath, ``then`` is how the shake knows a sit is already queued ahead
+   otherwise. Part 5 relies on this: when someone says "sit, then shake" in a single request, ``then`` is how the shake knows a sit is already queued ahead
    of it.
 
-Here is what Gemini hears straight away (*now*) for a few calls:
+Here is what Gemini hears immediately (*now*) for a few calls:
 
 .. list-table::
    :class: wrap
@@ -1697,7 +1657,7 @@ while the trick plays, then leaves the robot in the right state, in four steps:
 2. If a playback trick is still holding the end pose of its last run (Pupper
    is still in its state), the job relaxes it first with ``switch_to(None)``.
    Switching to a controller that is already on does nothing at all, so
-   without this step, "swim again" would just leave Pupper lying there.
+   without this step, "swim again" would leave Pupper lying where it is.
 3. The job calls ``switch_to(trick.controller)`` and waits
    ``trick.total_time + 0.3`` s while the trick plays. If the robot fell, the
    outcome says so.
@@ -1885,9 +1845,7 @@ stand up when you say so**, all by voice.
 
 .. note::
 
-   Once you fetch your ``sit_stay_shake`` (end of Part C), **it takes over
-   "sit"**. The old ``sit`` (sit, hold two seconds, stand back up) and
-   ``stand_sit_shake_sit_stand`` step aside: Gemini no longer sees them. So
+   Once you fetch your ``sit_stay_shake`` (end of Part C), **it replaces "sit"**. The old ``sit`` (sit, hold two seconds, stand back up) and ``stand_sit_shake_sit_stand`` are hidden: Gemini no longer sees them. So
    if Pupper now sits and *stays* where it used to stand right back up,
    that's your new trick, not a bug. To get the old ones back, run this on
    the Pupper, in ``~/gemini_pupper``: ``mv tricks/sit_stay_shake ~/``, then
@@ -1973,7 +1931,7 @@ why does Pupper need that? How did you check it?
 
 Part B: Watch It Fall, Then Train It
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Keep going in the notebook:
+Continue in the notebook:
 
 * **Replay with physics.** The robot plays the joined motion as a fixed
   recording, with no policy. Expect it to fall.
@@ -2009,14 +1967,13 @@ shake is a clip of
 ``interactive_action`` has to ask "is Pupper sitting?". The interesting part is
 *when* to ask, because of the queue:
 
-- Someone says "sit, and give me your paw" in one breath. Gemini calls
+- Someone says "sit, and give me your paw" in a single request. Gemini calls
   ``play_trick`` and ``interactive_action`` back to back, before Pupper has even
-  started to sit. If ``interactive_action`` asked "is it sitting *right now*?", it
-  would refuse a perfectly good request. So, **now**, it asks: "will it be
+  started to sit. If ``interactive_action`` asked "is it sitting *right now*?", it would refuse a valid request. So, **now**, it asks: "will it be
   sitting once everything already queued has run?" That's
   ``robot.state_after_queue``, which the queue keeps up to date from the
   ``then=`` that every motion passes to ``robot.queue``.
-- But a lot can happen between the call and the shake: Pupper can fall over,
+- But many things can happen between the call and the shake: Pupper can fall over,
   someone can press the e-stop or say "stop". So **later**, in the job, it
   asks again, this time about right now: ``robot.state_now``.
 
@@ -2090,7 +2047,7 @@ Finally, queue the job:
    * - After the exit clip, actions are refused again
      - ``then=LOCOMOTION`` when you queue the exit clip
      - ``then=trick``
-   * - "Sit, then shake" in one breath: an action queued right behind its trick is accepted and plays
+   * - "Sit, then shake" in a single request: an action queued right behind its trick is accepted and plays
      - the *now* check asks ``robot.state_after_queue``
      - asking ``robot.state_now`` or ``is_active`` *now*
    * - If the trick was relaxed before the queue got to the action, the job refuses and sends no clip
@@ -2114,7 +2071,7 @@ Finally, queue the job:
       template. Don't restart yet: you fill in the template in TODO 10, and
       restart once, at the end of it.
 
-   Once you restart, the old ``sit`` and ``stand_sit_shake_sit_stand`` step aside:
+   Once you restart, the old ``sit`` and ``stand_sit_shake_sit_stand`` are hidden:
    their ``trick.yaml`` says ``replaced_by: sit_stay_shake``, so while yours is
    installed, the robot gives them no controller and Gemini no longer sees
    them. A plain "sit" then goes to your interactive trick: Pupper sits and stays until you ask it
@@ -2200,7 +2157,7 @@ back, before the sit has happened.
 
       robot/stop.sh && robot/start.sh      # add --kiosk for the app on Pupper's screen
 
-Then reconnect in the app and say it to Pupper in one breath.
+Then reconnect in the app and say it to Pupper as a single request.
 
 **DELIVERABLE (Q12):** Ask for a paw shake while Pupper is standing. What does
 it do, and what does it say? Which of your two checks fired? Then describe a
@@ -2215,8 +2172,7 @@ standing when you are done.
 
 .. note::
 
-   Once you fetch your ``spider_walk`` (Part C), **it takes over "spider"**.
-   The old playback ``spider`` (lie down, wiggle, lie still) steps aside:
+   Once you fetch your ``spider_walk`` (Part C), **it replaces "spider"**. The old playback ``spider`` (lie down, wiggle, lie still) is hidden:
    its ``trick.yaml`` says ``replaced_by: spider_walk``, so the robot gives it
    no controller and Gemini no longer sees it. To get it back, run this on the
    Pupper, in ``~/gemini_pupper``: ``mv tricks/spider_walk ~/``, then
@@ -2266,8 +2222,7 @@ already works with it, unchanged:
 * Any other motion leaves the trick through its exit clip: ``switch_to``
   gives the legs back to the clip policy, starting at ``spider_up`` (the
   controller's ``start_clip``), and then to whatever comes next.
-  ``interactive_action("spider_up")`` (your TODO 9) does the same thing, on
-  purpose.
+  ``interactive_action("spider_up")`` (your TODO 9) intentionally does the same thing.
 
 You train both policies in one notebook.
 
@@ -2304,7 +2259,7 @@ it? Name a clip from Part 5 that could *not* be made by reversing another.
 
 Part B: The Spider Walk
 ^^^^^^^^^^^^^^^^^^^^^^^
-This is lab 4 again, in a new stance. The ``Mjlab-SpiderWalk-Flat-Pupper-v3``
+This part repeats lab 4 with a different stance. The ``Mjlab-SpiderWalk-Flat-Pupper-v3``
 task trains a policy to track a **reference gait**, a spider trot in place: the
 diagonal leg pairs take turns stepping, twice a second, low and splayed. The
 leg motion comes from the recorded spider: the front legs fold at the knee and
@@ -2325,10 +2280,9 @@ your StableGait weights, and think about what is different here: the height
 target is 4.2 cm, not 14.5; the motors alone can't hold this low stance (with
 zero actions, the body sags onto its belly), so the policy has to learn to
 hold the body up; and ``abduction_angle`` pulls the abduction joints
-toward zero, but the spider splays its legs away from zero on purpose. Train,
+toward zero, but the spider intentionally splays its legs away from zero. Train,
 then watch the policy in the viewer. It should stay low (never on its belly),
-step like the reference, and go where you tell it. It will move slower than
-commanded: the spider creeps. (Note how slow it
+step like the reference, and go where you tell it. It will move slower than commanded, because the spider gait is slow. (Note how slow it
 is: in Part C, set its top speeds to ones it can actually reach.)
 
 **DELIVERABLE (Q14):** Show your reward weights next to your lab 4 StableGait
@@ -2354,8 +2308,7 @@ Part C: On the Robot
    ``max_sideways`` and ``turn`` (none higher than your walking policy was
    trained for; the template lists those values), ``run: false``, and a ``note`` for Gemini.
    The robot appends a sentence with these numbers to the description, so
-   Gemini knows how fast the spider goes. The old ``spider`` (lie
-   down, wiggle, lie still) steps aside: its ``trick.yaml`` says
+   Gemini knows how fast the spider goes. The old ``spider`` (lie down, wiggle, lie still) is hidden, because its ``trick.yaml`` says
    ``replaced_by: spider_walk``.
 
 4. Restart, so the robot loads the new trick and your ``trick.yaml``:
@@ -2447,15 +2400,14 @@ actually follows your rules in the live demo.
 Bring It to Life: Pupper's Personality
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 **This is the most important part of the lab.** Everything so far makes
-Pupper *work*: it hears you, moves safely, does tricks and tells the truth
-about what happened. Now make it someone. Go back to *Who you are* in
+Pupper *work*: it hears you, moves safely, does tricks and reports truthfully what happened. Now give it a character. Go back to *Who you are* in
 ``lab/prompt.md`` (your TODO 1 draft) and turn it into a character people want
 to talk to again.
 
 - **Who is it?** Give Pupper a name, an age, a backstory, things it loves and
   things it is afraid of, and a way of talking (keep it short: everything is
   spoken out loud). Pick a matching voice in the app's **Settings → Voice**.
-- **Show it, don't just say it.** A personality is more than words: Pupper
+- **Show personality through actions, not only words.** A personality is more than words: Pupper
   has a body and a camera. Write rules that turn feelings into tools. Maybe it
   greets people it sees with a little bow, or turns away shyly when it's teased.
   Maybe it shows off with a chain of tricks when someone says it's a good dog,
@@ -2465,15 +2417,12 @@ to talk to again.
 - **Make it consistent.** Pupper should stay the same character when a tool
   refuses, when someone asks for a trick it doesn't know, and when it falls
   over. A refusal in character ("My legs only go 0.15 metres a second when I'm
-  a spider!") beats a dry error.
-- **Personality never beats safety or honesty.** Stop still means stop, right
-  away, and Pupper still never claims to move without calling a tool. Keep the
+  a spider!") is better than a dry error message.
+- **Personality never overrides safety or honesty.** "Stop" still stops Pupper immediately, and Pupper still never claims to move without calling a tool. Keep the
   limits in code; put the personality in Pupper's words and in which tools it
   chooses.
 
-Then test it on someone who has never met Pupper: five minutes, no
-instructions. What did they try first? What made them laugh? Where did the
-character break? Change ``lab/prompt.md`` (on the Pupper, in
+Then test it with someone who has never met Pupper, for five minutes and without instructions. What did they try first? What made them laugh? Where did the character become inconsistent? Change ``lab/prompt.md`` (on the Pupper, in
 ``~/gemini_pupper``) and try again: just reconnect in the app, no restart.
 
 **DELIVERABLE (Q16):** Paste your *Who you are* section. Describe three
@@ -2501,7 +2450,7 @@ in three words?
 **DELIVERABLE (Q17):** The output of ``python3 lab/test.py`` with every check
 passing.
 
-**DELIVERABLE (Q18): Video 2**, your demo conversation (by voice only), with the personality on show.
+**DELIVERABLE (Q18): Video 2**, your demo conversation (by voice only), showing its personality.
 
 **DELIVERABLE (Q19):** Your reflection.
 
@@ -2537,7 +2486,7 @@ once. Give Gemini that jump:
    Then reconnect in the app and ask Pupper to jump, with clear space around
    it.
 
-Want more? :doc:`opt-lab-3` teaches Pupper secrets: in words (a password, a
+For more, :doc:`opt-lab-3` teaches Pupper secrets: in words (a password, a
 secret handshake), and in its legs (a dance move you describe in a sentence and
 train), which it performs only for someone who knows the password.
 
@@ -2551,12 +2500,11 @@ A few habits that help:
   ``lab/part5_interactive_action.py`` and tell me how an interactive action should use the
   queue; don't edit anything yet."
 * **Check its claims against the robot.** The server log, the debug view and
-  ``curl localhost:8000/system/mode`` are the truth. The agent's summary is
-  not.
+  ``curl localhost:8000/system/mode`` show what really happened; the agent's summary does not.
 * **Don't let it weaken a test or raise a limit** to make something pass.
 * **Make it teach you.** After each TODO: "Explain this function line by line,
   and tell me what would break if I deleted each check." Then close the agent
-  and explain it to your partner. If you can't, you're not done.
+  and explain it to your partner. If you can't, you haven't finished the TODO.
 
 Congratulations! Pupper now listens, answers, and does what it is told, and
 only what it can do safely: you brought it to life. You built the core of a
