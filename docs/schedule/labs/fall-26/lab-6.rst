@@ -204,9 +204,23 @@ Part 0: Setup
    (the same list the web app gets) and connects them to a **fake robot**.
    You type, Gemini answers, and
    every tool call, every reply and everything the fake robot did is printed.
-   Nothing moves. (No Colab? On your laptop: clone the repo, ``python3 -m pip
-   install --user google-genai pyyaml``, put your key in ``GEMINI_API_KEY``,
-   and run ``python3 lab/chat.py``.)
+   Nothing moves.
+
+   .. admonition:: Run: in Colab, in your copy of the notebook
+      :class: run
+
+      Run the cells from the top. The chat cell runs ``python3 lab/chat.py``:
+      type at its ``You >`` prompt, and type ``quit`` to end it.
+
+      No Colab? On your laptop, in a terminal:
+
+      .. code-block:: bash
+
+         git clone https://github.com/cs123-stanford/gemini_pupper.git
+         cd gemini_pupper
+         python3 -m pip install --user google-genai pyyaml
+         export GEMINI_API_KEY=your-key-here
+         python3 lab/chat.py
 
    Type *"lie down, then stand up, then walk forward"*. You will see something
    like this:
@@ -238,8 +252,9 @@ Part 0: Setup
    their TODO isn't written yet. Watch what Gemini does with that reply.
 
    Two experiments in ``lab/basics.py`` (the notebook shows you how to edit
-   it there; ``chat.py`` reads ``lab/`` when it starts, so restart it after
-   each change, and put everything back afterwards):
+   it there). ``chat.py`` reads ``lab/`` only when it starts, so after each
+   change, type ``quit`` and run the chat cell again (on your laptop, run
+   ``python3 lab/chat.py`` again). Put everything back afterwards:
 
    a. **The words drive the call.** Ask Pupper to *"take a nap"*. Then delete the
       sentence *"Use when the user says sleep, relax or lie down."* from
@@ -255,25 +270,34 @@ Part 0: Setup
 
    From now on, the fastest way to test a change to what Gemini reads is to
    edit the file, run ``python3 lab/chat.py``, and type a request. After step
-   3, you do this on the Pupper, in your own fork. (``python3 lab/chat.py --robot`` sends the
-   calls to the real robot server instead, the path a voice command takes,
-   and Pupper moves.)
+   3, you do this on the Pupper, in ``~/gemini_pupper``. (``python3 lab/chat.py --robot``
+   sends the calls to the real robot server instead, the path a voice
+   command takes, and Pupper moves; ``robot/start.sh`` must be running.)
 
 3. **Your code, on the Pupper.** Fork the `gemini_pupper <https://github.com/cs123-stanford/gemini_pupper>`_
    repository to your own GitHub account, following
-   :doc:`forking_repositories`, and clone your fork onto the Pupper:
+   :doc:`forking_repositories`, and clone your fork onto the Pupper.
 
-   .. code-block:: bash
+   .. admonition:: Run: on the Pupper, in your home folder
+      :class: run
 
-      cd ~/
-      git clone https://github.com/YOUR_USERNAME/gemini_pupper.git
+      From your laptop, open a terminal on the Pupper first:
+      ``ssh pi@pupper[YOUR_GROUP_NUMBER].local``. Then:
 
-4. **Set it up.** On the Pupper:
+      .. code-block:: bash
 
-   .. code-block:: bash
+         cd ~/
+         git clone https://github.com/YOUR_USERNAME/gemini_pupper.git
 
-      cd ~/gemini_pupper
-      robot/setup.sh
+4. **Set it up.**
+
+   .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+      :class: run
+
+      .. code-block:: bash
+
+         cd ~/gemini_pupper
+         robot/setup.sh
 
    It installs what the app needs (without ``sudo``), builds it, and asks for
    your key. The key goes in ``~/.config/gemini-pupper/api_key`` on the
@@ -287,21 +311,43 @@ Part 0: Setup
 
    * **From your laptop: use this while you build and debug.** It is much,
      much easier: the debug view gets a big screen, and you can type as well
-     as talk. On the Pupper, run ``robot/start.sh``. On your laptop, forward
-     the port, browse to ``http://localhost:8000``, open **Settings**, paste
-     your key, and press **WAKE PUPPER**:
+     as talk.
 
-     .. code-block:: bash
+     .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+        :class: run
 
-        ssh -N -L 8000:localhost:8000 pi@pupper[YOUR_GROUP_NUMBER].local
+        .. code-block:: bash
 
-   * **On Pupper itself: use this for demos.** ``robot/start.sh --kiosk``
-     runs the app on Pupper's own screen, with its mic and speaker, and no
-     laptop. This is how you record your demo videos.
+           robot/start.sh
+
+        It takes about a minute; wait for ``[3/3] ready``.
+
+     .. admonition:: Run: on your laptop, in a new terminal (leave it open)
+        :class: run
+
+        .. code-block:: bash
+
+           ssh -N -L 8000:localhost:8000 pi@pupper[YOUR_GROUP_NUMBER].local
+
+        It prints nothing and keeps running: that is the port forward. Then, on
+        your laptop, browse to ``http://localhost:8000``, open **Settings**, paste
+        your key, and press **WAKE PUPPER**.
+
+   * **On Pupper itself: use this for demos.** The app runs on Pupper's own
+     screen, with its mic and speaker, and no laptop. This is how you record
+     your demo videos.
+
+     .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+        :class: run
+
+        .. code-block:: bash
+
+           robot/start.sh --kiosk
 
    Say hi. The **debug view** shows every tool call Gemini makes and what the
-   robot said back: keep it open for the whole lab. ``robot/stop.sh`` relaxes
-   the motors and stops everything.
+   robot said back: keep it open for the whole lab. To stop, run
+   ``robot/stop.sh`` on the Pupper, in ``~/gemini_pupper``: it relaxes the
+   motors and stops everything.
 
    .. list-table::
       :widths: 50 50
@@ -326,22 +372,25 @@ Part 0: Setup
       * **Read the logs on the Pupper**: ``/tmp/gemini-pupper/server.log``
         (your ``lab/`` code: every tool call, every job's outcome, every
         error) and ``/tmp/gemini-pupper/robot.log`` (ROS 2: controllers and
-        policies). ``tail -f`` one while you talk.
+        policies). Watch one while you talk: on the Pupper, in a second
+        terminal, ``tail -f /tmp/gemini-pupper/server.log``.
       * **Ask the robot, not Gemini.** Gemini only knows what the replies
         told it. ``curl localhost:8000/system/mode`` on the Pupper says what
         the robot is really doing.
-      * **Try it without the robot.** ``python3 lab/chat.py`` runs the same
-        conversation on the fake robot, and ``python3 lab/test.py todoN``
-        checks one TODO.
-      * **Changed a** ``.py`` **file in** ``lab/``? Restart
-        (``robot/stop.sh && robot/start.sh``). Changed ``lab/prompt.md``?
-        Just reconnect in the app.
+      * **Try it without the robot.** On the Pupper, in ``~/gemini_pupper``:
+        ``python3 lab/chat.py`` runs the same conversation on the fake robot,
+        and ``python3 lab/test.py todoN`` checks one TODO.
+      * **Changed a** ``.py`` **file in** ``lab/``, **or a** ``trick.yaml``?
+        Restart: on the Pupper, in ``~/gemini_pupper``,
+        ``robot/stop.sh && robot/start.sh`` (``robot/start.sh --kiosk`` for
+        the app on Pupper's screen). Changed ``lab/prompt.md``? Just
+        reconnect in the app.
       * **The app won't start?** ``robot/start.sh`` prints where it got
         stuck: controllers still loading (see ``robot.log``), or the server
         didn't start (see ``server.log``).
 
 6. **What already works.** The provided tools are ``stand_up``, ``lie_down``,
-   ``stop`` and ``robot_status``. Try *"stand up"*, *"lie down"*, *"what are
+   ``stop`` and ``robot_status``. In the app, try *"stand up"*, *"lie down"*, *"what are
    you doing?"*. Then ask Pupper to walk to you, and to do a trick: those
    tools exist, but they reply that their TODO isn't written yet. Watch what
    Gemini does with that reply.
@@ -351,8 +400,17 @@ Part 0: Setup
       A short video of Pupper not working: Gemini says it is walking while
       Pupper stands still.
 
-7. Run the tests once: ``python3 lab/test.py``. The provided robot's checks
-   pass, and every TODO is listed as not written yet.
+7. **Run the tests once.**
+
+   .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+      :class: run
+
+      .. code-block:: bash
+
+         python3 lab/test.py
+
+   The provided robot's checks pass, and every TODO is listed as not written
+   yet.
 
 **DELIVERABLE (Q1):**
 
@@ -530,7 +588,7 @@ it waits, and everything else keeps running. Two rules are all you need:
    <details style="margin-bottom: 1.5em">
    <summary><b>New to async? A two-minute example (click to open)</b></summary>
 
-Run this on your laptop (``python3 example.py``):
+On your laptop, save this as ``example.py`` and run ``python3 example.py``:
 
 .. code-block:: python
 
@@ -699,9 +757,18 @@ better than general wishes. Compare:
 A good rule says *when* (in which situation), *what to do*, and, if it
 matters, *what never to do*. Use bullet points: one rule per bullet.
 
-After editing the prompt, try it in text first: ``python3 lab/chat.py``
-reads ``prompt.md`` every time it starts. Then reconnect in the app (no
-restart needed), ask for a walk again, and compare with Q1.
+After editing the prompt, try it in text first (``chat.py`` reads
+``prompt.md`` every time it starts):
+
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   .. code-block:: bash
+
+      python3 lab/chat.py
+
+Then reconnect in the app (no restart needed), ask for a walk again, and
+compare with Q1.
 
 **What** ``python3 lab/test.py todo1`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
@@ -721,6 +788,15 @@ restart needed), ask for a walk again, and compare with Q1.
    * - They say ``"tool"``
      - "You can only move by calling a tool."
      - "You can walk, turn and do tricks."
+
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: the three sections are written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo1
 
 These checks can only look for words. In Q2, you will test whether Gemini actually *follows* your rules by talking to it.
 
@@ -815,9 +891,17 @@ return the first problem you find:
 
 The other checks under *(provided) walk* test the finished ``walk``: they pass once ``check_move`` works.
 
-Check it: ``python3 lab/test.py todo2``. It also runs the finished ``walk``
-(below) with your ``check_move``, so you see refused moves come back as
-failures with your reason.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``check_move`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo2
+
+   It also runs the finished ``walk`` (below) with your ``check_move``, so you
+   see refused moves come back as failures with your reason.
 
 **Read: walk** (finished, in ``lab/part2_walk.py``). This is ``stand_up``'s
 shape, with a loop in the job. You don't write it, but read it now, line by
@@ -875,8 +959,17 @@ only a turning speed, for as long as the angle takes:
    60 deg/s takes 1.5 s.
 3. ``return await walk(robot, 0.0, 0.0, wz_deg, seconds)``
 
-Run ``python3 lab/test.py todo3``: it checks ``turn`` first, on its own, so
-you know it works before you start on ``move``.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``turn`` is written, before you start on ``move``.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo3
+
+   It checks ``turn`` first, on its own, so you know it works. The ``move``
+   checks say not written yet until you write it.
 
 **move: the real challenge.** Gemini calls ``move`` with a ``direction`` and,
 if it wants, ``run``, ``speed`` and ``duration``. Anything it leaves out keeps
@@ -1003,6 +1096,17 @@ code, not only in the description. (Q3 asks about it.)
      - ``move("forward", speed=1.5, duration=10)``: ``"that would travel 15.00 m, more than 7.0 m in one move: split it into shorter moves"``
      - a success, or a crash
 
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``move`` is written too.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo3
+
+   Every check passes now, ``turn``'s and ``move``'s.
+
 **TODO 4:** Implement the ``arc`` tool, at the very bottom of
 ``lab/part2_walk.py``, so that Pupper can walk and turn at the same time.
 
@@ -1108,16 +1212,34 @@ an ``arc`` without it:
      - ``"too tight: at 0.4 m/s the radius must be at least 0.25 m"``
      - ``check_move``'s ``"too fast: ... |wz|<=114.0 deg/s"``; or a success that quietly turned slower
 
-Check it: ``python3 lab/test.py part2`` (TODOs 2–4). Then try your words in
-text: ``python3 lab/chat.py``, and ask for a run, a sidestep, a turn,
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``arc`` is written (TODOs 2–4 all done).
+
+   .. code-block:: bash
+
+      python3 lab/test.py part2     # TODOs 2-4
+      python3 lab/chat.py
+
+Then try your words in the chat: ask for a run, a sidestep, a turn,
 *"run in a circle around me"* (did Gemini pick a radius the robot can do?), and
 a shape: *"walk in a rectangle"*, *"walk a star"*, *"trace the letter D"*. You see
 the exact call Gemini makes and the speeds your code sends the (fake) robot. If
 Gemini struggles with shapes, one sentence in your prompt's *How you move* can
 help: shapes and letters are several calls in a row (a straight line, a sharp
 corner, a curve), planned first and then called in order.
-Last, restart (``robot/stop.sh && robot/start.sh``), reconnect in the app, and
-try it by voice.
+
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   Last, restart, so the app runs your new code:
+
+   .. code-block:: bash
+
+      robot/stop.sh && robot/start.sh      # add --kiosk for the app on Pupper's screen
+
+Then reconnect in the app and try it by voice.
 
 .. note::
 
@@ -1162,7 +1284,7 @@ to Gemini) or *later* (when the queue gets to the job):
 
 Use a coding agent or read the code yourself (start at the ``stand_up`` tool
 in ``lab/basics.py``, and work outward in both directions). Check your trace
-against the robot server's log (``/tmp/gemini-pupper/server.log``). If an
+against the robot server's log (``/tmp/gemini-pupper/server.log``, on the Pupper). If an
 agent helped, point out anything it got wrong, skipped or made up.
 
 Part 3: Follow
@@ -1183,15 +1305,16 @@ up to you to lead it around furniture. Follow mode needs one rule:
    ``lab/follow_me.py`` state machine, with your target lock and stop
    distance, through ``robot/follow_service.py`` in ``~/follow_me_pupper``.
    Keep that repo on the Pupper with its model downloaded, and Lab 5's Steps
-   2–4 working (``python3 lab/test.py`` all passing): follow mode runs your
+   2–4 working (``python3 lab/test.py`` all passing, run in
+   ``~/follow_me_pupper`` on the Pupper): follow mode runs your
    ``process_detections``, ``pick_target`` and ``approach_speed``, and crashes
    on a function that is not written yet. Lab 5's optional steps stay off:
    color re-identification (Step 5) and obstacle avoidance (Step 6) are not
    stable enough to run while Gemini is driving. The Hailo only runs while
    Pupper is following, which keeps it cooler, so Pupper's on-screen eyes
    track people only while it follows. For eyes that track people all the
-   time, start with ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (Pupper runs
-   warmer). Without ``~/follow_me_pupper``, follow mode falls back to the
+   time, start the app with ``FOLLOW_ALWAYS_DETECT=1 robot/start.sh`` (on the
+   Pupper, in ``~/gemini_pupper``; Pupper runs warmer). Without ``~/follow_me_pupper``, follow mode falls back to the
    monorepo's simpler follower.
 
 Turning the follower on and off is provided (``robot.set_following``). The
@@ -1265,7 +1388,14 @@ own reply (``with_note`` in ``stand_up`` puts it there).
      - following is still on afterwards
      - calling ``prepare_to_move`` from a question
 
-Check it: ``python3 lab/test.py todo5``
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``prepare_to_move`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo5
 
 **TODO 6:** Implement the ``follow`` tool at the bottom of
 ``lab/part3_follow.py``, and write the *Follow mode* section of
@@ -1303,9 +1433,28 @@ TODOs 3 and 4, is the third place the rule now lives.
      - ``return await robot.set_following(enabled)``
      - ``robot.set_following(True)`` every time
 
-Check it: ``python3 lab/test.py part3``, then in text (``python3 lab/chat.py``:
-*"follow me"*, *"what do you see?"*, *"now sit"*), then restart and try it on
-the robot.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: the ``follow`` tool and the *Follow mode* section are written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py part3     # TODOs 5-6
+      python3 lab/chat.py
+
+In the chat, try *"follow me"*, *"what do you see?"*, *"now sit"*.
+
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   Then restart, so the app runs your new code:
+
+   .. code-block:: bash
+
+      robot/stop.sh && robot/start.sh      # add --kiosk for the app on Pupper's screen
+
+Then reconnect in the app and try it on the robot.
 
 Here is follow mode working. Pupper follows, keeps following while it answers
 a question, and says it will stop following before it does something else:
@@ -1558,9 +1707,17 @@ it, and check that you can see each row happen):
 
 The fake robot's tricks: ``bow`` ends standing, ``roll_over`` ends lying down, and ``hold_pose`` is an interactive trick (actions ``wave_left``, ``wave_right``, exit clip ``leave``).
 
-Check it: ``python3 lab/test.py todo7``. It runs your ``play_trick`` with the
-finished job behind it, on the fake robot, which records every controller
-switch and when.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``play_trick`` is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo7
+
+   It runs your ``play_trick`` with the finished job behind it, on the fake
+   robot, which records every controller switch and when.
 
 **TODO 8:** Write the description of the ``play_trick`` tool at the bottom of
 ``lab/part4_tricks.py``: the words Gemini reads. The body is already written;
@@ -1568,7 +1725,9 @@ replace the ``TODO 8`` words.
 
 - Put ``{tricks}`` in the description: the robot turns it into the list of
   installed tricks, each with the description from its ``trick.yaml``. Look
-  at the list it makes: ``curl localhost:8000/tools`` on the Pupper.
+  at the list it makes: on the Pupper, in ``~/gemini_pupper``, run
+  ``python3 lab/chat.py --show``. It prints every tool's description as
+  Gemini reads it, then starts the chat (type ``quit`` to leave).
 - Tell Gemini what it can't see from the list: a trick that starts standing
   looks wrong if Pupper is lying down when it begins, and a trick keeps its
   final pose until the next motion.
@@ -1595,10 +1754,30 @@ replace the ``TODO 8`` words.
      - "A trick keeps its final pose until the next motion."
      - "Plays a trick."
 
-Check it: ``python3 lab/test.py part4``, then ask for tricks in text
-(``python3 lab/chat.py``): does Gemini pick the trick you meant from your
-words? Then restart and ask for a few on the robot, some that end standing and
-some that end lying down.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: TODOs 7 and 8 are written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py part4     # TODOs 7-8
+      python3 lab/chat.py
+
+In the chat, ask for tricks: does Gemini pick the trick you meant from your
+words?
+
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   Then restart, so the app runs your new code:
+
+   .. code-block:: bash
+
+      robot/stop.sh && robot/start.sh      # add --kiosk for the app on Pupper's screen
+
+Then reconnect in the app and ask for a few on the robot, some that end
+standing and some that end lying down.
 
 **DELIVERABLE (Q8):** About the finished ``play_policy_trick``. Ask for
 ``swim`` twice in a row: why does a trick that is holding its own end pose
@@ -1618,9 +1797,9 @@ stand up when you say so**, all by voice.
    "sit"**. The old ``sit`` (sit, hold two seconds, stand back up) and
    ``stand_sit_shake_sit_stand`` step aside: Gemini no longer sees them. So
    if Pupper now sits and *stays* where it used to stand right back up,
-   that's your new trick, not a bug. To get the old ones back, move
-   ``tricks/sit_stay_shake`` out of ``tricks/`` and restart
-   (``robot/stop.sh && robot/start.sh``).
+   that's your new trick, not a bug. To get the old ones back, run this on
+   the Pupper, in ``~/gemini_pupper``: ``mv tricks/sit_stay_shake ~/``, then
+   ``robot/stop.sh && robot/start.sh``.
 
 You won't design any new poses. You get two finished motions, *sit down and
 stand up* and *shake the left paw while sitting*, and you cut and join them
@@ -1647,12 +1826,15 @@ is rewarded for following it, the same idea as lab 4's reference gaits.
 
 Part A: Build the Clip Library
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Open the `CS123 Sit, Stay, Shake notebook <https://colab.research.google.com/github/cs123-stanford/pupper-mjlab/blob/main/notebooks/CS123_Pupper_Sit_Stay_Shake.ipynb>`_
-in Colab, **File → Save a copy in Drive**, and pick the same G4 GPU runtime
-as lab 4. Log into W&B with the **same account your Pupper is logged into**:
-W&B carries your motion to training, and your policy to the robot. (Prefer
-your laptop? The same TODOs are in ``tricks/sit_stay_shake.py`` in
-`pupper-mjlab <https://github.com/cs123-stanford/pupper-mjlab/tree/main/src/mjlab/tasks/tracking/config/pupper>`_.)
+.. admonition:: Run: in Colab, in your copy of the Sit, Stay, Shake notebook
+   :class: run
+
+   Open the `CS123 Sit, Stay, Shake notebook <https://colab.research.google.com/github/cs123-stanford/pupper-mjlab/blob/main/notebooks/CS123_Pupper_Sit_Stay_Shake.ipynb>`_
+   in Colab, **File → Save a copy in Drive**, and pick the same G4 GPU runtime
+   as lab 4. Log into W&B with the **same account your Pupper is logged into**:
+   W&B carries your motion to training, and your policy to the robot. (Prefer
+   your laptop? The same TODOs are in ``tricks/sit_stay_shake.py`` in
+   `pupper-mjlab <https://github.com/cs123-stanford/pupper-mjlab/tree/main/src/mjlab/tasks/tracking/config/pupper>`_.)
 
 This is the library you build:
 
@@ -1802,19 +1984,33 @@ clip ``leave``).
      - the job first checks ``robot.state_now is trick``
      - checking only *now*
 
-Check it: ``python3 lab/test.py todo9``
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: ``interactive_action`` is written (your policy can still be training).
+
+   .. code-block:: bash
+
+      python3 lab/test.py todo9
 
 **On the robot:**
 
 1. **TA gate.** Show a TA your policy's score and the simulation viewer.
-2. Fetch the policy on the Pupper with the command the training log printed,
-   naming it ``sit_stay_shake``:
+2. Fetch the policy with the command the training log printed, naming it
+   ``sit_stay_shake``:
 
-   .. code-block:: bash
+   .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+      :class: run
 
-      python3 robot/get_trick.py <entity>/mjlab/<run-id> --name sit_stay_shake
+      .. code-block:: bash
 
-   From now on, the old ``sit`` and ``stand_sit_shake_sit_stand`` step aside:
+         python3 robot/get_trick.py <entity>/mjlab/<run-id> --name sit_stay_shake
+
+      It writes ``tricks/sit_stay_shake/``: the policy, and a ``trick.yaml``
+      template. Don't restart yet: you fill in the template in TODO 10, and
+      restart once, at the end of it.
+
+   Once you restart, the old ``sit`` and ``stand_sit_shake_sit_stand`` step aside:
    their ``trick.yaml`` says ``replaced_by: sit_stay_shake``, so once yours is
    installed they get no controller and Gemini no longer sees them. A plain
    "sit" now goes to your interactive trick: Pupper sits and stays until you ask it
@@ -1838,10 +2034,6 @@ Check it: ``python3 lab/test.py todo9``
   ``{actions}`` in it, and the robot turns it into the list of actions with
   your descriptions. Then tell Gemini what has to happen first (the trick),
   and what ends it (any other motion).
-- Run ``python3 lab/test.py part5``. Try *"sit, and give me your paw"*
-  in text first (``python3 lab/chat.py``: you see both calls, back to back,
-  before the sit has happened), then restart and say it to Pupper in one
-  breath.
 
 **What** ``python3 lab/test.py todo10`` **checks.** Every check, with an example that passes and one that fails. A failing check prints what your code produced and an example that passes.
 
@@ -1870,6 +2062,30 @@ Check it: ``python3 lab/test.py todo9``
 
 Until you fetch your policy, the ``trick.yaml`` checks are skipped.
 
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: TODOs 9 and 10 are written, and ``tricks/sit_stay_shake/trick.yaml`` is filled in.
+
+   .. code-block:: bash
+
+      python3 lab/test.py part5     # TODOs 9-10
+      python3 lab/chat.py
+
+In the chat, try *"sit, and give me your paw"*: you see both calls, back to
+back, before the sit has happened.
+
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   Then restart, so the robot loads your trick and your code:
+
+   .. code-block:: bash
+
+      robot/stop.sh && robot/start.sh      # add --kiosk for the app on Pupper's screen
+
+Then reconnect in the app and say it to Pupper in one breath.
+
 **DELIVERABLE (Q12):** Ask for a paw shake while Pupper is standing. What does
 it do, and what does it say? Which of your two checks fired? Then describe a
 case where the *other* check (in the job) is the one that matters.
@@ -1886,9 +2102,9 @@ standing when you are done.
    Once you fetch your ``spider_walk`` (Part C), **it takes over "spider"**.
    The old playback ``spider`` (lie down, wiggle, lie still) steps aside:
    its ``trick.yaml`` says ``replaced_by: spider_walk``, so it gets no
-   controller and Gemini no longer sees it. To get it back, move
-   ``tricks/spider_walk`` out of ``tricks/`` and restart
-   (``robot/stop.sh && robot/start.sh``).
+   controller and Gemini no longer sees it. To get it back, run this on the
+   Pupper, in ``~/gemini_pupper``: ``mv tricks/spider_walk ~/``, then
+   ``robot/stop.sh && robot/start.sh``.
 
 The locomotion policy can't do this: it was trained to walk standing up. So
 the spider is two policies:
@@ -1934,11 +2150,15 @@ already works with it, unchanged:
   ``start_clip``), then to whatever comes next. ``interactive_action("spider_up")``
   (your TODO 9) does the same on purpose.
 
-You train both policies in one notebook, the
-`CS123 Spider notebook <https://colab.research.google.com/github/cs123-stanford/pupper-mjlab/blob/main/notebooks/CS123_Pupper_Spider.ipynb>`_
-(**File → Save a copy in Drive**, GPU runtime). The same TODOs are in
-``tricks/spider.py`` in
-`pupper-mjlab <https://github.com/cs123-stanford/pupper-mjlab/tree/main/src/mjlab/tasks/tracking/config/pupper>`_.
+You train both policies in one notebook.
+
+.. admonition:: Run: in Colab, in your copy of the Spider notebook
+   :class: run
+
+   Open the `CS123 Spider notebook <https://colab.research.google.com/github/cs123-stanford/pupper-mjlab/blob/main/notebooks/CS123_Pupper_Spider.ipynb>`_
+   in Colab, **File → Save a copy in Drive**, and pick a GPU runtime. (Prefer
+   your laptop? The same TODOs are in ``tricks/spider.py`` in
+   `pupper-mjlab <https://github.com/cs123-stanford/pupper-mjlab/tree/main/src/mjlab/tasks/tracking/config/pupper>`_.)
 
 Part A: The Spider's Clips
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1997,12 +2217,14 @@ your trained spider walk in the viewer.
 Part C: On the Robot
 ^^^^^^^^^^^^^^^^^^^^
 1. **TA gate.** Show a TA both policies in the viewer.
-2. Fetch both into one trick on the Pupper, then restart:
+2. Fetch both into one trick:
 
-   .. code-block:: bash
+   .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+      :class: run
 
-      python3 robot/get_trick.py <clip-trick-run> --walk <spider-walk-run> --name spider_walk
-      robot/stop.sh && robot/start.sh
+      .. code-block:: bash
+
+         python3 robot/get_trick.py <clip-trick-run> --walk <spider-walk-run> --name spider_walk
 
 3. Fill in ``tricks/spider_walk/trick.yaml``: the ``description`` (what it
    does, when to use it, and how to leave it), ``actions`` with ``spider_up``
@@ -2015,7 +2237,16 @@ Part C: On the Robot
    down, wiggle, lie still) steps aside: its ``trick.yaml`` says
    ``replaced_by: spider_walk``.
 
-Try it by voice: *"Be a spider. Walk forward a bit, turn around, come back.
+4. Restart, so the robot loads the new trick and your ``trick.yaml``:
+
+   .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+      :class: run
+
+      .. code-block:: bash
+
+         robot/stop.sh && robot/start.sh      # add --kiosk for the app on Pupper's screen
+
+Then reconnect in the app and try it by voice: *"Be a spider. Walk forward a bit, turn around, come back.
 Now stand up."* Then ask it to run as a spider. Watch the debug view: what
 does the refusal say, and what does Gemini do next?
 
@@ -2073,7 +2304,16 @@ Part 7: Put It Together
 As in TODO 1, these checks only look for words. You'll see whether Gemini
 actually follows your rules in the live demo.
 
-Run ``python3 lab/test.py`` once more: everything passes.
+.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+   :class: run
+
+   When: TODO 11 is written.
+
+   .. code-block:: bash
+
+      python3 lab/test.py
+
+   Everything passes. This output is your Q17.
 
 Bring It to Life: Pupper's Personality
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2103,7 +2343,8 @@ to talk to again.
 
 Then test it on someone who has never met Pupper: five minutes, no
 instructions. What did they try first? What made them laugh? Where did the
-character break? Change the prompt and try again (just reconnect in the app).
+character break? Change ``lab/prompt.md`` (on the Pupper, in
+``~/gemini_pupper``) and try again: just reconnect in the app, no restart.
 
 **DELIVERABLE (Q16):** Your *Who you are* section. Three moments from
 conversations that show the personality, each with what was said, the tool
@@ -2139,12 +2380,30 @@ Pupper's default locomotion policy can already jump: you have seen it on the
 gamepad. The jump isn't a policy of its own: it is a *reference* the locomotion
 policy was trained to follow, sent to it once. Give Gemini that jump:
 
-1. Rename ``tricks/jump/trick.yaml.optional`` to ``trick.yaml`` and restart.
+1. Turn the jump on: rename ``tricks/jump/trick.yaml.optional`` to ``trick.yaml``.
+
+   .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+      :class: run
+
+      .. code-block:: bash
+
+         mv tricks/jump/trick.yaml.optional tricks/jump/trick.yaml
+
 2. In ``play_trick`` (``lab/part4_tricks.py``), a trick with
    ``trick.kind == "reference"`` plays with ``robot.play_reference_trick(trick)``
    instead of ``play_policy_trick``.
-3. ``python3 lab/test.py optional_jump``, then ask Pupper to jump, with clear
-   space around it.
+3. Test it, then restart:
+
+   .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
+      :class: run
+
+      .. code-block:: bash
+
+         python3 lab/test.py optional_jump
+         robot/stop.sh && robot/start.sh      # add --kiosk for the app on Pupper's screen
+
+   Then reconnect in the app and ask Pupper to jump, with clear space around
+   it.
 
 Want more? :doc:`opt-lab-3` teaches Pupper secrets: in words (a password, a
 secret handshake), and in its legs (a dance move you describe in a sentence and

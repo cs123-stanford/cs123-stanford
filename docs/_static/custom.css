@@ -12,3 +12,11 @@
 .wy-nav-content {
     margin-left: 0;
 }
+
+/* "Run: <where>" boxes in lab specs: the exact machine and folder for a command */
+.rst-content .admonition.run {
+    background: #f1effb;
+}
+.rst-content .admonition.run .admonition-title {
+    background: #5b4bb7;
+}
