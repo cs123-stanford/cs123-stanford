@@ -1507,6 +1507,14 @@ something else.
 
 Part 4: Tricks
 --------------
+In addition to normal walking, we can teach Pupper a number of different
+**tricks**, just like a real dog (but hopefully much easier!). A trick is any
+motion other than walking: sitting down, a push-up, a swim, a sneeze. In this
+part, you give Gemini the tricks that are already installed on Pupper, so you
+can ask for any of them by voice. In Part 5, you train a trick of your own with
+reinforcement learning: by the end of it, you can ask Pupper to sit down, stay,
+and shake your hand.
+
 Trick policies play every trick, and each policy runs on its own controller.
 A playback trick has one policy; an interactive trick has one or more (the
 spider in Part 6 has two). Each trick in ``tricks/`` (``sit``, ``push_up``,
