@@ -1563,8 +1563,9 @@ already. The tests use a made-up interactive trick called ``hold_pose``.
 
 **Playing a trick changes Pupper's state**, from locomotion mode to that
 trick (trick mode). Before the trick, the locomotion policy holds the legs.
-You hand them to ``trick_<name>``, wait while it plays, and then decide which
-state Pupper is in afterwards:
+The trick's job hands them to ``trick_<name>`` and waits while the trick
+plays. Your ``play_trick`` decides, through ``then=``, which state Pupper is in
+afterwards:
 
 .. list-table::
    :class: wrap
@@ -1585,9 +1586,9 @@ state Pupper is in afterwards:
      - the trick: its controller keeps playing its looping clip (the "stay")
      - ``sit_stay_shake``
 
-**TODO 7:** Implement ``play_trick`` in ``lab/part4_tricks.py``. You write
-only the *now* part, with the same shape as ``walk``. Its job,
-``play_policy_trick``, is already written; you read it next.
+**TODO 7:** Implement ``play_trick`` in ``lab/part4_tricks.py``. Here you
+will implement the *now* part, following the same shape as ``walk``. The job
+part, ``play_policy_trick``, is already implemented for you.
 
 1. Look up the trick: ``trick = robot.tricks.get(name)``. If it's ``None``,
    fail, and list the real names (``list(robot.tricks)``) so Gemini can pick
@@ -1628,8 +1629,9 @@ Here is what Gemini hears immediately (*now*) for a few calls:
      - ``trick sit_stay_shake queued; the queue should finish in 5.5 s``
 
 **Now read** ``play_policy_trick``, **in** ``lab/part4_tricks.py``. It is the
-job your ``play_trick`` queues, and it is already written. It gives the legs to the trick's controller, waits
-while the trick plays, then leaves the robot in the right state, in four steps:
+job your ``play_trick`` queues. It gives the legs to the trick's controller,
+waits while the trick plays, then leaves the robot in the right state, in four
+steps:
 
 1. If Pupper is already in this interactive trick (``robot.state_now is
    trick``), the job does nothing.
