@@ -15,7 +15,7 @@ those moves too.*
 `Lab slides <#>`_ (TODO)
 
 `Lab document <https://docs.google.com/document/d/1kp3xRDpWT6fy1FBzcx5_VDpdCx2mRkD5-4JWlJbUOac/edit?usp=sharing>`_: make a copy, answer each DELIVERABLE under its
-question number (Q1–Q20), and submit it to Gradescope.
+question number (Q1–Q19), and submit it to Gradescope.
 
 .. note::
 
@@ -1951,7 +1951,7 @@ Replay the library with physics: it **falls**. Lying down is easy to play
 open loop; pushing back up from the belly is not. Upload it and train it, as
 in Part 5.
 
-**DELIVERABLE (Q14):** Your ``reverse`` and your clips. Why can ``spider_up``
+**DELIVERABLE (Q13):** Your ``reverse`` and your clips. Why can ``spider_up``
 be ``spider_down`` played backwards, and why doesn't the plain replay survive
 it? Name a clip from Part 5 that could *not* be made by reversing another.
 
@@ -1982,7 +1982,7 @@ toward zero, but the spider splays its legs away from zero on purpose. Train, th
 told. It will be slower than commanded: the spider creeps. (Note how slow it
 is: in Part C, set its top speeds to ones it can actually reach.)
 
-**DELIVERABLE (Q15):** Your reward weights, next to your lab 4 StableGait
+**DELIVERABLE (Q14):** Your reward weights, next to your lab 4 StableGait
 weights. Which ones did you change, and why? A short clip or screenshots of
 your trained spider walk in the viewer.
 
@@ -2019,7 +2019,7 @@ trick (Part 4), and the ``sit_stay_shake`` (Part 5) and ``spider_walk``
    :width: 640
    :height: 360
 
-**DELIVERABLE (Q16):** Trace *"be a spider, walk forward, then sit"* through
+**DELIVERABLE (Q15):** Trace *"be a spider, walk forward, then sit"* through
 the state machine. For each step: the state Pupper is in, the controller that
 holds the legs, and what plays between them. Why does ``move`` keep Pupper in
 the spider trick, while ``play_trick("sit_stay_shake")`` leaves it? Where in
@@ -2097,7 +2097,7 @@ Then test it on someone who has never met Pupper: five minutes, no
 instructions. What did they try first? What made them laugh? Where did the
 character break? Change the prompt and try again (just reconnect in the app).
 
-**DELIVERABLE (Q17):** Your *Who you are* section. Three moments from
+**DELIVERABLE (Q16):** Your *Who you are* section. Three moments from
 conversations that show the personality, each with what was said, the tool
 calls in the debug view, and what Pupper did. One moment where the
 personality and a rule pulled in different directions, and how you resolved
@@ -2118,12 +2118,12 @@ it. And what someone who had never met Pupper said about it, in three words.
     wrong, and how you caught it. Attach short excerpts (no secrets).
   - What would you tell next year's students?
 
-**DELIVERABLE (Q18):** The output of ``python3 lab/test.py`` with every check
+**DELIVERABLE (Q17):** The output of ``python3 lab/test.py`` with every check
 passing.
 
-**DELIVERABLE (Q19): Video 2**, your demo conversation (by voice only), with the personality on show.
+**DELIVERABLE (Q18): Video 2**, your demo conversation (by voice only), with the personality on show.
 
-**DELIVERABLE (Q20):** Your reflection.
+**DELIVERABLE (Q19):** Your reflection.
 
 Optional: The Jump
 ------------------
