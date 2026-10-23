@@ -718,7 +718,7 @@ restart needed), ask for a walk again, and compare with Q1.
      - "You can only move by calling a tool."
      - "You can walk, turn and do tricks."
 
-These checks can only look for words. Whether Gemini *follows* your rules, you check by talking to it (Q2).
+These checks can only look for words. In Q2, you will test whether Gemini actually *follows* your rules by talking to it.
 
 **DELIVERABLE (Q2):** Pick two rules from your prompt. For each: what did
 Gemini do before you wrote it, and what does it do now? Is the sentence in
