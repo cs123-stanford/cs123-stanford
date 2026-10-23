@@ -1848,9 +1848,20 @@ wrong without it?
 Part 5: Sit, Stay, Shake
 ------------------------
 Pupper already knows ``sit``: it sits like a dog, holds for two seconds, and
-stands right back up. By the end of this part, Pupper will **sit when told,
-stay sitting for as long as you like, shake whichever paw you ask for, and
-stand up when you say so**, all by voice.
+stands right back up. That works for a quick trick, but it has two problems:
+
+* **Pupper can't stay.** What if you want Pupper to sit for a long time, and
+  get up only when you tell it to? The old ``sit`` always stands up after two
+  seconds.
+* **Pupper can't do anything while it sits.** What if you want Pupper to sit
+  and then shake your hand? With the old tricks, Pupper would sit, stand up,
+  and then sit back down to shake (``stand_sit_shake_sit_stand``), instead of
+  shaking from where it already sits.
+
+To solve both problems, you implement ``sit_stay_shake``, which replaces the
+old ``sit``. By the end of this part, Pupper will **sit when told, stay sitting
+for as long as you like, shake whichever paw you ask for, and stand up when
+you say so**, all by voice.
 
 .. note::
 
