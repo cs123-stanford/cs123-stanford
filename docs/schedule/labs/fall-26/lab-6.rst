@@ -474,7 +474,7 @@ finished example in ``lab/basics.py``, and it has both parts: the tool Gemini re
 
 .. code-block:: python
 
-   @tool("stand_up", "Stand up and turn on walking. Needed before moving, ..." + ENDS_FOLLOW)
+   @tool("stand_up", "Stand up and turn on walking. Needed before moving, ..." + PREPARES_MOVE)
    async def stand_up_tool(robot: Robot) -> Result:            # what Gemini reads
        return await stand_up(robot)                              # (1)
 
@@ -946,7 +946,7 @@ parameter's description. In each tool, replace every ``TODO 3`` in those
 words:
 
 - Say what the tool does and when to use it. Include the robot's actual limits in the description: the ``f"..."`` strings can use ``LIMITS.vx_max``,
-  ``LIMITS.duration_max`` and the others, so they stay correct if a limit changes. Add ``+ ENDS_FOLLOW`` to the description (Part 3 explains it).
+  ``LIMITS.duration_max`` and the others, so they stay correct if a limit changes. Add ``+ PREPARES_MOVE`` to the description (Part 3 explains it).
 - For each parameter, give its unit (m/s, seconds, degrees), its range, and
   its default.
 - Give a worked example wherever Gemini has to do arithmetic or pick a number.
@@ -1078,7 +1078,7 @@ not only in the description. (Q3 asks about it.)
      - Passes
      - Fails
    * - ``turn`` and ``move`` each have a description of 20+ characters, and every parameter is described
-     - ``"Turn in place to the left or right." + ENDS_FOLLOW``
+     - ``"Turn in place to the left or right." + PREPARES_MOVE``
      - ``"turn"``, or a parameter still saying ``"TODO 3"``
    * - ``turn("left", 90)`` sends a positive turn rate, about 90° in all (70–110), with ``vx = vy = 0``
      - ``wz_deg = +turn_speed`` for 1.5 s
@@ -1090,8 +1090,8 @@ not only in the description. (Q3 asks about it.)
      - ``f"running {RUN_MIN_SPEED}-{LIMITS.vx_max} m/s"``
      - ``"runs fast"``, or a typed-in ``1.5`` (it passes, but goes stale)
    * - ``move``'s words contain ``"follow"``
-     - ``"..." + ENDS_FOLLOW``
-     - leaving ``ENDS_FOLLOW`` out
+     - ``"..." + PREPARES_MOVE``
+     - leaving ``PREPARES_MOVE`` out
    * - The six ``move`` examples in the table above send exactly those speeds
      - ``move("right", run=True)`` sends ``vy = -0.4``
      - ``vy = -1.2`` (running sideways)
@@ -1202,7 +1202,7 @@ Handle the following three cases. Each one fixes a problem we observed when Gemi
      - ``"Walk forward and turn at the same time, around part of a circle ..."``
      - ``"arc"``, or a parameter still saying ``"TODO 4"``
    * - Its words contain ``LIMITS.distance_max`` (``7.0``) and ``"follow"``
-     - ``f"... One arc goes at most {LIMITS.distance_max} m." + ENDS_FOLLOW``
+     - ``f"... One arc goes at most {LIMITS.distance_max} m." + PREPARES_MOVE``
      - ``"Walk in a curve."``
    * - ``arc("left", angle=90, radius=0.5)`` sends ``vx = +0.4``, ``vy = 0``, ``wz = +45.8`` deg/s, and turns about 90° (70–110)
      - ``wz_deg = math.degrees(speed / radius)``
@@ -1425,8 +1425,9 @@ note in front of the tool's own reply.
 - In the *Follow mode* section of the prompt, tell Gemini what to *say* before
   a motion ends follow mode.
 
-The motion tools state the rule too: that's ``ENDS_FOLLOW``, the sentence you
-added to every motion tool's description in TODOs 3 and 4.
+The motion tools state the rule too: that's ``PREPARES_MOVE``, the sentence
+you added to every motion tool's description in TODOs 3 and 4. Every motion
+tool calls ``prepare_to_move``, which ends follow mode.
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
