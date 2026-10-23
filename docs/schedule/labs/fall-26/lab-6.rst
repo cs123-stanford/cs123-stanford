@@ -129,13 +129,13 @@ This lab is expected to take **two weeks**.
      - **Setup:** meet the loop on a fake robot; wake Pupper up; try what it can already do
      - (reading)
    * - 1
-     - **Talk:** the prompt, first pass
+     - **Talk:** write the prompt, first pass
      - 1
    * - 2
-     - **Walk:** refuse unsafe moves; read the walking job; the turn, move and arc tools; trace one command
+     - **Walk:** refuse unsafe moves; read the walking job; implement the turn, move and arc tools; trace one command
      - 2, 3, 4
    * - 3
-     - **Follow:** the rule that ends follow mode, and the follow tool
+     - **Follow:** end follow mode before any other motion; implement the follow tool
      - 5, 6
    * - 4
      - **Tricks:** play any trick; read the trick job; tell Gemini which tricks exist
@@ -147,7 +147,7 @@ This lab is expected to take **two weeks**.
      - **The spider:** a trick that walks: build its clips and train its walking policy (reward weights, as in lab 4)
      - (notebook)
    * - 7
-     - **Together:** the prompt, second pass; **Pupper's personality**; demo; reflection
+     - **Together:** finish the prompt (second pass); give Pupper a **personality**; record the demo; write your reflection
      - 11
 
 **The big picture: you are building one big state machine.** Like the state
@@ -674,8 +674,8 @@ Part 1: Talk
 Open ``lab/prompt.md``. It has six headings with a question under each;
 you write it in two passes.
 
-**TODO 1:** Write the first three sections: *Who you are*, *How you move*,
-and *When a tool says no*.
+**TODO 1:** In ``lab/prompt.md``, write the first three sections: *Who you
+are*, *How you move*, and *When a tool says no*.
 
 - **Who you are.** Give Pupper a personality and a way of talking. Everything
   Gemini says is spoken out loud, so short sentences work best.
@@ -747,8 +747,8 @@ We build them in the order of the file: the safety check, then reading the
 walking job, then the words Gemini reads (``turn`` first, then ``move``),
 and last ``arc``, which walks and turns at the same time.
 
-**TODO 2:** ``check_move`` in ``lab/part2_walk.py``: refuse what the robot
-can't or shouldn't do.
+**TODO 2:** Implement ``check_move`` in ``lab/part2_walk.py``, so that it
+refuses what the robot can't or shouldn't do.
 
 *Why:* the most common reason a tool refuses is not a missing tool. Gemini
 finds the right tool, but calls it with values the robot can't or shouldn't
@@ -837,8 +837,8 @@ line, and make sure you could explain it (Q4):
   goes to the debug log and ``robot_status`` only (see *Gemini is not told
   when a job finishes*, above).
 
-**TODO 3:** ``turn``, then ``move``, near the bottom of ``lab/part2_walk.py``:
-the tools Gemini calls.
+**TODO 3:** Implement the ``turn`` and ``move`` tools (the ones Gemini
+calls), near the bottom of ``lab/part2_walk.py``.
 Write ``turn`` first. It's short, and it shows you the whole path from
 Gemini's words to the robot. Then ``move``, the real challenge of this part.
 
@@ -998,8 +998,8 @@ code, not only in the description. (Q3 asks about it.)
      - ``move("forward", speed=1.5, duration=10)``: ``"that would travel 15.00 m, more than 7.0 m in one move: split it into shorter moves"``
      - a success, or a crash
 
-**TODO 4:** ``arc``, at the very bottom of ``lab/part2_walk.py``: walk and
-turn at the same time.
+**TODO 4:** Implement the ``arc`` tool, at the very bottom of
+``lab/part2_walk.py``, so that Pupper can walk and turn at the same time.
 
 ``turn`` sends only a turning speed, and ``move`` only a straight one. Ask for
 "a circle" with just those, and the best Gemini can do is chain them: Pupper
@@ -1193,7 +1193,7 @@ Turning the follower on and off is provided (``robot.set_following``). The
 rule is yours, in two halves: the code that makes it true, and the words that
 let Gemini talk about it.
 
-**TODO 5:** ``prepare_to_move`` in ``lab/part3_follow.py``. It gets the
+**TODO 5:** Implement ``prepare_to_move`` in ``lab/part3_follow.py``. It gets the
 robot ready for a new motion, and every motion calls it first, in its *now*
 part: look for it in ``stand_up`` and ``lie_down`` (``basics.py``) and
 ``walk`` (``part2_walk.py``). So whatever you write here applies to every
@@ -1262,8 +1262,9 @@ own reply (``with_note`` in ``stand_up`` puts it there).
 
 Check it: ``python3 lab/test.py todo5``
 
-**TODO 6:** The ``follow`` tool at the bottom of ``lab/part3_follow.py``, and the
-*Follow mode* section of ``lab/prompt.md``.
+**TODO 6:** Implement the ``follow`` tool at the bottom of
+``lab/part3_follow.py``, and write the *Follow mode* section of
+``lab/prompt.md``.
 
 - The body is one line: ``return await robot.set_following(enabled)``.
 - Its description tells Gemini what follow mode is, what keeps it on
@@ -1420,8 +1421,8 @@ in afterwards:
      - the trick: its controller keeps playing its looping clip (the "stay")
      - ``sit_stay_shake``
 
-**TODO 7:** ``play_trick`` in ``lab/part4_tricks.py``: the *now* part, the
-same shape as ``walk``. Its job, ``play_policy_trick``, is finished: you read
+**TODO 7:** Implement ``play_trick`` in ``lab/part4_tricks.py``: the *now*
+part, the same shape as ``walk``. Its job, ``play_policy_trick``, is finished: you read
 it next.
 
 1. ``trick = robot.tricks.get(name)``. If it's ``None``, fail, and list the
@@ -1556,8 +1557,9 @@ Check it: ``python3 lab/test.py todo7``. It runs your ``play_trick`` with the
 finished job behind it, on the fake robot, which records every controller
 switch and when.
 
-**TODO 8:** The ``play_trick`` tool at the bottom of ``lab/part4_tricks.py``:
-what Gemini reads. The body is already written; replace the ``TODO 8`` words.
+**TODO 8:** Write the description of the ``play_trick`` tool at the bottom of
+``lab/part4_tricks.py``: the words Gemini reads. The body is already written;
+replace the ``TODO 8`` words.
 
 - Put ``{tricks}`` in the description: the robot turns it into the list of
   installed tricks, each with the description from its ``trick.yaml``. Look
@@ -1713,7 +1715,7 @@ An interactive trick is a state Pupper stays in while it takes requests.
 while Pupper is in that trick. Until an interactive trick is installed, Gemini
 is told the ``interactive_action`` tool has nothing to choose from.
 
-**TODO 9:** ``interactive_action`` in ``lab/part5_interactive_action.py``. You can write
+**TODO 9:** Implement ``interactive_action`` in ``lab/part5_interactive_action.py``. You can write
 and test it while your policy trains: the tests use a made-up interactive
 trick called ``hold_pose`` (actions ``wave_left``, ``wave_right``, and the exit
 clip ``leave``).
@@ -1813,7 +1815,8 @@ Check it: ``python3 lab/test.py todo9``
    "sit" now goes to your interactive trick: Pupper sits and stays until you ask it
    to shake or stand up.
 
-**TODO 10:** What Gemini reads about the actions.
+**TODO 10:** Write what Gemini reads about the actions: the trick's
+``trick.yaml``, and the description of the ``interactive_action`` tool.
 
 - Fill in ``tricks/sit_stay_shake/trick.yaml`` (``get_trick.py`` wrote a
   template): the trick's ``description``, the ``actions`` Gemini may ask for
@@ -1825,12 +1828,12 @@ Check it: ``python3 lab/test.py todo9``
   (keeps sitting, or stands up). Say when to use the trick, too: when someone
   just says *"sit"*, they mean sit and stay, and Gemini picks a trick from
   these words alone (``stand_sit_stand`` also sits, briefly).
-- The ``interactive_action`` tool at the bottom of ``lab/part5_interactive_action.py``.
+- Finish the ``interactive_action`` tool at the bottom of ``lab/part5_interactive_action.py``.
   Its body is one line, ``return await interactive_action(robot, action)``. Its description: put
   ``{actions}`` in it, and the robot turns it into the list of actions with
   your descriptions. Then tell Gemini what has to happen first (the trick),
   and what ends it (any other motion).
-- ``python3 lab/test.py part5``. Try *"sit, and give me your paw"*
+- Run ``python3 lab/test.py part5``. Try *"sit, and give me your paw"*
   in text first (``python3 lab/chat.py``: you see both calls, back to back,
   before the sit has happened), then restart and say it to Pupper in one
   breath.
@@ -2027,7 +2030,7 @@ the code is each of those decided?
 
 Part 7: Put It Together
 -----------------------
-**TODO 11:** The last two sections of ``lab/prompt.md``.
+**TODO 11:** Write the last two sections of ``lab/prompt.md``.
 
 - **Tricks.** A trick keeps its final pose until the next motion.
   Interactive actions only work while Pupper is in their trick. When the person asks for
