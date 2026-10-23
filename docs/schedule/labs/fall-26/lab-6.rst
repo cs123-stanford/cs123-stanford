@@ -1551,45 +1551,15 @@ Replay drives the joints to the recorded angles without any feedback, so it cann
 its joints, and where the reference says it should be) and corrects 50 times a
 second. We also trained it on many slightly different robots.
 
-**There are two kinds of trick.** A **playback trick** plays one reference motion from
-start to finish; its trick policy keeps Pupper balanced while it plays, so it stays balanced where a plain replay of the recording would wobble or fall. An
-**interactive trick** is a state Pupper *stays in* while it takes requests.
-It is made of several short pieces of motion, and the robot plays them one at
-a time, on request. Compare ``sit``, which you already have,
-with ``sit_stay_shake``, which you will train in Part 5:
-
-.. list-table::
-   :class: wrap
-   :header-rows: 1
-   :widths: 22 39 39
-
-   * -
-     - ``sit``: a playback trick
-     - ``sit_stay_shake``: an interactive trick
-   * - What it is
-     - One recorded motion: sit down, hold for two seconds, stand back up.
-       It always plays the whole thing.
-     - Five pieces of motion, called **clips**: ``sit_down``, ``sit_idle``
-       (sitting still), ``shake_left``, ``shake_right`` and ``stand_up``.
-   * - When you play it
-     - It sits, holds for two seconds, and stands up again, all by itself.
-     - It plays ``sit_down``, then ``sit_idle`` over and over: Pupper **stays**
-       sitting, for as long as you like.
-   * - While it plays
-     - Nothing to ask for: it's busy.
-     - Gemini can ask for a clip by name: ``interactive_action("shake_left")``
-       plays ``shake_left``, then goes back to ``sit_idle`` (Part 5).
-   * - How it ends
-     - By itself, standing.
-     - When Gemini asks for ``stand_up``, its **exit clip**, or when any other
-       motion is asked for (``switch_to`` plays the exit clip first).
-   * - In the code
-     - ``trick.interactive`` is ``False`` (``trick.clips`` is empty)
-     - ``trick.interactive`` is ``True``: ``trick.clips`` lists the five clips; ``trick.actions`` the ones Gemini
-       may ask for; ``trick.exit_clip`` is ``"stand_up"``
-
-Until Part 5 you have no interactive trick, but ``play_trick`` has to handle them
-already. The tests use a made-up one called ``hold_pose``.
+**There are two kinds of trick.** A **playback trick**, like ``sit``, plays
+one reference motion from start to finish, once; its trick policy keeps Pupper
+balanced while it plays. An **interactive trick**, like ``sit_stay_shake`` in
+Part 5, is a state Pupper *stays in* while it takes requests: it is made of
+several short pieces of motion, called **clips**, and the robot plays them one
+at a time, on request. In the code, ``trick.interactive`` tells them apart
+(``False`` for a playback trick, ``True`` for an interactive one). Until Part 5
+you have no interactive trick, but ``play_trick`` has to handle both kinds
+already. The tests use a made-up interactive trick called ``hold_pose``.
 
 **Playing a trick changes Pupper's state**, from locomotion mode to that
 trick (trick mode). Before the trick, the locomotion policy holds the legs.
@@ -1862,6 +1832,38 @@ To solve both problems, you implement ``sit_stay_shake``, which replaces the
 old ``sit``. By the end of this part, Pupper will **sit when told, stay sitting
 for as long as you like, shake whichever paw you ask for, and stand up when
 you say so**, all by voice.
+
+Here is how ``sit_stay_shake`` differs from the old ``sit``:
+
+.. list-table::
+   :class: wrap
+   :header-rows: 1
+   :widths: 22 39 39
+
+   * -
+     - ``sit``: a playback trick
+     - ``sit_stay_shake``: an interactive trick
+   * - What it is
+     - One recorded motion: sit down, hold for two seconds, stand back up.
+       It always plays the whole thing.
+     - Five pieces of motion, called **clips**: ``sit_down``, ``sit_idle``
+       (sitting still), ``shake_left``, ``shake_right`` and ``stand_up``.
+   * - When you play it
+     - It sits, holds for two seconds, and stands up again, all by itself.
+     - It plays ``sit_down``, then ``sit_idle`` over and over: Pupper **stays**
+       sitting, for as long as you like.
+   * - While it plays
+     - Nothing to ask for: it's busy.
+     - Gemini can ask for a clip by name: ``interactive_action("shake_left")``
+       plays ``shake_left``, then goes back to ``sit_idle`` (your TODO 9, in Part C).
+   * - How it ends
+     - By itself, standing.
+     - When Gemini asks for ``stand_up``, its **exit clip**, or when any other
+       motion is asked for (``switch_to`` plays the exit clip first).
+   * - In the code
+     - ``trick.interactive`` is ``False`` (``trick.clips`` is empty)
+     - ``trick.interactive`` is ``True``: ``trick.clips`` lists the five clips; ``trick.actions`` the ones Gemini
+       may ask for; ``trick.exit_clip`` is ``"stand_up"``
 
 .. note::
 
