@@ -642,6 +642,14 @@ is ``True`` or ``False``, and ``message`` is the sentence that Gemini (or the
 debug log) reads. Write each message for a person: say what happened, or what
 was wrong and what would work instead.
 
+``with_note(note, result)`` puts a short note in front of a ``Result``'s
+message and keeps its ``ok`` as it is. If the note is empty (``""``), it
+returns the ``Result`` unchanged. Use it when your code did something Gemini
+should hear about along with the main reply. For example, ``prepare_to_move``
+ended follow mode (``"Stopped following the person first. stand up queued;
+..."``), or ``move`` walked instead of running sideways (``"Sideways never
+runs; walking instead. move ... queued"``).
+
 Every ``lab/`` file has the same two parts, in this order:
 
 * **What the robot does**: the behaviors, like ``stand_up``. A behavior
@@ -724,6 +732,9 @@ went wrong, what the limit is, and what the real choices are.**
      - Play one clip of an interactive trick, and wait for it.
    * - ``robot.tricks``, ``robot.action_ids()``
      - The installed tricks; interactive actions → (trick, clip).
+   * - ``with_note(note, result)``
+     - The same ``Result``, with ``note`` in front of its message (unchanged
+       if ``note`` is ``""``).
 
 Part 1: Talk
 ------------
@@ -1593,12 +1604,15 @@ part, ``play_policy_trick``, is already implemented for you.
 1. Look up the trick: ``trick = robot.tricks.get(name)``. If it's ``None``,
    fail, and list the real names (``list(robot.tricks)``) so Gemini can pick
    one that exists.
-2. Get the robot ready: ``note = await prepare_to_move(robot)``.
+2. Get the robot ready: ``note = await prepare_to_move(robot)``. This is your
+   TODO 5 note: ``"Stopped following the person first."`` if Pupper was
+   following, and ``""`` otherwise.
 3. The job is ``play_policy_trick(robot, trick)``. You don't want to run it
    now, so wrap it in a one-line function: ``job = lambda:
    play_policy_trick(robot, trick)``.
 4. Queue it with ``robot.queue(f"trick {name}", job, trick.total_time,
-   then=...)``, and put the note in front of the reply. Set ``then`` to the
+   then=...)``, and return the reply with the note in front, as ``stand_up``
+   does: ``return with_note(note, await robot.queue(...))``. Set ``then`` to the
    state Pupper will be in once the job is done, from the table above:
    ``LOCOMOTION`` after a playback trick that ends standing, and ``trick``
    otherwise. Part 5 relies on this: when someone says "sit, then shake" in a single request, ``then`` is how the shake knows a sit is already queued ahead
