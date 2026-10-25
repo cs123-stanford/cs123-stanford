@@ -261,9 +261,10 @@ Part 0: Setup
       nothing reaches the fake robot (you see no ``[fake robot]`` lines). What does
       Gemini tell you each time?
 
-   From now on, the fastest way to test a change to what Gemini reads is to
-   edit the file, run ``python3 lab/chat.py``, and type a request. After step
-   3, you do this on the Pupper, in ``~/gemini_pupper``. If you add
+   This is the fastest way to test any change to what Gemini reads, for the
+   rest of the lab: edit the file, restart ``python3 lab/chat.py``, and type
+   a request. For now you do this here. Once you have cloned your own repo
+   onto the Pupper (step 3), you do it there, in ``~/gemini_pupper``. If you add
    ``--robot`` (``python3 lab/chat.py --robot``), the chat sends each call to
    the real robot server instead, just as a voice command does, and Pupper
    really moves. ``robot/start.sh`` must be running for that.
@@ -1161,25 +1162,29 @@ you get the time from the angle:
    * - ``arc(direction="left", angle=90, radius=-1)``
      - refused by your code: ``"no arc: radius must be 0 m or more ..."``
 
-Handle the following three cases. Each one fixes a problem we observed when Gemini used an ``arc`` that did not handle it:
+Your ``arc`` has to handle three cases: the first two in its code, the third
+in its description. Each one fixes a problem we saw when Gemini used an
+``arc`` that didn't handle it.
 
-- **If the arc is too tight, reply with a radius that works.** ``check_move`` would refuse a too-tight
-  arc too, but its reason is ``"|wz|<=114.0 deg/s"``, and from that reply
-  Gemini can't tell that the *radius* is the problem. When we asked it to "run
-  in a circle", it sent the same arc five times. So check the radius yourself
-  first, and reply with the smallest radius that works at that speed:
-  ``speed / math.radians(wz_max)``, rounded up, where
+- **In the code: refuse a too-tight arc yourself, and say what radius works.**
+  Before you call ``walk``, compute the smallest radius Pupper can manage at
+  this speed, ``speed / math.radians(wz_max)`` rounded up, where
   ``wz_max = robot.speeds().limits.wz_max`` (``LIMITS.wz_max`` when walking
-  normally). When Gemini gives no speed, use ``robot.speeds().walk`` (0.4 m/s
-  when walking normally).
-- **Radius 0 is a sharp corner, not an error.** Gemini plans a whole shape
+  normally). If Gemini's radius is smaller, return a failure that gives that
+  radius, like ``"too tight: at 0.4 m/s the radius must be at least 0.25 m"``.
+  When Gemini gives no speed, use ``robot.speeds().walk`` (0.4 m/s when
+  walking normally). *Why not leave it to* ``check_move``? It would refuse
+  the arc too, but its reason is ``"|wz|<=114.0 deg/s"``, and from that
+  Gemini can't tell that the *radius* is the problem: when we asked it to
+  "run in a circle", it sent the same arc five times.
+- **In the code: radius 0 is a sharp corner, not an error.** Gemini plans a whole shape
   and sends every call at once, and it often asks for corners as
   ``arc(radius=0)``. When our code refused those calls, the sides still ran,
   so "walk in a rectangle" came out as one straight line. ``speed / 0`` would
   crash anyway, so handle radius 0 before the math: turn in place, as
   ``turn`` does, and put a note in front of the reply (``with_note``, as in
   TODO 3). Refuse a negative radius, and a speed of 0 or less.
-- **Give Gemini the limits in the words,** computed from ``LIMITS``. The
+- **In the description: give Gemini the limits,** computed from ``LIMITS``. The
   tighter the circle, the faster Pupper has to turn, and it can turn at most
   ``LIMITS.wz_max`` deg/s. So at speed *v*, the smallest radius is
   ``v / math.radians(LIMITS.wz_max)``: about 0.2 m at a walk and 0.6 m at a
@@ -1373,9 +1378,8 @@ be in a different state than when the job was queued.
      - it depends on the state when the job runs, not when it was asked
 
 ``prepare_to_move`` ends follow mode right away, not in the job. Say Pupper
-is following you, two walks are queued, and you say "sit". If following only
-ended when the queue got
-to the sit, Pupper would keep following you for several seconds after you asked
+is following you, two walks are queued, and you say "lie down". If following
+only ended when the queue got to the lie down, Pupper would keep following you for several seconds after you asked
 it to stop. The person asked for something else *now*, so follow mode has to
 end now.
 
@@ -1484,7 +1488,7 @@ tool calls ``prepare_to_move``, which ends follow mode.
 
       python3 lab/chat.py
 
-In the chat, try *"follow me"*, *"what do you see?"*, *"now sit"*.
+In the chat, try *"follow me"*, *"what do you see?"*, *"now lie down"*.
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -1508,7 +1512,7 @@ a question, and says it will stop following before it does something else:
 the tool descriptions, and ``prepare_to_move``. Make a table: for each
 place, does it *tell* Gemini about the rule or *enforce* it? Then make
 ``prepare_to_move`` return ``""`` without stopping anything, and ask
-Pupper to sit while it follows you. What happens? (Undo the change afterwards.)
+Pupper to lie down while it follows you. What happens? (Undo the change afterwards.)
 
 **DELIVERABLE (Q7): Video 1**, by voice only: Pupper walks forward and
 backward, turns both ways, sidesteps, runs, and walks a circle; refuses one request and
