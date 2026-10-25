@@ -958,7 +958,8 @@ parameter's description. In each tool, replace every ``TODO 3`` in those
 words:
 
 - Say what the tool does and when to use it. Include the robot's actual limits in the description: the ``f"..."`` strings can use ``LIMITS.vx_max``,
-  ``LIMITS.duration_max`` and the others, so they stay correct if a limit changes. Add ``+ PREPARES_MOVE`` to the description (Part 3 explains it).
+  ``LIMITS.duration_max`` and the others, so they stay correct if a limit changes. Add ``+ PREPARES_MOVE`` to the description. Look at its definition in
+  ``lab/basics.py``: why is this sentence so important?
 - For each parameter, give its unit (m/s, seconds, degrees), its range, and
   its default.
 - Give a worked example wherever Gemini has to do arithmetic or pick a number.
@@ -1543,28 +1544,32 @@ lists all the fields). The launch file loads one controller per policy, named
 end of this lab, is the only trick without its own policy: the locomotion
 policy plays it.)
 
-**Every trick is a policy, not a replay.** The monorepo
-used to play these
-tricks by replaying the recorded joint angles, open loop. Open-loop replay
-only works on a robot exactly like the one used for the recording, so on real
-Puppers it is unreliable. Below is ``pee`` in simulation with a small amount of domain randomization (a robot slightly different from the one in the recording). The
-green ghost shows the reference motion, and the robot shows the result in the physics simulation:
+.. admonition:: Every trick is a policy, not a replay
+   :class: note
 
-.. list-table::
-   :class: wrap
-   :header-rows: 1
-   :widths: 50 50
+   The monorepo used to play these tricks by replaying the recorded joint
+   angles, open loop. Open-loop replay only works on a robot exactly like the
+   one used for the recording, so on real Puppers it is unreliable. Below is
+   ``pee`` in simulation with a small amount of domain randomization (a robot
+   slightly different from the one in the recording). The green ghost shows the
+   reference motion, and the robot shows the result in the physics simulation:
 
-   * - Plain replay: falls at the leg lift
-     - The trained trick policy: holds
-   * - .. image:: ../../../_static/lab6/pee_motion_replay.gif
-          :width: 100%
-     - .. image:: ../../../_static/lab6/pee_motion_policy.gif
-          :width: 100%
+   .. list-table::
+      :class: wrap
+      :header-rows: 1
+      :widths: 50 50
 
-Replay drives the joints to the recorded angles without any feedback, so it cannot detect that the body is tipping. The policy watches the robot (its tilt,
-its joints, and where the reference says it should be) and corrects 50 times a
-second. We also trained it on many slightly different robots.
+      * - Plain replay: falls at the leg lift
+        - The trained trick policy: holds
+      * - .. image:: ../../../_static/lab6/pee_motion_replay.gif
+             :width: 100%
+        - .. image:: ../../../_static/lab6/pee_motion_policy.gif
+             :width: 100%
+
+   Replay drives the joints to the recorded angles without any feedback, so it
+   cannot detect that the body is tipping. The policy watches the robot (its
+   tilt, its joints, and where the reference says it should be) and corrects 50
+   times a second. We also trained it on many slightly different robots.
 
 **There are two kinds of trick.** A **playback trick**, like ``sit``, plays
 one reference motion from start to finish, once; its trick policy keeps Pupper
