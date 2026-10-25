@@ -1638,12 +1638,14 @@ Here is what Gemini hears immediately (*now*) for a few calls:
 .. list-table::
    :class: wrap
    :header-rows: 1
-   :widths: 30 22 48
+   :widths: 26 20 16 38
 
    * - Gemini calls
+     - Kind of trick
      - ``then``
      - Gemini hears now
    * - ``play_trick("backflip")``
+     - none: not an installed trick
      - (not queued)
      - ``unknown trick 'backflip'; available: ['lie_downward_dog', 'lie_sit_lie', ...]``
        (When the call comes from Gemini, the tool registry refuses it first,
@@ -1651,9 +1653,11 @@ Here is what Gemini hears immediately (*now*) for a few calls:
        ``"play_trick: name must be one of [...]"``. Your check is the backup
        behind it.)
    * - ``play_trick("sit")``
+     - playback trick (ends standing)
      - ``LOCOMOTION``
      - ``trick sit queued; the queue should finish in 10.7 s``
    * - ``play_trick("sit_stay_shake")``
+     - interactive trick
      - the trick
      - ``trick sit_stay_shake queued; the queue should finish in 5.5 s``
 
