@@ -95,7 +95,8 @@ move the robot, raise a limit, or weaken a test to make something pass.
    * Test anything new with Pupper **on the ground, clear space around it, and
      your hand near the e-stop** (pressing the gamepad's right stick relaxes the motors, no matter what Gemini is doing). Never test on a table. Tricks look less stable on the stand than they really are, so test them on the ground.
    * **TA gate:** before your newly trained trick policy runs on the robot for
-     the first time, show a TA its score and the simulation viewer. A badly
+     the first time, show a TA its score (the *Score it* verdict in the
+     notebook) and the simulation viewer. A badly
      trained trick can slam a paw or the body into the ground.
    * A coding agent never moves the robot on its own: no ``start.sh``, no
      ``chat.py --robot``, no ``curl`` to a POST endpoint, no ``ros2 topic
@@ -2194,7 +2195,9 @@ Finally, queue the job:
 
 **On the robot:**
 
-1. **TA gate.** Show a TA your policy's score and the simulation viewer.
+1. **TA gate.** Show a TA the output of the notebook's *Score it* section
+   (the worst body position and orientation errors, and a **HOLDS UP**
+   verdict), and your policy playing in the simulation viewer.
 2. Fetch the policy with the command the training log printed, naming it
    ``sit_stay_shake``:
 
