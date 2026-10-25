@@ -503,8 +503,9 @@ Here is what happens when someone says *"stand up"*:
    work without running it. Here the work is to give the legs to the
    locomotion policy. The job can use ``stand_up``'s variables (``robot``
    here; ``vx`` and ``duration`` in ``walk``). You can also write a job as a
-   ``lambda``, a one-line function:
-   ``job = lambda: play_policy_trick(robot, trick)`` is a job too.
+   ``lambda``, a one-line function with no name (see `Lambda Expressions <https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions>`_
+   in the Python tutorial): ``job = lambda: play_policy_trick(robot, trick)``
+   is a job too.
 4. **Now: queue it and reply.** ``robot.queue(name, job, seconds, then=...)``
    puts the job in line and returns right away with the *accepted* reply,
    ``"stand up queued; the queue should finish in 4.2 s"``. ``then=`` tells
@@ -1617,8 +1618,13 @@ part, ``play_policy_trick``, is already implemented for you.
    TODO 5 note: ``"Stopped following the person first."`` if Pupper was
    following, and ``""`` otherwise.
 3. The job is ``play_policy_trick(robot, trick)``. You don't want to run it
-   now, so wrap it in a one-line function: ``job = lambda:
-   play_policy_trick(robot, trick)``.
+   now, so wrap it in a ``lambda``, a one-line function with no name:
+   ``job = lambda: play_policy_trick(robot, trick)``. The queue needs a
+   function it can call later, with no arguments. ``play_policy_trick(robot,
+   trick)`` on its own is a *call*, not a function; the ``lambda`` wraps that
+   call in a function, so the queue makes the call only when the job's turn
+   comes. If lambdas are new to you, read `Lambda Expressions <https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions>`_ in the Python
+   tutorial.
 4. Queue it with ``robot.queue(f"trick {name}", job, trick.total_time,
    then=...)``, and return the reply with the note in front, as ``stand_up``
    does: ``return with_note(note, await robot.queue(...))``. Set ``then`` to the
