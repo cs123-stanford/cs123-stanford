@@ -1641,7 +1641,7 @@ Here is what Gemini hears immediately (*now*) for a few calls:
    :widths: 26 20 16 38
 
    * - Gemini calls
-     - Kind of trick
+     - Trick type
      - ``then``
      - Gemini hears now
    * - ``play_trick("backflip")``
