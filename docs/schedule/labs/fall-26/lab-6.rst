@@ -682,8 +682,8 @@ Pupper be when its turn comes? When its job runs (*later*), it checks
 ``state_now``: where is Pupper really? You will use both in Part 5.
 
 **The tests run your code on a fake robot** (``python3 lab/test.py``). Each
-TODO below ends with one Run box for its test, and a table of *every* check
-that test makes, with an example that passes and one that fails. The test
+TODO below ends with one Run box for its test, and a dropdown with a table of *every*
+check that test makes, with an example that passes and one that fails. The test
 checks nothing that isn't in the table.
 
 Many checks look for a word or a number in what Gemini reads: a tool's reply
@@ -791,10 +791,15 @@ compare with Q1.
 
       python3 lab/test.py todo1
 
-   This runs a test that checks your TODO 1 code. The table below lists
+   This runs a test that checks your TODO 1 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 1 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -813,6 +818,10 @@ compare with Q1.
    * - They say ``"tool"``
      - "You can only move by calling a tool."
      - "You can walk, turn and do tricks."
+
+.. raw:: html
+
+   </details>
 
 These checks can only look for words. In Q2, you will test whether Gemini actually *follows* your rules by talking to it.
 
@@ -892,13 +901,18 @@ them one at a time, and return the first problem you find:
 
       python3 lab/test.py todo2
 
-   This runs a test that checks your TODO 2 code. The table below lists
+   This runs a test that checks your TODO 2 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
 
    It also runs the finished ``walk`` (below) with your ``check_move``, so you
    see refused moves come back as failures with your reason.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 2 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -920,6 +934,10 @@ them one at a time, and return the first problem you find:
    * - (finished ``walk``) Gemini hears your reason, limit included
      - ``walk(robot, 5.0, 0, 0, 1.0)`` fails with ``"too fast: limits are |vx|<=1.5 m/s, ..."``
      - ``"too fast"``
+
+.. raw:: html
+
+   </details>
 
 The other checks, under *(provided) walk*, test the finished ``walk``. They
 pass once ``check_move`` works.
@@ -1078,10 +1096,15 @@ not only in the description. (Q3 asks about it.)
 
       python3 lab/test.py todo3
 
-   This runs a test that checks your TODO 3 code. The table below lists
+   This runs a test that checks your TODO 3 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 3 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -1115,6 +1138,10 @@ not only in the description. (Q3 asks about it.)
    * - A move ``check_move`` refuses comes back as a failure with its reason
      - ``move("forward", speed=1.5, duration=10)``: ``"that would travel 15.00 m, more than 7.0 m in one move: split it into shorter moves"``
      - a success, or a crash
+
+.. raw:: html
+
+   </details>
 
 **TODO 4:** Implement the ``arc`` tool, at the very bottom of
 ``lab/part2_walk.py``, so that Pupper can walk and turn at the same time.
@@ -1203,10 +1230,15 @@ in its description. Each one fixes a problem we saw when Gemini used an
 
       python3 lab/test.py todo4
 
-   This runs a test that checks your TODO 4 code. The table below lists
+   This runs a test that checks your TODO 4 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 4 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -1240,6 +1272,10 @@ in its description. Each one fixes a problem we saw when Gemini used an
    * - ``arc("left", angle=90, radius=0.1)`` (229 deg/s) fails, says ``"radius"``, and gives the smallest radius (0.2–0.3 m)
      - ``"too tight: at 0.4 m/s the radius must be at least 0.25 m"``
      - ``check_move``'s ``"too fast: ... |wz|<=114.0 deg/s"``; or a success that quietly turned slower
+
+.. raw:: html
+
+   </details>
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -1405,10 +1441,15 @@ note in front of the tool's own reply.
 
       python3 lab/test.py todo5
 
-   This runs a test that checks your TODO 5 code. The table below lists
+   This runs a test that checks your TODO 5 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 5 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -1430,6 +1471,10 @@ note in front of the tool's own reply.
    * - ``robot_status`` (a question) keeps following
      - following is still on afterwards
      - calling ``prepare_to_move`` from a question
+
+.. raw:: html
+
+   </details>
 
 **TODO 6:** Implement the ``follow`` tool at the bottom of
 ``lab/part3_follow.py``, and write the *Follow mode* section of
@@ -1455,10 +1500,15 @@ tool calls ``prepare_to_move``, which ends follow mode.
 
       python3 lab/test.py todo6
 
-   This runs a test that checks your TODO 6 code. The table below lists
+   This runs a test that checks your TODO 6 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 6 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -1480,6 +1530,10 @@ tool calls ``prepare_to_move``, which ends follow mode.
    * - ``follow(enabled=True)`` starts the follower; ``enabled=False`` stops it
      - ``return await robot.set_following(enabled)``
      - ``robot.set_following(True)`` every time
+
+.. raw:: html
+
+   </details>
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -1738,13 +1792,18 @@ the table next to it, and check that you can find each row in the code:
 
       python3 lab/test.py todo7
 
-   This runs a test that checks your TODO 7 code. The table below lists
+   This runs a test that checks your TODO 7 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
 
    It runs your ``play_trick`` with the finished job behind it, on the fake
    robot, which records every controller switch and when.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 7 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -1770,6 +1829,10 @@ the table next to it, and check that you can find each row in the code:
      - ``with_note(note, await robot.queue(...))``
      - dropping the note
 
+.. raw:: html
+
+   </details>
+
 The fake robot in the tests has three tricks: ``bow`` ends standing, ``roll_over`` ends lying down, and ``hold_pose`` is an interactive trick (actions ``wave_left``, ``wave_right``, exit clip ``leave``).
 
 **TODO 8:** Write the description of the ``play_trick`` tool at the bottom of
@@ -1794,10 +1857,15 @@ replace the ``TODO 8`` words.
 
       python3 lab/test.py todo8
 
-   This runs a test that checks your TODO 8 code. The table below lists
+   This runs a test that checks your TODO 8 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 8 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -1819,6 +1887,10 @@ replace the ``TODO 8`` words.
    * - It says a trick keeps its final pose (contains ``"pose"``)
      - "A trick keeps its final pose until the next motion."
      - "Plays a trick."
+
+.. raw:: html
+
+   </details>
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -2076,10 +2148,15 @@ Finally, queue the job:
 
       python3 lab/test.py todo9
 
-   This runs a test that checks your TODO 9 code. The table below lists
+   This runs a test that checks your TODO 9 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 9 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -2110,6 +2187,10 @@ Finally, queue the job:
    * - If the trick was relaxed before the queue got to the action, the job refuses and sends no clip
      - the job first checks ``robot.state_now is trick``
      - checking only *now*
+
+.. raw:: html
+
+   </details>
 
 **On the robot:**
 
@@ -2162,10 +2243,15 @@ Finally, queue the job:
 
       python3 lab/test.py todo10
 
-   This runs a test that checks your TODO 10 code. The table below lists
+   This runs a test that checks your TODO 10 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 10 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -2190,6 +2276,10 @@ Finally, queue the job:
    * - ... and every action is described in 10+ characters
      - ``shake_left: "Shakes the left paw, then keeps sitting."``
      - ``shake_left: "left"``
+
+.. raw:: html
+
+   </details>
 
 Until you fetch your policy, the test skips the ``trick.yaml`` checks.
 
@@ -2422,13 +2512,18 @@ Part 7: Put It Together
       python3 lab/test.py todo11
       python3 lab/test.py
 
-   This runs a test that checks your TODO 11 code. The table below lists
+   This runs a test that checks your TODO 11 code. The dropdown below lists
    every check it makes, with an example that passes and one that fails. If
    a check fails, the test prints what your code produced next to an example
    that passes.
 
    The second line runs every test in the lab once more: everything passes,
    and that output is your Q17.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Every check in the TODO 11 test</b> (click to expand)</summary>
 
 .. list-table::
    :class: wrap
@@ -2450,6 +2545,10 @@ Part 7: Put It Together
    * - ... and several requests in a row (``"order"``, ``"row"`` or ``"sequence"``)
      - "If the person asks for several things in a row, call the tools in that order."
      - "Do what they ask."
+
+.. raw:: html
+
+   </details>
 
 As in TODO 1, these checks only look for words. You'll see whether Gemini
 actually follows your rules in the live demo.
