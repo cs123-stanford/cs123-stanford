@@ -59,7 +59,7 @@ few dozen. **The concepts behind them are difficult.** Almost every TODO deals
 with one of three hard things: two things happening at the same time,
 something happening later than you expect, or something Gemini can't see.
 Read the explanations, not just the TODO cards. Start early, and don't leave
-Part 5 (which trains a policy) for the last days.
+Part 5, 6, and 7 (which trains multiple policies and require recording demos to your friends) for the last few days.
 
 It is worth it: Gemini Pupper is one of the best starting points for a final
 project that CS 123 has ever offered.
