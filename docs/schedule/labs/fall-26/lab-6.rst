@@ -10,9 +10,7 @@ do; the tools you write decide what it can do, and tell it what really
 happened. Then train Pupper to sit, stay and shake a paw, and give Gemini
 those moves too.*
 
-.. TODO(staff): add this offering's lab slides link
-
-`Lab slides <#>`_ (TODO)
+`Lab slides <https://docs.google.com/presentation/d/1Lye_fhAWFpi3PI9hz61ic5C-_tHP-8yxLjBi8je6fv0/edit?usp=sharing>`_
 
 `Lab document <https://docs.google.com/document/d/1kp3xRDpWT6fy1FBzcx5_VDpdCx2mRkD5-4JWlJbUOac/edit?usp=sharing>`_: make a copy, answer each DELIVERABLE under its
 question number (Q1–Q19), and submit it to Gradescope.
