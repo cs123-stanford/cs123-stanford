@@ -2207,22 +2207,28 @@ You train both policies in one notebook.
 
 Part A: The Spider's Clips
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-You get the recorded spider (11 s: stand, lie down, wiggle, lie still) and
-``settle_into_stance``, which blends a motion's last frame into the spider
-stance the walking policy starts from. Paste your ``cut`` and ``hold`` from
-Part 5, then:
+Run the notebook's *0. Setup* section, then **every cell of Part A, top to
+bottom**. You get the recorded spider (11 s: stand, lie down, wiggle, lie
+still) and ``settle_into_stance``, which blends a motion's last frame into the
+spider stance the walking policy starts from. In order, the Part A cells:
 
-* **S1, reverse:** write ``reverse``, which plays a motion backwards: it puts
-  every array's frames in reverse order.
-* **S2, the clips and ORDER:** make ``spider_down`` from the recording up to
-  7 s (still wiggling), settled into the stance. Make ``spider_idle`` hold
-  that stance. And ``spider_up``? It has to go from the stance back to standing,
-  wiggling on the way, and you already have a motion that does exactly that,
-  backwards.
-
-Replay the library with physics: it **falls**. Lying down is easy to play
-open loop; pushing back up from the belly is not. Upload it and train it, as
-in Part 5.
+1. **Preview:** load the recorded spider and play it in the viewer, without
+   physics.
+2. **Your helpers (S1):** paste your ``cut`` and ``hold`` from Part 5, and
+   write ``reverse``, which plays a motion backwards: it puts every array's
+   frames in reverse order. The cell checks all three.
+3. **The clips and ORDER (S2):** make ``spider_down`` from the recording up to
+   7 s (still wiggling), settled into the stance. Make ``spider_idle`` hold
+   that stance. And ``spider_up``? It has to go from the stance back to
+   standing, wiggling on the way, and you already have a motion that does
+   exactly that, backwards. The cell joins the clips and saves the library.
+4. **Replay with physics:** it **falls**. Lying down is easy to play open
+   loop; pushing back up from the belly is not.
+5. **Upload and train:** start the live viewer, then upload the library to
+   W&B (training reads the motion from there) and train a tracking policy on
+   it, as in Part 5 (about 25 minutes).
+6. **Watch your policy:** replay the library with your trained policy in the
+   viewer. This is what you show the TA in Part C.
 
 **DELIVERABLE (Q13):** Show your ``reverse`` and your clips. Why can ``spider_up``
 be ``spider_down`` played backwards, and why doesn't the plain replay survive
