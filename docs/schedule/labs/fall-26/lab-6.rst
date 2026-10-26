@@ -17,6 +17,11 @@ question number (Q1–Q19), and submit it to Gradescope.
 
 .. note::
 
+   .. image:: ../../../_static/lab6/google_ai_studio.png
+      :alt: Google AI Studio: the fastest path from prompt to production with Gemini
+      :width: 400px
+      :align: center
+
    **Gemini Pupper was created by** `Peng Xu <https://scholar.google.com/citations?user=460NWeQAAAAJ&hl=en>`_
    **(Google DeepMind).** This lab is built on his project
    (`sippeyxp/gemini-pupper <https://github.com/sippeyxp/gemini-pupper>`_), and the
@@ -337,11 +342,6 @@ Part 0: Setup
 6. **What already works.** In the app, try *"stand up"*, *"lie down"* and
    *"what are you doing?"*. Then ask Pupper to walk to you and to do a trick,
    and watch what Gemini does with the "not written yet" reply.
-
-   .. admonition:: TODO (staff): video
-
-      A short video of Pupper not working: Gemini says it is walking while
-      Pupper stands still.
 
 7. **Run the tests once.**
 
@@ -1866,11 +1866,8 @@ Fill in the four TODOs in the notebook:
 
 The notebook checks your code and prints ``ok`` or ``FAIL`` for each check.
 
-**DELIVERABLE (Q9):** Draw your clip graph, like the figure above. Show every
-clip, the pose it starts and ends in, which clip loops, and each clip's
-``next``. Why must clips meet at matching poses? What would the robot do at a
-boundary where they don't match? And about your training order: why does every
-change the robot can make on request need to appear in it?
+**DELIVERABLE (Q9):** Why must one clip end in the same pose the next clip
+starts in? What would the robot do at a boundary where they don't match?
 
 **DELIVERABLE (Q10):** Show your ``mirror``. Which joint angles did you negate, and
 why does Pupper need that? How did you check it?
@@ -2387,12 +2384,15 @@ in three words?
     code? Which one would you move, and why?
   - Describe one time Pupper did something you didn't expect. What did the tool replies
     and the server log tell you, and what did you change?
-  - What would you tell next year's students?
+  - How were the labs, especially this one? Is there anything you would tell
+    the teaching team or next year's students, so we can polish the material?
 
 **DELIVERABLE (Q17):** The output of ``python3 lab/test.py`` with every check
 passing.
 
-**DELIVERABLE (Q18): Video 2**, your demo conversation (by voice only), showing its personality.
+**DELIVERABLE (Q18): Video 2**, a demo conversation (by voice only) between
+Pupper and someone who is not taking CS 123 this quarter, showing its
+personality.
 
 **DELIVERABLE (Q19):** Your reflection.
 
