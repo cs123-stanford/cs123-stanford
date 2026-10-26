@@ -62,24 +62,6 @@ last days.
 It is worth it: Gemini Pupper is one of the best starting points for a final
 project that CS 123 has ever offered.
 
-AI Use Suggestion
-------------------
-**This lab is designed so that you can complete it without AI.** You are
-welcome to use a coding agent (Claude Code or Codex) to understand the code
-and for light coding, as long as you understand what every line it writes
-means. The repo comes with notes for your agent (``AGENTS.md``).
-
-* **The deliverables are yours.** Answer every DELIVERABLE in your own words,
-  from what you did and saw on your robot. Do not ask your agent to answer the questions.
-* **Understand everything your agent does.** For every TODO, you should be
-  able to explain what the code does, why it is written that way, and what
-  would go wrong without it, without your agent open. Quiz 2 asks about this
-  code.
-
-Good ways to work with an agent are at the end of this handout, in
-`Working With a Coding Agent`_. One rule always holds: never let an agent
-move the robot, raise a limit, or weaken a test to make something pass.
-
 .. important::
 
    **Safety rules for this lab.** Read them now. They apply to you *and* to
@@ -2521,6 +2503,13 @@ passing.
 
 **DELIVERABLE (Q19):** Your reflection.
 
+Congratulations! Pupper now listens, answers, and does what it is told, and
+only what it can do safely: you brought it to life. You built the core of a
+robot driven by a foundation model:
+tools a model can reason about, honest reports of what happened, state and
+preconditions, and a trick pipeline that turns motions into a policy on
+hardware. Your final project can build on all of it.
+
 Optional: The Jump
 ------------------
 Pupper's default locomotion policy can already jump: you have seen it on the
@@ -2556,29 +2545,6 @@ once. Give Gemini that jump:
 For more, :doc:`opt-lab-3` teaches Pupper secrets: in words (a password, a
 secret handshake), and in its legs (a dance move you describe in a sentence and
 train), which it performs only for someone who knows the password.
-
-Working With a Coding Agent
----------------------------
-A few habits that help:
-
-* **Give it checks it can run**: ``python3 lab/test.py todo7``, and the
-  notebook's (or ``sit_stay_shake.py``'s) ``ok`` / ``FAIL`` checks.
-* **Ask for the plan before the code.** "Read the TODO 9 card in
-  ``lab/part5_interactive_action.py`` and tell me how an interactive action should use the
-  queue; don't edit anything yet."
-* **Check its claims against the robot.** The server log, the debug view and
-  ``curl localhost:8000/system/mode`` show what really happened; the agent's summary does not.
-* **Don't let it weaken a test or raise a limit** to make something pass.
-* **Make it teach you.** After each TODO: "Explain this function line by line,
-  and tell me what would break if I deleted each check." Then close the agent
-  and explain it to your partner. If you can't, you haven't finished the TODO.
-
-Congratulations! Pupper now listens, answers, and does what it is told, and
-only what it can do safely: you brought it to life. You built the core of a
-robot driven by a foundation model:
-tools a model can reason about, honest reports of what happened, state and
-preconditions, and a trick pipeline that turns motions into a policy on
-hardware. Your final project can build on all of it.
 
 Resources
 ---------
