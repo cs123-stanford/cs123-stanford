@@ -19,7 +19,7 @@ question number (Q1–Q19), and submit it to Gradescope.
 
    .. image:: ../../../_static/lab6/google_ai_studio.png
       :alt: Google AI Studio: the fastest path from prompt to production with Gemini
-      :width: 400px
+      :width: 1000px
       :align: center
 
    **Gemini Pupper was created by** `Peng Xu <https://scholar.google.com/citations?user=460NWeQAAAAJ&hl=en>`_
