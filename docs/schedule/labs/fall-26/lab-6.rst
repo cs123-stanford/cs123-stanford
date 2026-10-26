@@ -64,8 +64,7 @@ project that CS 123 has ever offered.
 
 .. important::
 
-   **Safety rules for this lab.** Read them now. They apply to you *and* to
-   your coding agent.
+   **Safety rules for this lab.** Read them now.
 
    * Test anything new with Pupper **on the ground, clear space around it, and
      your hand near the e-stop** (pressing the gamepad's right stick relaxes the motors, no matter what Gemini is doing). Never test on a table. Tricks look less stable on the stand than they really are, so test them on the ground.
@@ -73,9 +72,6 @@ project that CS 123 has ever offered.
      the first time, show a TA its score (the *Score it* verdict in the
      notebook) and the simulation viewer. A badly
      trained trick can slam a paw or the body into the ground.
-   * A coding agent never moves the robot on its own: no ``start.sh``, no
-     ``chat.py --robot``, no ``curl`` to a POST endpoint, no ``ros2 topic
-     pub``, unless you approve it at that moment, while standing at the robot.
    * **Pupper overheats.** Sitting and holding poses load the motors hard. If
      Pupper is hot to the touch or a motor faults, stop, relax the motors
      (``robot/stop.sh``), and let it cool.
@@ -1308,10 +1304,9 @@ to Gemini) or *later* (when the queue gets to the job):
    ...
    n. robot/robot_api.py           Robot.switch_to(LOCOMOTION_CONTROLLER): the locomotion policy takes the legs   later
 
-Use a coding agent or read the code yourself (start at the ``stand_up`` tool
-in ``lab/basics.py``, and work outward in both directions). Check your trace
-against the robot server's log (``/tmp/gemini-pupper/server.log``, on the Pupper). If an
-agent helped, point out anything it got wrong, skipped or made up.
+Read the code yourself: start at the ``stand_up`` tool in ``lab/basics.py``,
+and work outward in both directions. Check your trace against the robot
+server's log (``/tmp/gemini-pupper/server.log``, on the Pupper).
 
 Part 3: Follow
 --------------
@@ -2492,8 +2487,6 @@ in three words?
     code? Which one would you move, and why?
   - Describe one time Pupper did something you didn't expect. What did the tool replies
     and the server log tell you, and what did you change?
-  - If you used a coding agent, share one prompt that worked well, one place
-    it went wrong, and how you caught it. Attach short excerpts (no secrets).
   - What would you tell next year's students?
 
 **DELIVERABLE (Q17):** The output of ``python3 lab/test.py`` with every check
