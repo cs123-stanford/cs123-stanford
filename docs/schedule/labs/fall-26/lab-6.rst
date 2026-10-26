@@ -1550,24 +1550,37 @@ part, ``play_policy_trick``, is already implemented for you.
 1. Look up the trick: ``trick = robot.tricks.get(name)``. If it's ``None``,
    fail, and list the real names (``list(robot.tricks)``) so Gemini can pick
    one that exists.
-2. Get the robot ready: ``note = await prepare_to_move(robot)``. This is your
-   TODO 5 note: ``"Stopped following the person first."`` if Pupper was
-   following, and ``""`` otherwise.
-3. The job is ``play_policy_trick(robot, trick)``. You don't want to run it
-   now, so wrap it in a ``lambda``, a one-line function with no name:
-   ``job = lambda: play_policy_trick(robot, trick)``. The queue needs a
-   function it can call later, with no arguments. ``play_policy_trick(robot,
-   trick)`` on its own is a *call*, not a function; the ``lambda`` wraps that
-   call in a function, so the queue makes the call only when the job's turn
-   comes. If lambdas are new to you, read `Lambda Expressions <https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions>`_ in the Python
-   tutorial.
+2. Get the robot ready: ``note = await prepare_to_move(robot)`` (your TODO 5).
+3. Make the job, without running it:
+   ``job = lambda: play_policy_trick(robot, trick)``.
 4. Queue it with ``robot.queue(f"trick {name}", job, trick.total_time,
    then=...)``, and return the reply with the note in front, as ``stand_up``
    does: ``return with_note(note, await robot.queue(...))``. Set ``then`` to the
    state Pupper will be in once the job is done, from the table above:
    ``LOCOMOTION`` after a playback trick that ends standing, and ``trick``
-   otherwise. Part 5 relies on this: when someone says "sit, then shake" in a single request, ``then`` is how the shake knows a sit is already queued ahead
-   of it.
+   otherwise.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Why each step (click to open)</b></summary>
+
+- **Step 2, the note:** ``"Stopped following the person first."`` if Pupper
+  was following, and ``""`` otherwise.
+- **Step 3, the lambda:** the queue needs a function it can call later, with
+  no arguments. ``play_policy_trick(robot, trick)`` on its own is a *call*,
+  not a function. The ``lambda``, a one-line function with no name, wraps that
+  call in a function, so the queue makes the call only when the job's turn
+  comes. If lambdas are new to you, read
+  `Lambda Expressions <https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions>`_
+  in the Python tutorial.
+- **Step 4, then:** Part 5 relies on it. When someone says "sit, then shake"
+  in a single request, ``then`` is how the shake knows a sit is already
+  queued ahead of it.
+
+.. raw:: html
+
+   </details>
 
 Here is what Gemini hears immediately (*now*) for a few calls:
 
