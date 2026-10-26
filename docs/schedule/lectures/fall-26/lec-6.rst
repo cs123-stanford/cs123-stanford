@@ -3,7 +3,7 @@ Lecture 6: Robot Foundation Model & Human-Robot Interaction
 
 **Lab:** :doc:`../../labs/fall-26/lab-6` Bringing your Pupper to life: let Gemini drive Pupper through tools you write, then train it to sit, stay, and shake a paw, and walk like a spider!
 
-**Lecture Slides:** Updating soon!
+**Lecture Slides:** :download:`CS123 Robot Foundation Models (PDF) <../../../_static/lectures/lec-6-robot-foundation-models.pdf>`
 
 **Lab Review Slides:** https://docs.google.com/presentation/d/1Gv6A4rFRyc5Rcq-25KAauJM33eLvBhIJivAVPb7RfsE/edit?usp=sharing
 
