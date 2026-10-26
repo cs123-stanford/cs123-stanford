@@ -819,17 +819,24 @@ then you read the walking job, then you write the tools Gemini calls
 the same time.
 
 **TODO 2:** Implement ``check_move`` in ``lab/part2_walk.py``, so that it
-refuses what the robot can't or shouldn't do.
+refuses what the robot can't or shouldn't do. Your tool descriptions *ask*
+Gemini to stay within the limits; ``check_move`` *makes sure* it does.
 
-Here is why ``check_move`` matters. Most refusals don't come from a missing
-tool. Usually Gemini
-finds the right tool but calls it with values the robot can't or shouldn't
-handle: 3 m/s, a 30-second walk, or a speed so low that the legs only shuffle in place.
-For example, if someone says *"Sit, then run 100 mph"*, Gemini calls ``move``
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Why <code>check_move</code> matters (click to open)</b></summary>
+
+Most refusals don't come from a missing tool. Usually Gemini finds the right
+tool but calls it with values the robot can't or shouldn't handle: 3 m/s, a
+30-second walk, or a speed so low that the legs only shuffle in place. For
+example, if someone says *"Sit, then run 100 mph"*, Gemini calls ``move``
 with a speed far over the limit. (You'll meet the other kind of refusal, a
-request with no tool at all like *"do a backflip"*, in Part 4.) Your tool
-descriptions *ask* Gemini to stay within the limits; ``check_move`` *makes
-sure* it does. It is the easiest place to start.
+request with no tool at all like *"do a backflip"*, in Part 4.)
+
+.. raw:: html
+
+   </details>
 
 .. tip::
 
@@ -941,11 +948,21 @@ every ``TODO 3``:
 - For each parameter, give its unit (m/s, seconds, degrees), its range, and
   its default.
 - Give a worked example wherever Gemini has to do arithmetic or pick a number.
-  When we tested our own solution, *"walk forward 2 meters"* walked only
-  0.6 m until we added *"Distance = speed x duration: 2 m at 0.4 m/s is 5 s"*
-  to ``duration``'s description, and *"walk in a square"* came out with 45°
-  corners until we added *"90 a square's corner, 120 a triangle's"* to
-  ``angle``'s description.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Why worked examples help (click to open)</b></summary>
+
+When we tested our own solution, *"walk forward 2 meters"* walked only 0.6 m
+until we added *"Distance = speed x duration: 2 m at 0.4 m/s is 5 s"* to
+``duration``'s description, and *"walk in a square"* came out with 45°
+corners until we added *"90 a square's corner, 120 a triangle's"* to
+``angle``'s description.
+
+.. raw:: html
+
+   </details>
 
 **Write** ``turn`` **first**: it is short, and the TODO 3 test checks it
 separately. To turn in place, send only a turning speed (no forward or sideways speed) for as long as the angle requires:
@@ -999,13 +1016,26 @@ then split that speed into ``vx`` and ``vy``.
         - −speed
 
 3. **Report what you changed.** Whenever your code changes what Gemini asked
-   for, the reply must say so. If Gemini asks to run sideways, your code walks instead. Nothing fails, so without a note the reply would only say "queued", and Gemini would tell the person "Running left!" while Pupper walks. Start the
-   reply with a note:
+   for, the reply must say so. Sideways never runs, so start the reply with a
+   note:
 
    .. code-block:: python
 
       note = "Sideways never runs; walking instead. " if run and sideways else ""
       return with_note(note, await walk(robot, vx, vy, 0.0, duration))
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Why the note (click to open)</b></summary>
+
+If Gemini asks to run sideways, your code walks instead. Nothing fails, so
+without a note the reply would only say "queued", and Gemini would tell the
+person "Running left!" while Pupper walks.
+
+.. raw:: html
+
+   </details>
 
 Check your logic against these examples before you run anything. These are
 exactly the cases the tests check:
@@ -1038,9 +1068,7 @@ exactly the cases the tests check:
      - −0.4 (sideways never runs)
 
 In this lab, "run" means **1.0 m/s or faster**, even though the locomotion
-policy already switches to its running gait at about 0.5 m/s. Gemini might
-still call ``move(run=true, speed=0.6)``, so the rule has to be in your code,
-not only in the description. (Q3 asks about it.)
+policy already switches to its running gait at about 0.5 m/s.
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -1105,9 +1133,7 @@ at once. ``arc`` lets Gemini ask for a smooth curve.
 We give you its parameters, so the tests can check them: ``direction`` (left or
 right), ``angle`` (degrees of the circle to go around, **required**), ``radius``
 (m, default 0.5) and ``speed`` (m/s, default 0.4). You write the words and the
-body. ``angle`` intentionally has no default. When it had a default of 90,
-Gemini asked for "a circle" by leaving ``angle`` out, and Pupper walked only a
-quarter of one.
+body. ``angle`` intentionally has no default.
 
 **Here is the math.** When Pupper goes around a circle of radius *r* at speed *v*,
 it turns *v / r* radians per second. ``walk`` needs degrees per second, and
@@ -1142,8 +1168,7 @@ you get the time from the angle:
      - refused by your code: ``"no arc: radius must be 0 m or more ..."``
 
 Your ``arc`` has to handle three cases: the first two in its code, the third
-in its description. Each one fixes a problem we saw when Gemini used an
-``arc`` that didn't handle it.
+in its description.
 
 - **In the code: refuse a too-tight arc yourself, and say what radius works.**
   Before you call ``walk``, compute the smallest radius Pupper can manage at
@@ -1152,24 +1177,43 @@ in its description. Each one fixes a problem we saw when Gemini used an
   normally). If Gemini's radius is smaller, return a failure that gives that
   radius, like ``"too tight: at 0.4 m/s the radius must be at least 0.25 m"``.
   When Gemini gives no speed, use ``robot.speeds().walk`` (0.4 m/s when
-  walking normally). *Why not leave it to* ``check_move``? It would refuse
-  the arc too, but its reason is ``"|wz|<=114.0 deg/s"``, and from that
-  Gemini can't tell that the *radius* is the problem: when we asked it to
-  "run in a circle", it sent the same arc five times.
-- **In the code: radius 0 is a sharp corner, not an error.** Gemini plans a whole shape
-  and sends every call at once, and it often asks for corners as
-  ``arc(radius=0)``. When our code refused those calls, the sides still ran,
-  so "walk in a rectangle" came out as one straight line. ``speed / 0`` would
-  crash anyway, so handle radius 0 before the math: turn in place, as
-  ``turn`` does, and put a note in front of the reply (``with_note``, as in
-  TODO 3). Refuse a negative radius, and a speed of 0 or less.
-- **In the description: give Gemini the limits,** computed from ``LIMITS``. The
-  tighter the circle, the faster Pupper has to turn, and it can turn at most
-  ``LIMITS.wz_max`` deg/s. So at speed *v*, the smallest radius is
-  ``v / math.radians(LIMITS.wz_max)``: about 0.2 m at a walk and 0.6 m at a
-  run. One arc can go at most ``LIMITS.distance_max`` m. Also say what
-  ``arc`` is *not* for: shapes with straight sides and sharp corners (a
-  square, a star) need ``move`` and ``turn``.
+  walking normally).
+- **In the code: radius 0 is a sharp corner, not an error.** Handle it before
+  the math (``speed / 0`` would crash): turn in place, as ``turn`` does, and
+  put a note in front of the reply (``with_note``, as in TODO 3). Refuse a
+  negative radius, and a speed of 0 or less.
+- **In the description: give Gemini the limits,** computed from ``LIMITS``:
+  the smallest radius, ``v / math.radians(LIMITS.wz_max)`` at speed *v*
+  (about 0.2 m at a walk and 0.6 m at a run), and at most
+  ``LIMITS.distance_max`` m per arc. Also say what ``arc`` is *not* for:
+  shapes with straight sides and sharp corners (a square, a star) need
+  ``move`` and ``turn``.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Why these choices (click to open)</b></summary>
+
+Each one fixes a problem we saw when Gemini used an ``arc`` that didn't
+handle it.
+
+- **No default for** ``angle``: when it had a default of 90, Gemini asked for
+  "a circle" by leaving ``angle`` out, and Pupper walked only a quarter of
+  one.
+- **Your own too-tight refusal:** ``check_move`` would refuse the arc too, but
+  its reason is ``"|wz|<=114.0 deg/s"``, and from that Gemini can't tell that
+  the *radius* is the problem. When we asked it to "run in a circle", it sent
+  the same arc five times.
+- **Radius 0:** Gemini plans a whole shape and sends every call at once, and
+  it often asks for corners as ``arc(radius=0)``. When our code refused those
+  calls, the sides still ran, so "walk in a rectangle" came out as one
+  straight line.
+- **The smallest radius:** the tighter the circle, the faster Pupper has to
+  turn, and it can turn at most ``LIMITS.wz_max`` deg/s.
+
+.. raw:: html
+
+   </details>
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -1321,10 +1365,21 @@ motion calls it first, in its *now* part (see ``stand_up``, ``lie_down`` and
 to stop anything that runs on its own, outside the queue. In Gemini Pupper,
 only the person follower does, so for now it ends follow mode.
 
-It does this right away, not in the job. If following only ended when the
-queue got to a "lie down", Pupper would keep following you for several
-seconds after you asked it to stop. It also returns a note, because Gemini
-can only say "Let me stop following you and …" if the reply tells it so.
+It does this right away, not in the job, and it returns a note for Gemini.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Why right away, and why a note (click to open)</b></summary>
+
+If following only ended when the queue got to a "lie down", Pupper would
+keep following you for several seconds after you asked it to stop. The note
+is there because Gemini can only say "Let me stop following you and …" if the
+reply tells it so.
+
+.. raw:: html
+
+   </details>
 
 1. If ``robot.following`` is false, there's nothing to do: return ``""``.
 2. Turn the person follower off: ``await robot.stop_following()``.
@@ -1610,27 +1665,22 @@ Here is what Gemini hears immediately (*now*) for a few calls:
      - the trick
      - ``trick sit_stay_shake queued; the queue should finish in 5.5 s``
 
-**Now read** ``play_policy_trick``, **in** ``lab/part4_tricks.py``. It is the
-job your ``play_trick`` queues. It gives the legs to the trick's controller,
-waits while the trick plays, then leaves the robot in the right state, in four
-steps:
+**Now read** ``play_policy_trick``, **in** ``lab/part4_tricks.py``: the job
+your ``play_trick`` queues. It has four steps:
 
 1. If Pupper is already in this interactive trick (``robot.state_now is
-   trick``), the job does nothing.
-2. If a playback trick is still holding the end pose of its last run (Pupper
-   is still in its state), the job relaxes it first with ``switch_to(None)``.
-   Switching to a controller that is already on does nothing at all, so
-   without this step, "swim again" would leave Pupper lying where it is.
-3. The job calls ``switch_to(trick.controller)`` and waits
-   ``trick.total_time + 0.3`` s while the trick plays. If the robot fell, the
-   outcome says so.
-4. The job leaves the robot in the right state, using the table above, and
-   says which one: an interactive trick stays on (and the outcome lists its
-   actions), a playback trick that ends standing hands the legs back to the
-   locomotion policy, and any other trick stays where it is.
+   trick``), do nothing.
+2. If a playback trick still holds its last end pose, relax it first with
+   ``switch_to(None)``.
+3. Call ``switch_to(trick.controller)``, and wait ``trick.total_time + 0.3`` s
+   while the trick plays. If the robot fell, the outcome says so.
+4. Leave the robot in the state from the table above, and say which pose it
+   is in.
 
-Every outcome says which pose the robot is in now. Gemini reads it through
-``robot_status``, and it can only plan the next move if it knows the pose.
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>How <code>stop</code> works during a trick (click to open)</b></summary>
 
 A trick policy plays its motion *by itself*: unlike a walk, it doesn't need a
 stream of speeds to keep going. So the provided ``stop`` tool can't stop a
@@ -1638,8 +1688,12 @@ playing trick the way it stops a walk (by making Pupper stand still). Instead,
 ``stop`` relaxes the motors, like the gamepad e-stop, and its reply says so.
 If a trick has finished and only holds its pose, ``stop`` leaves it alone.
 
-This table shows what the job does *later* in each case. Read the code with
-the table next to it, and check that you can find each row in the code:
+.. raw:: html
+
+   </details>
+
+This table shows what the job does *later* in each case. Find each row in the
+code:
 
 .. list-table::
    :class: wrap
@@ -2072,17 +2126,28 @@ Finally, queue the job:
   template): the trick's ``description``, the ``actions`` Gemini may ask for
   while Pupper sits (with a description each), the ``exit_clip``,
   ``end_pose: sitting``, and ``max_body_angle_deg: 60`` (the sit leans back
-  about 35 degrees).
-  Gemini reads the ``description`` and the action descriptions word for word,
-  so write them for Gemini: say what the robot does, and what it does
-  afterwards (keeps sitting, or stands up). Also say when to use the trick:
-  when someone just says *"sit"*, they mean sit and stay. Gemini picks a trick
-  from these words alone, and ``stand_sit_stand`` also sits, briefly.
+  about 35 degrees). In the descriptions, say what the robot does, what it
+  does afterwards (keeps sitting, or stands up), and when to use the trick
+  (someone who just says *"sit"* means sit and stay).
 - Finish the ``interactive_action`` tool at the bottom of ``lab/part5_interactive_action.py``.
   Its body is one line: ``return await interactive_action(robot, action)``.
   In its description, put ``{actions}``; the robot turns it into the list of
   actions with your descriptions. Then tell Gemini what has to happen first (the trick),
   and what ends it (any other motion).
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>Why write the descriptions for Gemini (click to open)</b></summary>
+
+Gemini reads the ``description`` and the action descriptions word for word,
+and picks a trick from these words alone. ``stand_sit_stand`` also sits,
+briefly, so your description is what makes Gemini pick your trick for a plain
+"sit".
+
+.. raw:: html
+
+   </details>
 
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
@@ -2195,18 +2260,28 @@ already works with it, unchanged:
   ``robot.state_after_queue`` to decide which policy walks, the same *now*
   question as your TODO 9. In the spider trick, the spider's walking policy
   does. So ``move``, ``turn`` and ``arc`` make the spider walk, and Pupper
-  stays in the trick. The trick also decides how fast it walks. Its
-  ``trick.yaml`` has a ``walk`` block (default speed, top speeds forward and
-  sideways, turning speed, and whether it can run). ``robot.speeds()`` passes
-  those numbers to your tools as their defaults and to your ``check_move`` as
-  its limits, and Gemini reads them in the trick's description. So
-  ``check_move`` refuses a move that is too fast for the spider, with the
-  spider's numbers, exactly as it refused a move too fast for Pupper in
-  Part 2.
+  stays in the trick, at the speeds in the trick's ``trick.yaml``.
 * Any other motion leaves the trick through its exit clip: ``switch_to``
   gives the legs back to the clip policy, starting at ``spider_up`` (the
   controller's ``start_clip``), and then to whatever comes next.
   ``interactive_action("spider_up")`` (your TODO 9) intentionally does the same thing.
+
+.. raw:: html
+
+   <details style="margin-bottom: 1.5em">
+   <summary><b>How the spider's speeds reach your tools (click to open)</b></summary>
+
+The trick's ``trick.yaml`` has a ``walk`` block (default speed, top speeds
+forward and sideways, turning speed, and whether it can run).
+``robot.speeds()`` passes those numbers to your tools as their defaults and
+to your ``check_move`` as its limits, and Gemini reads them in the trick's
+description. So ``check_move`` refuses a move that is too fast for the
+spider, with the spider's numbers, exactly as it refused a move too fast for
+Pupper in Part 2.
+
+.. raw:: html
+
+   </details>
 
 You train both policies in one notebook.
 
