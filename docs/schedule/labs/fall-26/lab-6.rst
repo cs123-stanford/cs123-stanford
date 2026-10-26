@@ -13,7 +13,7 @@ those moves too.*
 `Lab slides <https://docs.google.com/presentation/d/1Gv6A4rFRyc5Rcq-25KAauJM33eLvBhIJivAVPb7RfsE/edit?usp=sharing>`_
 
 `Lab document <https://docs.google.com/document/d/1kp3xRDpWT6fy1FBzcx5_VDpdCx2mRkD5-4JWlJbUOac/edit?usp=sharing>`_: make a copy, answer each DELIVERABLE under its
-question number (Q1–Q19), and submit it to Gradescope.
+question number (Q1–Q20), and submit it to Gradescope.
 
 .. note::
 
@@ -2099,9 +2099,12 @@ In the chat, try *"sit, and give me your paw"*: you see both calls, back to
 back, before the sit has happened. Then reconnect in the app and say it to
 Pupper as a single request.
 
-**DELIVERABLE (Q12):** Ask for a paw shake while Pupper is standing. What does
-it do, and what does it say? Which of your two checks fired? Then describe a
-case where the *other* check (in the job) is the one that matters.
+**DELIVERABLE (Q12): Video 2**, by voice only: the whole ``sit_stay_shake``
+pipeline. Pupper sits, stays, shakes its left paw and its right paw, and
+stands back up. Then stand to Pupper's left and ask it to shake your hand,
+without saying which paw. Does it shake the paw on your side? If not, trace
+the request through your code to find where it goes wrong: what Gemini called
+(in the debug view), what ``interactive_action`` did, and which clip played.
 
 Part 6: The Spider: A Trick That Walks
 --------------------------------------
@@ -2276,6 +2279,10 @@ that holds the legs, and what plays between steps. Why does ``move`` keep
 Pupper in the spider trick, while ``play_trick("sit_stay_shake")`` leaves it?
 Which part of the code decides each one?
 
+**DELIVERABLE (Q16): Video 3**, by voice only: the whole ``spider_walk`` trick.
+Pupper gets down into the spider pose, walks around as a spider, refuses to
+follow you while it is a spider (and says why), and gets back up.
+
 Part 7: Put It Together
 -----------------------
 **TODO 11:** Write the last two sections of ``lab/prompt.md``.
@@ -2303,7 +2310,7 @@ Part 7: Put It Together
       python3 lab/test.py
 
    The second line runs every test in the lab once more: everything passes,
-   and that output is your Q17.
+   and that output is your Q18.
 
 .. raw:: html
 
@@ -2366,7 +2373,7 @@ to talk to again.
 Then test it with someone who has never met Pupper, for five minutes and without instructions. What did they try first? What made them laugh? Where did the character become inconsistent? Change ``lab/prompt.md`` (on the Pupper, in
 ``~/gemini_pupper``) and try again: just reconnect in the app, no restart.
 
-**DELIVERABLE (Q16):** Paste your *Who you are* section. Describe three
+**DELIVERABLE (Q17):** Paste your *Who you are* section. Describe three
 moments from conversations that show the personality, each with what was said,
 the tool calls in the debug view, and what Pupper did. Describe one moment
 where the personality and a rule pulled in different directions, and how you
@@ -2377,7 +2384,8 @@ in three words?
   Pupper that shows off its **personality**. In it, Pupper walks, turns and
   curves, plays a trick, sits and **stays** (wait at least ten seconds), shakes both paws,
   stands up, becomes a spider and walks a little in its stance, stands back
-  up, and refuses at least one request with a reason.
+  up, refuses at least one request with a reason, and shows it understands
+  the scene through its camera.
 * **Reflection.** Write one page, no more:
 
   - Where did you put each rule: in the prompt, in a tool description, or in
@@ -2387,14 +2395,16 @@ in three words?
   - How were the labs, especially this one? Is there anything you would tell
     the teaching team or next year's students, so we can polish the material?
 
-**DELIVERABLE (Q17):** The output of ``python3 lab/test.py`` with every check
+**DELIVERABLE (Q18):** The output of ``python3 lab/test.py`` with every check
 passing.
 
-**DELIVERABLE (Q18): Video 2**, a demo conversation (by voice only) between
+**DELIVERABLE (Q19): Video 4**, a demo conversation (by voice only) between
 Pupper and someone who is not taking CS 123 this quarter, showing its
-personality.
+personality and tricks. Include at least one moment of **scene understanding**: Pupper
+uses its camera to answer a question about what it sees (*"what am I
+holding?"*, *"who's in the room?"*) or to decide what to do.
 
-**DELIVERABLE (Q19):** Your reflection.
+**DELIVERABLE (Q20):** Your reflection.
 
 Congratulations! Pupper now listens, answers, and does what it is told, and
 only what it can do safely: you brought it to life. You built the core of a

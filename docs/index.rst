@@ -204,10 +204,10 @@ Schedule
    "Week 3: 10/5", ":doc:`../schedule/lectures/fall-26/lec-3`", ":doc:`../schedule/labs/fall-26/lab-3`", "10/12/26", ":doc:`../schedule/labs/fall-26/opt-lab-1`"
    "Week 4: 10/12", ":doc:`../schedule/lectures/fall-26/lec-4`", ":doc:`../schedule/labs/fall-26/lab-4`", "10/19/26", ":doc:`../schedule/labs/fall-26/opt-lab-2`"
    "Week 5: 10/19", ":doc:`../schedule/lectures/fall-26/lec-5`", ":doc:`../schedule/labs/fall-26/lab-5`", "10/26/26", ""
+   "Week 6: 10/26", ":doc:`../schedule/lectures/fall-26/lec-6`", ":doc:`../schedule/labs/fall-26/lab-6`", "11/2/26", ""
 
 .. Schedule rows hidden for now — move them back under the csv-table above to restore.
 
-   "Week 6: 10/26", ":doc:`../schedule/lectures/fall-26/lec-6`", ":doc:`../schedule/labs/fall-26/lab-6`", "11/2/26", ""
    "Week 7: 11/2", ":doc:`../schedule/lectures/fall-26/lec-7`", "Final Project Proposal", "", ":doc:`../schedule/labs/fall-26/opt-lab-3`"
    "Week 8: 11/9", ":doc:`../schedule/lectures/fall-26/lec-8`", "Final Project Checkpoint", "", ""
    "Week 9: 11/16", "Dead Week", "", "", ""
