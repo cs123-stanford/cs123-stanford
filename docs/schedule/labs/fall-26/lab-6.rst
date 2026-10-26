@@ -1315,45 +1315,16 @@ have to lead it around furniture. Follow mode needs one rule:
 We provide the code that turns the follower on and off
 (``robot.set_following``). You implement the follow rule in two parts: the code that enforces it (TODO 5), and the descriptions that tell Gemini about it (TODO 6).
 
-**TODO 5:** Implement ``prepare_to_move`` in ``lab/part3_follow.py``. It gets the
-robot ready for a new motion. Every motion calls it first, in its *now* part:
-you can see the call in ``stand_up`` and ``lie_down`` (``basics.py``) and in
-``walk`` (``part2_walk.py``). So whatever you write here applies to every
-motion at once.
+**TODO 5:** Implement ``prepare_to_move`` in ``lab/part3_follow.py``. Every
+motion calls it first, in its *now* part (see ``stand_up``, ``lie_down`` and
+``walk``), so what you write here applies to every motion at once. Its job is
+to stop anything that runs on its own, outside the queue. In Gemini Pupper,
+only the person follower does, so for now it ends follow mode.
 
-Before a new motion is queued, ``prepare_to_move`` stops
-anything that runs on its own, outside the queue. In Gemini Pupper, only one
-thing does: the person follower. So for now, its one job is to end follow
-mode. Later, if you add anything else that runs on its own, ``prepare_to_move``
-is where you stop it. Getting the *legs* ready is a different job:
-``switch_to`` does that later, when the job runs, because by then Pupper may
-be in a different state than when the job was queued.
-
-.. list-table::
-   :class: wrap
-   :header-rows: 1
-   :widths: 40 26 34
-
-   * - If you add…
-     - put it in…
-     - because
-   * - A behavior that runs by itself, outside the queue: a patrol or
-       look-around loop, dancing to music, head tracking that sends speeds
-     - ``prepare_to_move`` (now)
-     - a new request should end it at once, like the follower
-   * - A new way to get the legs into or out of something: a trick that
-       must be left a special way, a pose that needs a warm-up
-     - ``switch_to``, or the trick's exit clip (later)
-     - it depends on the state when the job runs, not when it was asked
-
-``prepare_to_move`` ends follow mode right away, not in the job. Say Pupper
-is following you, two walks are queued, and you say "lie down". If following
-only ended when the queue got to the lie down, Pupper would keep following you for several seconds after you asked
-it to stop. The person asked for something else *now*, so follow mode has to
-end now.
-
-``prepare_to_move`` also returns a note, because Gemini can only say "Let me
-stop following you and …" if the reply tells it that's what happened.
+It does this right away, not in the job. If following only ended when the
+queue got to a "lie down", Pupper would keep following you for several
+seconds after you asked it to stop. It also returns a note, because Gemini
+can only say "Let me stop following you and …" if the reply tells it so.
 
 1. If ``robot.following`` is false, there's nothing to do: return ``""``.
 2. Turn the person follower off: ``await robot.stop_following()``.
