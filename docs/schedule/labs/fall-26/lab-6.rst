@@ -51,13 +51,12 @@ and it only knows what its tools tell it.* If a tool fails without reporting it,
 
 Before You Start
 ----------------
-In this lab you build a **human-robot interaction agent pipeline**, piece by
-piece: from the words a person says, to the tool Gemini picks, to the policy
-that moves the motors, and back to what Gemini tells the person. The amount
-of code is moderate: most TODOs are a few lines to a few dozen. **The concepts behind them are difficult.** Almost every TODO deals with one of three hard
-things: two things happening at the same time, something happening later than
-you expect, or something Gemini can't see. Read the explanations, not just the TODO cards, and plan enough time for this lab: start early, and don't leave Part 5 (which trains a policy) for the
-last days.
+The amount of code in this lab is moderate: most TODOs are a few lines to a
+few dozen. **The concepts behind them are difficult.** Almost every TODO deals
+with one of three hard things: two things happening at the same time,
+something happening later than you expect, or something Gemini can't see.
+Read the explanations, not just the TODO cards. Start early, and don't leave
+Part 5 (which trains a policy) for the last days.
 
 It is worth it: Gemini Pupper is one of the best starting points for a final
 project that CS 123 has ever offered.
@@ -132,13 +131,10 @@ already queued has run). Keep this state machine in mind: each TODO adds a trans
    and 6), shown here as one state. Every motion tool switches straight to
    the state it needs: a walk from motors idle goes to locomotion mode.
 
-The TODOs are numbered 1–11, in the same order as this handout. In the code,
-you write each one between ``TODO n: YOUR CODE HERE`` banners. Above each one,
-a short **card** tells you what happens now, what happens later, what Gemini
-hears, what must always be true, which helpers to use, and what its tests
-check. Some functions are already written and marked *finished: read it*. You
-don't write those, but you should be able to explain them (Q4 and Q8 ask you
-to).
+The TODOs are numbered 1–11, in handout order. In the code, each one sits
+between ``TODO n: YOUR CODE HERE`` banners, under a short **card** that says
+what to write and what its tests check. Functions marked *finished: read it*
+are written for you; Q4 and Q8 ask you to explain them.
 
 Part 0: Setup
 -------------
@@ -157,8 +153,7 @@ Part 0: Setup
    loop itself. Open the
    `Meet the Loop notebook <https://colab.research.google.com/github/cs123-stanford/gemini_pupper/blob/main/notebooks/Meet_the_Loop.ipynb>`_
    in Colab (**File → Save a copy in Drive**) and follow it. The notebook
-   stores your key in Colab's Secrets, never in a cell. It runs ``lab/chat.py`` (based on a
-   short example by Peng Xu), which gives Gemini the lab's prompt and tools
+   stores your key in Colab's Secrets, never in a cell. It runs ``lab/chat.py``, which gives Gemini the lab's prompt and tools
    (the same list the web app gets) and connects them to a **fake robot**.
    You type, Gemini answers, and the chat prints every tool call, every reply,
    and everything the fake robot did. Nothing moves.
@@ -301,8 +296,7 @@ Part 0: Setup
 
            robot/start.sh --kiosk
 
-   Say hello to Pupper. The **debug view** shows every tool call Gemini makes and the
-   robot's reply to it. Keep it open for the whole lab. To stop, run
+   Say hello to Pupper. Keep the **debug view** open for the whole lab. To stop, run
    ``robot/stop.sh`` on the Pupper, in ``~/gemini_pupper``: it relaxes the
    motors and stops everything.
 
@@ -320,30 +314,27 @@ Part 0: Setup
    the robot's reply appear here as you talk), and manual controls (STOP,
    follow mode, the arrows, and every trick with its description).
 
-   .. admonition:: Debugging tips
-      :class: tip
+   .. raw:: html
 
-      * **Start from the debug view.** It shows every function call Gemini
-        made and the reply it heard. When Gemini says something unexpected, find the tool reply it was responding to.
-      * **Read the logs on the Pupper.** ``/tmp/gemini-pupper/server.log``
-        records your ``lab/`` code: every tool call, every job's outcome and
-        every error. ``/tmp/gemini-pupper/robot.log`` records ROS 2: the
-        controllers and policies. Watch one while you talk: on the Pupper, in a second
-        terminal, ``tail -f /tmp/gemini-pupper/server.log``.
-      * **Check the robot directly, not through Gemini.** Gemini only knows what the replies
-        told it. To see what the robot is really doing, run
-        ``curl localhost:8000/system/mode`` on the Pupper.
-      * **Try it without the robot.** On the Pupper, in ``~/gemini_pupper``:
-        ``python3 lab/chat.py`` runs the same conversation on the fake robot,
-        and ``python3 lab/test.py todoN`` checks one TODO.
-      * **Changed a** ``.py`` **file in** ``lab/``, **or a** ``trick.yaml``?
-        Restart: on the Pupper, in ``~/gemini_pupper``,
-        ``robot/stop.sh && robot/start.sh`` (``robot/start.sh --kiosk`` for
-        the app on Pupper's screen). Changed ``lab/prompt.md``? Just
-        reconnect in the app.
-      * **The app won't start?** ``robot/start.sh`` prints the step where it
-        got stuck: either the controllers are still loading (check
-        ``robot.log``), or the server didn't start (check ``server.log``).
+      <details style="margin-bottom: 1.5em">
+      <summary><b>Debugging tips (click to open)</b></summary>
+
+   * **Start from the debug view.** When Gemini says something unexpected,
+     find the tool reply it was responding to.
+   * **Read the logs on the Pupper.** ``/tmp/gemini-pupper/server.log``
+     records your ``lab/`` code: every tool call, every job's outcome and
+     every error. ``/tmp/gemini-pupper/robot.log`` records ROS 2: the
+     controllers and policies. Watch one while you talk: on the Pupper, in a
+     second terminal, ``tail -f /tmp/gemini-pupper/server.log``.
+   * **Check the robot directly, not through Gemini:** run
+     ``curl localhost:8000/system/mode`` on the Pupper.
+   * **The app won't start?** ``robot/start.sh`` prints the step where it
+     got stuck: either the controllers are still loading (check
+     ``robot.log``), or the server didn't start (check ``server.log``).
+
+   .. raw:: html
+
+      </details>
 
 6. **What already works.** In the app, try *"stand up"*, *"lie down"* and
    *"what are you doing?"*. Then ask Pupper to walk to you and to do a trick,
@@ -383,21 +374,16 @@ you think Gemini said it was doing something it wasn't?
 
 How Gemini Pupper Works
 -----------------------
-You have seen the loop from the outside. Here is how it works inside,
-starting from the code. Read this once now, and come back to it whenever a
-TODO refers to it.
+Read this once now, and come back to it whenever a TODO refers to it.
 
-**You work in one folder: lab/.** When Gemini connects, the robot sends it a
-prompt and a list of tools. When Gemini calls a tool, the robot runs it and
-sends back a reply. You write the prompt and the tools, in ``lab/``:
+**You work in one folder: lab/.** You write the prompt Gemini gets when it
+connects, and the tools it can call:
 
 .. figure:: ../../../_static/lab6/tool_loop.svg
    :align: center
    :width: 95%
 
-   The loop you are building. Gemini picks a tool based on its *description*.
-   Your code on the robot does the work and sends a reply, and that reply is
-   how Gemini learns what actually happened.
+   The loop you are building.
 
 .. code-block:: text
 
@@ -454,24 +440,19 @@ Here is what happens when someone says *"stand up"*:
    decides that ``stand_up`` is the right tool, and makes a **function call**
    (the Gemini API's name for a tool call). The robot server runs
    ``stand_up_tool``, which calls the behavior, ``stand_up``.
-2. **Now: get ready.** ``prepare_to_move`` (your TODO 5) gets the robot ready
-   for a new motion. It stops anything that runs *on its own, outside the
-   queue*, that would conflict with the new motion. For now, nothing like that
-   runs, so it does nothing and returns ``""``. In Part 3, you make it end
-   follow mode (the person follower controls the legs directly) and return a
-   note telling Gemini it did.
+2. **Now: get ready.** ``prepare_to_move`` (your TODO 5) stops anything that
+   runs on its own, outside the queue, like follow mode, and returns a note
+   for Gemini. Until you write it, it does nothing and returns ``""``.
 3. **Now: define the work for later.** ``async def job()`` *defines* the
    work without running it. Here the work is to give the legs to the
    locomotion policy. The job can use ``stand_up``'s variables (``robot``
    here; ``vx`` and ``duration`` in ``walk``).
 4. **Now: queue it and reply.** ``robot.queue(name, job, seconds, then=...)``
    puts the job in line and returns right away with the *accepted* reply,
-   ``"stand up queued; the queue should finish in 4.2 s"``. ``then=`` tells
-   the queue which state Pupper will be in once the job is done (here,
-   ``LOCOMOTION``). The queue saves it as ``robot.state_after_queue``, so the
-   next request knows where Pupper will be when its turn comes. ``with_note``
-   adds the note from step 2 to the front of the reply. Gemini hears this
-   reply.
+   ``"stand up queued; the queue should finish in 4.2 s"``. ``then=`` is the
+   state Pupper will be in once the job is done (here, ``LOCOMOTION``).
+   ``with_note`` adds the note from step 2 to the front of the reply, and
+   Gemini hears it.
 5. **Later: the job runs.** When every job ahead of it is done, the queue
    calls ``job()``. The robot writes the job's outcome, ``"stand up: ok"``, to
    the debug log and to ``robot_status``.
@@ -598,27 +579,14 @@ debug log) reads. Write each message for a person: say what happened, or what
 was wrong and what would work instead.
 
 ``with_note(note, result)`` puts a short note in front of a ``Result``'s
-message and keeps its ``ok`` as it is. If the note is empty (``""``), it
-returns the ``Result`` unchanged. Use it when your code did something Gemini
-should hear about along with the main reply. For example, ``prepare_to_move``
-ended follow mode (``"Stopped following the person first. stand up queued;
-..."``), or ``move`` walked instead of running sideways (``"Sideways never
-runs; walking instead. move ... queued"``).
+message (unchanged if the note is ``""``). Use it when your code did
+something Gemini should hear about along with the main reply, like
+``"Stopped following the person first. stand up queued; ..."``.
 
-Every ``lab/`` file has the same two parts: first the **behaviors** (what
-the robot does, like ``stand_up``), then the **tools** (what Gemini reads).
-Each tool is a short function under an ``@tool(...)`` line that gives its
-name, a description, and a description of each parameter. Gemini picks a
-tool, and fills in its parameters, from these words alone; the function turns
-them into numbers and calls a behavior.
-
-**Pupper is always in exactly one state**, set by whatever holds the
-legs. In **locomotion mode** (``LOCOMOTION``), the default
-locomotion policy holds them, on the ``gemini_walk`` controller, whether
-Pupper is following someone or not. In **trick mode**, one trick's policy
-holds them, on that trick's ``trick_<name>`` controller. In **motors idle**
-(``MOTORS_IDLE``), nothing holds them, so Pupper lies down. After a fall,
-Pupper is **fallen** (``FALLEN``). Every job changes the state with one call,
+**Pupper is always in exactly one state**, set by whatever holds the legs:
+``LOCOMOTION`` (the locomotion policy, on ``gemini_walk``, following someone
+or not), a trick (its policy, on ``trick_<name>``), ``MOTORS_IDLE`` (nothing:
+Pupper lies down) or ``FALLEN``. Every job changes the state with one call,
 ``robot.switch_to(...)``, and the robot keeps track of two states for you:
 
 * ``robot.state_now``: the state Pupper is in right now. Only ``switch_to``
@@ -627,9 +595,9 @@ Pupper is **fallen** (``FALLEN``). Every job changes the state with one call,
   already queued has run. Each ``robot.queue(..., then=...)`` call updates
   it.
 
-When a tool is called (*now*), it checks ``state_after_queue``: where will
-Pupper be when its turn comes? When its job runs (*later*), it checks
-``state_now``: where is Pupper really? You will use both in Part 5.
+A tool checks ``state_after_queue`` *now* (where will Pupper be when its turn
+comes?), and its job checks ``state_now`` *later* (where is Pupper really?).
+You will use both in Part 5.
 
 **The tests run your code on a fake robot** (``python3 lab/test.py``). Each
 TODO below ends with one Run box for its test, and a dropdown with a table of
@@ -720,26 +688,15 @@ Compare:
 A good rule says *when* (in which situation), *what to do*, and, if it
 matters, *what never to do*. Use bullet points: one rule per bullet.
 
-After editing the prompt, try it in text first (``chat.py`` reads
-``prompt.md`` every time it starts):
-
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
+
+   When: the three sections of ``lab/prompt.md`` are written. Try them in
+   text first, then run the test:
 
    .. code-block:: bash
 
       python3 lab/chat.py
-
-Then reconnect in the app (no restart needed), ask for a walk again, and
-compare with Q1.
-
-.. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
-   :class: run
-
-   When: the three sections of ``lab/prompt.md`` are written.
-
-   .. code-block:: bash
-
       python3 lab/test.py todo1
 
 .. raw:: html
@@ -769,7 +726,9 @@ compare with Q1.
 
    </details>
 
-These checks can only look for words. In Q2, you will test whether Gemini actually *follows* your rules by talking to it.
+Then reconnect in the app (no restart needed), ask for a walk again, and
+compare with Q1. The checks can only look for words; in Q2, you test whether
+Gemini actually *follows* your rules by talking to it.
 
 **DELIVERABLE (Q2):** Pick two rules from your prompt. For each: what did
 Gemini do before you wrote it, and what does it do now? Is the sentence in
@@ -790,11 +749,6 @@ words to the motors:
                    ->  walk (finished: read it)          check now, queue the job
                          -> check_move (TODO 2)          is this move allowed?
                          -> the job, later               20 speed messages a second
-
-You build them in the order they appear in the file: first the safety check,
-then you read the walking job, then you write the tools Gemini calls
-(``turn`` first, then ``move``), and last ``arc``, which walks and turns at
-the same time.
 
 **TODO 2:** Implement ``check_move`` in ``lab/part2_walk.py``, so that it
 refuses what the robot can't or shouldn't do. Your tool descriptions *ask*
@@ -856,8 +810,8 @@ them one at a time, and return the first problem you find:
 
       python3 lab/test.py todo2
 
-   It also runs the finished ``walk`` (below) with your ``check_move``, so you
-   see refused moves come back as failures with your reason.
+   It also runs the finished ``walk`` (below) with your ``check_move``: those
+   checks, under *(provided) walk*, pass once ``check_move`` works.
 
 .. raw:: html
 
@@ -889,9 +843,6 @@ them one at a time, and return the first problem you find:
 
    </details>
 
-The other checks, under *(provided) walk*, test the finished ``walk``. They
-pass once ``check_move`` works.
-
 **Now read** ``walk`` **(finished), in** ``lab/part2_walk.py``. It has the
 shape of ``stand_up``, with a loop in the job. Make sure you understand it:
 
@@ -903,12 +854,9 @@ shape of ``stand_up``, with a loop in the job. Make sure you understand it:
   sends the speed with ``robot.send_speed`` 20 times a second
   (``LLM_CMD_RATE``) until the duration is up, and finishes by sending a zero
   speed.
-* **The job sends the speed in a loop** because the locomotion policy can't
-  follow a command like "walk for 2 seconds": it needs a speed command, sent
-  over and over. A node called ``cmd_vel_mux`` sits between Gemini and the
-  policy and lets your joystick override Gemini. ``cmd_vel_mux`` drops any
-  speed it hasn't heard for half a second, so if your program crashes, Pupper
-  stops instead of walking forever.
+* Between ``walk`` and the policy sits a node called ``cmd_vel_mux``, which
+  lets your joystick override Gemini. Q4 asks why the job sends the speed in
+  a loop.
 * ``walk`` **checks** ``robot.fallen`` **three times**, because the robot can
   fall at three different moments: before Gemini asks, while the job waits in
   line, or while it walks. Whenever it falls, the outcome should say so, not
@@ -1045,9 +993,6 @@ exactly the cases the tests check:
      - 0
      - −0.4 (sideways never runs)
 
-In this lab, "run" means **1.0 m/s or faster**, even though the locomotion
-policy already switches to its running gait at about 0.5 m/s.
-
 .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
    :class: run
 
@@ -1102,11 +1047,9 @@ policy already switches to its running gait at about 0.5 m/s.
 **TODO 4:** Implement the ``arc`` tool, at the very bottom of
 ``lab/part2_walk.py``, so that Pupper can walk and turn at the same time.
 
-``turn`` sends only a turning speed, and ``move`` sends only a straight one.
-If you ask for "a circle" with just those two tools, the best Gemini can do is
-chain them: Pupper walks, stops, turns, and walks again. But ``walk`` can take
-``vx`` and ``wz_deg`` together, and the locomotion policy was trained on both
-at once. ``arc`` lets Gemini ask for a smooth curve.
+With only ``turn`` and ``move``, the best Gemini can do for "a circle" is
+walk, stop, turn, and walk again. But ``walk`` can take ``vx`` and ``wz_deg``
+together, so ``arc`` lets Gemini ask for a smooth curve.
 
 We give you its parameters, so the tests can check them: ``direction`` (left or
 right), ``angle`` (degrees of the circle to go around, **required**), ``radius``
@@ -1136,14 +1079,8 @@ you get the time from the angle:
      - vx 0.6, wz −34.4 deg/s for 5.24 s: a U-turn
    * - ``arc(direction="left", angle=360, radius=1.0)``
      - vx 0.4, wz +22.9 deg/s for 15.7 s: a circle 2 m across (6.3 m of path)
-   * - ``arc(direction="left", angle=90, radius=0)``
-     - a sharp corner: turns in place, like ``turn``, and says so: ``"Radius 0: turned in place (a sharp corner). move ..."``
-   * - ``arc(direction="left", angle=90, radius=0.1)``
-     - refused by *your* code, with what works: ``"too tight: at 0.4 m/s the radius must be at least 0.25 m"``
    * - ``arc(direction="left", angle=360, radius=1.5, speed=1.2)``
      - refused by ``check_move``: ``"that would travel 9.42 m, more than 7.0 m in one move: split it into shorter moves"``
-   * - ``arc(direction="left", angle=90, radius=-1)``
-     - refused by your code: ``"no arc: radius must be 0 m or more ..."``
 
 Your ``arc`` has to handle three cases: the first two in its code, the third
 in its description.
@@ -1321,9 +1258,8 @@ have to lead it around furniture. Follow mode needs one rule:
 
 .. note::
 
-   **Follow mode needs your Lab 5 code.** It runs your ``lab/follow_me.py``
-   state machine from ``~/follow_me_pupper``, so keep that repo on the Pupper
-   with its model downloaded, and keep Lab 5's Steps 2–4 passing
+   **Follow mode needs your Lab 5 code.** Keep ``~/follow_me_pupper`` on the
+   Pupper with its model downloaded, and keep Lab 5's Steps 2–4 passing
    (``python3 lab/test.py`` in ``~/follow_me_pupper``). Follow mode calls your
    ``process_detections``, ``pick_target`` and ``approach_speed``, and crashes
    if any of them isn't written yet. It leaves Lab 5's Steps 5 (color
@@ -1500,18 +1436,11 @@ can ask for any of them by voice. In Part 5, you train a trick of your own with
 reinforcement learning: by the end of it, you can ask Pupper to sit down, stay,
 and shake your hand.
 
-Trick policies play every trick, and each policy runs on its own controller.
-A playback trick has one policy; an interactive trick has one or more (the
-spider in Part 6 has two). Each trick in ``tricks/`` (``sit``, ``push_up``,
-``swim``, …) started as a reference motion. Most are recordings from the
-Pupper monorepo, and two (``sit`` and ``sneeze``) are hand-designed. We
-trained each one into a trick policy in simulation. Each trick's folder holds
-its policy (``policy.json``) and a ``trick.yaml``, which says what Gemini
-reads about the trick and the pose it starts and ends in (``robot/tricks.py``
-lists all the fields). The launch file loads one controller per policy, named
-``trick_<name>``, and leaves them all switched off. (The optional jump, at the
-end of this lab, is the only trick without its own policy: the locomotion
-policy plays it.)
+Each trick in ``tricks/`` (``sit``, ``push_up``, ``swim``, …) started as a
+reference motion, which we trained into a trick policy in simulation. Its
+folder holds the policy (``policy.json``) and a ``trick.yaml``: what Gemini
+reads about the trick, and the pose it starts and ends in. Each policy runs
+on its own controller, ``trick_<name>``.
 
 .. admonition:: Every trick is a policy, not a replay
    :class: note
@@ -1535,10 +1464,8 @@ policy plays it.)
         - .. image:: ../../../_static/lab6/pee_motion_policy.gif
              :width: 100%
 
-   Replay drives the joints to the recorded angles without any feedback, so it
-   cannot detect that the body is tipping. The policy watches the robot (its
-   tilt, its joints, and where the reference says it should be) and corrects 50
-   times a second. We also trained it on many slightly different robots.
+   The policy corrects as it plays, and we trained it on many slightly
+   different robots.
 
 **There are two kinds of trick.** A **playback trick**, like ``sit``, plays
 one reference motion from start to finish, once; its trick policy keeps Pupper
@@ -1548,7 +1475,7 @@ several short pieces of motion, called **clips**, and the robot plays them one
 at a time, on request. In the code, ``trick.interactive`` tells them apart
 (``False`` for a playback trick, ``True`` for an interactive one). Until Part 5
 you have no interactive trick, but ``play_trick`` has to handle both kinds
-already. The tests use a made-up interactive trick called ``hold_pose``.
+already.
 
 **Playing a trick changes Pupper's state**, from locomotion mode to that
 trick (trick mode). Before the trick, the locomotion policy holds the legs.
@@ -1629,10 +1556,8 @@ Here is what Gemini hears immediately (*now*) for a few calls:
      - none: not an installed trick
      - (not queued)
      - ``unknown trick 'backflip'; available: ['lie_downward_dog', 'lie_sit_lie', ...]``
-       (When the call comes from Gemini, the tool registry refuses it first,
-       because ``name`` only accepts the listed names:
-       ``"play_trick: name must be one of [...]"``. Your check is the backup
-       behind it.)
+       (From Gemini, the tool registry refuses it first; your check is the
+       backup.)
    * - ``play_trick("sit")``
      - playback trick (ends standing)
      - ``LOCOMOTION``
@@ -1858,12 +1783,11 @@ Here is how ``sit_stay_shake`` differs from the old ``sit``:
      - ``sit``: a playback trick
      - ``sit_stay_shake``: an interactive trick
    * - What it is
-     - One recorded motion: sit down, hold for two seconds, stand back up.
-       It always plays the whole thing.
+     - One recorded motion, always played whole.
      - Five pieces of motion, called **clips**: ``sit_down``, ``sit_idle``
        (sitting still), ``shake_left``, ``shake_right`` and ``stand_up``.
    * - When you play it
-     - It sits, holds for two seconds, and stands up again, all by itself.
+     - It sits, holds, and stands up again, all by itself.
      - It plays ``sit_down``, then ``sit_idle`` over and over: Pupper **stays**
        sitting, for as long as you like.
    * - While it plays
@@ -1882,8 +1806,7 @@ Here is how ``sit_stay_shake`` differs from the old ``sit``:
 .. note::
 
    Once you fetch your ``sit_stay_shake`` (end of Part C), **it replaces
-   "sit"**. The old ``sit`` (sit, hold two seconds, stand back up) and
-   ``stand_sit_shake_sit_stand`` say ``replaced_by: sit_stay_shake`` in their
+   "sit"**. The old ``sit`` and ``stand_sit_shake_sit_stand`` say ``replaced_by: sit_stay_shake`` in their
    ``trick.yaml``, so Gemini no longer sees them. So
    if Pupper now sits and *stays* where it used to stand right back up,
    that's your new trick, not a bug. To get the old ones back, run this on
@@ -1899,8 +1822,7 @@ made from two finished motions, *sit down and stand up* and *shake the left
 paw while sitting* (you won't design any new poses). On the robot, the trick
 plays one clip at a time, and the looping clip repeats until Gemini asks for
 another one (with ``interactive_action``). For training, you join the clips
-back into one long reference motion that passes through every change the
-robot can make on request, so the policy has practiced each one.
+back into one long reference motion.
 
 Then you train one **tracking policy** on the whole library,
 BeyondMimic-style: in simulation, the policy watches the reference motion and
@@ -1925,8 +1847,7 @@ This is the library you build:
    :width: 95%
 
    ``sit_stay_shake`` as the state machine inside the trick. Every clip
-   starts and ends at a pose it shares with its neighbours, so the robot can
-   go straight from one clip to the next. ``sit_idle`` loops until Gemini
+   starts and ends at a pose it shares with its neighbours. ``sit_idle`` loops until Gemini
    asks for something, each shake returns to ``sit_idle``, and ``stand_up``
    leaves the trick. **To Gemini Pupper, this whole graph is a single
    state**, the trick ``sit_stay_shake``: ``robot.state_now`` is the trick
@@ -1943,8 +1864,7 @@ Fill in the four TODOs in the notebook:
    motors are mounted: does a mirrored leg copy the other leg's angles, or
    flip some signs? Your lab 2 kinematics helps.
 4. **The clip table and the training order.** Which clip loops? What plays
-   after each one? And in what order should you join the clips for training,
-   so the policy sees every change the robot can make?
+   after each one? And in what order should you join the clips for training?
 
 The notebook checks your code and prints ``ok`` or ``FAIL`` for each check.
 
@@ -1998,9 +1918,8 @@ shake is a clip of
   sitting once everything already queued has run?" That's
   ``robot.state_after_queue``, which the queue keeps up to date from the
   ``then=`` that every motion passes to ``robot.queue``.
-- But many things can happen between the call and the shake: Pupper can fall over,
-  someone can press the e-stop or say "stop". So **later**, in the job, it
-  asks again, this time about right now: ``robot.state_now``.
+- But Pupper may no longer be in the trick when the shake's turn comes. So
+  **later**, in the job, it asks again, this time about right now: ``robot.state_now``.
 
 Here is what ``interactive_action`` does *now*, when Gemini calls it:
 
@@ -2227,21 +2146,10 @@ standing up. So the spider uses two policies:
 
 **This is why an interactive trick is a state, not a motion.** Pupper is in
 the spider trick from the moment it lies down until it is standing again, even
-though two different policies take turns holding its legs. Everything you wrote
-already works with it, unchanged:
-
-* ``play_trick`` (your TODO 7) queues the trick with ``then=trick``: Pupper
-  will be *in* it. ``play_policy_trick`` plays its opening clips, then (step 4)
-  hands the legs to the trick's walking policy.
-* ``walk`` (finished in Part 2; read it again) checks
-  ``robot.state_after_queue`` to decide which policy walks, the same *now*
-  question as your TODO 9. In the spider trick, the spider's walking policy
-  does. So ``move``, ``turn`` and ``arc`` make the spider walk, and Pupper
-  stays in the trick, at the speeds in the trick's ``trick.yaml``.
-* Any other motion leaves the trick through its exit clip: ``switch_to``
-  gives the legs back to the clip policy, starting at ``spider_up`` (the
-  controller's ``start_clip``), and then to whatever comes next.
-  ``interactive_action("spider_up")`` (your TODO 9) intentionally does the same thing.
+though two different policies take turns holding its legs. Everything you
+wrote already works with it, unchanged: ``play_trick`` plays it; ``move``,
+``turn`` and ``arc`` walk it (``walk`` is finished; read it again); and any
+other motion leaves it through its exit clip, ``spider_up``.
 
 .. raw:: html
 
@@ -2287,8 +2195,7 @@ spider stance the walking policy starts from. In order, the Part A cells:
    that stance. And ``spider_up``? It has to go from the stance back to
    standing, wiggling on the way, and you already have a motion that does
    exactly that, backwards. The cell joins the clips and saves the library.
-4. **Replay with physics:** it **falls**. Lying down is easy to play open
-   loop; pushing back up from the belly is not.
+4. **Replay with physics:** it **falls**.
 5. **Upload and train:** start the live viewer, then upload the library to
    W&B (training reads the motion from there) and train a tracking policy on
    it, as in Part 5 (about 25 minutes).
@@ -2302,30 +2209,24 @@ it? Name a clip from Part 5 that could *not* be made by reversing another.
 Part B: The Spider Walk
 ^^^^^^^^^^^^^^^^^^^^^^^
 This part repeats lab 4 with a different stance. The ``Mjlab-SpiderWalk-Flat-Pupper-v3``
-task trains a policy to track a **reference gait**, a spider trot in place: the
-diagonal leg pairs take turns stepping, twice a second, low and splayed. The
-leg motion comes from the recorded spider: the front legs fold at the knee and
-swing up and out, and the back legs swing up. At a zero command, the reference
-is the still stance; the velocity command decides where the steps take the
-body.
+task trains a policy to track a **reference gait**, a spider trot in place:
+the diagonal leg pairs take turns stepping, low and splayed. At a zero
+command, the reference is the still stance; the velocity command decides
+where the steps take the body.
 
 .. figure:: ../../../_static/lab6/spider_gait.gif
    :align: center
    :width: 70%
 
-   The spider reference gait, played open loop in the viewer: the joint
-   angles the policy is rewarded for tracking, two cycles a second, torso
-   1 cm off the ground.
+   The spider reference gait, played open loop in the viewer: two cycles a
+   second, torso 1 cm off the ground.
 
-You set only the **reward weights**, using the same terms as lab 4. Start from
-your StableGait weights, and think about what is different here: the height
-target is 4.2 cm, not 14.5; the motors alone can't hold this low stance (with
-zero actions, the body sags onto its belly), so the policy has to learn to
-hold the body up; and ``abduction_angle`` pulls the abduction joints
-toward zero, but the spider intentionally splays its legs away from zero. Train,
-then watch the policy in the viewer. It should stay low (never on its belly),
-step like the reference, and go where you tell it. It will move slower than commanded, because the spider gait is slow. (Note how slow it
-is: in Part C, set its top speeds to ones it can actually reach.)
+You set only the **reward weights**, using the same terms as lab 4: start
+from your StableGait weights, and read the notebook's *Your reward weights*
+cell for what is different here. Train, then watch the policy in the viewer.
+It should stay low (never on its belly), step like the reference, and go
+where you tell it, slower than commanded. Note how slow it is: in Part C, set
+its top speeds to ones it can actually reach.
 
 **DELIVERABLE (Q14):** Show your reward weights next to your lab 4 StableGait
 weights. Which ones did you change, and why? Include a short clip or
@@ -2343,14 +2244,15 @@ Part C: On the Robot
 
          python3 robot/get_trick.py <clip-trick-run> --walk <spider-walk-run> --name spider_walk
 
-3. Fill in ``tricks/spider_walk/trick.yaml``: the ``description`` (what it
-   does, when to use it, and how to leave it), ``actions`` with ``spider_up``
-   (and what it does), ``exit_clip: spider_up``, ``end_pose: spider``, and the
-   ``walk`` block that ``get_trick.py`` wrote: a default ``speed``, ``max_forward``,
-   ``max_sideways`` and ``turn`` (none higher than your walking policy was
-   trained for; the template lists those values), ``run: false``, and a ``note`` for Gemini.
-   The robot appends a sentence with these numbers to the description, so
-   Gemini knows how fast the spider goes.
+3. Fill in ``tricks/spider_walk/trick.yaml``:
+
+   - the ``description``: what it does, when to use it, and how to leave it;
+   - ``actions`` with ``spider_up`` (and what it does), ``exit_clip:
+     spider_up`` and ``end_pose: spider``;
+   - the ``walk`` block: a default ``speed``, ``max_forward``,
+     ``max_sideways`` and ``turn`` (none higher than the trained values the
+     template lists), ``run: false``, and a ``note`` for Gemini. The robot
+     adds these numbers to the description Gemini reads.
 
 4. Restart, so the robot loads the new trick and your ``trick.yaml``:
 
