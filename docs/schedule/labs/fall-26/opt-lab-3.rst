@@ -3,8 +3,10 @@ Optional Lab 3: Pupper's Secret Tricks
 
 .. note::
 
-   **Draft.** This lab is still being written; the outline below is what it
-   will cover. Ask a TA before you start.
+   **Early development.** This lab is still in an early phase: the outline
+   below is what it will cover, and things may break. Treat it as open-ended:
+   you are free to try out UniMate on Pupper however you like, and generate
+   your own moves. Ask a TA before you start.
 
 .. TODO(staff): finish this lab: lab document link, the secret-trick scaffolding in gemini_pupper (unlock tool, where the password lives), deliverable numbering.
 
