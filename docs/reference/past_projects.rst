@@ -9,3 +9,6 @@ Past Course Projects
 
 `2025 Spring <https://docs.google.com/spreadsheets/d/1DWkXLVv9hAETwNQyNbZrSeBmAgp9-V06FRtTH-k8e1Y/edit?usp=sharing>`_
 ---------------------------------------------------------------------------------------------------------------------------------------
+
+`2025 Fall <https://docs.google.com/spreadsheets/d/1eCyoSjNYHils1FF6HMFQNCmw_6UVD5vnxPRZQG_l1Jo/edit?usp=sharing>`_
+-------------------------------------------------------------------------------------------------------------------
