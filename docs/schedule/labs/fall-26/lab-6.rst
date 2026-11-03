@@ -290,7 +290,14 @@ Part 0: Setup
 
    * **On Pupper itself: use this for demos.** The app runs on Pupper's own
      screen, with its mic and speaker, and no laptop. This is how you record
-     your demo videos.
+     your demo videos. First, plug the microphone transmitter into the
+     Raspberry Pi:
+
+     .. figure:: ../../../_static/mic_cable.jpg
+        :align: center
+        :width: 500px
+
+        Microphone transmitter inserted into the Raspberry Pi.
 
      .. admonition:: Run: on the Pupper, in ``~/gemini_pupper``
         :class: run
