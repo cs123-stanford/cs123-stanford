@@ -64,5 +64,3 @@ Week 10 & Finals Week (11/30-12/9):
     - Regular office hours available for project support
     - Extra hardware requests must be discussed during TA meetings
     - Using AI coding tools is encouraged: ROS 2 isn't the easiest system to work with, and your project will probably need packages you haven't used before.
-
-For detailed requirements, project ideas, and advice, please see: :doc:`../../final-project/fall-25/final_project_overview`
